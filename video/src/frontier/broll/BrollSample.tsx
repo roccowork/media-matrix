@@ -17,7 +17,7 @@ const CUT1 = 1.84;
 const CUT2 = 3.68;
 
 // 背景空镜：慢推镜头 + 统一冷色调 + 暗角；impact 是 0~1 的冲击强度
-const Broll: React.FC<{ src: string; push?: [number, number]; impact?: number; temperature?: number }> = ({ src, push = [1.05, 1.15], impact = 0, temperature = -0.25 }) => {
+export const Broll: React.FC<{ src: string; push?: [number, number]; impact?: number; temperature?: number }> = ({ src, push = [1.05, 1.15], impact = 0, temperature = -0.25 }) => {
   const frame = useCurrentFrame();
   const { durationInFrames } = useVideoConfig();
   return (
@@ -39,7 +39,7 @@ const Broll: React.FC<{ src: string; push?: [number, number]; impact?: number; t
 };
 
 // 光漏转场（官方 skill 的写法，progress 随帧推进）
-const Leak: React.FC<{ seed: number; hueShift: number }> = ({ seed, hueShift }) => {
+export const Leak: React.FC<{ seed: number; hueShift: number }> = ({ seed, hueShift }) => {
   const frame = useCurrentFrame();
   const { durationInFrames, width, height } = useVideoConfig();
   return (
