@@ -7,21 +7,21 @@ import { Backdrop, Header, v2 } from "../v2/Style";
 import { words } from "../episodes/2026-11-01.words";
 
 // ── Motion 驱动工具：输入「从哪个时刻开始」（秒），返回当前帧的值 ──
-const useNow = () => {
+export const useNow = () => {
   const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
   return frame / fps;
 };
 type SpringOpts = { stiffness?: number; damping?: number; mass?: number };
-const sp = (now: number, at: number, from: number, to: number, o: SpringOpts = {}) =>
+export const sp = (now: number, at: number, from: number, to: number, o: SpringOpts = {}) =>
   now < at ? from : (spring({ keyframes: [from, to], stiffness: 260, damping: 16, ...o }).next((now - at) * 1000).value as number);
-const kf = (now: number, at: number, values: number[], duration: number, ease: "easeOut" | "easeInOut" = "easeOut") =>
+export const kf = (now: number, at: number, values: number[], duration: number, ease: "easeOut" | "easeInOut" = "easeOut") =>
   now < at ? values[0] : (keyframes({ keyframes: values, duration: duration * 1000, ease }).next((now - at) * 1000).value as number);
-const tween = (now: number, at: number, dur: number, from: number, to: number, ease = easeOut) =>
+export const tween = (now: number, at: number, dur: number, from: number, to: number, ease = easeOut) =>
   from + (to - from) * ease(Math.min(1, Math.max(0, (now - at) / dur)));
 
 // 每个词：说到的那一刻从下面弹起来，带一点随机旋转，回弹后摆正
-const Word: React.FC<{ text: string; at: number; now: number; i: number; color?: string; size: number; hl?: boolean }> = ({ text, at, now, i, color = v2.white, size, hl }) => {
+export const Word: React.FC<{ text: string; at: number; now: number; i: number; color?: string; size: number; hl?: boolean }> = ({ text, at, now, i, color = v2.white, size, hl }) => {
   const s = sp(now, at, 0, 1, { stiffness: 420, damping: 13 });
   const y = sp(now, at, 140, 0, { stiffness: 380, damping: 15 });
   const r = sp(now, at, i % 2 ? 14 : -12, 0, { stiffness: 300, damping: 10 });
@@ -35,7 +35,7 @@ const Word: React.FC<{ text: string; at: number; now: number; i: number; color?:
 };
 
 // 一行标题：整行在 exitAt 时先往下蓄力再往上甩出去（anticipate 缓动）
-const Headline: React.FC<{ ws: { text: string; at: number; hl?: boolean; gold?: boolean }[]; now: number; exitAt: number; size: number; top: number }> = ({ ws, now, exitAt, size, top }) => {
+export const Headline: React.FC<{ ws: { text: string; at: number; hl?: boolean; gold?: boolean }[]; now: number; exitAt: number; size: number; top: number }> = ({ ws, now, exitAt, size, top }) => {
   if (now > exitAt + 0.5 || now < ws[0].at - 0.05) return null;
   const out = tween(now, exitAt, 0.45, 0, 1, anticipate);
   return (
@@ -48,12 +48,12 @@ const Headline: React.FC<{ ws: { text: string; at: number; hl?: boolean; gold?: 
 };
 
 // 「没了！」盖章：从 2.6 倍砸下来，四周火花散开
-const Stamp: React.FC<{ now: number; at: number }> = ({ now, at }) => {
+export const Stamp: React.FC<{ now: number; at: number; leaveAt?: number }> = ({ now, at, leaveAt = 1.84 }) => {
   if (now < at) return null;
   const s = sp(now, at, 2.6, 1, { stiffness: 520, damping: 17 });
   const o = Math.min(1, (now - at) * 8);
   const burst = tween(now, at + 0.05, 0.5, 0, 1);
-  const leave = tween(now, 1.84, 0.4, 0, 1, anticipate);
+  const leave = tween(now, leaveAt, 0.4, 0, 1, anticipate);
   return (
     <div style={{ position: "absolute", left: 0, right: 0, top: 860, display: "flex", justifyContent: "center", opacity: o * (1 - Math.max(0, leave)), transform: `translateY(${-leave * 300}px)` }}>
       <div style={{ position: "relative" }}>
@@ -93,7 +93,7 @@ const Flyer: React.FC<{ name: string; now: number; at: number; leaveAt: number; 
 };
 
 // 抖音风格逐词字幕：当前词金色并被弹簧放大
-const Captions: React.FC<{ now: number }> = ({ now }) => {
+export const Captions: React.FC<{ now: number }> = ({ now }) => {
   const line = words.lines.find((l) => now >= l.words[0].start - 0.05 && now < (words.lines[words.lines.indexOf(l) + 1]?.words[0].start ?? 99));
   if (!line) return null;
   return (
@@ -112,7 +112,7 @@ const Captions: React.FC<{ now: number }> = ({ now }) => {
 };
 
 // 数字从 0 滚到目标值（弹簧，会稍微冲过头再回来）
-const Count: React.FC<{ now: number; at: number; to: number }> = ({ now, at, to }) => <>{Math.round(Math.min(to, Math.max(0, sp(now, at, 0, to, { stiffness: 90, damping: 15 }))))}</>;
+export const Count: React.FC<{ now: number; at: number; to: number }> = ({ now, at, to }) => <>{Math.round(Math.min(to, Math.max(0, sp(now, at, 0, to, { stiffness: 90, damping: 15 }))))}</>;
 
 export const MOTION_SAMPLE_DURATION = 150;
 
@@ -157,7 +157,7 @@ export const MotionSample: React.FC = () => {
   );
 };
 
-const SfxAt: React.FC<{ at: number; src: string; vol: number }> = ({ at, src, vol }) => (
+export const SfxAt: React.FC<{ at: number; src: string; vol: number }> = ({ at, src, vol }) => (
   <Sequence from={Math.round(at * 30)} durationInFrames={30} layout="none">
     <Audio src={staticFile(src)} volume={vol} />
   </Sequence>
