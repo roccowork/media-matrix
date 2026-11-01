@@ -20,7 +20,7 @@
     card   {"num"?: "1", "title": "每周总用量上限", "value": "还在", "note"?: "不是无限用"}    玻璃卡片
   文字出现的时间：在配音里找到这几个字被念出来的时刻；找不到（比如画面写「5 小时」、口播念「五小时」）就按顺序错开出现。
 
-用法：python3 tools/make_episode.py 2026-11-01 [--no-render]
+用法：python3 tools/make_episode.py 2026-11-01 [--no-render]（同一天做几条时文件夹用 2026-11-02-1 这样的名字）
   已有 voice.mp3 就不再生成配音（ElevenLabs 按字数扣积分）；要重配就先删掉 voice.mp3 和 voice.json
 """
 import argparse
@@ -40,7 +40,8 @@ ROOT = Path(__file__).resolve().parent.parent
 # 配音的声音（ElevenLabs 设计的「向晓 AI 主讲」）：voice_id 放在环境变量 / GitHub Secrets，不进公开仓库
 VOICE = {"voice_id": os.environ.get("ELEVENLABS_VOICE_ID", ""), "model": os.environ.get("ELEVENLABS_MODEL", "eleven_v3")}
 OUTRO = 2.9  # 片尾品牌卡的秒数
-CHROMIUM = "/opt/pw-browsers/chromium"
+# 渲染用的浏览器：这台机器有系统 Chromium 就用它，否则（GitHub Actions）让 Remotion 自己下载
+CHROMIUM = os.environ.get("REMOTION_BROWSER", "/opt/pw-browsers/chromium")
 
 
 # ── 1. 配音（ElevenLabs，带逐字时间戳）──
@@ -52,9 +53,12 @@ def make_voice(ep: Path, script: str) -> dict:
     if not VOICE["voice_id"]:
         sys.exit("没有配音：设置环境变量 ELEVENLABS_VOICE_ID（声音资料在私有仓库 ops-desk 的 docs/plan/media-matrix/voice/）")
     body = json.dumps({"text": script, "model_id": VOICE["model"], "output_format": "mp3_44100_128"}).encode()
+    headers = {"Content-Type": "application/json"}
+    if key := os.environ.get("ELEVENLABS_API_KEY"):  # GitHub Actions 用 Secret；本地云端环境由代理自动带上
+        headers["xi-api-key"] = key
     req = urllib.request.Request(
         f"https://api.elevenlabs.io/v1/text-to-speech/{VOICE['voice_id']}/with-timestamps",
-        data=body, headers={"Content-Type": "application/json"}, method="POST",
+        data=body, headers=headers, method="POST",
     )
     with urllib.request.urlopen(req, timeout=300) as r:
         data = json.loads(r.read())
@@ -133,7 +137,8 @@ def overlay_of(o: dict | None, clock: Clock, start: float, end: float) -> dict |
 
 
 # ── 3. 组装成片数据 ──
-def build(date: str, ep_json: dict, voice: dict, words: dict) -> dict:
+def build(folder: str, ep_json: dict, voice: dict, words: dict) -> dict:
+    date = folder[:10]  # 文件夹名是「日期」或「日期-第几条」，如 2026-11-02-1
     voice_end = round(voice["raw_alignment"]["character_end_times_seconds"][-1], 2)
     total = round(voice_end + OUTRO, 2)
     plan = broll.plan(ep_json["shots"], voice, total)
@@ -147,33 +152,34 @@ def build(date: str, ep_json: dict, voice: dict, words: dict) -> dict:
     leaks = [s["from"] for k, s in enumerate(shots) if k in (1, 2) or (k > 2 and k % 3 == 0)] + [voice_end]
     c = ep_json.get("cover") or {}
     cover = {"kicker": f"AI 前沿 · {date[5:].replace('-', '.')}", "lines": c.get("lines") or [ep_json["title"]], "hl": c.get("hl"), "stamp": c.get("stamp"), "sub": c.get("sub") or []}
-    return {"date": date, "source": ep_json.get("source", ""), "voiceEnd": voice_end, "total": total, "shots": shots, "words": words, "impacts": impacts, "leaks": leaks, "cover": cover}
+    return {"date": date, "dir": folder, "source": ep_json.get("source", ""), "voiceEnd": voice_end, "total": total, "shots": shots, "words": words, "impacts": impacts, "leaks": leaks, "cover": cover}
 
 
-def render(date: str, props: Path) -> None:
+def render(folder: str, props: Path) -> None:
     out = ROOT / "out"
-    common = ["--props", str(props), "--gl=swangle", f"--browser-executable={CHROMIUM}"]
-    subprocess.run(["npx", "remotion", "still", "src/index.ts", "AutoCover", str(out / f"cover-{date}.png"), *common], cwd=ROOT, check=True)
-    subprocess.run(["npx", "remotion", "render", "src/index.ts", "Auto", str(out / f"ai-frontier-{date}.mp4"), *common, "--concurrency=4", "--crf=18"], cwd=ROOT, check=True)
-    print(f"成片：out/ai-frontier-{date}.mp4　封面：out/cover-{date}.png")
+    common = ["--props", str(props), "--gl=swangle", *([f"--browser-executable={CHROMIUM}"] if Path(CHROMIUM).exists() else [])]
+    crf = os.environ.get("RENDER_CRF", "18")  # Actions 里用 23：Telegram 机器人发视频最大 50MB
+    subprocess.run(["npx", "remotion", "still", "src/index.ts", "AutoCover", str(out / f"cover-{folder}.png"), *common], cwd=ROOT, check=True)
+    subprocess.run(["npx", "remotion", "render", "src/index.ts", "Auto", str(out / f"ai-frontier-{folder}.mp4"), *common, f"--concurrency={os.cpu_count() or 4}", f"--crf={crf}"], cwd=ROOT, check=True)
+    print(f"成片：out/ai-frontier-{folder}.mp4　封面：out/cover-{folder}.png")
 
 
 def main() -> None:
     ap = argparse.ArgumentParser()
-    ap.add_argument("date")
+    ap.add_argument("folder", help="public/frontier/ 下的文件夹名：日期，或「日期-第几条」")
     ap.add_argument("--no-render", action="store_true", help="只生成成片数据，不渲染")
     args = ap.parse_args()
-    ep = ROOT / "public" / "frontier" / args.date
+    ep = ROOT / "public" / "frontier" / args.folder
     ep_json = json.loads((ep / "episode.json").read_text())
     voice = make_voice(ep, ep_json["script"])
     words_file = ep / "words.json"
     subprocess.run(["node", "tools/frontier_words.mjs", str(ep / "voice.json"), str(words_file)], cwd=ROOT, check=True)
-    data = build(args.date, ep_json, voice, json.loads(words_file.read_text()))
+    data = build(args.folder, ep_json, voice, json.loads(words_file.read_text()))
     props = ep / "auto.json"
     props.write_text(json.dumps(data, ensure_ascii=False))
     print(f"成片数据：{props.relative_to(ROOT)}，{len(data['shots'])} 个镜头，{data['total']} 秒")
     if not args.no_render:
-        render(args.date, props)
+        render(args.folder, props)
 
 
 if __name__ == "__main__":

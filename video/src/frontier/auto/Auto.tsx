@@ -21,6 +21,7 @@ export type AutoShot = { from: number; to: number; src: string; temp?: number; o
 export type CoverData = { kicker: string; lines: string[]; hl?: string; stamp?: string; sub: string[] };
 export type AutoData = {
   date: string; // 2026-11-01
+  dir?: string; // public/frontier/ 下的文件夹（同一天几条时是 2026-11-02-1），没有就等于 date
   source: string;
   voiceEnd: number;
   total: number;
@@ -186,7 +187,7 @@ export const Auto: React.FC<AutoData> = (d) => {
       <div style={{ position: "absolute", left: 0, right: 0, bottom: 70, textAlign: "center", fontSize: 22, color: "rgba(255,255,255,0.45)", letterSpacing: 2 }}>来源：{d.source} · 内容由 AI 生成</div>
       <AbsoluteFill style={{ background: "#fff", opacity: impact * 0.3, mixBlendMode: "screen" }} />
 
-      <Audio src={staticFile(`frontier/${d.date}/voice.mp3`)} />
+      <Audio src={staticFile(`frontier/${d.dir ?? d.date}/voice.mp3`)} />
       <Audio src={staticFile("frontier/bgm.mp3")} volume={(fr) => interpolate(fr, [0, 10, f(d.voiceEnd), f(d.voiceEnd) + 10, durationInFrames - 20, durationInFrames], [0, 0.13, 0.13, 0.3, 0.3, 0], { extrapolateLeft: "clamp", extrapolateRight: "clamp" })} />
       {d.impacts.map((t) => (
         <SfxAt key={t} at={t} src="frontier/pop.mp3" vol={0.8} />
