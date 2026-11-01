@@ -11,6 +11,7 @@
     "upgrade": "remotion upgrade"
   },
   "dependencies": {
+    "@phosphor-icons/react": "^2.1.10",
     "@react-three/fiber": "9.4.0",
     "@remotion/cli": "4.0.538",
     "@remotion/google-fonts": "^4.0.538",
