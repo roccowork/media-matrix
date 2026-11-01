@@ -22,6 +22,8 @@ import { FX3D_DURATION, Fx3D } from "./frontier/fx/Fx3D";
 import { BROLL_SAMPLE_DURATION, BrollSample } from "./frontier/broll/BrollSample";
 import { EPISODE_SECONDS, Episode20261101 } from "./frontier/broll/Episode";
 import { Cover20261101 } from "./frontier/broll/Cover";
+import { Auto, AutoCover, type AutoData } from "./frontier/auto/Auto";
+import sampleAuto from "../public/frontier/2026-11-01/auto.json";
 import { Frontier, FPS as FRONTIER_FPS, getFrontierDuration } from "./frontier/Frontier";
 import { captions as frontier20261101, voiceDuration as frontier20261101Voice } from "./frontier/episodes/2026-11-01.captions";
 
@@ -39,6 +41,9 @@ export const RemotionRoot: React.FC = () => (
       {["hustle", "beast", "kinetic-01"].map((t) => (
         <Composition key={t} id={`Sample-${t}`} component={FrontierSample} durationInFrames={SAMPLE_DURATION} fps={30} width={1080} height={1920} defaultProps={{ theme: t }} />
       ))}
+      {/* 通用成片：数据由 tools/make_episode.py 生成，渲染时 --props 传入；这里的默认数据是 2026-11-01 那期，方便在 Studio 里预览 */}
+      <Composition id="Auto" component={Auto} defaultProps={sampleAuto as AutoData} calculateMetadata={({ props }) => ({ durationInFrames: Math.round(props.total * 30) })} durationInFrames={900} fps={30} width={1080} height={1920} />
+      <Composition id="AutoCover" component={AutoCover} defaultProps={sampleAuto as AutoData} durationInFrames={1} fps={30} width={1080} height={1920} />
       <Composition id="Cover-2026-11-01" component={Cover20261101} durationInFrames={1} fps={30} width={1080} height={1920} />
       <Composition id="Episode-2026-11-01" component={Episode20261101} durationInFrames={Math.round(EPISODE_SECONDS * 30)} fps={30} width={1080} height={1920} />
       <Composition id="Broll-Sample" component={BrollSample} durationInFrames={BROLL_SAMPLE_DURATION} fps={30} width={1080} height={1920} />

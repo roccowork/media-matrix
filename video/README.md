@@ -31,19 +31,19 @@ npx remotion still src/index.ts BrandIntro out/cover.png --frame=70
 
 ## 「AI 前沿」竖屏短视频（向晓 AI）
 
-现在的版本在 `src/frontier/broll/Episode.tsx`：实拍空镜做背景，用 Remotion 官方特效包统一调色、加暗角，重音处缩放模糊加色差，段落之间用光漏转场；上面是逐词弹跳的文字、逐词高亮的字幕、原创配乐和音效。（`Frontier.tsx` 是最早的 3D 晨光版，已不用。）每期的流程：
+**一条命令出成片**（`tools/make_episode.py`）：
 
-1. 用 ElevenLabs 声音「向晓 AI 主讲」（`../voice/voice.json`）生成配音，带逐字时间戳，存到 `public/frontier/<日期>/voice.mp3` 和 `voice.json`
-2. `node tools/frontier_words.mjs` 生成逐词字幕数据 `src/frontier/episodes/<日期>.words.ts`
-3. **自动配空镜**：把流水线给出的分段（ops-desk 流水线网页上每条选题的「🎬 空镜」，JSON 原样复制）存成 `public/frontier/<日期>/shots.json`，然后
-   `python3 tools/broll.py <日期>`。它按口播定位每段的开始时间，先查素材库 `public/broll/library.json`，没有就按标签去 Mixkit 下载、裁成竖屏、截 6 秒入库，再找不到用抽象画面兜底；生成 `src/frontier/episodes/<日期>.shots.ts`
-4. 在 `Episode.tsx` 里写这一期的文字画面（时间点用 `wt("词")` 从配音里取），在 `Root.tsx` 注册
-5. 渲染（服务器上没有显卡、也下载不了 Remotion 自带的浏览器时，用系统里的 Chromium）：
+1. 在 ops-desk 流水线网页上，展开选中那条的「📋 成片数据」，原样存成 `public/frontier/<日期>/episode.json`（口播稿、分段、每段的画面关键词和文字模板、封面）。改稿的话直接改里面的 `script`
+2. `python3 tools/make_episode.py <日期>`，依次自动完成：
+   - ElevenLabs 配音（声音「向晓 AI 主讲」，带逐字时间戳；已有 `voice.mp3` 就跳过，不重复扣积分）
+   - 逐词字幕（`words.json`）
+   - 配空镜（`tools/broll.py`：先查素材库，没有就去 Mixkit 下载、裁成竖屏入库，再没有用抽象画面兜底；改过稿子对不上的段落并到上一段）
+   - 画面文字：每段一个模板（标题 / 盖章 / 数字滚动 / 新旧替换 / 玻璃卡片），每个词在配音念到它的时候弹出
+   - 渲染成片 `out/ai-frontier-<日期>.mp4` 和封面 `out/cover-<日期>.png`（通用组件 `src/frontier/auto/Auto.tsx`，数据是 `public/frontier/<日期>/auto.json`）
 
-```bash
-npx remotion render src/index.ts Episode-2026-11-01 out/ai-frontier-2026-11-01.mp4 \
-  --gl=swangle --browser-executable=/opt/pw-browsers/chromium --concurrency=4 --crf=18
-```
+加 `--no-render` 只生成数据，可以先在 Studio 里预览（`Auto` 组件）。渲染用的是系统里的 Chromium，30 秒的视频在 4 核机器上约 10 分钟。
+
+`src/frontier/broll/Episode.tsx` 是第一期手工写的版本，留作参考。
 
 空镜都来自 Mixkit（免费商用、无需署名），来源记录在 `public/broll/library.json` 和 `LICENSE.md`。用得越多，素材库越全，下载越少。
 

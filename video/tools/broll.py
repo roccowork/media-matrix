@@ -25,27 +25,41 @@ LIB_DIR = ROOT / "public" / "broll"
 LIB_FILE = LIB_DIR / "library.json"
 UA = {"User-Agent": "Mozilla/5.0 (dawnward-broll)"}
 CLIP_SECONDS = 6
-PUNCT = re.compile(r"[\s，。；：！？、,.;:!?\"'“”‘’（）()《》]")
 
 
 def norm(s: str) -> str:
-    return PUNCT.sub("", s).lower()
+    """只留文字和数字（去掉标点、空格、$ 之类的符号），用来在配音里按文字找位置"""
+    return re.sub(r"[\W_]+", "", s).lower()
 
 
-def locate(shots: list[dict], voice: dict) -> list[float]:
-    """每段画面的开始时间：在配音的逐字时间戳里按顺序找到它的第一个字"""
+def voice_index(voice: dict) -> tuple[str, list[float]]:
+    """配音的逐字时间戳 → (去掉标点的小写文字, 每个字的开始时间)，用来按文字找时间"""
     a = voice["raw_alignment"]
     chars = [(c.lower(), t) for c, t in zip(a["characters"], a["character_start_times_seconds"]) if norm(c)]
-    stream = "".join(c for c, _ in chars)
+    return "".join(c for c, _ in chars), [t for _, t in chars]
+
+
+def find_time(stream: str, times: list[float], text: str, pos: int = 0) -> tuple[float, int] | None:
+    """text 在配音里从第 pos 个字往后第一次出现的时间，和出现后的位置；找不到返回 None"""
+    key = norm(text)[:6]
+    i = stream.find(key, pos) if key else -1
+    return (round(times[i], 2), i + len(key)) if i >= 0 else None
+
+
+def locate(shots: list[dict], voice: dict) -> list[float | None]:
+    """每段画面的开始时间：在配音里按顺序找到它的第一个字。找不到的（稿子录音前改过）返回 None，调用方并到上一段"""
+    stream, times = voice_index(voice)
     starts, pos = [], 0
     for s in shots:
-        key = norm(s["text"])[:6]
-        i = stream.find(key, pos)
-        if i < 0:
-            sys.exit(f"配音里找不到这段口播：{s['text']}（shots.json 的 text 要和口播稿原文一致）")
-        starts.append(round(chars[i][1], 2))
-        pos = i + len(key)
-    starts[0] = 0.0
+        hit = find_time(stream, times, s["text"], pos)
+        if hit:
+            starts.append(hit[0])
+            pos = hit[1]
+        else:
+            print(f"⚠️ 配音里找不到这段口播，并到上一段：{s['text']}")
+            starts.append(None)
+    if starts:
+        starts[0] = 0.0
     return starts
 
 
@@ -99,6 +113,40 @@ def pick(tags: list[str], lib: list[dict], used: set[str]) -> dict | None:
     return None
 
 
+def choose_clip(tags: list[str], lib: list[dict], used: set[str]) -> tuple[dict, str]:
+    """先查素材库，没有就去 Mixkit 下载入库，还没有用抽象画面兜底。返回 (素材, 来源说明)"""
+    clip = pick(tags, lib, used)
+    if clip:
+        return clip, "素材库"
+    known = {c.get("id") for c in lib}
+    for t in tags:
+        vid = next((i for i in mixkit_ids(t) if i not in known), None)
+        if vid and (f := fetch_mixkit(vid)):
+            clip = {"file": f.name, "tags": tags, "source": "mixkit", "id": vid}
+            lib.append(clip)
+            LIB_FILE.write_text(json.dumps(lib, ensure_ascii=False, indent=2) + "\n")
+            return clip, f"Mixkit #{vid}"
+    return pick(["abstract"], lib, used) or pick(["abstract"], lib, set()), "兜底（抽象画面）"
+
+
+def plan(shots: list[dict], voice: dict, total: float) -> list[dict]:
+    """镜头表：[{from, to, src, temp?, i（对应 shots 里第几段）}]，找不到时间的段并到上一段"""
+    lib = json.loads(LIB_FILE.read_text())
+    starts = locate(shots, voice)
+    keep = [(n, t) for n, t in enumerate(starts) if t is not None]
+    used: set[str] = set()
+    out = []
+    for k, (n, start) in enumerate(keep):
+        s = shots[n]
+        tags = [t.lower().strip() for t in s.get("tags", []) if t.strip()]
+        clip, how = choose_clip(tags, lib, used)
+        used.add(clip["file"])
+        end = keep[k + 1][1] if k + 1 < len(keep) else total
+        out.append({"from": start, "to": end, "src": clip["file"].removesuffix(".mp4"), **({"temp": clip["temp"]} if "temp" in clip else {}), "i": n})
+        print(f"{start:6.2f}s  {s['text'][:16]:<16}  {'/'.join(tags):<28} → {clip['file']}（{how}）")
+    return out
+
+
 def main() -> None:
     ap = argparse.ArgumentParser()
     ap.add_argument("date")
@@ -107,32 +155,8 @@ def main() -> None:
     ep = ROOT / "public" / "frontier" / args.date
     shots = json.loads((ep / "shots.json").read_text())
     voice = json.loads((ep / "voice.json").read_text())
-    lib = json.loads(LIB_FILE.read_text())
-    starts = locate(shots, voice)
     total = args.total or round(voice["raw_alignment"]["character_end_times_seconds"][-1] + 3, 2)
-
-    used: set[str] = set()
-    out = []
-    for n, s in enumerate(shots):
-        tags = [t.lower().strip() for t in s.get("tags", []) if t.strip()]
-        clip, how = pick(tags, lib, used), "素材库"
-        if not clip:
-            known = {c.get("id") for c in lib}
-            for t in tags:
-                vid = next((i for i in mixkit_ids(t) if i not in known), None)
-                if vid and (f := fetch_mixkit(vid)):
-                    clip = {"file": f.name, "tags": tags, "source": "mixkit", "id": vid}
-                    lib.append(clip)
-                    LIB_FILE.write_text(json.dumps(lib, ensure_ascii=False, indent=2) + "\n")
-                    how = f"Mixkit #{vid}"
-                    break
-        if not clip:
-            clip, how = pick(["abstract"], lib, used) or pick(["abstract"], lib, set()), "兜底（抽象画面）"
-        used.add(clip["file"])
-        end = starts[n + 1] if n + 1 < len(starts) else total
-        out.append({"from": starts[n], "to": end, "src": clip["file"].removesuffix(".mp4"), **({"temp": clip["temp"]} if "temp" in clip else {})})
-        print(f"{starts[n]:6.2f}s  {s['text'][:16]:<16}  {'/'.join(tags):<28} → {clip['file']}（{how}）")
-
+    out = [{k: v for k, v in s.items() if k != "i"} for s in plan(shots, voice, total)]
     target = ROOT / "src" / "frontier" / "episodes" / f"{args.date}.shots.ts"
     target.write_text(
         "// 自动生成（tools/broll.py），不要手改\n"

@@ -93,8 +93,8 @@ const Flyer: React.FC<{ name: string; now: number; at: number; leaveAt: number; 
 };
 
 // 抖音风格逐词字幕：当前词金色并被弹簧放大
-export const Captions: React.FC<{ now: number }> = ({ now }) => {
-  const line = words.lines.find((l) => now >= l.words[0].start - 0.05 && now < (words.lines[words.lines.indexOf(l) + 1]?.words[0].start ?? 99));
+export const Captions: React.FC<{ now: number; data?: typeof words }> = ({ now, data = words }) => {
+  const line = data.lines.find((l) => now >= l.words[0].start - 0.05 && now < (data.lines[data.lines.indexOf(l) + 1]?.words[0].start ?? 99));
   if (!line) return null;
   return (
     <div style={{ position: "absolute", left: 70, right: 70, top: 1480, textAlign: "center", fontSize: 66, fontWeight: 900 }}>

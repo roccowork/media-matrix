@@ -1,0 +1,196 @@
+{
+ "title": "Claude 的 5 小时限制，没了",
+ "source": "Anthropic 官方公告",
+ "script": "Claude 的五小时限制，没了。10 月 30 日，Anthropic 宣布：原来 200 美元一个月的顶配套餐，改名叫 Ultra，价格不变，同时取消五小时的使用窗口。以前高强度写代码，用满五小时就得停下来等，现在可以一口气干下去。但注意两点：第一，每周的总用量上限还在，不是无限用；第二，先对已验证的账号开放，新用户要等验证完。我的看法是：重度用户最怕的不是贵，是被打断。去掉五小时限制，比加量更懂开发者。",
+ "shots": [
+  {
+   "text": "Claude 的五小时限制",
+   "tags": [
+    "hourglass",
+    "time"
+   ],
+   "overlay": {
+    "type": "stamp",
+    "lines": [
+     "Claude 的",
+     "5 小时限制"
+    ],
+    "hl": "5 小时",
+    "text": "没了！"
+   }
+  },
+  {
+   "text": "10 月 30 日",
+   "tags": [
+    "server",
+    "datacenter"
+   ],
+   "overlay": {
+    "type": "title",
+    "lines": [
+     "10.30",
+     "Anthropic 官宣"
+    ],
+    "hl": "10.30"
+   }
+  },
+  {
+   "text": "原来 200 美元",
+   "tags": [
+    "money",
+    "dollar"
+   ],
+   "overlay": {
+    "type": "number",
+    "value": "$200",
+    "label": "顶配套餐 · 每月"
+   }
+  },
+  {
+   "text": "改名叫 Ultra",
+   "tags": [
+    "tunnel",
+    "upgrade"
+   ],
+   "overlay": {
+    "type": "swap",
+    "from": "Max 20×",
+    "to": "Ultra",
+    "note": "价格不变 ✓"
+   }
+  },
+  {
+   "text": "同时取消五小时",
+   "tags": [
+    "clock",
+    "hour"
+   ],
+   "overlay": {
+    "type": "stamp",
+    "lines": [
+     "5 小时使用窗口"
+    ],
+    "text": "取消"
+   }
+  },
+  {
+   "text": "以前高强度写代码",
+   "tags": [
+    "keyboard",
+    "typing"
+   ],
+   "overlay": {
+    "type": "title",
+    "lines": [
+     "以前",
+     "高强度写代码"
+    ],
+    "hl": "高强度"
+   }
+  },
+  {
+   "text": "用满五小时",
+   "tags": [
+    "alarm",
+    "wait"
+   ],
+   "overlay": {
+    "type": "title",
+    "lines": [
+     "用满就得",
+     "停下来等"
+    ],
+    "hl": "停下来等"
+   }
+  },
+  {
+   "text": "现在可以一口气",
+   "tags": [
+    "code",
+    "screen"
+   ],
+   "overlay": {
+    "type": "title",
+    "lines": [
+     "现在",
+     "一口气",
+     "干下去"
+    ],
+    "hl": "一口气"
+   }
+  },
+  {
+   "text": "但注意两点",
+   "tags": [
+    "network",
+    "data"
+   ],
+   "overlay": {
+    "type": "card",
+    "num": "1",
+    "title": "每周总用量上限",
+    "value": "还在",
+    "note": "不是无限用 ⚠️"
+   }
+  },
+  {
+   "text": "第二，先对已验证",
+   "tags": [
+    "laptop",
+    "account"
+   ],
+   "overlay": {
+    "type": "card",
+    "num": "2",
+    "title": "先对",
+    "value": "已验证账号",
+    "note": "新用户：等验证完 ⏳"
+   }
+  },
+  {
+   "text": "我的看法是",
+   "tags": [
+    "programmer",
+    "focus"
+   ],
+   "overlay": {
+    "type": "title",
+    "kicker": "我的看法",
+    "lines": [
+     "重度用户",
+     "最怕的不是贵",
+     "是被打断"
+    ],
+    "hl": "是被打断"
+   }
+  },
+  {
+   "text": "去掉五小时限制，比加量",
+   "tags": [
+    "neon",
+    "future"
+   ],
+   "overlay": {
+    "type": "title",
+    "lines": [
+     "去掉 5 小时限制",
+     "比加量",
+     "更懂开发者"
+    ],
+    "hl": "更懂开发者"
+   }
+  }
+ ],
+ "cover": {
+  "lines": [
+   "Claude",
+   "5 小时限制"
+  ],
+  "hl": "5 小时",
+  "stamp": "没了！",
+  "sub": [
+   "$200 顶配改名 Ultra",
+   "但每周上限还在"
+  ]
+ }
+}
