@@ -15,3 +15,8 @@
 - 只放视频代码和公开素材。**私人的东西（方案、收入和求职计划、声音样本、个人信息）一律放私有仓库 `roccowork/ops-desk`**（自媒体方案在那边的 `docs/plan/media-matrix/`）
 - 密钥只放 GitHub Secrets（ELEVENLABS_API_KEY、ELEVENLABS_VOICE_ID 等），不进代码
 - 大的方向调整先给方案，用户确认后再改 ops-desk 里的 `docs/plan/media-matrix/总体方案.md`
+
+## 仓库可见性：公开
+
+- 原因：出片要在 GitHub Actions 里渲染，公开仓库免费（私有仓库一条视频约 20 分钟，额度不够）。这里只放视频代码和公开素材；私人方案和声音资料在 ops-desk，2026-11-01 已清理过 git 历史。
+- **改变可见性（私有↔公开）前必须先问用户**，不能顺手改；改公开前还要检查文件和 git 历史里有没有私人信息和密钥
