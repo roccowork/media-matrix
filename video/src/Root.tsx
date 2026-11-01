@@ -14,6 +14,8 @@ import { alertBotCode, alertBotTerminal } from "./compositions/demoData";
 import { EPISODE_DEMO_DURATION, EpisodeDemo } from "./compositions/EpisodeDemo";
 import { FPS, SIZES } from "./brand";
 import { KB_SCENES, KB_SHORT_DURATION, KbShort } from "./compositions/KnowledgeBase";
+import { Frontier, FPS as FRONTIER_FPS, getFrontierDuration } from "./frontier/Frontier";
+import { captions as frontier20261101, voiceDuration as frontier20261101Voice } from "./frontier/episodes/2026-11-01.captions";
 
 // 每个组件都注册横屏和竖屏两个版本，方便在 Studio 里预览和单独导出
 const variants = [
@@ -23,6 +25,18 @@ const variants = [
 
 export const RemotionRoot: React.FC = () => (
   <>
+    {/* 「AI 前沿」竖屏短视频（向晓 AI），每期一个 */}
+    <Folder name="Frontier">
+      <Composition
+        id="Frontier-2026-11-01"
+        component={Frontier}
+        durationInFrames={getFrontierDuration(frontier20261101Voice)}
+        fps={FRONTIER_FPS}
+        width={1080}
+        height={1920}
+        defaultProps={{ date: "2026.11.01", captions: frontier20261101, voiceDuration: frontier20261101Voice, voice: "frontier/2026-11-01/voice.mp3" }}
+      />
+    </Folder>
     {variants.map(({ suffix, size }) => (
       <Folder key={suffix || "landscape"} name={suffix ? "Vertical" : "Landscape"}>
         <Composition

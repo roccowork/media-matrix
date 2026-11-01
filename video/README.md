@@ -29,6 +29,22 @@ npx remotion still src/index.ts BrandIntro out/cover.png --frame=70
 
 **没有显卡的服务器**上渲染 3D 时，加 `--gl=swangle`。
 
+## 「AI 前沿」竖屏短视频（向晓 AI）
+
+模板在 `src/frontier/Frontier.tsx`：3D 晨光背景（Three.js）、品牌栏、按配音时间出现的信息卡片、逐字高亮字幕、原创配乐和音效。每期的流程：
+
+1. 用 ElevenLabs 声音「向晓 AI 主讲」（`../voice/voice.json`）生成配音，带逐字时间戳，存到 `public/frontier/<日期>/voice.mp3` 和 `voice.json`
+2. `python3 tools/frontier_captions.py public/frontier/<日期>/voice.json src/frontier/episodes/<日期>.captions.ts` 生成字幕数据
+3. 在 `Frontier.tsx` 里按每句话的开始时间写这一期的画面，在 `Root.tsx` 注册
+4. 渲染（服务器上没有显卡、也下载不了 Remotion 自带的浏览器时，用系统里的 Chromium）：
+
+```bash
+npx remotion render src/index.ts Frontier-2026-11-01 out/Frontier-2026-11-01.mp4 \
+  --gl=swangle --browser-executable=/opt/pw-browsers/chromium --concurrency=4 --crf=18
+```
+
+配乐 `public/frontier/bgm.mp3` 和音效（whoosh、pop、chime）都是 ElevenLabs 现场生成的原创音频。
+
 ## 组件一览
 
 | 组件 | 用途 | 主要参数 |
