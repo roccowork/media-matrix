@@ -16,6 +16,7 @@ import { FPS, SIZES } from "./brand";
 import { KB_SCENES, KB_SHORT_DURATION, KbShort } from "./compositions/KnowledgeBase";
 import { StyleInfo, StyleQuote, StyleTitle } from "./frontier/v2/Style";
 import { PREVIEW_DURATION, StylePreview } from "./frontier/v2/Preview";
+import { FrontierSample, SAMPLE_DURATION } from "./frontier/v3/Sample";
 import { Frontier, FPS as FRONTIER_FPS, getFrontierDuration } from "./frontier/Frontier";
 import { captions as frontier20261101, voiceDuration as frontier20261101Voice } from "./frontier/episodes/2026-11-01.captions";
 
@@ -30,6 +31,9 @@ export const RemotionRoot: React.FC = () => (
     {/* 「AI 前沿」竖屏短视频（向晓 AI），每期一个 */}
     <Folder name="Frontier">
       {/* v2 风格样图（静帧） */}
+      {["hustle", "beast", "kinetic-01"].map((t) => (
+        <Composition key={t} id={`Sample-${t}`} component={FrontierSample} durationInFrames={SAMPLE_DURATION} fps={30} width={1080} height={1920} defaultProps={{ theme: t }} />
+      ))}
       <Composition id="Style-Preview" component={StylePreview} durationInFrames={PREVIEW_DURATION} fps={30} width={1080} height={1920} />
       <Composition id="Style-Title" component={StyleTitle} durationInFrames={1} fps={30} width={1080} height={1920} />
       <Composition id="Style-Info" component={StyleInfo} durationInFrames={1} fps={30} width={1080} height={1920} />
