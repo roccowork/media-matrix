@@ -7,29 +7,17 @@ import { Header, v2 } from "../v2/Style";
 import { Captions, Count, Headline, SfxAt, Stamp, kf, sp, tween, useNow } from "../motion/MotionSample";
 import { Broll, Leak } from "./BrollSample";
 import { words } from "../episodes/2026-11-01.words";
+import { shots, totalSeconds } from "../episodes/2026-11-01.shots";
 
 // ── 时间轴 ──
 const ALL = words.lines.flatMap((l) => l.words);
 // 某个词在 after 秒之后第一次出现的时间
 const wt = (text: string, after = 0) => ALL.find((w) => w.text === text && w.start >= after - 0.01)?.start ?? after;
 const VOICE_END = 27.6;
-export const EPISODE_SECONDS = 30.5;
+export const EPISODE_SECONDS = totalSeconds;
 
-type Shot = { from: number; to: number; src: string; push?: [number, number]; temp?: number };
-const SHOTS: Shot[] = [
-  { from: 0, to: 1.84, src: "hourglass", push: [1.0, 1.12], temp: -0.1 },
-  { from: 1.84, to: 3.68, src: "datacenter", push: [1.08, 1.3], temp: -0.45 },
-  { from: 3.68, to: 6.08, src: "money", push: [1.05, 1.18], temp: 0.15 },
-  { from: 6.08, to: 7.92, src: "tunnel", push: [1.0, 1.25], temp: -0.2 },
-  { from: 7.92, to: 9.84, src: "clock", push: [1.0, 1.15], temp: -0.1 },
-  { from: 9.84, to: 11.12, src: "keyboard", push: [1.05, 1.15], temp: -0.3 },
-  { from: 11.12, to: 12.85, src: "alarm", push: [1.0, 1.1], temp: 0 },
-  { from: 12.85, to: 14.24, src: "code", push: [1.05, 1.2], temp: -0.3 },
-  { from: 14.24, to: 17.92, src: "network", push: [1.0, 1.15], temp: -0.25 },
-  { from: 17.92, to: 21.6, src: "laptop", push: [1.0, 1.12], temp: -0.25 },
-  { from: 21.6, to: 24.88, src: "programmer", push: [1.05, 1.18], temp: -0.2 },
-  { from: 24.88, to: EPISODE_SECONDS, src: "neon", push: [1.0, 1.2], temp: -0.1 },
-];
+// 镜头表由 tools/broll.py 自动生成（按口播找空镜）；镜头推进方向交替变化，避免每段都一样
+const SHOTS = shots.map((s, i) => ({ ...s, push: (i % 2 ? [1.12, 1.0] : [1.0, 1.15]) as [number, number] }));
 // 光漏只放在大段落之间，不是每次切镜头都放
 const LEAKS: { at: number; seed: number; hue: number }[] = [
   { at: 1.84, seed: 3, hue: 200 },
