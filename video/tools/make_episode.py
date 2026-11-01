@@ -26,6 +26,7 @@
 import argparse
 import base64
 import json
+import os
 import re
 import subprocess
 import sys
@@ -36,7 +37,8 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 import broll  # noqa: E402
 
 ROOT = Path(__file__).resolve().parent.parent
-VOICE = json.loads((ROOT.parent / "voice" / "voice.json").read_text())
+# 配音的声音（ElevenLabs 设计的「向晓 AI 主讲」）：voice_id 放在环境变量 / GitHub Secrets，不进公开仓库
+VOICE = {"voice_id": os.environ.get("ELEVENLABS_VOICE_ID", ""), "model": os.environ.get("ELEVENLABS_MODEL", "eleven_v3")}
 OUTRO = 2.9  # 片尾品牌卡的秒数
 CHROMIUM = "/opt/pw-browsers/chromium"
 
@@ -47,6 +49,8 @@ def make_voice(ep: Path, script: str) -> dict:
     if mp3.exists() and meta.exists():
         print("配音：已有，跳过")
         return json.loads(meta.read_text())
+    if not VOICE["voice_id"]:
+        sys.exit("没有配音：设置环境变量 ELEVENLABS_VOICE_ID（声音资料在私有仓库 ops-desk 的 docs/plan/media-matrix/voice/）")
     body = json.dumps({"text": script, "model_id": VOICE["model"], "output_format": "mp3_44100_128"}).encode()
     req = urllib.request.Request(
         f"https://api.elevenlabs.io/v1/text-to-speech/{VOICE['voice_id']}/with-timestamps",
