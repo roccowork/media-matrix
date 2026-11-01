@@ -21,6 +21,7 @@ import { MOTION_SAMPLE_DURATION, MotionSample } from "./frontier/motion/MotionSa
 import { FX3D_DURATION, Fx3D } from "./frontier/fx/Fx3D";
 import { BROLL_SAMPLE_DURATION, BrollSample } from "./frontier/broll/BrollSample";
 import { EPISODE_SECONDS, Episode20261101 } from "./frontier/broll/Episode";
+import { Cover20261101 } from "./frontier/broll/Cover";
 import { Frontier, FPS as FRONTIER_FPS, getFrontierDuration } from "./frontier/Frontier";
 import { captions as frontier20261101, voiceDuration as frontier20261101Voice } from "./frontier/episodes/2026-11-01.captions";
 
@@ -38,6 +39,7 @@ export const RemotionRoot: React.FC = () => (
       {["hustle", "beast", "kinetic-01"].map((t) => (
         <Composition key={t} id={`Sample-${t}`} component={FrontierSample} durationInFrames={SAMPLE_DURATION} fps={30} width={1080} height={1920} defaultProps={{ theme: t }} />
       ))}
+      <Composition id="Cover-2026-11-01" component={Cover20261101} durationInFrames={1} fps={30} width={1080} height={1920} />
       <Composition id="Episode-2026-11-01" component={Episode20261101} durationInFrames={Math.round(EPISODE_SECONDS * 30)} fps={30} width={1080} height={1920} />
       <Composition id="Broll-Sample" component={BrollSample} durationInFrames={BROLL_SAMPLE_DURATION} fps={30} width={1080} height={1920} />
       <Composition id="Fx3D-Sample" component={Fx3D} durationInFrames={FX3D_DURATION} fps={30} width={1080} height={1920} />
