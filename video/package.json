@@ -21,6 +21,7 @@
     "@remotion/three": "4.0.538",
     "@remotion/transitions": "^4.0.538",
     "lottie-web": "^5.13.0",
+    "motion": "^14.3.0",
     "prism-react-renderer": "2.4.1",
     "react": "19.2.0",
     "react-dom": "19.2.0",
