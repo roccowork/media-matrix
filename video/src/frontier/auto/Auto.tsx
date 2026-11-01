@@ -65,10 +65,10 @@ const Lines: React.FC<{ now: number; lines: Line[]; top: number; exitAt: number 
   );
 };
 
-const OverlayView: React.FC<{ now: number; shot: AutoShot }> = ({ now, shot }) => {
+const OverlayView: React.FC<{ now: number; shot: AutoShot; voiceEnd: number }> = ({ now, shot, voiceEnd }) => {
   const o = shot.overlay;
-  if (!o || now < shot.from - 0.05 || now > shot.to + 0.6) return null;
-  const exit = shot.to - 0.2;
+  const exit = Math.min(shot.to, voiceEnd) - 0.2; // 最后一段的字在片尾品牌卡出来前退场
+  if (!o || now < shot.from - 0.05 || now > exit + 0.8) return null;
   if (o.type === "title") {
     return (
       <div style={{ textShadow: shadow }}>
@@ -179,7 +179,7 @@ export const Auto: React.FC<AutoData> = (d) => {
       ))}
       <Header date={date} />
       {d.shots.map((s, i) => (
-        <OverlayView key={i} now={now} shot={s} />
+        <OverlayView key={i} now={now} shot={s} voiceEnd={d.voiceEnd} />
       ))}
       <Outro now={now} at={d.voiceEnd} />
       {now < d.voiceEnd + 0.1 && <Captions now={now} data={d.words} />}

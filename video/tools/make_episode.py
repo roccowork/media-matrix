@@ -81,8 +81,8 @@ class Clock:
 
 def size_of(text: str) -> int:
     """按一行的宽度定字号：汉字算 1 个宽度，字母数字算半个多，一行最宽约 900 像素"""
-    units = sum(1 if ord(ch) > 0x2E80 else 0.3 if ch == " " else 0.58 for ch in text) or 1
-    return max(70, min(170, int(900 / units)))
+    units = sum(1 if ord(ch) > 0x2E80 else 0.3 if ch == " " else 0.66 for ch in text) or 1
+    return max(70, min(150, int(820 / units)))  # 留出弹入时放大回弹的余量
 
 
 def lines_of(texts: list[str], hl: str | None, clock: Clock, start: float, end: float, k0: int = 0) -> list[dict]:
