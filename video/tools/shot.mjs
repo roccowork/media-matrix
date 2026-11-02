@@ -42,7 +42,7 @@ const renderFrames = async (comp, frames, out) => {
   for (const f of frames) {
     const output = path.join(out, `${comp}-${f}.png`);
     const t0 = Date.now();
-    await renderStill({serveUrl, composition, frame: f, output, browserExecutable, timeoutInMilliseconds: 900000, chromiumOptions: {gl}});
+    await renderStill({serveUrl, composition, frame: f, output, browserExecutable, timeoutInMilliseconds: 900000, chromiumOptions: {gl}, onBrowserLog: (l) => { if (!l.text.includes('fonts.gstatic') && (process.env.SHOT_DEBUG || l.type === 'error' || l.text.includes('THREE'))) console.log('  [浏览器错误]', l.text.slice(0, 400)); }});
     console.log(`✓ ${output}（${((Date.now() - t0) / 1000).toFixed(0)} 秒）`);
     files.push(output);
   }

@@ -7,30 +7,216 @@
   "camera": {
     "preset": "keys",
     "keys": [
-      {"t": 0, "pos": [-4.6, 1.1, 3.4], "look": [-3.2, 0.5, 0], "fov": 36, "roll": -3},
-      {"t": 3, "pos": [-3.0, 1.0, 3.3], "look": [-2.0, 0.3, -0.3], "fov": 36, "roll": -1},
-      {"t": 6.5, "pos": [0.8, 0.7, 3.2], "look": [2.2, -0.2, -0.9], "fov": 38, "roll": 2},
-      {"t": 10, "pos": [3.2, 2.4, 7.5], "look": [0.6, 0.2, -2.2], "fov": 42, "roll": 3},
-      {"t": 15, "pos": [2.0, 4.2, 17.0], "look": [0.0, 0.0, -3.0], "fov": 44, "roll": 0}
+      {
+        "t": 0,
+        "pos": [
+          -4.6,
+          1.1,
+          3.4
+        ],
+        "look": [
+          -3.2,
+          0.5,
+          0
+        ],
+        "fov": 36,
+        "roll": -3
+      },
+      {
+        "t": 3,
+        "pos": [
+          -3.0,
+          1.0,
+          3.3
+        ],
+        "look": [
+          -2.0,
+          0.3,
+          -0.3
+        ],
+        "fov": 36,
+        "roll": -1
+      },
+      {
+        "t": 6.5,
+        "pos": [
+          0.8,
+          0.7,
+          3.2
+        ],
+        "look": [
+          2.2,
+          -0.2,
+          -0.9
+        ],
+        "fov": 38,
+        "roll": 2
+      },
+      {
+        "t": 10,
+        "pos": [
+          3.2,
+          2.4,
+          7.5
+        ],
+        "look": [
+          0.6,
+          0.2,
+          -2.2
+        ],
+        "fov": 42,
+        "roll": 3
+      },
+      {
+        "t": 15,
+        "pos": [
+          2.0,
+          4.2,
+          17.0
+        ],
+        "look": [
+          0.0,
+          0.0,
+          -3.0
+        ],
+        "fov": 44,
+        "roll": 0
+      }
     ]
   },
   "post": {
-    "bloom": {"intensity": 0.85, "threshold": 1.0, "radius": 0.6},
-    "dof": {"cInf": 9},
+    "bloom": {
+      "intensity": 0.85,
+      "threshold": 1.0,
+      "radius": 0.6
+    },
     "tone": "aces",
     "vignette": 0.55,
     "grain": 0.015,
     "chromatic": 0.0008
   },
   "assets": [
-    {"id": "biology.neural_web.v1", "params": {"center": [0, 0, -3], "radius": 9, "waveOrigin": [2.6, -0.3, -1.0], "waveStart": 6.2, "waveSpeed": 2.8}},
-    {"id": "biology.neuron.v1", "params": {"position": [-3.2, 0.5, 0], "radius": 0.6, "dendrites": 10, "activateAt": 1.0}},
-    {"id": "biology.neuron.v1", "params": {"position": [2.6, -0.3, -1.0], "radius": 0.55, "dendrites": 9, "activateAt": 5.6}},
-    {"id": "biology.neuron.v1", "params": {"position": [0.4, 2.2, -4.5], "radius": 0.5, "dendrites": 8, "activateAt": 7.8}},
-    {"id": "biology.neuron.v1", "params": {"position": [-2.5, -2.0, -6.0], "radius": 0.5, "dendrites": 8, "activateAt": 9.2}},
-    {"id": "biology.axon.v1", "params": {"from": [-3.2, 0.5, 0], "to": [2.6, -0.3, -1.0], "start": 2.0, "duration": 3.6}},
-    {"id": "biology.axon.v1", "params": {"from": [2.6, -0.3, -1.0], "to": [0.4, 2.2, -4.5], "start": 5.9, "duration": 1.9}},
-    {"id": "biology.axon.v1", "params": {"from": [2.6, -0.3, -1.0], "to": [-2.5, -2.0, -6.0], "start": 6.1, "duration": 3.1}}
+    {
+      "id": "biology.neural_web.v1",
+      "params": {
+        "center": [
+          0,
+          0,
+          -3
+        ],
+        "radius": 9,
+        "waveOrigin": [
+          2.6,
+          -0.3,
+          -1.0
+        ],
+        "waveStart": 6.2,
+        "waveSpeed": 2.8
+      }
+    },
+    {
+      "id": "biology.neuron.v1",
+      "params": {
+        "position": [
+          -3.2,
+          0.5,
+          0
+        ],
+        "radius": 0.6,
+        "dendrites": 10,
+        "activateAt": 1.0
+      }
+    },
+    {
+      "id": "biology.neuron.v1",
+      "params": {
+        "position": [
+          2.6,
+          -0.3,
+          -1.0
+        ],
+        "radius": 0.55,
+        "dendrites": 9,
+        "activateAt": 5.6
+      }
+    },
+    {
+      "id": "biology.neuron.v1",
+      "params": {
+        "position": [
+          0.4,
+          2.2,
+          -4.5
+        ],
+        "radius": 0.5,
+        "dendrites": 8,
+        "activateAt": 7.8
+      }
+    },
+    {
+      "id": "biology.neuron.v1",
+      "params": {
+        "position": [
+          -2.5,
+          -2.0,
+          -6.0
+        ],
+        "radius": 0.5,
+        "dendrites": 8,
+        "activateAt": 9.2
+      }
+    },
+    {
+      "id": "biology.axon.v1",
+      "params": {
+        "from": [
+          -3.2,
+          0.5,
+          0
+        ],
+        "to": [
+          2.6,
+          -0.3,
+          -1.0
+        ],
+        "start": 2.0,
+        "duration": 3.6
+      }
+    },
+    {
+      "id": "biology.axon.v1",
+      "params": {
+        "from": [
+          2.6,
+          -0.3,
+          -1.0
+        ],
+        "to": [
+          0.4,
+          2.2,
+          -4.5
+        ],
+        "start": 5.9,
+        "duration": 1.9
+      }
+    },
+    {
+      "id": "biology.axon.v1",
+      "params": {
+        "from": [
+          2.6,
+          -0.3,
+          -1.0
+        ],
+        "to": [
+          -2.5,
+          -2.0,
+          -6.0
+        ],
+        "start": 6.1,
+        "duration": 3.1
+      }
+    }
   ],
   "version": "1.0.0"
 }
