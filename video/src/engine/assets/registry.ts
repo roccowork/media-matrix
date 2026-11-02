@@ -8,6 +8,7 @@ import {StardustAsset} from '../../assets/cosmos/stardust/StardustAsset';
 import {NeuronAsset} from '../../assets/biology/neuron/NeuronAsset';
 import {AxonAsset} from '../../assets/biology/axon/AxonAsset';
 import {NeuralWebAsset} from '../../assets/biology/neural_web/NeuralWebAsset';
+import {ChipAsset} from '../../assets/tech/chip/ChipAsset';
 
 const C = <P,>(c: React.FC<P>) => c as unknown as React.FC<Record<string, unknown>>;
 
@@ -118,6 +119,26 @@ export const ASSETS: AssetMeta[] = [
     license: 'own',
     version: '1.0.0',
     notes: '粒子位置全部在顶点着色器里按时间计算（GPU 粒子），CPU 零开销',
+  },
+  {
+    asset_id: 'tech.chip.v1',
+    asset_name: 'AI 芯片（电路板 + 封装 + 硅晶片 + 金线 + 数据脉冲）',
+    category: 'tech',
+    kind: 'procedural',
+    renderer: 'threejs',
+    component: C(ChipAsset),
+    params: {
+      pulseSpeed: {type: 'number', default: 0.35, min: 0, max: 3, desc: '数据脉冲流速'},
+      dieGlow: {type: 'color', default: '#5ee7ff', desc: '晶片上数据脉冲颜色'},
+      pcbGlow: {type: 'color', default: '#ffb347', desc: '电路板上数据脉冲颜色'},
+      activateAt: {type: 'number', default: 0, min: 0, max: 600, desc: '数据脉冲开始流动（秒）'},
+      beams: {type: 'boolean', default: true, desc: '顶光光束'},
+    },
+    effects: ['pbr_metal', 'iridescence', 'circuit_pulse', 'light_beams'],
+    lighting_preset: '需要 StudioEnv 环境反射 + 主光 / 轮廓光',
+    license: 'own',
+    version: '1.0.0',
+    notes: '尺寸：封装 4×4，晶片 2.4×2.4（中心原点，晶片表面 y≈0.31）；电路版图随 seed 变化',
   },
   {
     asset_id: 'tech.robot.expressive.v1',
