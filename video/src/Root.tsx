@@ -31,6 +31,7 @@ import { ScienceDemo as GrokDemo } from "./grok3d/scenes/ScienceDemo";
 import { AttentionTest as GrokAttention } from "./grok3d/scenes/AttentionTest";
 import { ATTENTION10_DURATION, Attention10s } from "./grok3d/scenes/Attention10s";
 import { CatPhoto } from "./grok3d/scenes/CatPhoto";
+import { FUTURE100_DURATION, Future100 } from "./grok3d/scenes/Future100";
 import { SEE_IMAGE_DURATION, SeeImage10s } from "./grok3d/scenes/SeeImage10s";
 import { MASCOT_INTRO_DURATION, MascotIntro } from "./science/three/MascotIntro";
 import { ATTENTION_SPACE_DURATION, AttentionSpace } from "./science/three/AttentionSpace";
@@ -66,6 +67,7 @@ export const RemotionRoot: React.FC = () => (
       <Composition id="Grok-Demo" component={GrokDemo} durationInFrames={180} fps={30} width={1920} height={1080} />
       <Composition id="Grok-SeeImage10s" component={SeeImage10s} durationInFrames={SEE_IMAGE_DURATION} fps={30} width={1920} height={1080} />
       <Composition id="Grok-SeeImage10s-Film" component={SeeImage10s} defaultProps={{ look: "film" as const }} durationInFrames={SEE_IMAGE_DURATION} fps={30} width={1920} height={1080} />
+      <Composition id="Grok-Future100" component={Future100} durationInFrames={FUTURE100_DURATION} fps={30} width={1920} height={1080} />
       <Composition id="Grok-CatPhoto" component={CatPhoto} durationInFrames={1} fps={30} width={800} height={600} />
       <Composition id="Grok-Attention10s" component={Attention10s} durationInFrames={ATTENTION10_DURATION} fps={30} width={1920} height={1080} />
       <Composition id="Grok-Attention" component={GrokAttention} durationInFrames={180} fps={30} width={1920} height={1080} />
