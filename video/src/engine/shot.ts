@@ -39,6 +39,8 @@ export type ShotConfig = {
   duration: number;
   camera: CameraConfig;
   post: PostConfig;
+  /** 用到的资产（资产库 id + 参数，参数会按资产登记的范围校验） */
+  assets: {id: string; params?: Record<string, unknown>}[];
   params?: Record<string, number | string | boolean>;
   version: string;
 };

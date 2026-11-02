@@ -1,0 +1,52 @@
+// 资产 cosmos.blackhole.v1：程序化黑洞（全屏光线步进 Shader）。
+// 放进任意 Stage 里即可，相机由 Stage 驱动；参数见 index.ts 的 params。
+import React, {useMemo} from 'react';
+import * as THREE from 'three';
+import {useThree} from '@react-three/fiber';
+import {useCurrentFrame, useVideoConfig} from 'remotion';
+import {BLACKHOLE_FRAG, BLACKHOLE_VERT} from './blackhole.glsl';
+
+export type BlackHoleProps = {
+  diskGain?: number; // 吸积盘亮度
+  spin?: number; // 盘的转速倍数
+  steps?: number; // 光线步进最大步数（质量 / 速度）
+  nearDimming?: boolean; // 镜头靠近时自动压亮度，防过曝
+};
+
+export const BlackHoleAsset: React.FC<BlackHoleProps> = ({diskGain = 0.55, spin = 1, steps = 320, nearDimming = true}) => {
+  const frame = useCurrentFrame();
+  const {fps} = useVideoConfig();
+  const {camera} = useThree();
+  const mat = useMemo(
+    () =>
+      new THREE.ShaderMaterial({
+        vertexShader: BLACKHOLE_VERT,
+        fragmentShader: BLACKHOLE_FRAG,
+        depthTest: false,
+        depthWrite: false,
+        uniforms: {
+          uTime: {value: 0},
+          uCamPos: {value: new THREE.Vector3()},
+          uCamWorld: {value: new THREE.Matrix4()},
+          uProjInv: {value: new THREE.Matrix4()},
+          uDiskGain: {value: diskGain},
+          uSpin: {value: spin},
+          uSteps: {value: steps},
+          uNearGain: {value: 1},
+        },
+      }),
+    [diskGain, spin, steps],
+  );
+  const u = mat.uniforms;
+  u.uTime.value = frame / fps;
+  u.uCamPos.value.copy(camera.position);
+  u.uCamWorld.value.copy(camera.matrixWorld);
+  u.uProjInv.value.copy(camera.projectionMatrixInverse);
+  const dist = camera.position.length();
+  u.uNearGain.value = nearDimming ? 0.5 + 0.5 * Math.min(1, Math.max(0, (dist - 18) / 40)) : 1;
+  return (
+    <mesh frustumCulled={false} material={mat} renderOrder={-1}>
+      <planeGeometry args={[2, 2]} />
+    </mesh>
+  );
+};

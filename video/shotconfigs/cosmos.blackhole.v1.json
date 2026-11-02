@@ -1,0 +1,111 @@
+{
+  "id": "cosmos.blackhole.v1",
+  "renderer": "threejs",
+  "style": "imax_cosmos",
+  "fps": 30,
+  "duration": 15,
+  "camera": {
+    "preset": "fly_through",
+    "keys": [
+      {
+        "t": 0,
+        "pos": [
+          14,
+          46,
+          52
+        ],
+        "look": [
+          9,
+          0,
+          3
+        ],
+        "fov": 40,
+        "roll": -6
+      },
+      {
+        "t": 6,
+        "pos": [
+          8,
+          30,
+          33
+        ],
+        "look": [
+          8,
+          0,
+          2
+        ],
+        "fov": 40,
+        "roll": -3
+      },
+      {
+        "t": 11,
+        "pos": [
+          2,
+          20,
+          22
+        ],
+        "look": [
+          6.5,
+          0,
+          1
+        ],
+        "fov": 42,
+        "roll": 2
+      },
+      {
+        "t": 15,
+        "pos": [
+          -3,
+          15,
+          16
+        ],
+        "look": [
+          5.5,
+          0,
+          1
+        ],
+        "fov": 44,
+        "roll": 6
+      }
+    ]
+  },
+  "post": {
+    "bloom": {
+      "intensity": 0.65,
+      "threshold": 1.15,
+      "radius": 0.45
+    },
+    "tone": "aces",
+    "vignette": 0.55,
+    "grain": 0.018,
+    "chromatic": 0.0009
+  },
+  "assets": [
+    {
+      "id": "cosmos.blackhole.v1",
+      "params": {
+        "diskGain": 0.55,
+        "spin": 1,
+        "steps": 320
+      }
+    },
+    {
+      "id": "cosmos.stardust.v1",
+      "params": {
+        "from": [
+          14,
+          46,
+          52
+        ],
+        "to": [
+          -3,
+          15,
+          16
+        ],
+        "count": 2600,
+        "size": 0.06
+      }
+    }
+  ],
+  "version": "1.0.0"
+}
