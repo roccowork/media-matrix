@@ -1,7 +1,7 @@
 // 10 秒 3D 样片：「AI 是怎么看懂一张图的？」（科技主题，暂无字幕和配音）
 // 分镜：0–2s 悬浮照片推近 → 2–4s 照片碎成像素方块扑面而来 → 4–7s 方块流穿过 3 层识别层，
 //       每层弹出它「看到的东西」（线条 / 局部 / 整体）→ 7–9s 方块聚成 3D 小猫，「猫 98%」→ 9–10s 拉远看全流程。
-// 照片、像素颜色、线稿、局部小图全部来自同一张图 public/science3d/cat-photo.png（由 Grok-CatPhoto 渲染）。
+// 照片、像素颜色、线稿、局部小图全部来自同一张图 public/science3d/cat-photo.jpg（维基共享资源真实照片，CC BY 4.0，出处见 public/science3d/LICENSE.md）。
 import React, {useEffect, useMemo, useState} from 'react';
 import * as THREE from 'three';
 import {AbsoluteFill, continueRender, delayRender, interpolate, random, spring, staticFile, useCurrentFrame, useVideoConfig} from 'remotion';
@@ -149,9 +149,9 @@ const usePhotoData = (): PhotoData | null => {
         panelCanvas(LAYER_NAME[1], LAYER_COLOR[1], (g, x, y, w, h) => {
           // 耳朵 / 脸 / 爪子 三个局部
           const crops: [number, number, number, number, string][] = [
-            [425, 235, 95, 75, '耳朵'],
-            [445, 275, 90, 85, '脸'],
-            [365, 425, 110, 70, '爪子'],
+            [243, 117, 162, 180, '耳朵'],
+            [345, 330, 150, 99, '眼睛'],
+            [380, 430, 200, 150, '鼻子'],
           ];
           const cw = (w - 24) / 3;
           crops.forEach(([sx, sy, sw, sh, name], i) => {
@@ -174,14 +174,14 @@ const usePhotoData = (): PhotoData | null => {
             g.textAlign = 'left';
           });
         }),
-        panelCanvas(LAYER_NAME[2], LAYER_COLOR[2], (g, x, y, w, h) => fit(g, src, 270, 150, 280, 350, x, y, w, h)),
+        panelCanvas(LAYER_NAME[2], LAYER_COLOR[2], (g, x, y, w, h) => fit(g, src, 234, 100, 470, 510, x, y, w, h)),
       ];
       const photo = new THREE.CanvasTexture(src);
       photo.colorSpace = THREE.SRGBColorSpace;
       setData({photo, colors, panels});
       continueRender(h);
     };
-    img.src = staticFile('science3d/cat-photo.png');
+    img.src = staticFile('science3d/cat-photo.jpg');
   }, [h]);
   return data;
 };
