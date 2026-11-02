@@ -73,16 +73,6 @@ jobs:
           fi
           curl -sf -F chat_id="$TG_CHAT" -F document=@"out/cover-$FOLDER.png" -F caption="封面（原图，发布时上传）" "$api/sendDocument" > /dev/null
 
-      - uses: actions/upload-artifact@v4
-        if: always()
-        with:
-          name: ai-frontier-${{ inputs.folder }}
-          path: |
-            video/out/*.mp4
-            video/out/*.png
-          retention-days: 7
-          if-no-files-found: ignore
-
       - name: 保存配音、成片数据和新空镜
         run: |
           git config user.name "github-actions[bot]"

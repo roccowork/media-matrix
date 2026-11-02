@@ -55,7 +55,7 @@ npx remotion still src/index.ts BrandIntro out/cover.png --frame=70
 
 1. `prepare`：分段配音（ElevenLabs，按段缓存，只改一段就只重配一段）、配横屏空镜、画面元素按口播对时、封面，配音和数据提交回仓库
 2. `render`：**8 台机器并行**，各渲染 1/8 的画面（一台机器每分钟成片要渲染约 5 分钟）；第 0 台顺便渲染整条音轨
-3. `merge`：ffmpeg 拼接、合成音轨；原画发到 GitHub Release（`explainer-<编号>`，公开下载链接）；Telegram 里发压缩到 50MB 以内的 720p 预览和封面
+3. `merge`：ffmpeg 拼接、合成音轨，成片（超过 50MB 才压缩）和封面直接发到 Telegram。**成片不放 GitHub**（不发 Release、不留成片 Artifact）
 
 本地出片：`public/explainer/<编号>/episode.json` 写好后 `python3 tools/make_explainer.py <编号>`（加 `--no-render` 只生成数据，在 Studio 里看 `Explainer`）。格式和画面类型见脚本开头的说明。
 

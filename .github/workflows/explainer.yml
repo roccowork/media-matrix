@@ -1,6 +1,6 @@
 # 「AI 科普」一键出片（横屏，默认 1 分钟，最长 5 分钟）：私人助理（ops-desk）里发「科普：题目」→ Claude 写稿 → 点「🎬 出片」→ 调用这个工作流。
 # 一台机器每分钟成片要渲染约 5 分钟，所以拆成 8 段由 8 台机器并行渲染（公开仓库 Actions 免费），最后拼起来；1 分钟的约 8 分钟出片，5 分钟的约 15 分钟。
-# 成片原画发到 GitHub Release（公开下载链接，不限 50MB）；Telegram 里发一个压缩到 50MB 以内的预览和封面。
+# 成片不放 GitHub（不发 Release、不留成片 Artifact），直接发到 Telegram（超过 50MB 才压缩，机器人发视频上限 50MB）。
 name: explainer
 
 on:
@@ -18,7 +18,7 @@ concurrency:
   cancel-in-progress: false
 
 permissions:
-  contents: write # 提交配音和成片数据（重做不重复扣配音积分）、发 Release
+  contents: write # 提交配音和成片数据（重做不重复扣配音积分）
 
 env:
   SLUG: ${{ inputs.slug }}
@@ -112,7 +112,7 @@ jobs:
           path: video/out/
           retention-days: 1
 
-  # 3. 拼起来，发 Release 和 Telegram
+  # 3. 拼起来，发到 Telegram
   merge:
     needs: [prepare, render]
     runs-on: ubuntu-24.04
@@ -127,33 +127,27 @@ jobs:
           merge-multiple: true
       - name: 安装 ffmpeg
         run: sudo apt-get update -q && sudo apt-get install -y -q ffmpeg
-      - name: 拼接成片和音轨，做一个 50MB 以内的预览
+      - name: 拼接成片和音轨（超过 50MB 才压缩）
         run: |
           for i in $(seq 0 $((PARTS - 1))); do echo "file 'part-$i.mp4'"; done > parts/list.txt
-          ffmpeg -v error -y -f concat -safe 0 -i parts/list.txt -i parts/audio.wav -map 0:v -map 1:a -c:v copy -c:a aac -b:a 192k -shortest -movflags +faststart "explainer-$SLUG.mp4"
-          dur=$(ffprobe -v error -show_entries format=duration -of csv=p=0 "explainer-$SLUG.mp4")
-          kbps=$(python3 -c "print(int(40 * 8192 / $dur - 96))")
-          ffmpeg -v error -y -i "explainer-$SLUG.mp4" -vf scale=1280:-2 -c:v libx264 -preset veryfast -b:v "${kbps}k" -maxrate "${kbps}k" -bufsize "$((kbps * 2))k" -c:a aac -b:a 96k -movflags +faststart preview.mp4
-          ls -la *.mp4 parts/*.png
-      - name: 发 Release（原画下载链接）
-        env:
-          GH_TOKEN: ${{ github.token }}
-        run: |
-          title=$(python3 -c 'import json,sys; print(json.load(open(sys.argv[1]))["title"])' "video/public/explainer/$SLUG/episode.json")
-          gh release delete "explainer-$SLUG" -y --cleanup-tag 2>/dev/null || true
-          gh release create "explainer-$SLUG" "explainer-$SLUG.mp4" "parts/explainer-cover-$SLUG.png" --target "${{ needs.prepare.outputs.sha }}" \
-            --title "AI 科普：$title" --notes "AI 科普横屏成片（1920×1080）和封面。发布时勾选「AI 生成」声明。"
+          ffmpeg -v error -y -f concat -safe 0 -i parts/list.txt -i parts/audio.wav -map 0:v -map 1:a -c:v copy -c:a aac -b:a 192k -shortest -movflags +faststart full.mp4
+          if [ "$(stat -c %s full.mp4)" -gt 48000000 ]; then
+            dur=$(ffprobe -v error -show_entries format=duration -of csv=p=0 full.mp4)
+            kbps=$(python3 -c "print(int(45 * 8192 / $dur - 160))")
+            ffmpeg -v error -y -i full.mp4 -c:v libx264 -preset medium -b:v "${kbps}k" -maxrate "${kbps}k" -bufsize "$((kbps * 2))k" -c:a aac -b:a 160k -movflags +faststart "explainer-$SLUG.mp4"
+          else
+            mv full.mp4 "explainer-$SLUG.mp4"
+          fi
+          ls -la "explainer-$SLUG.mp4"
       - name: 发到 Telegram
         env:
           TG_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
           TG_CHAT: ${{ secrets.TELEGRAM_CHAT_ID }}
         run: |
           title=$(python3 -c 'import json,sys; print(json.load(open(sys.argv[1]))["title"])' "video/public/explainer/$SLUG/episode.json")
-          url="${{ github.server_url }}/${{ github.repository }}/releases/download/explainer-$SLUG/explainer-$SLUG.mp4"
           api="https://api.telegram.org/bot$TG_TOKEN"
-          curl -sf -F chat_id="$TG_CHAT" -F video=@preview.mp4 -F supports_streaming=true -F width=1280 -F height=720 \
-            -F caption="🎬 AI 科普：$title（预览，已压缩）
-          原画下载：$url" "$api/sendVideo" > /dev/null
+          curl -sf -F chat_id="$TG_CHAT" -F video=@"explainer-$SLUG.mp4" -F supports_streaming=true -F width=1920 -F height=1080 \
+            -F caption="🎬 AI 科普：$title（$SLUG）" "$api/sendVideo" > /dev/null
           curl -sf -F chat_id="$TG_CHAT" -F document=@"parts/explainer-cover-$SLUG.png" -F caption="封面（原图，发布时上传）" "$api/sendDocument" > /dev/null
 
   notify-failure:
