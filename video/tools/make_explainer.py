@@ -194,7 +194,7 @@ def main() -> None:
     data = build(args.slug, ep_json)
     props = ep / "auto.json"
     props.write_text(json.dumps(data, ensure_ascii=False))
-    print(f"成片数据：{props.relative_to(ROOT)}，{len(data['scenes'])} 段，{data['total']} 秒")
+    print(f"成片数据：{props.relative_to(ROOT)}，{len(data['shots'])} 个镜头、{len(data['keys'])} 个关键词，{data['total']} 秒")
     if not args.no_render:
         render(args.slug, props, args.cover_only)
 
