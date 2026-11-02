@@ -10,7 +10,8 @@ export type ParamSpec =
   | {type: 'number'; default: number; min: number; max: number; desc: string}
   | {type: 'boolean'; default: boolean; desc: string}
   | {type: 'vec3'; default: [number, number, number]; desc: string}
-  | {type: 'color'; default: string; desc: string};
+  | {type: 'color'; default: string; desc: string}
+  | {type: 'seed'; default: string | number; desc: string};
 
 export type AssetMeta = {
   asset_id: string; // 如 cosmos.blackhole.v1

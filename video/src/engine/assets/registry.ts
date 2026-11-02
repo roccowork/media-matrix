@@ -25,7 +25,7 @@ export const ASSETS: AssetMeta[] = [
       spin: {type: 'number', default: 1, min: 0, max: 4, desc: '吸积盘转速倍数'},
       steps: {type: 'number', default: 320, min: 120, max: 400, desc: '光线步进步数（越大越精细越慢）'},
       nearDimming: {type: 'boolean', default: true, desc: '镜头靠近时自动压亮度'},
-      seed: {type: 'number', default: 0, min: 0, max: 100000, desc: '种子：每个视频用不同的值（星云形状、吸积盘纹理随之变化；同一值永远同一画面）'},
+      seed: {type: 'seed', default: 0, desc: '种子：每个视频用不同的值（星云形状、吸积盘纹理随之变化；同一值永远同一画面）'},
     },
     effects: ['accretion_disk', 'gravitational_lensing', 'nebula', 'starfield'],
     camera_presets: ['fly_through（俯看飞入）', 'orbit（盘面上方环绕）'],
@@ -49,6 +49,7 @@ export const ASSETS: AssetMeta[] = [
       warmRatio: {type: 'number', default: 0.5, min: 0, max: 1, desc: '暖色粒子占比'},
       from: {type: 'vec3', default: [14, 46, 52], desc: '路线起点'},
       to: {type: 'vec3', default: [-3, 15, 16], desc: '路线终点'},
+      seed: {type: 'seed', default: 'dust', desc: '种子：形状 / 布局 / 纹理随之变化（同一种子画面永远不变；每个视频用自己的种子，如视频编号）'},
     },
     effects: ['particle_field'],
     thumbnail: 'assets/thumbs/cosmos.blackhole.v1.jpg',
@@ -71,6 +72,7 @@ export const ASSETS: AssetMeta[] = [
       activateAt: {type: 'number', default: -1, min: -1, max: 600, desc: '激活时刻（秒，-1 不激活）'},
       membrane: {type: 'color', default: '#4f8fff', desc: '膜的颜色'},
       glow: {type: 'color', default: '#ffae42', desc: '激活辉光颜色'},
+      seed: {type: 'seed', default: 'n0', desc: '种子：形状 / 布局 / 纹理随之变化（同一种子画面永远不变；每个视频用自己的种子，如视频编号）'},
     },
     effects: ['fresnel_membrane', 'activation_glow', 'dendrite_pulse'],
     license: 'own',
@@ -91,6 +93,7 @@ export const ASSETS: AssetMeta[] = [
       thickness: {type: 'number', default: 0.07, min: 0.01, max: 0.5, desc: '粗细'},
       membrane: {type: 'color', default: '#4f8fff', desc: '膜的颜色'},
       glow: {type: 'color', default: '#ffae42', desc: '信号颜色'},
+      seed: {type: 'seed', default: 'ax', desc: '种子：形状 / 布局 / 纹理随之变化（同一种子画面永远不变；每个视频用自己的种子，如视频编号）'},
     },
     effects: ['signal_pulse', 'sparks', 'synapse_burst'],
     license: 'own',
@@ -114,6 +117,7 @@ export const ASSETS: AssetMeta[] = [
       size: {type: 'number', default: 0.045, min: 0.005, max: 0.5, desc: '光点大小'},
       warm: {type: 'color', default: '#ff9a3c', desc: '激活后的暖色'},
       cool: {type: 'color', default: '#3b7bff', desc: '静息的冷色'},
+      seed: {type: 'seed', default: 'web', desc: '种子：形状 / 布局 / 纹理随之变化（同一种子画面永远不变；每个视频用自己的种子，如视频编号）'},
     },
     effects: ['gpu_particles', 'activation_wave'],
     license: 'own',
@@ -133,6 +137,7 @@ export const ASSETS: AssetMeta[] = [
       pcbGlow: {type: 'color', default: '#ffb347', desc: '电路板上数据脉冲颜色'},
       activateAt: {type: 'number', default: 0, min: 0, max: 600, desc: '数据脉冲开始流动（秒）'},
       beams: {type: 'boolean', default: true, desc: '顶光光束'},
+      seed: {type: 'seed', default: 'chip', desc: '种子：形状 / 布局 / 纹理随之变化（同一种子画面永远不变；每个视频用自己的种子，如视频编号）'},
     },
     effects: ['pbr_metal', 'iridescence', 'circuit_pulse', 'light_beams'],
     lighting_preset: '需要 StudioEnv 环境反射 + 主光 / 轮廓光',
@@ -179,12 +184,13 @@ export const validateAssetParams = (id: string, params: Record<string, unknown> 
   for (const [k, v] of Object.entries(params)) {
     const spec = a.params?.[k];
     if (!spec) {
-      if (!['seed'].includes(k)) errs.push(`${id}: 未登记的参数 ${k}`);
+      errs.push(`${id}: 未登记的参数 ${k}`);
       continue;
     }
     if (spec.type === 'number' && (typeof v !== 'number' || v < spec.min || v > spec.max)) errs.push(`${id}.${k} = ${String(v)}，应在 ${spec.min}–${spec.max}`);
     if (spec.type === 'boolean' && typeof v !== 'boolean') errs.push(`${id}.${k} 应为 true / false`);
     if (spec.type === 'vec3' && !(Array.isArray(v) && v.length === 3 && v.every((x) => typeof x === 'number'))) errs.push(`${id}.${k} 应为 [x, y, z]`);
+    if (spec.type === 'seed' && !(typeof v === 'string' || typeof v === 'number')) errs.push(`${id}.${k} 应为字符串或数字`);
     if (spec.type === 'color' && !(typeof v === 'string' && /^#[0-9a-fA-F]{6}$/.test(v))) errs.push(`${id}.${k} 应为 #rrggbb`);
   }
   return errs;

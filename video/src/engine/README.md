@@ -37,6 +37,12 @@ npx remotion render src/index.ts Shot-BlackHole out/blackhole.mp4 --gl=angle    
 3. 在 `src/shots/` 写镜头组件（读 JSON → `<Stage>` + `<AssetView>`），在 `src/Root.tsx` 的 Shots 文件夹注册 Composition。
 4. `keyframes` 出 3–5 张关键帧给用户验收；用户同意后才出预览 / 成片。
 
+## 同一资产，每个视频不一样（用户要求）
+- 每个程序化资产都登记了 `seed`：形状 / 布局 / 纹理由它决定。**每个视频的 ShotConfig 用自己的种子（建议直接用视频编号，如 `"seed": "2026-11-05-ep03"`）**，同一视频重渲画面不变，不同视频自然不同。
+- 再配合颜色、速度、时刻等参数和各自的镜头路线，同一个资产在不同视频里不会长得一样。
+- 校验：未登记的参数一律报错；种子只接受字符串或数字。
+- 已验证：tech.chip.v1 种子 chip vs video-002（+ 换两个颜色）→ 楼块布局、电路走向、连接柱位置全不同。
+
 ## 依赖（锁定，不随意升级）
 remotion / @remotion/three 4.0.538 · three 0.180.0 · @react-three/fiber 9.4.0 · @react-three/drei 10.7.9 ·
 postprocessing 6.38.0 · @react-three/postprocessing 3.0.4 · react 19.2.0 · ajv 8.20.0（校验）

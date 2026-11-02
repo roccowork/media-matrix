@@ -11,10 +11,11 @@ export type BlackHoleProps = {
   spin?: number; // 盘的转速倍数
   steps?: number; // 光线步进最大步数（质量 / 速度）
   nearDimming?: boolean; // 镜头靠近时自动压亮度，防过曝
-  seed?: number; // 种子：每个视频用不同的值，星云和吸积盘纹理就不同
+  seed?: number | string; // 种子：每个视频用不同的值，星云和吸积盘纹理就不同（字符串会哈希成数字）
 };
 
-export const BlackHoleAsset: React.FC<BlackHoleProps> = ({diskGain = 0.55, spin = 1, steps = 320, nearDimming = true, seed = 0}) => {
+export const BlackHoleAsset: React.FC<BlackHoleProps> = ({diskGain = 0.55, spin = 1, steps = 320, nearDimming = true, seed: seedIn = 0}) => {
+  const seed = typeof seedIn === 'number' ? seedIn : [...seedIn].reduce((h, c) => (h * 31 + c.charCodeAt(0)) % 100003, 7);
   const frame = useCurrentFrame();
   const {fps} = useVideoConfig();
   const {camera} = useThree();
