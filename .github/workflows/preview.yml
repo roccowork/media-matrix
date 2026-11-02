@@ -7,6 +7,10 @@ on:
       compositions:
         description: "要渲染的 Composition id，逗号分隔，按播放顺序，如 Sci-ShardOpen,Sci-LayerExplode"
         required: true
+      gl:
+        description: "渲染方式：swangle（含 three.js / WebGL 的镜头必须用它）或 swiftshader（纯 CSS 镜头，快 3 倍）"
+        required: false
+        default: "swangle"
       caption:
         description: "发到 Telegram 时的说明"
         required: false
@@ -48,7 +52,7 @@ jobs:
           cache-dependency-path: video/package-lock.json
       - run: npm ci
       - name: 渲染 ${{ matrix.item.id }}
-        run: npx remotion render src/index.ts "${{ matrix.item.id }}" "out/${{ matrix.item.n }}.mp4" --concurrency=2 --crf=18 --timeout=240000
+        run: npx remotion render src/index.ts "${{ matrix.item.id }}" "out/${{ matrix.item.n }}.mp4" --concurrency=2 --crf=18 --timeout=240000 --gl="${{ inputs.gl }}"
       - uses: actions/upload-artifact@v4
         with:
           name: p-${{ matrix.item.n }}
