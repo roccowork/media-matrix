@@ -82,8 +82,8 @@ def mixkit_ids(tag: str) -> list[int]:
     return ids
 
 
-def fetch_mixkit(vid: int) -> Path | None:
-    """下载一段 Mixkit 视频，裁成竖屏、截 6 秒、去掉声音"""
+def fetch_mixkit(vid: int, landscape: bool = False) -> Path | None:
+    """下载一段 Mixkit 视频，裁成竖屏（landscape=True 时横屏 1920×1080，给 AI 科普用）、截 6 秒、去掉声音"""
     raw = LIB_DIR / f".raw-{vid}.mp4"
     for q in (1080, 720):
         try:
@@ -93,40 +93,41 @@ def fetch_mixkit(vid: int) -> Path | None:
             continue
     else:
         return None
-    out = LIB_DIR / f"mx{vid}.mp4"
+    out = LIB_DIR / f"mx{vid}{'-h' if landscape else ''}.mp4"
     dur = float(subprocess.run(["ffprobe", "-v", "error", "-show_entries", "format=duration", "-of", "csv=p=0", str(raw)], capture_output=True, text=True).stdout or 0)
     ss = 1 if dur > CLIP_SECONDS + 1 else 0
     subprocess.run(
         ["ffmpeg", "-v", "error", "-y", "-ss", str(ss), "-i", str(raw), "-t", str(CLIP_SECONDS), "-an",
-         "-vf", "crop='min(iw,ih*9/16)':ih,scale=1080:1920:flags=lanczos,fps=30", "-c:v", "libx264", "-crf", "23", "-preset", "slow", str(out)],
+         "-vf", "crop=iw:'min(ih,iw*9/16)',scale=1920:1080:flags=lanczos,fps=30" if landscape else "crop='min(iw,ih*9/16)':ih,scale=1080:1920:flags=lanczos,fps=30", "-c:v", "libx264", "-crf", "23", "-preset", "slow", str(out)],
         check=True,
     )
     raw.unlink()
     return out
 
 
-def pick(tags: list[str], lib: list[dict], used: set[str]) -> dict | None:
+def pick(tags: list[str], lib: list[dict], used: set[str], landscape: bool = False) -> dict | None:
+    """素材库里竖屏、横屏分开（横屏的带 "orient": "h"）"""
     for t in tags:
         for c in lib:
-            if t in c["tags"] and c["file"] not in used:
+            if t in c["tags"] and c["file"] not in used and (c.get("orient") == "h") == landscape:
                 return c
     return None
 
 
-def choose_clip(tags: list[str], lib: list[dict], used: set[str]) -> tuple[dict, str]:
-    """先查素材库，没有就去 Mixkit 下载入库，还没有用抽象画面兜底。返回 (素材, 来源说明)"""
-    clip = pick(tags, lib, used)
+def choose_clip(tags: list[str], lib: list[dict], used: set[str], landscape: bool = False) -> tuple[dict | None, str]:
+    """先查素材库，没有就去 Mixkit 下载入库，还没有用抽象画面兜底（横屏库里还没有抽象画面时返回 None）。返回 (素材, 来源说明)"""
+    clip = pick(tags, lib, used, landscape)
     if clip:
         return clip, "素材库"
-    known = {c.get("id") for c in lib}
+    known = {(c.get("id"), c.get("orient") == "h") for c in lib}
     for t in tags:
-        vid = next((i for i in mixkit_ids(t) if i not in known), None)
-        if vid and (f := fetch_mixkit(vid)):
-            clip = {"file": f.name, "tags": tags, "source": "mixkit", "id": vid}
+        vid = next((i for i in mixkit_ids(t) if (i, landscape) not in known), None)
+        if vid and (f := fetch_mixkit(vid, landscape)):
+            clip = {"file": f.name, "tags": tags, "source": "mixkit", "id": vid, **({"orient": "h"} if landscape else {})}
             lib.append(clip)
             LIB_FILE.write_text(json.dumps(lib, ensure_ascii=False, indent=2) + "\n")
             return clip, f"Mixkit #{vid}"
-    return pick(["abstract"], lib, used) or pick(["abstract"], lib, set()), "兜底（抽象画面）"
+    return pick(["abstract"], lib, used, landscape) or pick(["abstract"], lib, set(), landscape), "兜底（抽象画面）"
 
 
 def plan(shots: list[dict], voice: dict, total: float) -> list[dict]:

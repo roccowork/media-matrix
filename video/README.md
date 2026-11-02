@@ -49,6 +49,21 @@ npx remotion still src/index.ts BrandIntro out/cover.png --frame=70
 
 配乐 `public/frontier/bgm.mp3` 和音效（whoosh、pop、chime）都是 ElevenLabs 现场生成的原创音频。
 
+## 「AI 科普」横屏科普（向晓 AI，默认 1 分钟，最长 5 分钟）
+
+**流程**：在私人助理（ops-desk）里发「科普：题目」→ Claude 写口播稿和分镜 → 我在 Telegram 里审稿（「改稿：意见」修改）→ 点「🎬 出片」→ 工作流 `.github/workflows/explainer.yml`：
+
+1. `prepare`：分段配音（ElevenLabs，按段缓存，只改一段就只重配一段）、配横屏空镜、画面元素按口播对时、封面，配音和数据提交回仓库
+2. `render`：**8 台机器并行**，各渲染 1/8 的画面（一台机器每分钟成片要渲染约 5 分钟）；第 0 台顺便渲染整条音轨
+3. `merge`：ffmpeg 拼接、合成音轨；原画发到 GitHub Release（`explainer-<编号>`，公开下载链接）；Telegram 里发压缩到 50MB 以内的 720p 预览和封面
+
+本地出片：`public/explainer/<编号>/episode.json` 写好后 `python3 tools/make_explainer.py <编号>`（加 `--no-render` 只生成数据，在 Studio 里看 `Explainer`）。格式和画面类型见脚本开头的说明。
+
+- 组件：`src/explainer/Explainer.tsx`（成片）、`ExplainerCover`（16:9 封面）。画面类型：标题、时间线、流程图、左右对比、数字滚动、清单、引言、实拍空镜
+- 渲染用 `--gl=swiftshader`，比 `swangle` 快 3 倍以上；画面里不要用 WebGL 特效（`@remotion/effects`）、`backdrop-filter` 和大面积模糊，软件渲染下非常慢
+- 横屏空镜存在素材库里，文件名带 `-h`，`library.json` 里标 `"orient": "h"`
+- 样片：`public/explainer/sample/`（Studio 的默认数据）
+
 ## 组件一览
 
 | 组件 | 用途 | 主要参数 |
