@@ -1,0 +1,87 @@
+# 预览：渲染指定的几个 Composition（每个一台机器并行），按顺序拼起来发到 Telegram。新镜头、新样片都用它看效果。
+name: preview
+
+on:
+  workflow_dispatch:
+    inputs:
+      compositions:
+        description: "要渲染的 Composition id，逗号分隔，按播放顺序，如 Sci-ShardOpen,Sci-LayerExplode"
+        required: true
+      caption:
+        description: "发到 Telegram 时的说明"
+        required: false
+        default: "🎞 预览"
+
+concurrency:
+  group: preview
+  cancel-in-progress: true
+
+jobs:
+  list:
+    runs-on: ubuntu-24.04
+    outputs:
+      items: ${{ steps.l.outputs.items }}
+    steps:
+      - id: l
+        env:
+          COMPS: ${{ inputs.compositions }}
+        run: |
+          python3 -c 'import json,os,re; ids=[x.strip() for x in os.environ["COMPS"].split(",") if x.strip()]; assert ids and all(re.fullmatch(r"[A-Za-z0-9_-]+", i) for i in ids), "id 不对"; print("items=" + json.dumps([{"n": f"{k:02d}", "id": i} for k, i in enumerate(ids)]))' >> "$GITHUB_OUTPUT"
+
+  render:
+    needs: list
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    strategy:
+      fail-fast: false
+      matrix:
+        item: ${{ fromJson(needs.list.outputs.items) }}
+    defaults:
+      run:
+        working-directory: video
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-node@v5
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: video/package-lock.json
+      - run: npm ci
+      - name: 渲染 ${{ matrix.item.id }}
+        run: npx remotion render src/index.ts "${{ matrix.item.id }}" "out/${{ matrix.item.n }}.mp4" --concurrency=2 --crf=18 --timeout=240000
+      - uses: actions/upload-artifact@v4
+        with:
+          name: p-${{ matrix.item.n }}
+          path: video/out/${{ matrix.item.n }}.mp4
+          retention-days: 1
+
+  merge:
+    needs: [list, render]
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          path: parts
+          merge-multiple: true
+      - name: 安装 ffmpeg
+        run: sudo apt-get update -q && sudo apt-get install -y -q ffmpeg
+      - name: 拼接（超过 50MB 就压缩）
+        run: |
+          ls parts/*.mp4 | sort | sed "s#^#file '#; s#\$#'#" > list.txt
+          ffmpeg -nostdin -v error -y -f concat -safe 0 -i list.txt -c copy full.mp4
+          if [ "$(stat -c %s full.mp4)" -gt 48000000 ]; then
+            dur=$(ffprobe -v error -show_entries format=duration -of csv=p=0 full.mp4)
+            kbps=$(python3 -c "print(int(46 * 8192 / $dur))")
+            ffmpeg -nostdin -v error -y -i full.mp4 -c:v libx264 -preset medium -b:v "${kbps}k" -maxrate "${kbps}k" -bufsize "$((kbps * 2))k" -c:a copy -movflags +faststart preview.mp4
+          else
+            mv full.mp4 preview.mp4
+          fi
+      - name: 发到 Telegram
+        env:
+          TG_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TG_CHAT: ${{ secrets.TELEGRAM_CHAT_ID }}
+          CAPTION: ${{ inputs.caption }}
+        run: |
+          curl -sf -F chat_id="$TG_CHAT" -F video=@preview.mp4 -F supports_streaming=true -F width=1920 -F height=1080 -F caption="$CAPTION" \
+            "https://api.telegram.org/bot$TG_TOKEN/sendVideo" > /dev/null
