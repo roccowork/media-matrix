@@ -9,6 +9,12 @@
 - **渲染一律用 GitHub Actions，按镜头 / 帧段拆成多台机器并行**（2026-11-02 用户明确要求）：成片、样片、测试片都一样，不在会话的虚拟机里渲染视频（只有 4 核，慢几倍，白白耽误时间）。会话里最多渲染几张单帧静图（`remotion still`）检查画面。看现成镜头效果直接用 video-shotcraft 的在线画廊，不重复渲染。现成的工作流：`explainer.yml`（AI 科普）、`render.yml`（AI 前沿）、`preview.yml`（渲染指定的几个镜头拼起来发 Telegram，看新镜头效果用）
 - 提交时尽量攒一批改动再一起 push，避免零碎的提交
 
+## 画面特效（2026-11-02 用户确定的方向）
+- **做视频前先读 `video/src/science/HANDBOOK.md`（动效原理手册）**，按内容现场设计镜头，代码自己写在 `video/src/science/`
+- 原理学自 video-shotcraft（整库在 `video/src/vendor/shotcraft/`，只当参考源码看原理，不在它的模板上改字）
+- 只用 Remotion + 代码（three.js / CSS 3D / SVG），不用收费的视频生成模型
+- 新学到的手法、踩过的坑，回写进手册
+
 ## Notion
 - 修改 Notion 不用先问，改完告诉结果即可
 
