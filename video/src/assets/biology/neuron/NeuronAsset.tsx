@@ -37,9 +37,13 @@ void main() {
   float fres = pow(1.0 - abs(dot(n, v)), 2.5);
   float vein = smoothstep(0.55, 0.95, 1.0 - abs(snoise(vP * 3.2)));          // 表面细小的纹理
   float inner = 0.5 + 0.5 * snoise(vP * 1.6 + uTime * 0.6);
-  vec3 col = uMem * (0.06 + 0.9 * fres) + uMem * vein * 0.18;
-  col += uGlow * uAct * (0.25 + 0.9 * inner * inner) * (0.25 + 0.75 * (1.0 - fres)) * 0.9;  // 激活：从内部透出来的光（有明暗起伏，不是一团白）
-  col += uGlow * uAct * vein * 0.8;
+  vec3 mem = mix(uMem, uMem * 0.35, uAct);                                  // 激活后膜的蓝色退到边缘
+  vec3 col = mem * (0.06 + 0.9 * fres) + mem * vein * 0.18;
+  vec3 warm = uGlow * vec3(1.0, 0.78, 0.5);                                    // 偏金橙，避免混成粉白
+  col += warm * uAct * (0.2 + 0.9 * inner * inner) * (0.25 + 0.75 * (1.0 - fres)) * 0.8;  // 从内部透出来的光
+  col += warm * uAct * vein * 0.6;
+  float grain = smoothstep(0.62, 0.9, snoise(vP * 26.0 + uTime * 0.3));       // 表面的发光颗粒
+  col += uGlow * grain * (0.15 + 1.8 * uAct) * (1.0 - 0.5 * fres);
   gl_FragColor = vec4(col, 0.55 + 0.4 * fres + 0.3 * uAct);
 }`;
 const DEND_FRAG = /* glsl */ `
@@ -58,11 +62,26 @@ const DEND_VERT = /* glsl */ `
 varying vec2 vUv; varying vec3 vN; varying vec3 vView;
 void main() { vUv = uv; vec4 mv = modelViewMatrix * vec4(position, 1.0); vView = -mv.xyz; vN = normalMatrix * normal; gl_Position = projectionMatrix * mv; }`;
 
+const FUZZ_VERT = /* glsl */ `
+attribute float aR;
+uniform float uAct; uniform vec3 uMem; uniform vec3 uGlow;
+varying vec3 vC; varying float vA;
+void main() {
+  vC = mix(uMem, uGlow * vec3(1.0, 0.8, 0.55), uAct * (1.0 - aR * 0.6));
+  vA = (1.0 - aR) * (0.35 + 0.9 * uAct);
+  vec4 mv = modelViewMatrix * vec4(position, 1.0);
+  gl_PointSize = 2.2 * (300.0 / -mv.z) * 0.02;
+  gl_Position = projectionMatrix * mv;
+}`;
+const FUZZ_FRAG = /* glsl */ `
+varying vec3 vC; varying float vA;
+void main() { float r = length(gl_PointCoord - 0.5); gl_FragColor = vec4(vC * vA * smoothstep(0.5, 0.0, r) * 1.6, 1.0); }`;
+
 export const NeuronAsset: React.FC<NeuronProps> = ({position = [0, 0, 0], radius = 0.55, dendrites = 12, reach = 3.2, activateAt = -1, seed = 'n0', membrane = '#4f8fff', glow = '#ffae42'}) => {
   const frame = useCurrentFrame();
   const {fps} = useVideoConfig();
   const t = frame / fps;
-  const {soma, dends, mats} = useMemo(() => {
+  const {soma, dends, fuzz, mats} = useMemo(() => {
     const noise = createNoise3D(seed);
     const g = new THREE.IcosahedronGeometry(radius, 48);
     const p = g.attributes.position as THREE.BufferAttribute;
@@ -70,7 +89,7 @@ export const NeuronAsset: React.FC<NeuronProps> = ({position = [0, 0, 0], radius
     for (let i = 0; i < p.count; i++) {
       v.fromBufferAttribute(p, i);
       const d = v.clone().normalize();
-      const k = 1 + 0.22 * noise(d.x * 2.2, d.y * 2.2, d.z * 2.2) + 0.07 * noise(d.x * 7, d.y * 7, d.z * 7);
+      const k = 1 + 0.22 * noise(d.x * 2.2, d.y * 2.2, d.z * 2.2) + 0.07 * noise(d.x * 7, d.y * 7, d.z * 7) + 0.025 * noise(d.x * 19, d.y * 19, d.z * 19);
       v.copy(d.multiplyScalar(radius * k));
       p.setXYZ(i, v.x, v.y, v.z);
     }
@@ -105,10 +124,31 @@ export const NeuronAsset: React.FC<NeuronProps> = ({position = [0, 0, 0], radius
         depthWrite: true,
         uniforms: {uAct: {value: 0}, uTime: {value: 0}, uSince: {value: -1}, uMem: {value: new THREE.Color(membrane)}, uGlow: {value: new THREE.Color(glow)}},
       });
-    return {soma: g, dends: curves, mats: {soma: mk(SOMA_VERT, SOMA_FRAG), dend: mk(DEND_VERT, DEND_FRAG)}};
+    // 绒毛：在变形后的胞体表面取点，沿法线往外随机推一点
+    const FUZZ = 9000;
+    const fpos = new Float32Array(FUZZ * 3);
+    const fr = new Float32Array(FUZZ);
+    const np = g.attributes.position as THREE.BufferAttribute;
+    const nn = g.attributes.normal as THREE.BufferAttribute;
+    for (let i = 0; i < FUZZ; i++) {
+      const vi = Math.floor(random(`${seed}fz${i}`) * np.count);
+      const out = Math.pow(random(`${seed}fo${i}`), 2.2);
+      const jitter = 0.04 * radius;
+      fpos[i * 3] = np.getX(vi) + nn.getX(vi) * out * radius * 0.35 + (random(`${seed}fj${i}a`) - 0.5) * jitter;
+      fpos[i * 3 + 1] = np.getY(vi) + nn.getY(vi) * out * radius * 0.35 + (random(`${seed}fj${i}b`) - 0.5) * jitter;
+      fpos[i * 3 + 2] = np.getZ(vi) + nn.getZ(vi) * out * radius * 0.35 + (random(`${seed}fj${i}c`) - 0.5) * jitter;
+      fr[i] = out;
+    }
+    const fuzz = new THREE.BufferGeometry();
+    fuzz.setAttribute('position', new THREE.BufferAttribute(fpos, 3));
+    fuzz.setAttribute('aR', new THREE.BufferAttribute(fr, 1));
+    const fuzzMat = new THREE.ShaderMaterial({vertexShader: FUZZ_VERT, fragmentShader: FUZZ_FRAG, transparent: true, depthWrite: false, blending: THREE.AdditiveBlending,
+      uniforms: {uAct: {value: 0}, uMem: {value: new THREE.Color(membrane)}, uGlow: {value: new THREE.Color(glow)}}});
+    return {soma: g, dends: curves, fuzz, mats: {soma: mk(SOMA_VERT, SOMA_FRAG), dend: mk(DEND_VERT, DEND_FRAG), fuzz: fuzzMat}};
   }, [radius, dendrites, reach, seed, membrane, glow]);
   const since = activateAt < 0 ? -1 : t - activateAt;
   const act = since < 0 ? 0 : Math.min(1, since / 0.35) * (0.75 + 0.25 * Math.exp(-since * 1.5));
+  mats.fuzz.uniforms.uAct.value = act;
   for (const m of [mats.soma, mats.dend]) {
     m.uniforms.uAct.value = act;
     m.uniforms.uTime.value = t;
@@ -117,6 +157,7 @@ export const NeuronAsset: React.FC<NeuronProps> = ({position = [0, 0, 0], radius
   return (
     <group position={position}>
       <mesh geometry={soma} material={mats.soma} />
+      <points geometry={fuzz} material={mats.fuzz} frustumCulled={false} />
       {dends.map((d, i) => (
         <mesh key={i} geometry={d.geo} material={mats.dend} />
       ))}
