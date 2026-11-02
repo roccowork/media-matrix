@@ -17,14 +17,15 @@ export const BLACKHOLE_SHOT: ShotConfig = {
   camera: {
     preset: 'fly_through',
     keys: [
-      {t: 0, pos: [10, 7, 72], look: [0, 0, 0], fov: 36, roll: -4},
-      {t: 5, pos: [5, 3.4, 34], look: [0, 0, 0], fov: 36, roll: -2},
-      {t: 10, pos: [-5, 1.9, 19], look: [0, 0, 0], fov: 38, roll: 5},
-      {t: 15, pos: [-13, 0.9, 10.5], look: [0, 0.2, 0], fov: 40, roll: 11},
+      // 从斜上方俯看，让吸积盘像旋涡；目标点偏右，把黑洞放在画面左侧三分之一
+      {t: 0, pos: [14, 46, 52], look: [9, 0, 3], fov: 40, roll: -6},
+      {t: 6, pos: [8, 30, 33], look: [8, 0, 2], fov: 40, roll: -3},
+      {t: 11, pos: [2, 20, 22], look: [6.5, 0, 1], fov: 42, roll: 2},
+      {t: 15, pos: [-3, 15, 16], look: [5.5, 0, 1], fov: 44, roll: 6},
     ],
   },
-  post: {bloom: {intensity: 0.55, threshold: 1.3, radius: 0.6}, tone: 'aces', vignette: 0.55, grain: 0.018, chromatic: 0.0009},
-  params: {diskGain: 0.2, spin: 1.0, steps: 260},
+  post: {bloom: {intensity: 0.6, threshold: 1.1, radius: 0.55}, tone: 'aces', vignette: 0.55, grain: 0.018, chromatic: 0.0009},
+  params: {diskGain: 0.55, spin: 1.0, steps: 320},
   version: '1.0.0',
 };
 
