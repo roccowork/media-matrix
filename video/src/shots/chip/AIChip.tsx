@@ -14,7 +14,7 @@ export const CHIP_SHOT = cfg as unknown as ShotConfig; // JSON 已由 tools/shot
 export const AIChip: React.FC = () => (
   <AbsoluteFill style={{backgroundColor: '#03050c'}}>
     <Stage camera={CHIP_SHOT.camera} post={CHIP_SHOT.post} background="#03050c">
-      <StudioEnv intensity={0.55} />
+      <StudioEnv intensity={0.22} />
       <fog attach="fog" args={['#03050c', 10, 26]} />
       {/* 主光（冷白）+ 两盏轮廓光（青 / 品红），赛博风格 */}
       <directionalLight position={[4, 6, 3]} intensity={1.6} color="#e8f0ff" />

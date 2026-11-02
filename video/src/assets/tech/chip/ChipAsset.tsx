@@ -4,6 +4,7 @@
 import React, {useMemo} from 'react';
 import * as THREE from 'three';
 import {random, useCurrentFrame, useVideoConfig} from 'remotion';
+import {useThree} from '@react-three/fiber';
 import {makeCircuit} from './circuit';
 
 export type ChipProps = {
@@ -29,8 +30,8 @@ void main() {
   gl_FragColor = vec4(uColor * k, 1.0);
 }`;
 const BEAM_FRAG = /* glsl */ `
-uniform vec3 uColor; varying vec2 vUv;
-void main() { float a = pow(1.0 - vUv.y, 1.6) * 0.07 * (0.6 + 0.4 * sin(vUv.x * 6.2831 * 3.0)); gl_FragColor = vec4(uColor * a, 1.0); }`;
+uniform vec3 uColor; uniform float uFade; varying vec2 vUv;
+void main() { float a = uFade * pow(1.0 - vUv.y, 2.2) * 0.04 * (0.6 + 0.4 * sin(vUv.x * 6.2831 * 3.0)); gl_FragColor = vec4(uColor * a, 1.0); }`;
 
 export const ChipAsset: React.FC<ChipProps> = ({seed = 'chip', pulseSpeed = 0.35, dieGlow = '#5ee7ff', pcbGlow = '#ffb347', activateAt = 0, beams = true}) => {
   const frame = useCurrentFrame();
@@ -57,6 +58,35 @@ export const ChipAsset: React.FC<ChipProps> = ({seed = 'chip', pulseSpeed = 0.35
       const m = a.clone().lerp(b, 0.4).add(new THREE.Vector3(0, 0.22 + random(`${seed}w${i}`) * 0.08, 0));
       return new THREE.TubeGeometry(new THREE.QuadraticBezierCurve3(a, m, b), 24, 0.006, 6, false);
     });
+    // 晶片上的立体结构（在 ±1.12 范围内）：功能块像楼群，连接柱像信号塔
+    const o = new THREE.Object3D();
+    const blocks = new THREE.InstancedMesh(new THREE.BoxGeometry(1, 1, 1), new THREE.MeshPhysicalMaterial({color: '#2c3354', metalness: 0.85, roughness: 0.32, clearcoat: 0.4, clearcoatRoughness: 0.4}), 450);
+    for (let i = 0; i < 450; i++) {
+      const big = random(`${seed}bb${i}`) > 0.85;
+      const w = big ? 0.12 + random(`${seed}bw${i}`) * 0.22 : 0.02 + random(`${seed}bw${i}`) * 0.07;
+      const d = big ? 0.12 + random(`${seed}bd${i}`) * 0.22 : 0.02 + random(`${seed}bd${i}`) * 0.07;
+      const h = big ? 0.006 + random(`${seed}bh${i}`) * 0.014 : 0.004 + Math.pow(random(`${seed}bh${i}`), 3) * 0.05;
+      const x = Math.round(((random(`${seed}bx${i}`) - 0.5) * 2.2) / 0.02) * 0.02;
+      const z = Math.round(((random(`${seed}bz${i}`) - 0.5) * 2.2) / 0.02) * 0.02;
+      o.position.set(Math.max(-1.12 + w / 2, Math.min(1.12 - w / 2, x)), 0.311 + h / 2, Math.max(-1.12 + d / 2, Math.min(1.12 - d / 2, z)));
+      o.scale.set(w, h, d);
+      o.updateMatrix();
+      blocks.setMatrixAt(i, o.matrix);
+    }
+    const pillars = new THREE.InstancedMesh(new THREE.CylinderGeometry(0.5, 0.5, 1, 8), new THREE.MeshPhysicalMaterial({color: '#8a96c8', metalness: 1, roughness: 0.25}), 220);
+    const caps = new THREE.InstancedMesh(new THREE.SphereGeometry(0.5, 8, 8), new THREE.MeshBasicMaterial({color: new THREE.Color(dieGlow).multiplyScalar(2.5), toneMapped: false}), 220);
+    for (let i = 0; i < 220; i++) {
+      const h = 0.015 + Math.pow(random(`${seed}ph${i}`), 2) * 0.07;
+      const x = (random(`${seed}px${i}`) - 0.5) * 2.2, z = (random(`${seed}pz${i}`) - 0.5) * 2.2;
+      o.position.set(x, 0.311 + h / 2, z);
+      o.scale.set(0.008, h, 0.008);
+      o.updateMatrix();
+      pillars.setMatrixAt(i, o.matrix);
+      o.position.set(x, 0.311 + h, z);
+      o.scale.setScalar(0.012);
+      o.updateMatrix();
+      caps.setMatrixAt(i, o.matrix);
+    }
     const dust = new Float32Array(1500 * 3);
     for (let i = 0; i < 1500; i++) {
       dust[i * 3] = (random(`${seed}dx${i}`) - 0.5) * 7;
@@ -66,13 +96,16 @@ export const ChipAsset: React.FC<ChipProps> = ({seed = 'chip', pulseSpeed = 0.35
     const dustGeo = new THREE.BufferGeometry();
     dustGeo.setAttribute('position', new THREE.BufferAttribute(dust, 3));
     return {
-      die, pcb, pads, wires, dustGeo,
+      die, pcb, pads, wires, dustGeo, blocks, pillars, caps,
       diePulse: pulseMat(die.pulse, dieGlow),
       pcbPulse: pulseMat(pcb.pulse, pcbGlow),
-      beamMat: new THREE.ShaderMaterial({vertexShader: PULSE_VERT, fragmentShader: BEAM_FRAG, transparent: true, depthWrite: false, side: THREE.DoubleSide, blending: THREE.AdditiveBlending, uniforms: {uColor: {value: new THREE.Color(dieGlow)}}}),
+      beamMat: new THREE.ShaderMaterial({vertexShader: PULSE_VERT, fragmentShader: BEAM_FRAG, transparent: true, depthWrite: false, side: THREE.DoubleSide, blending: THREE.AdditiveBlending, uniforms: {uColor: {value: new THREE.Color(dieGlow)}, uFade: {value: 1}}}),
       padGeo: new THREE.BoxGeometry(0.11, 0.02, 0.2),
     };
   }, [seed, pulseSpeed, dieGlow, pcbGlow]);
+  const {camera} = useThree();
+  // 光束：镜头离芯片越近越淡（贴近时光束会变成扁平的板子）
+  res.beamMat.uniforms.uFade.value = Math.min(1, Math.max(0, (camera.position.length() - 2.2) / 3));
   const on = Math.min(1, Math.max(0, (t - activateAt) / 1.2));
   for (const m of [res.diePulse, res.pcbPulse]) {
     m.uniforms.uTime.value = t;
@@ -111,6 +144,10 @@ export const ChipAsset: React.FC<ChipProps> = ({seed = 'chip', pulseSpeed = 0.35
       <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, 0.312, 0]} material={res.diePulse}>
         <planeGeometry args={[2.36, 2.36]} />
       </mesh>
+      {/* 晶片上的立体结构 */}
+      <primitive object={res.blocks} />
+      <primitive object={res.pillars} />
+      <primitive object={res.caps} />
       {/* 金线 */}
       {res.wires.map((w, i) => (
         <mesh key={i} geometry={w}>
@@ -121,7 +158,7 @@ export const ChipAsset: React.FC<ChipProps> = ({seed = 'chip', pulseSpeed = 0.35
       {beams &&
         [[-0.9, -0.6], [0.7, 0.4], [0.1, -1.4]].map(([x, z], i) => (
           <mesh key={i} position={[x, 2.2, z]} material={res.beamMat}>
-            <cylinderGeometry args={[0.08, 0.7, 4.4, 32, 1, true]} />
+            <cylinderGeometry args={[0.05, 0.45, 4.4, 32, 1, true]} />
           </mesh>
         ))}
       <points geometry={res.dustGeo}>
