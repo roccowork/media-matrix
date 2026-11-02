@@ -38,8 +38,8 @@ void main() {
   float vein = smoothstep(0.55, 0.95, 1.0 - abs(snoise(vP * 3.2)));          // 表面细小的纹理
   float inner = 0.5 + 0.5 * snoise(vP * 1.6 + uTime * 0.6);
   vec3 col = uMem * (0.06 + 0.9 * fres) + uMem * vein * 0.18;
-  col += uGlow * uAct * (0.6 + 1.8 * inner) * (0.35 + 0.65 * (1.0 - fres)) * 2.2;  // 激活：从内部透出来的光
-  col += uGlow * uAct * vein * 1.5;
+  col += uGlow * uAct * (0.25 + 0.9 * inner * inner) * (0.25 + 0.75 * (1.0 - fres)) * 0.9;  // 激活：从内部透出来的光（有明暗起伏，不是一团白）
+  col += uGlow * uAct * vein * 0.8;
   gl_FragColor = vec4(col, 0.55 + 0.4 * fres + 0.3 * uAct);
 }`;
 const DEND_FRAG = /* glsl */ `
@@ -49,16 +49,16 @@ void main() {
   vec3 n = normalize(vN); vec3 v = normalize(vView);
   float fres = pow(1.0 - abs(dot(n, v)), 2.0);
   float front = uSince * 0.45;                                        // 亮光往外传的位置（沿长度 0→1）
-  float band = exp(-pow((vUv.x - front) * 9.0, 2.0)) * step(0.0, uSince);
-  float lit = smoothstep(front, front - 0.25, vUv.x) * step(0.0, uSince) * 0.35; // 传过的地方留一点余辉
-  vec3 col = uMem * (0.1 + 0.9 * fres) + uGlow * (band * 4.0 + lit) * uAct;
-  gl_FragColor = vec4(col, 0.5 + 0.5 * fres + band);
+  float band = exp(-pow((vUv.x - front) * 24.0, 2.0)) * step(0.0, uSince);
+  float lit = (1.0 - smoothstep(front - 0.3, front, vUv.x)) * step(0.0, uSince) * 0.05; // 传过的地方留一点余辉
+  vec3 col = uMem * (0.05 + 0.75 * fres) + uGlow * (band * 1.3 + lit * fres) * uAct;
+  gl_FragColor = vec4(col, 0.25 + 0.6 * fres + band * 0.5);
 }`;
 const DEND_VERT = /* glsl */ `
 varying vec2 vUv; varying vec3 vN; varying vec3 vView;
 void main() { vUv = uv; vec4 mv = modelViewMatrix * vec4(position, 1.0); vView = -mv.xyz; vN = normalMatrix * normal; gl_Position = projectionMatrix * mv; }`;
 
-export const NeuronAsset: React.FC<NeuronProps> = ({position = [0, 0, 0], radius = 0.55, dendrites = 9, reach = 3.2, activateAt = -1, seed = 'n0', membrane = '#4f8fff', glow = '#ffae42'}) => {
+export const NeuronAsset: React.FC<NeuronProps> = ({position = [0, 0, 0], radius = 0.55, dendrites = 12, reach = 3.2, activateAt = -1, seed = 'n0', membrane = '#4f8fff', glow = '#ffae42'}) => {
   const frame = useCurrentFrame();
   const {fps} = useVideoConfig();
   const t = frame / fps;
@@ -83,16 +83,19 @@ export const NeuronAsset: React.FC<NeuronProps> = ({position = [0, 0, 0], radius
       const pts: THREE.Vector3[] = [];
       for (let k = 0; k <= 6; k++) {
         const u = k / 6;
-        const wob = new THREE.Vector3(noise(i * 3.1, u * 2, 1.3), noise(i * 3.1, u * 2, 7.7), noise(i * 3.1, u * 2, 13.1)).multiplyScalar(0.55 * u * len * 0.35);
+        const wob = new THREE.Vector3(noise(i * 3.1, u * 3, 1.3), noise(i * 3.1, u * 3, 7.7), noise(i * 3.1, u * 3, 13.1)).multiplyScalar(u * len * 0.45);
         pts.push(dir.clone().multiplyScalar(radius * 0.8 + u * len).add(wob));
       }
       const c = new THREE.CatmullRomCurve3(pts);
-      curves.push({geo: taperedTube(c, 64, 10, radius * 0.22, 0.012)});
-      // 分叉
-      const fork = c.getPointAt(0.55);
-      const fdir = c.getTangentAt(0.55).add(new THREE.Vector3(random(`${seed}fx${i}`) - 0.5, random(`${seed}fy${i}`) - 0.5, random(`${seed}fz${i}`) - 0.5)).normalize();
-      const fpts = [0, 1, 2, 3].map((k) => fork.clone().add(fdir.clone().multiplyScalar((k / 3) * len * 0.5)).add(new THREE.Vector3(0, noise(i, k, 3) * 0.2, 0)));
-      curves.push({geo: taperedTube(new THREE.CatmullRomCurve3(fpts), 32, 8, radius * 0.08, 0.008)});
+      curves.push({geo: taperedTube(c, 96, 10, radius * 0.13, 0.006)});
+      // 分叉：每条主干在 35% / 60% / 80% 处各分出一支，越往外越细
+      [0.35, 0.6, 0.8].forEach((at, j) => {
+        const fork = c.getPointAt(at);
+        const fdir = c.getTangentAt(at).add(new THREE.Vector3(random(`${seed}fx${i}${j}`) - 0.5, random(`${seed}fy${i}${j}`) - 0.5, random(`${seed}fz${i}${j}`) - 0.5).multiplyScalar(1.6)).normalize();
+        const flen = len * (0.5 - j * 0.12);
+        const fpts = [0, 1, 2, 3, 4].map((k) => fork.clone().add(fdir.clone().multiplyScalar((k / 4) * flen)).add(new THREE.Vector3(noise(i + j * 5, k, 3), noise(i + j * 5, k, 9), noise(i + j * 5, k, 17)).multiplyScalar((k / 4) * flen * 0.35)));
+        curves.push({geo: taperedTube(new THREE.CatmullRomCurve3(fpts), 48, 6, radius * (0.05 - j * 0.012), 0.004)});
+      });
     }
     const mk = (vs: string, fs: string) =>
       new THREE.ShaderMaterial({

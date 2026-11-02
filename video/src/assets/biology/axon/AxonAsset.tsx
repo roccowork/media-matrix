@@ -28,8 +28,8 @@ void main() {
   float band = exp(-pow((vUv.x - uFront) * 14.0, 2.0));
   float trail = smoothstep(uFront - 0.5, uFront, vUv.x) * step(vUv.x, uFront) * 0.6;   // 身后拖着的余辉
   float rings = 0.5 + 0.5 * sin(vUv.x * 160.0);                                   // 髓鞘环节的细纹
-  vec3 col = uMem * (0.08 + 0.85 * fres) * (0.85 + 0.15 * rings) + uGlow * (band * 6.0 + trail * 1.2);
-  gl_FragColor = vec4(col, 0.5 + 0.5 * fres + band);
+  vec3 col = uMem * (0.05 + 0.75 * fres) * (0.85 + 0.15 * rings) + uGlow * (band * 5.0 + trail * 0.6 * fres);
+  gl_FragColor = vec4(col, 0.3 + 0.6 * fres + band * 0.8);
 }`;
 
 const glowTex = (() => {
@@ -80,7 +80,7 @@ export const AxonAsset: React.FC<AxonProps> = ({from = [0, 0, 0], to = [4, 0, 0]
     <group>
       <mesh geometry={geo} material={mat} />
       {head && (
-        <sprite position={head} scale={[0.9, 0.9, 1]}>
+        <sprite position={head} scale={[0.45, 0.45, 1]}>
           <spriteMaterial map={tex} color={glowCol.clone().multiplyScalar(3)} transparent depthWrite={false} blending={THREE.AdditiveBlending} />
         </sprite>
       )}

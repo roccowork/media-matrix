@@ -47,7 +47,7 @@ void main() {
   float shimmer = 0.6 + 0.4 * sin(u * 60.0 - uTime * 4.0 + f * 20.0);
   float warmness = clamp(0.25 + 0.75 * lit + front, 0.0, 1.0) * step(0.45, h1(f + 9.0)) + front;
   vCol = mix(uCool, uWarm, clamp(warmness, 0.0, 1.0));
-  vA = (0.12 + 0.35 * lit + 2.2 * front) * shimmer;
+  vA = (0.45 + 0.6 * lit + 2.5 * front) * shimmer;
   vec4 mv = modelViewMatrix * vec4(p, 1.0);
   gl_PointSize = uSize * (1.0 + 2.5 * pow(h1(aSeed.z * 7.0), 8.0)) * (300.0 / -mv.z);
   gl_Position = projectionMatrix * mv;

@@ -53,7 +53,7 @@ const Post: React.FC<{post: PostConfig; pose: CameraPose}> = ({post, pose}) => {
   }
   if (fx.grain) fx.grain.seed = frame;
   return (
-    <EffectComposer multisampling={0} frameBufferType={THREE.HalfFloatType}>
+    <EffectComposer multisampling={post.dof ? 4 : 0} frameBufferType={THREE.HalfFloatType}>
       {fx.lens ? <primitive object={fx.lens.pre} dispose={null} /> : <></>}
       {fx.lens ? <primitive object={fx.lens.main} dispose={null} /> : <></>}
       {fx.bloom ? <primitive object={fx.bloom} dispose={null} /> : <></>}

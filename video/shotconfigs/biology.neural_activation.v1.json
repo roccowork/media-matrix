@@ -93,7 +93,10 @@
     "tone": "aces",
     "vignette": 0.55,
     "grain": 0.015,
-    "chromatic": 0.0008
+    "chromatic": 0.0008,
+    "dof": {
+      "cInf": 9
+    }
   },
   "assets": [
     {
@@ -111,7 +114,8 @@
           -1.0
         ],
         "waveStart": 6.2,
-        "waveSpeed": 2.8
+        "waveSpeed": 2.8,
+        "size": 0.07
       }
     },
     {
