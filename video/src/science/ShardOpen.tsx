@@ -3,10 +3,11 @@
 // 每块落位有一下阻尼小摆（「咔哒」）；拼齐后亮出标题、停一拍让人读，整面极缓推近；最后每块背离中心加速旋转飞出画面。
 // 退场是飞走不是淡出；碎片按朝向打明暗（越侧对镜头越暗），快速段按速度加方向模糊。
 import React from "react";
-import { AbsoluteFill, useCurrentFrame } from "remotion";
-import { C, EASE, FONT, Rise, SpeedBlur, Stage, clamp01, mix, ramp, rgba, rnd, wobble } from "./kit";
+import { AbsoluteFill } from "remotion";
+import { C, EASE, FONT, Rise, SpeedBlur, Stage, clamp01, mix, ramp, rgba, rnd, wobble , useShotFrame, type ShotMeta } from "./kit";
 
 export const SHARD_OPEN_DURATION = 170;
+export const SHARD_OPEN_META: ShotMeta = { duration: SHARD_OPEN_DURATION, holdAt: 100, holdEnd: 126 };
 
 const COLS = 6, ROWS = 4;
 const W = 1500, H = 840; // 海报尺寸
@@ -42,7 +43,7 @@ const Poster: React.FC<ShardOpenProps & { frame: number }> = ({ kicker, title, s
 
 export const ShardOpen: React.FC<Partial<ShardOpenProps>> = (props) => {
   const p = { ...DEFAULTS, ...props };
-  const frame = useCurrentFrame();
+  const frame = useShotFrame();
   const push = mix(1, 1.035, ramp(frame, TITLE, LEAVE - TITLE, EASE.move)); // hold 段整面极缓推近
   const tiles = [];
   for (let r = 0; r < ROWS; r++) {

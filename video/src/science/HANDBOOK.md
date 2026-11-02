@@ -166,12 +166,21 @@
 4. 用 `preview.yml`（GitHub Actions，每个镜头一台机器）渲染，发到 Telegram 看。
 5. 交付前对照第一节十条和第五节配额自查。
 
-## 七、已实现的镜头（`src/science/`）
+## 七、已实现的镜头（`src/science/`，目录在 `index.ts` 的 `SHOTS`）
 
-| 镜头 | 组件 | 用途 |
-|---|---|---|
-| 碎片聚合开场 | `ShardOpen`（kicker / title / sub / hl） | 开场钩子 |
-| 分层爆炸图 | `LayerExplode`（layers / caption / hl） | 讲结构 |
-| 注意力飞线 | `AttentionRelay`（tokens / source / weights / question / answer） | 讲关系、注意力 |
+稿子里每段写 `{"say": 口播, "shot": {"type": 类型, "props": {...}}}`；镜头按配音长度自动适配（`ShotFit`：拉长停留段或整体压缩，见 `kit.tsx`）。
 
-公共件 `kit.tsx`：配色 `C`、`EASE`、`ramp` / `mix` / `wobble`、`Stage`（布光舞台）、`Grain`、`SpeedBlur`、`Rise`（逐字三通道入场）。
+| type | 镜头 | 用途 | 主要参数 |
+|---|---|---|---|
+| `open` | 碎片聚合开场 `ShardOpen` | 开场钩子 | kicker / title / sub / hl |
+| `title` | 章节标题 `TitleCard` | 章节路标、金句 | kicker / title / hl / sub |
+| `layers` | 分层爆炸图 `LayerExplode` | 讲结构 | layers[{name,en,draw}] / caption / hl |
+| `relay` | 注意力飞线 `AttentionRelay` | 讲关系、注意力 | tokens / source / weights / question / answer / answerSub |
+| `readout` | 数字读数 `Readout` | 讲一个关键数字 | value / unit / label / note / ratio |
+| `timeline` | 时间轴穿行 `TimelineTravel` | 讲历史、演进 | title / items[{when,label}] |
+| `versus` | 左右对比 `VersusSlam` | 讲对比 | left / right {title,points} / winner |
+| `points` | 要点清单 `PointDeal` | 讲要点、总结 | title / items / focus |
+
+新增镜头：写组件（用 `useShotFrame()` 取帧、导出 `*_META` 标出停留段）→ 在 `index.ts` 登记 → 同步 ops-desk 的 `personal/assistant/explainer.py`（TYPES / TYPE_ZH / 写稿说明 PROMPT）→ 用 `preview.yml` 渲染 `Sci-类型名` 看效果。
+
+公共件 `kit.tsx`：配色 `C`、`EASE`、`ramp` / `mix` / `wobble`、`useShotFrame` / `ShotFit`、`Stage`（布光舞台）、`Grain`、`SpeedBlur`、`Rise`（逐字三通道入场）。

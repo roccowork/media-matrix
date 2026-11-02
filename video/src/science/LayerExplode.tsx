@@ -3,10 +3,11 @@
 // 每层的标注活在同一个三维空间里（跟着相机转、始终正对镜头），引线从层的外缘水平引出；
 // 读完后标注先撤、各层逆序合体，落座时整块下沉一下再回弹、地面接触影收紧，一道扫光掠过顶面。
 import React from "react";
-import { AbsoluteFill, spring, useCurrentFrame, useVideoConfig } from "remotion";
-import { C, EASE, FONT, Rise, Stage, mix, ramp, rgba } from "./kit";
+import { AbsoluteFill, spring, useVideoConfig } from "remotion";
+import { C, EASE, FONT, Rise, Stage, mix, ramp, rgba , useShotFrame, type ShotMeta } from "./kit";
 
 export const LAYER_EXPLODE_DURATION = 200;
+export const LAYER_EXPLODE_META: ShotMeta = { duration: LAYER_EXPLODE_DURATION, holdAt: 100, holdEnd: 126 };
 
 const LW = 720, LH = 430; // 每层的尺寸
 const T_EXPLODE = 26, T_LABEL = 52, T_RETRACT = 128, T_COLLAPSE = 136, T_CAPTION = 158;
@@ -72,7 +73,7 @@ const Diagram: React.FC<{ kind: Layer["draw"]; lit: number }> = ({ kind, lit }) 
 
 export const LayerExplode: React.FC<Partial<LayerExplodeProps>> = (props) => {
   const p = { ...DEFAULTS, ...props };
-  const frame = useCurrentFrame();
+  const frame = useShotFrame();
   const { fps } = useVideoConfig();
   const n = p.layers.length;
 
@@ -149,7 +150,7 @@ export const LayerExplode: React.FC<Partial<LayerExplodeProps>> = (props) => {
       </AbsoluteFill>
       {/* 收尾字幕：合体落定后出现并停住 */}
       {frame >= T_CAPTION && (
-        <div style={{ position: "absolute", left: 0, right: 0, bottom: 110, textAlign: "center", fontSize: 64, fontWeight: 900, textShadow: "0 6px 30px rgba(0,0,0,0.85)" }}>
+        <div style={{ position: "absolute", left: 0, right: 0, top: 70, textAlign: "center", fontSize: 64, fontWeight: 900, textShadow: "0 6px 30px rgba(0,0,0,0.85)" }}>
           <Rise text={p.caption} at={T_CAPTION} gap={2} hl={p.hl} />
         </div>
       )}

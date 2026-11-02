@@ -23,10 +23,9 @@ import { BROLL_SAMPLE_DURATION, BrollSample } from "./frontier/broll/BrollSample
 import { EPISODE_SECONDS, Episode20261101 } from "./frontier/broll/Episode";
 import { Cover20261101 } from "./frontier/broll/Cover";
 import { Auto, AutoCover, type AutoData } from "./frontier/auto/Auto";
-import { Explainer, ExplainerCover, type ExplainerData } from "./explainer/Explainer";
+import { EXPLAINER_DEMO, Explainer, ExplainerCover } from "./explainer/Explainer";
 import { SHOTCRAFT_ORIGINALS } from "./showcase/shotcraft-originals";
-import { ATTENTION_RELAY_DURATION, AttentionRelay, LAYER_EXPLODE_DURATION, LayerExplode, SHARD_OPEN_DURATION, ShardOpen } from "./science";
-import sampleExplainer from "../public/explainer/sample/auto.json";
+import { SHOTS } from "./science";
 import sampleAuto from "../public/frontier/2026-11-01/auto.json";
 import { Frontier, FPS as FRONTIER_FPS, getFrontierDuration } from "./frontier/Frontier";
 import { captions as frontier20261101, voiceDuration as frontier20261101Voice } from "./frontier/episodes/2026-11-01.captions";
@@ -42,9 +41,9 @@ export const RemotionRoot: React.FC = () => (
     {/* 「AI 科普」横屏（默认 1 分钟）：数据由 tools/make_explainer.py 生成，渲染时 --props 传入；默认数据是一条短样片，方便在 Studio 里预览 */}
     {/* 「AI 科普」自己的镜头库（src/science/） */}
     <Folder name="Science">
-      <Composition id="Sci-ShardOpen" component={ShardOpen} durationInFrames={SHARD_OPEN_DURATION} fps={30} width={1920} height={1080} />
-      <Composition id="Sci-LayerExplode" component={LayerExplode} durationInFrames={LAYER_EXPLODE_DURATION} fps={30} width={1920} height={1080} />
-      <Composition id="Sci-AttentionRelay" component={AttentionRelay} durationInFrames={ATTENTION_RELAY_DURATION} fps={30} width={1920} height={1080} />
+      {Object.entries(SHOTS).map(([type, s]) => (
+        <Composition key={type} id={`Sci-${type}`} component={s.C} durationInFrames={s.meta.duration} fps={30} width={1920} height={1080} />
+      ))}
     </Folder>
     {/* video-shotcraft 原版镜头（Apache-2.0，src/vendor/shotcraft/） */}
     <Folder name="Shotcraft">
@@ -53,8 +52,8 @@ export const RemotionRoot: React.FC = () => (
       ))}
     </Folder>
     <Folder name="Explainer">
-      <Composition id="Explainer" component={Explainer} defaultProps={sampleExplainer as ExplainerData} calculateMetadata={({ props }) => ({ durationInFrames: Math.round(props.total * 30) })} durationInFrames={900} fps={30} width={1920} height={1080} />
-      <Composition id="ExplainerCover" component={ExplainerCover} defaultProps={sampleExplainer as ExplainerData} durationInFrames={1} fps={30} width={1920} height={1080} />
+      <Composition id="Explainer" component={Explainer} defaultProps={EXPLAINER_DEMO} calculateMetadata={({ props }) => ({ durationInFrames: Math.round(props.total * 30) })} durationInFrames={900} fps={30} width={1920} height={1080} />
+      <Composition id="ExplainerCover" component={ExplainerCover} defaultProps={EXPLAINER_DEMO} durationInFrames={1} fps={30} width={1920} height={1080} />
     </Folder>
     {/* 「AI 前沿」竖屏短视频（向晓 AI），每期一个 */}
     <Folder name="Frontier">

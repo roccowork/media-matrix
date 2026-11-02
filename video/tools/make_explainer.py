@@ -1,24 +1,17 @@
-"""「AI 科普」一条命令出成片（横屏，默认 1 分钟，最长 5 分钟）：分段配音 → 画面元素按口播对时 → 字幕 → 空镜 → 渲染成片和封面。
+"""「AI 科普」一条命令出成片（横屏，默认 1 分钟，最长 5 分钟）：分段配音 → 每段配一个镜头（src/science/ 镜头库）→ 字幕 → 渲染成片和封面。
 
-输入：public/explainer/<编号>/episode.json（私人助理里发「科普：题目」，Claude 写稿，点「🎬 出片」时传过来；也可以手写）
+输入：public/explainer/<编号>/episode.json（私人助理里点「🎬 出片」时传过来，或者在对话里写好直接触发 explainer.yml）
     {
       "title": "Transformer 是怎么来的",
-      "sources": ["Vaswani 等，Attention Is All You Need（2017）"],      # 画面角落的参考资料
+      "sources": ["Vaswani 等，Attention Is All You Need（2017）"],
       "cover": {"lines": ["Transformer", "是怎么来的"], "hl": "Transformer", "sub": "一篇论文改变了整个 AI"},
-      "scenes": [                                                     # 按口播顺序，每段一句到几句口播 + 一个画面
-        {"say": "这一段的口播原文", "visual": {"type": "title", "kicker": "AI 科普", "title": "Transformer 是怎么来的"}},
+      "scenes": [                      # 按口播顺序，每段口播配一个镜头
+        {"say": "这一段的口播原文", "shot": {"type": "open", "props": {"title": "Transformer", "sub": "..."}}},
         ...
       ]
     }
-  画面（visual.type），列表里的每一项在口播念到它的时候出现（念不到就在这段里按顺序错开）：
-    title     {"kicker"?, "title", "sub"?}                                章节标题
-    timeline  {"items": [{"when": "1950", "label": "图灵测试"}, ...]}      时间线，2～6 个节点
-    flow      {"title"?, "steps": ["输入", "注意力", "输出"]}              流程图，2～5 步，箭头依次点亮
-    compare   {"left": {"title", "points": [...]}, "right": {...}}        左右对比
-    number    {"value": "1750 亿", "label": "GPT-3 的参数量"}             大数字滚动
-    list      {"title", "items": ["...", ...]}                            要点清单，2～5 条
-    quote     {"text", "who"?}                                            引言
-    broll     {"tags": ["server", "city"], "caption"?}                    实拍空镜（Mixkit，横屏），少用
+  镜头类型和参数见 src/science/index.ts 的 SHOTS 和各组件的 Props（open / title / layers / relay / readout / timeline / versus / points），
+  原理见 src/science/HANDBOOK.md。镜头按这段配音的长度自动拉伸停留段或压缩。
 用法：python3 tools/make_explainer.py <编号> [--no-render | --cover-only]
   配音按段缓存（voice/<序号>-<内容哈希>.mp3）：只改了某一段，重做时只重配那一段，不重复扣 ElevenLabs 积分
 """
@@ -27,20 +20,17 @@ import base64
 import hashlib
 import json
 import os
-import re
 import subprocess
 import sys
 import urllib.request
 from pathlib import Path
 
-sys.path.insert(0, str(Path(__file__).resolve().parent))
-import broll  # noqa: E402
 
 ROOT = Path(__file__).resolve().parent.parent
 VOICE = {"voice_id": os.environ.get("ELEVENLABS_VOICE_ID", ""), "model": os.environ.get("ELEVENLABS_MODEL", "eleven_v3")}
 CHROMIUM = os.environ.get("REMOTION_BROWSER", "/opt/pw-browsers/chromium")
-INTRO, GAP, OUTRO = 3.0, 0.55, 4.5  # 片头秒数、段与段之间停顿、片尾秒数
-TYPES = {"title", "timeline", "flow", "compare", "number", "list", "quote", "broll"}
+GAP, OUTRO = 0.6, 4.5  # 段与段之间停顿（让镜头的退场和停留有时间）、片尾秒数
+SHOT_TYPES = {"open", "title", "layers", "relay", "readout", "timeline", "versus", "points"}  # 与 src/science/index.ts 的 SHOTS 一致
 
 
 # ── 1. 分段配音（ElevenLabs，带逐字时间戳），按内容哈希缓存 ──
@@ -72,62 +62,6 @@ def scene_voice(ep: Path, k: int, say: str) -> tuple[str, dict]:
     return str(mp3.relative_to(ROOT / "public")), json.loads(meta.read_text())
 
 
-# ── 2. 对时：元素文字在这一段配音里被念到的时刻 ──
-class Clock:
-    def __init__(self, voice: dict, start: float, end: float):
-        self.stream, self.times = broll.voice_index(voice)
-        self.start, self.end, self.pos, self.k = start, end, 0, 0
-
-    def at(self, *texts: str) -> float:
-        """按顺序往后找（同一段里的元素按出现顺序念）；给几个说法就依次试；都找不到就在这段的前 70% 里错开"""
-        hit = None
-        for key in (broll.norm(x) for x in texts):
-            for n in (6, 3, 2):
-                if len(key) >= n and (hit := broll.find_time(self.stream, self.times, key[:n], self.pos)):
-                    break
-            if hit:
-                break
-        k, self.k = self.k, self.k + 1
-        if hit:
-            self.pos = hit[1]
-            return round(self.start + hit[0], 2)
-        return round(self.start + 0.3 + min(k * 0.9, (self.end - self.start) * 0.7), 2)
-
-
-def visual_of(v: dict, clock: Clock, used: set[str], lib: list[dict]) -> dict:
-    """把稿子里的画面换成带时间的数据；格式不对的退回成标题卡"""
-    t = v.get("type") if isinstance(v, dict) else None
-    s = lambda x: str(x or "").strip()  # noqa: E731
-    first = round(clock.start + 0.15, 2)
-    if t == "timeline" and v.get("items"):
-        return {"type": t, "items": [{"when": s(i.get("when")), "label": s(i.get("label")), "at": clock.at(s(i.get("when")), s(i.get("label")))} for i in v["items"][:6] if isinstance(i, dict)]}
-    if t == "flow" and v.get("steps"):
-        return {"type": t, "title": s(v.get("title")), "steps": [{"text": s(x), "at": clock.at(s(x))} for x in v["steps"][:5]]}
-    if t == "compare" and isinstance(v.get("left"), dict) and isinstance(v.get("right"), dict):
-        side = lambda o: {"title": s(o.get("title")), "at": clock.at(s(o.get("title"))), "points": [{"text": s(p), "at": clock.at(s(p))} for p in (o.get("points") or [])[:4]]}  # noqa: E731
-        return {"type": t, "left": side(v["left"]), "right": side(v["right"])}
-    if t == "number" and s(v.get("value")):
-        m = re.match(r"^(\D*?)([\d.,]+)(.*)$", s(v["value"]))
-        if m:
-            n = float(m.group(2).replace(",", ""))
-            return {"type": t, "prefix": m.group(1), "value": int(n) if n.is_integer() else n, "decimals": len(m.group(2).split(".")[1]) if "." in m.group(2) else 0,
-                    "suffix": m.group(3), "label": s(v.get("label")), "at": clock.at(m.group(2))}
-        return {"type": "title", "kicker": s(v.get("label")), "title": s(v["value"]), "at": first}
-    if t == "list" and v.get("items"):
-        return {"type": t, "title": s(v.get("title")), "items": [{"text": s(x), "at": clock.at(s(x))} for x in v["items"][:5]]}
-    if t == "quote" and s(v.get("text")):
-        return {"type": t, "text": s(v["text"]), "who": s(v.get("who")), "at": first}
-    if t == "broll":
-        tags = [x.lower().strip() for x in v.get("tags") or [] if str(x).strip()]
-        clip, how = broll.choose_clip(tags, lib, used, landscape=True)
-        print(f"  空镜 {'/'.join(tags)} → {clip['file'] if clip else '没有'}（{how}）")
-        if clip:
-            used.add(clip["file"])
-            return {"type": t, "src": clip["file"].removesuffix(".mp4"), "caption": s(v.get("caption")), "at": first}
-        return {"type": "title", "title": s(v.get("caption")) or "……", "at": first}
-    return {"type": "title", "kicker": s(v.get("kicker")) if isinstance(v, dict) else "", "title": s(v.get("title")) if isinstance(v, dict) else "", "sub": s(v.get("sub")) if isinstance(v, dict) else "", "at": first}
-
-
 # ── 3. 字幕：按标点切成短句，每句用第一个字和最后一个字的时间 ──
 def subtitles(say: str, voice: dict, start: float, limit: int = 22) -> list[dict]:
     a = voice["raw_alignment"]
@@ -149,24 +83,25 @@ def subtitles(say: str, voice: dict, start: float, limit: int = 22) -> list[dict
 
 def build(slug: str, ep_json: dict) -> dict:
     ep = ROOT / "public" / "explainer" / slug
-    lib = json.loads(broll.LIB_FILE.read_text())
-    used: set[str] = set()
-    t, scenes, subs = INTRO, [], []
+    t, scenes, subs = 0.0, [], []
     for k, sc in enumerate(ep_json["scenes"]):
         say = str(sc.get("say") or "").strip()
         if not say:
             continue
+        shot = sc.get("shot") if isinstance(sc.get("shot"), dict) else {}
+        if shot.get("type") not in SHOT_TYPES:
+            shot = {"type": "title", "props": {"title": ep_json["title"]}}  # 类型写错就用章节标题兜底
         audio, voice = scene_voice(ep, k, say)
+        lead = 0.5 if k == 0 else 0.25  # 镜头先入场一点再开口
         dur = voice["raw_alignment"]["character_end_times_seconds"][-1]
-        end = round(t + dur + GAP, 2)
-        clock = Clock(voice, t, t + dur)
-        scenes.append({"from": round(t, 2), "to": end, "audio": audio, "visual": visual_of(sc.get("visual") or {}, clock, used, lib)})
-        subs += subtitles(say, voice, t)
+        end = round(t + lead + dur + GAP, 2)
+        scenes.append({"from": round(t, 2), "to": end, "audio": "", "voiceAt": round(t + lead, 2), "voice": audio, "shot": {"type": shot["type"], "props": shot.get("props") or {}}})
+        subs += subtitles(say, voice, t + lead)
         t = end
     c = ep_json.get("cover") or {}
     return {
         "slug": slug, "title": ep_json["title"], "sources": [str(x) for x in ep_json.get("sources") or []][:3],
-        "intro": INTRO, "voiceEnd": round(t, 2), "total": round(t + OUTRO, 2), "scenes": scenes, "subs": subs,
+        "voiceEnd": round(t, 2), "total": round(t + OUTRO, 2), "scenes": scenes, "subs": subs,
         "cover": {"lines": c.get("lines") or [ep_json["title"]], "hl": c.get("hl") or "", "sub": c.get("sub") or ""},
     }
 

@@ -1,7 +1,7 @@
 // 「AI 科普」镜头库的公共底座（自己写的，原理参考 video-shotcraft 的审美准则）：
 // 缓动曲线、舞台布光（主光 / 余光 / 地平线光带 / 暗角 / 颗粒）、按速度的方向模糊、配色和字体。
 // 规则：动画只由帧驱动；随机数只用 remotion 的 random(seed)；运动一律非线性缓动，不做匀速。
-import React from "react";
+import React, { createContext, useContext } from "react";
 import { AbsoluteFill, Easing, random, useCurrentFrame } from "remotion";
 import { loadFont } from "@remotion/google-fonts/NotoSansSC";
 
@@ -24,6 +24,30 @@ export const FONT = `"Inter", ${CJK}, "PingFang SC", sans-serif`;
 export const rgba = (hex: string, a: number) => {
   const n = parseInt(hex.slice(1), 16);
   return `rgba(${(n >> 16) & 255},${(n >> 8) & 255},${n & 255},${a})`;
+};
+
+// ── 镜头时长适配：每个镜头有自己的「自然时长」和一段可拉伸的停留段 [holdAt, holdEnd)。
+// 配音比镜头长：只拉长停留段（入场和退场的节奏不变）；配音比镜头短：整体按比例压缩（最多压到 0.6 倍，再短就截掉尾巴）。
+// 镜头组件里一律用 useShotFrame() 取帧，不直接用 useCurrentFrame()。
+export type ShotMeta = { duration: number; holdAt: number; holdEnd: number };
+const Fit = createContext<{ meta: ShotMeta; actual: number } | null>(null);
+export const ShotFit: React.FC<{ meta: ShotMeta; actual: number; children: React.ReactNode }> = ({ meta, actual, children }) => (
+  <Fit.Provider value={{ meta, actual }}>{children}</Fit.Provider>
+);
+export const mapShotFrame = (f: number, meta: ShotMeta, actual: number) => {
+  const { duration: n, holdAt: a, holdEnd: b } = meta;
+  if (actual >= n) {
+    const extra = actual - n;
+    if (f < a) return f;
+    if (f < b + extra) return a + ((f - a) * (b - a)) / (b - a + extra);
+    return f - extra;
+  }
+  return f * Math.min(1 / 0.6, n / actual);
+};
+export const useShotFrame = () => {
+  const f = useCurrentFrame();
+  const fit = useContext(Fit);
+  return fit ? mapShotFrame(f, fit.meta, fit.actual) : f;
 };
 
 // ── 缓动：入场用强 ease-out，出场用强 ease-in，换位用对称 in-out，落座用过冲 ──
@@ -120,7 +144,7 @@ export const SpeedBlur: React.FC<{ id: string; vx: number; vy?: number; k?: numb
 
 /** 逐字入场：每个字从下方 + 模糊里升起，错峰 gap 帧（中文按字，英文按词） */
 export const Rise: React.FC<{ text: string; at: number; gap?: number; dur?: number; style?: React.CSSProperties; hl?: string }> = ({ text, at, gap = 2, dur = 16, style, hl }) => {
-  const frame = useCurrentFrame();
+  const frame = useShotFrame();
   const units = /[一-鿿]/.test(text) ? [...text] : text.split(/(\s+)/);
   return (
     <span style={{ display: "inline-block", whiteSpace: "pre", ...style }}>

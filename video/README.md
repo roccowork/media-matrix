@@ -57,12 +57,12 @@ npx remotion still src/index.ts BrandIntro out/cover.png --frame=70
 2. `render`：**8 台机器并行**，各渲染 1/8 的画面（一台机器每分钟成片要渲染约 5 分钟）；第 0 台顺便渲染整条音轨
 3. `merge`：ffmpeg 拼接、合成音轨，成片（超过 50MB 才压缩）和封面直接发到 Telegram。**成片不放 GitHub**（不发 Release、不留成片 Artifact）
 
-本地出片：`public/explainer/<编号>/episode.json` 写好后 `python3 tools/make_explainer.py <编号>`（加 `--no-render` 只生成数据，在 Studio 里看 `Explainer`）。格式和画面类型见脚本开头的说明。
+本地出片：`public/explainer/<编号>/episode.json` 写好后 `python3 tools/make_explainer.py <编号>`（加 `--no-render` 只生成数据，在 Studio 里看 `Explainer`）。格式见脚本开头的说明，镜头类型见 `src/science/HANDBOOK.md` 第七节。
 
-- 组件：`src/explainer/Explainer.tsx`（成片）、`ExplainerCover`（16:9 封面）。画面类型：标题、时间线、流程图、左右对比、数字滚动、清单、引言、实拍空镜
+- 组件：`src/explainer/Explainer.tsx`（成片，每段口播配一个 `src/science/` 的镜头，按配音长度自动适配）、`ExplainerCover`（16:9 封面）。镜头目录和写法见 `src/science/HANDBOOK.md` 第七节
 - 渲染用 `--gl=swiftshader`，比 `swangle` 快 3 倍以上；画面里不要用 WebGL 特效（`@remotion/effects`）、`backdrop-filter` 和大面积模糊，软件渲染下非常慢
 - 横屏空镜存在素材库里，文件名带 `-h`，`library.json` 里标 `"orient": "h"`
-- 样片：`public/explainer/sample/`（Studio 的默认数据）
+- Studio 里 `Explainer` 的默认数据是每种镜头各一段的无声示例（`EXPLAINER_DEMO`）
 
 ## 镜头库：video-shotcraft（2026-11-02 起）
 

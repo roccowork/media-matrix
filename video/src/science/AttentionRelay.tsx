@@ -3,10 +3,11 @@
 // 线越粗越亮 = 注意力越大，弱的先快速射完，最强的两条压轴；光头领跑、身后彗尾渐隐，落点卡描边脉冲 + 冲击环，
 // 落点那一帧附近的光斑同帧涨亮（氛围层和事件层共振）；最后弧线消散成细虚线，光斑缓动收敛到静止，停住让人读结论。
 import React from "react";
-import { AbsoluteFill, useCurrentFrame } from "remotion";
-import { C, EASE, FONT, Rise, Stage, clamp01, mix, ramp, rgba } from "./kit";
+import { AbsoluteFill } from "remotion";
+import { C, EASE, FONT, Rise, Stage, clamp01, mix, ramp, rgba , useShotFrame, type ShotMeta } from "./kit";
 
 export const ATTENTION_RELAY_DURATION = 200;
+export const ATTENTION_RELAY_META: ShotMeta = { duration: ATTENTION_RELAY_DURATION, holdAt: 176, holdEnd: 199 };
 
 export type AttentionRelayProps = {
   tokens: string[];
@@ -52,7 +53,7 @@ const poly = (pts: [number, number][]) => pts.map((p) => `${p[0].toFixed(1)},${p
 
 export const AttentionRelay: React.FC<Partial<AttentionRelayProps>> = (props) => {
   const p = { ...DEFAULTS, ...props };
-  const frame = useCurrentFrame();
+  const frame = useShotFrame();
 
   // 词卡布局：按字数定宽，整行居中
   const widths = p.tokens.map((t) => t.length * FS + 92);
