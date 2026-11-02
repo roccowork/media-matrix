@@ -64,6 +64,11 @@ npx remotion still src/index.ts BrandIntro out/cover.png --frame=70
 - 横屏空镜存在素材库里，文件名带 `-h`，`library.json` 里标 `"orient": "h"`
 - 样片：`public/explainer/sample/`（Studio 的默认数据）
 
+## 镜头库：video-shotcraft（2026-11-02 起）
+
+画面特效统一用 [video-shotcraft](https://github.com/Vincentwei1021/video-shotcraft)（1.6 万星，Apache-2.0）的镜头，**不自己手写特效**。整库在 `src/vendor/shotcraft/`（说明和与上游的差异见那里的 README），在线画廊：https://vincentwei1021.github.io/video-shotcraft/ 。
+用法：镜头的运动（缓动、时长、运镜）不改，只换文案、颜色、字体。
+
 ## 组件一览
 
 | 组件 | 用途 | 主要参数 |
