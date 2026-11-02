@@ -6,7 +6,7 @@ import { AbsoluteFill } from "remotion";
 import { C, EASE, Rise, Stage, clamp01, mix, ramp, rgba, useShotFrame, type ShotMeta } from "./kit";
 
 export const TITLE_CARD_DURATION = 120;
-export const TITLE_CARD_META: ShotMeta = { duration: TITLE_CARD_DURATION, holdAt: 60, holdEnd: 104 };
+export const TITLE_CARD_META: ShotMeta = { duration: TITLE_CARD_DURATION, holdAt: 60, holdEnd: 104, sfx: [{ at: 8, kind: "slam", vol: 0.45 }, { at: 40, kind: "whip", vol: 0.25 }] };
 
 export type TitleCardProps = { kicker?: string; title: string; hl?: string; sub?: string };
 const DEFAULTS: TitleCardProps = { kicker: "第一章", title: "注意力，就是一切", hl: "注意力", sub: "2017 年的一篇论文，改写了整个 AI" };

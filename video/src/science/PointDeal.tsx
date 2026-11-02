@@ -6,7 +6,7 @@ import { spring, useVideoConfig } from "remotion";
 import { C, EASE, FONT, Rise, SpeedBlur, Stage, clamp01, mix, ramp, rgba, useShotFrame, type ShotMeta } from "./kit";
 
 export const POINT_DEAL_DURATION = 130;
-export const POINT_DEAL_META: ShotMeta = { duration: POINT_DEAL_DURATION, holdAt: 90, holdEnd: 129 };
+export const POINT_DEAL_META: ShotMeta = { duration: POINT_DEAL_DURATION, holdAt: 90, holdEnd: 129, sfx: [{ at: 26, kind: "pop", vol: 0.4 }, { at: 40, kind: "pop", vol: 0.4 }, { at: 50, kind: "pop", vol: 0.4 }, { at: 76, kind: "ding", vol: 0.4 }] };
 
 export type PointDealProps = { title: string; items: string[]; focus?: number };
 const DEFAULTS: PointDealProps = { title: "记住三个词", items: ["注意力：每个词看所有词", "并行：显卡一起算", "能堆大：越大越聪明"], focus: 2 };

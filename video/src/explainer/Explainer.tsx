@@ -1,24 +1,34 @@
-// 「AI 科普」成片（1920×1080）：每段口播配一个镜头（src/science/ 的镜头库，见 HANDBOOK.md），
-// 镜头时长按这段配音的长度适配（ShotFit：拉长停留段或整体压缩），底部是配音字幕，左上角是品牌角标。
+// 「AI 科普」成片（1920×1080）：一句话一个节拍——每句口播配一个镜头（src/science/ 镜头库，见 HANDBOOK.md），
+// 镜头时长按配音适配（ShotFit），外面套活镜头（持续慢推 + 关键词猛推）和转场；念到关键词时关键词砸进画面；
+// 转场、镜头内部动作、关键词都配音效（public/sfx/）。底部是配音字幕，左上角是品牌角标。
 // 数据由 tools/make_explainer.py 生成（public/explainer/<编号>/auto.json），渲染时 --props 传入。
 import React from "react";
 import { AbsoluteFill, Audio, Sequence, interpolate, staticFile, useCurrentFrame, useVideoConfig } from "remotion";
 import { SHOTS } from "../science";
-import { C, FONT, ShotFit, Stage, rgba, Rise } from "../science/kit";
+import { C, FONT, ShotFit, Stage, rgba, Rise, unmapShotFrame } from "../science/kit";
+import { KEY_LEN, KeywordPop, LifeCam, TRANSIT_SFX, Transit, type TransitKind } from "../science/beats";
 
-export type Scene = { from: number; to: number; audio?: string; voice?: string; voiceAt?: number; shot: { type: string; props?: Record<string, unknown> } };
+export type ShotSeg = { from: number; to: number; type: string; props?: Record<string, unknown>; enter: TransitKind; exit: TransitKind; punches: number[] };
 export type ExplainerData = {
   slug: string;
   title: string;
   sources: string[];
   voiceEnd: number;
   total: number;
-  scenes: Scene[];
+  shots: ShotSeg[];
+  keys: { at: number; text: string }[];
+  voices: { at: number; src: string }[];
   subs: { from: number; to: number; text: string }[];
   cover: { lines: string[]; hl: string; sub: string };
 };
 
 const SERIES = "AI 科普";
+
+const Sfx: React.FC<{ at: number; kind: string; vol: number }> = ({ at, kind, vol }) => (
+  <Sequence from={Math.max(0, at)} durationInFrames={45} layout="none">
+    <Audio src={staticFile(`sfx/${kind}.mp3`)} volume={vol} />
+  </Sequence>
+);
 
 // 品牌角标：小、安静，只在镜头之上常驻
 const Mark: React.FC<{ size: number }> = ({ size }) => (
@@ -62,24 +72,47 @@ export const Explainer: React.FC<ExplainerData> = (d) => {
   const f = (s: number) => Math.round(s * fps);
   return (
     <AbsoluteFill style={{ background: C.bg0, fontFamily: FONT }}>
-      {d.scenes.map((s, i) => {
-        const shot = SHOTS[s.shot.type] ?? SHOTS.title;
-        const len = Math.max(1, f(s.to) - f(s.from));
+      {d.shots.map((s, i) => {
+        const shot = SHOTS[s.type] ?? SHOTS.title;
+        const from = f(s.from), len = Math.max(1, f(s.to) - from);
         return (
-          <Sequence key={i} from={f(s.from)} durationInFrames={len}>
-            <ShotFit meta={shot.meta} actual={len}>
-              <shot.C {...(s.shot.props ?? {})} />
-            </ShotFit>
+          <Sequence key={i} from={from} durationInFrames={len}>
+            <Transit len={len} enter={s.enter} exit={s.exit}>
+              <LifeCam len={len} seed={i * 1.7} punches={s.punches.map((t) => f(t) - from)}>
+                <ShotFit meta={shot.meta} actual={len}>
+                  <shot.C {...(s.props ?? {})} />
+                </ShotFit>
+              </LifeCam>
+            </Transit>
           </Sequence>
         );
       })}
-      {d.scenes.map((s, i) =>
-        s.voice ? (
-          <Sequence key={`v${i}`} from={f(s.voiceAt ?? s.from)} layout="none">
-            <Audio src={staticFile(s.voice)} />
-          </Sequence>
-        ) : null,
-      )}
+      {d.keys.map((k, i) => (
+        <Sequence key={`k${i}`} from={Math.max(0, f(k.at) - 2)} durationInFrames={KEY_LEN}>
+          <KeywordPop text={k.text} variant={i} />
+        </Sequence>
+      ))}
+      {d.voices.map((v, i) => (
+        <Sequence key={`v${i}`} from={f(v.at)} layout="none">
+          <Audio src={staticFile(v.src)} />
+        </Sequence>
+      ))}
+      {/* 音效：转场（切点前 4 帧起）、镜头内部动作（跟着拉伸 / 压缩走）、关键词砸入 */}
+      {d.shots.map((s, i) => {
+        const from = f(s.from), len = Math.max(1, f(s.to) - from);
+        const meta = (SHOTS[s.type] ?? SHOTS.title).meta;
+        const tr = i > 0 ? TRANSIT_SFX[s.enter] : null;
+        return (
+          <React.Fragment key={`s${i}`}>
+            {tr && <Sfx at={from - 4} kind={tr} vol={0.45} />}
+            {(meta.sfx ?? []).map((x, j) => {
+              const at = unmapShotFrame(x.at, meta, len);
+              return at >= 0 && at < len - 4 ? <Sfx key={j} at={from + at} kind={x.kind} vol={x.vol ?? 0.4} /> : null;
+            })}
+          </React.Fragment>
+        );
+      })}
+      {d.keys.map((k, i) => <Sfx key={`ks${i}`} at={f(k.at) - 1} kind="slam" vol={0.4} />)}
       <Sequence from={f(d.voiceEnd)}>
         <Outro at={f(d.voiceEnd)} />
       </Sequence>
@@ -129,12 +162,13 @@ export const ExplainerCover: React.FC<ExplainerData> = (d) => {
 // Studio 预览用的示例（无声）：把镜头库每种镜头各放一段
 export const EXPLAINER_DEMO: ExplainerData = (() => {
   const types = ["open", "title", "timeline", "layers", "relay", "readout", "versus", "points"];
+  const kinds: TransitKind[] = ["zoom", "whip", "flash", "glitch", "iris"];
   let t = 0;
-  const scenes = types.map((type) => {
+  const shots = types.map((type, i) => {
     const len = (SHOTS[type]?.meta.duration ?? 120) / 30;
-    const s = { from: t, to: t + len, audio: "", shot: { type } };
+    const s: ShotSeg = { from: t, to: t + len, type, enter: i === 0 ? "none" : kinds[(i - 1) % kinds.length], exit: i === types.length - 1 ? "none" : kinds[i % kinds.length], punches: [] };
     t += len;
     return s;
   });
-  return { slug: "demo", title: "Transformer 是怎么来的", sources: [], voiceEnd: t, total: t + 4.5, scenes, subs: [], cover: { lines: ["Transformer", "是怎么来的"], hl: "Transformer", sub: "一篇论文，改变了整个 AI" } };
+  return { slug: "demo", title: "Transformer 是怎么来的", sources: [], voiceEnd: t, total: t + 4.5, shots, keys: [{ at: 5, text: "注意力" }], voices: [], subs: [], cover: { lines: ["Transformer", "是怎么来的"], hl: "Transformer", sub: "一篇论文，改变了整个 AI" } };
 })();

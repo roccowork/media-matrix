@@ -7,7 +7,7 @@ import { AbsoluteFill } from "remotion";
 import { C, EASE, FONT, Rise, Stage, clamp01, mix, ramp, rgba , useShotFrame, type ShotMeta } from "./kit";
 
 export const ATTENTION_RELAY_DURATION = 200;
-export const ATTENTION_RELAY_META: ShotMeta = { duration: ATTENTION_RELAY_DURATION, holdAt: 176, holdEnd: 199 };
+export const ATTENTION_RELAY_META: ShotMeta = { duration: ATTENTION_RELAY_DURATION, holdAt: 176, holdEnd: 199, sfx: [{ at: 34, kind: "pop", vol: 0.45 }, { at: 46, kind: "whip", vol: 0.3 }, { at: 102, kind: "impact", vol: 0.45 }, { at: 130, kind: "ding", vol: 0.4 }] };
 
 export type AttentionRelayProps = {
   tokens: string[];

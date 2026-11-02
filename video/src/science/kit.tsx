@@ -29,7 +29,8 @@ export const rgba = (hex: string, a: number) => {
 // ── 镜头时长适配：每个镜头有自己的「自然时长」和一段可拉伸的停留段 [holdAt, holdEnd)。
 // 配音比镜头长：只拉长停留段（入场和退场的节奏不变）；配音比镜头短：整体按比例压缩（最多压到 0.6 倍，再短就截掉尾巴）。
 // 镜头组件里一律用 useShotFrame() 取帧，不直接用 useCurrentFrame()。
-export type ShotMeta = { duration: number; holdAt: number; holdEnd: number };
+export type Sfx = { at: number; kind: string; vol?: number }; // at 是镜头自然时间轴上的帧号；kind 对应 public/sfx/<kind>.mp3
+export type ShotMeta = { duration: number; holdAt: number; holdEnd: number; sfx?: Sfx[] };
 const Fit = createContext<{ meta: ShotMeta; actual: number } | null>(null);
 export const ShotFit: React.FC<{ meta: ShotMeta; actual: number; children: React.ReactNode }> = ({ meta, actual, children }) => (
   <Fit.Provider value={{ meta, actual }}>{children}</Fit.Provider>
@@ -43,6 +44,16 @@ export const mapShotFrame = (f: number, meta: ShotMeta, actual: number) => {
     return f - extra;
   }
   return f * Math.min(1 / 0.6, n / actual);
+};
+/** mapShotFrame 的反函数：镜头自然时间轴上的第 n 帧，在实际（拉伸 / 压缩后）时间轴上是第几帧；超出实际长度返回 -1 */
+export const unmapShotFrame = (n: number, meta: ShotMeta, actual: number) => {
+  let lo = 0, hi = actual;
+  if (mapShotFrame(hi, meta, actual) < n) return -1;
+  for (let i = 0; i < 24; i++) {
+    const mid = (lo + hi) / 2;
+    if (mapShotFrame(mid, meta, actual) < n) lo = mid; else hi = mid;
+  }
+  return Math.round(hi);
 };
 export const useShotFrame = () => {
   const f = useCurrentFrame();

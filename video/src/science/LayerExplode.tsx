@@ -7,7 +7,7 @@ import { AbsoluteFill, spring, useVideoConfig } from "remotion";
 import { C, EASE, FONT, Rise, Stage, mix, ramp, rgba , useShotFrame, type ShotMeta } from "./kit";
 
 export const LAYER_EXPLODE_DURATION = 200;
-export const LAYER_EXPLODE_META: ShotMeta = { duration: LAYER_EXPLODE_DURATION, holdAt: 100, holdEnd: 126 };
+export const LAYER_EXPLODE_META: ShotMeta = { duration: LAYER_EXPLODE_DURATION, holdAt: 100, holdEnd: 126, sfx: [{ at: 24, kind: "zoom", vol: 0.5 }, { at: 52, kind: "tick", vol: 0.35 }, { at: 64, kind: "tick", vol: 0.3 }, { at: 160, kind: "impact", vol: 0.55 }, { at: 162, kind: "ding", vol: 0.3 }] };
 
 const LW = 720, LH = 430; // 每层的尺寸
 const T_EXPLODE = 26, T_LABEL = 52, T_RETRACT = 128, T_COLLAPSE = 136, T_CAPTION = 158;

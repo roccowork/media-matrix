@@ -6,7 +6,7 @@ import { spring, useVideoConfig } from "remotion";
 import { C, EASE, Rise, SpeedBlur, Stage, clamp01, mix, ramp, rgba, useShotFrame, type ShotMeta } from "./kit";
 
 export const TIMELINE_TRAVEL_DURATION = 190;
-export const TIMELINE_TRAVEL_META: ShotMeta = { duration: TIMELINE_TRAVEL_DURATION, holdAt: 150, holdEnd: 189 };
+export const TIMELINE_TRAVEL_META: ShotMeta = { duration: TIMELINE_TRAVEL_DURATION, holdAt: 150, holdEnd: 189, sfx: [{ at: 20, kind: "pop", vol: 0.35 }, { at: 60, kind: "pop", vol: 0.35 }, { at: 92, kind: "pop", vol: 0.35 }, { at: 120, kind: "whip", vol: 0.45 }, { at: 136, kind: "impact", vol: 0.45 }] };
 
 export type TimelineTravelProps = { items: { when: string; label: string }[]; title?: string };
 const DEFAULTS: TimelineTravelProps = {

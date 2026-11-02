@@ -6,7 +6,7 @@ import { AbsoluteFill, spring, useVideoConfig } from "remotion";
 import { C, EASE, FONT, SpeedBlur, Stage, clamp01, mix, ramp, rgba, useShotFrame, type ShotMeta } from "./kit";
 
 export const VERSUS_SLAM_DURATION = 140;
-export const VERSUS_SLAM_META: ShotMeta = { duration: VERSUS_SLAM_DURATION, holdAt: 96, holdEnd: 139 };
+export const VERSUS_SLAM_META: ShotMeta = { duration: VERSUS_SLAM_DURATION, holdAt: 96, holdEnd: 139, sfx: [{ at: 8, kind: "rise", vol: 0.4 }, { at: 22, kind: "impact", vol: 0.7 }, { at: 70, kind: "ding", vol: 0.35 }] };
 
 type Side = { title: string; points: string[] };
 export type VersusSlamProps = { left: Side; right: Side; winner?: "left" | "right" | "none" };

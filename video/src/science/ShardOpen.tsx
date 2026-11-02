@@ -7,7 +7,7 @@ import { AbsoluteFill } from "remotion";
 import { C, EASE, FONT, Rise, SpeedBlur, Stage, clamp01, mix, ramp, rgba, rnd, wobble , useShotFrame, type ShotMeta } from "./kit";
 
 export const SHARD_OPEN_DURATION = 170;
-export const SHARD_OPEN_META: ShotMeta = { duration: SHARD_OPEN_DURATION, holdAt: 100, holdEnd: 126 };
+export const SHARD_OPEN_META: ShotMeta = { duration: SHARD_OPEN_DURATION, holdAt: 100, holdEnd: 126, sfx: [{ at: 4, kind: "rise", vol: 0.5 }, { at: 34, kind: "impact", vol: 0.55 }, { at: 62, kind: "slam", vol: 0.5 }, { at: 126, kind: "whip", vol: 0.6 }] };
 
 const COLS = 6, ROWS = 4;
 const W = 1500, H = 840; // 海报尺寸

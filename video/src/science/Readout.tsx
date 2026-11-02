@@ -6,7 +6,7 @@ import { spring, useVideoConfig } from "remotion";
 import { C, EASE, FONT, Rise, Stage, clamp01, mix, ramp, rgba, useShotFrame, type ShotMeta } from "./kit";
 
 export const READOUT_DURATION = 130;
-export const READOUT_META: ShotMeta = { duration: READOUT_DURATION, holdAt: 78, holdEnd: 116 };
+export const READOUT_META: ShotMeta = { duration: READOUT_DURATION, holdAt: 78, holdEnd: 116, sfx: [{ at: 12, kind: "whip", vol: 0.5 }, { at: 54, kind: "ding", vol: 0.45 }] };
 
 export type ReadoutProps = { value: string; unit?: string; label: string; note?: string; ratio?: number };
 const DEFAULTS: ReadoutProps = { value: "1750", unit: "亿", label: "GPT-3 的参数量", note: "比上一代大了 100 多倍", ratio: 0.82 };
