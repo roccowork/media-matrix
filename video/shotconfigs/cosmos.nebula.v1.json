@@ -1,0 +1,114 @@
+{
+  "id": "cosmos.nebula.v1",
+  "renderer": "threejs",
+  "style": "imax_cosmos",
+  "fps": 30,
+  "duration": 10,
+  "camera": {
+    "preset": "fly_through",
+    "keys": [
+      {
+        "t": 0,
+        "pos": [
+          8,
+          5,
+          48
+        ],
+        "look": [
+          0,
+          0,
+          0
+        ],
+        "fov": 42,
+        "roll": -3
+      },
+      {
+        "t": 4,
+        "pos": [
+          6,
+          3.5,
+          38
+        ],
+        "look": [
+          0,
+          0,
+          0
+        ],
+        "fov": 42,
+        "roll": -1
+      },
+      {
+        "t": 7.5,
+        "pos": [
+          2,
+          1.5,
+          18
+        ],
+        "look": [
+          -1,
+          0,
+          -6
+        ],
+        "fov": 46,
+        "roll": 3
+      },
+      {
+        "t": 10,
+        "pos": [
+          -1,
+          0.8,
+          12
+        ],
+        "look": [
+          -4,
+          -1,
+          -14
+        ],
+        "fov": 48,
+        "roll": 6
+      }
+    ]
+  },
+  "post": {
+    "bloom": {
+      "intensity": 0.7,
+      "threshold": 1.0,
+      "radius": 0.6
+    },
+    "tone": "aces",
+    "vignette": 0.5,
+    "grain": 0.015
+  },
+  "assets": [
+    {
+      "id": "cosmos.nebula.v1",
+      "params": {
+        "radius": 24,
+        "seed": "demo-nebula",
+        "steps": 96,
+        "stars": 0.7,
+        "dust": 1.6
+      }
+    },
+    {
+      "id": "cosmos.stardust.v1",
+      "params": {
+        "from": [
+          10,
+          6,
+          62
+        ],
+        "to": [
+          -1,
+          0.8,
+          12
+        ],
+        "count": 2400,
+        "spread": 14,
+        "size": 0.05,
+        "seed": "demo-dust"
+      }
+    }
+  ],
+  "version": "1.0.0"
+}

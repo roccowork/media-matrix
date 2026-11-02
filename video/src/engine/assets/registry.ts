@@ -5,6 +5,7 @@ import type React from 'react';
 import type {AssetMeta} from './types';
 import {BlackHoleAsset} from '../../assets/cosmos/blackhole/BlackHoleAsset';
 import {StardustAsset} from '../../assets/cosmos/stardust/StardustAsset';
+import {NebulaAsset} from '../../assets/cosmos/nebula/NebulaAsset';
 import {NeuronAsset} from '../../assets/biology/neuron/NeuronAsset';
 import {AxonAsset} from '../../assets/biology/axon/AxonAsset';
 import {NeuralWebAsset} from '../../assets/biology/neural_web/NeuralWebAsset';
@@ -34,6 +35,32 @@ export const ASSETS: AssetMeta[] = [
     license: 'own（自研 Shader）',
     version: '1.0.0',
     notes: '画面约定：黑洞 rs = 1，盘在 y=0 平面、半径 2.4–30；镜头距离 10–80 效果最好',
+  },
+  {
+    asset_id: 'cosmos.nebula.v1',
+    asset_name: '体积星云 + 星空背景（可飞入）',
+    category: 'cosmos',
+    kind: 'procedural',
+    renderer: 'threejs',
+    component: C(NebulaAsset),
+    params: {
+      center: {type: 'vec3', default: [0, 0, 0], desc: '星云中心'},
+      radius: {type: 'number', default: 20, min: 1, max: 500, desc: '星云半径'},
+      warm: {type: 'color', default: '#ff7a2f', desc: '暖色区颜色'},
+      cool: {type: 'color', default: '#2f7bff', desc: '冷色区颜色'},
+      density: {type: 'number', default: 1, min: 0, max: 4, desc: '气体密度'},
+      dust: {type: 'number', default: 1, min: 0, max: 4, desc: '暗尘埃浓度'},
+      gain: {type: 'number', default: 1, min: 0, max: 5, desc: '整体亮度'},
+      stars: {type: 'number', default: 1, min: 0, max: 3, desc: '星星密度'},
+      steps: {type: 'number', default: 96, min: 32, max: 160, desc: '体积步进步数（越大越细越慢）'},
+      seed: {type: 'seed', default: 'nebula', desc: '种子：星云形状、颜色分区、内部亮星位置随之变化（每个视频用自己的种子）'},
+    },
+    effects: ['volumetric_nebula', 'dust_absorption', 'starfield'],
+    camera_presets: ['dolly_in（由远及近）', 'fly_through（飞入内部）'],
+    lighting_preset: '自发光（无需灯光）',
+    license: 'own（自研 Shader）',
+    version: '1.0.0',
+    notes: '全屏光线步进；可单独当宇宙背景，也可放在其他宇宙镜头后面（renderOrder -2，先画）',
   },
   {
     asset_id: 'cosmos.stardust.v1',

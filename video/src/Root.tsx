@@ -30,6 +30,7 @@ import { STYLES } from "./styleboard/StyleBoard";
 import { BlackHole, BLACKHOLE_SHOT } from "./shots/blackhole/BlackHole";
 import { NeuralActivation, NEURAL_SHOT } from "./shots/neural/NeuralActivation";
 import { AIChip, CHIP_SHOT } from "./shots/chip/AIChip";
+import { Nebula, NEBULA_SHOT } from "./shots/nebula/Nebula";
 import { ScienceDemo as GrokDemo } from "./grok3d/scenes/ScienceDemo";
 import { AttentionTest as GrokAttention } from "./grok3d/scenes/AttentionTest";
 import { ATTENTION10_DURATION, Attention10s } from "./grok3d/scenes/Attention10s";
@@ -61,6 +62,7 @@ export const RemotionRoot: React.FC = () => (
     </Folder>
     {/* 视频引擎第一阶段：验收镜头 */}
     <Folder name="Shots">
+      <Composition id="Asset-Nebula" component={Nebula} durationInFrames={NEBULA_SHOT.duration * NEBULA_SHOT.fps} fps={NEBULA_SHOT.fps} width={1920} height={1080} />
       <Composition id="Shot-AIChip" component={AIChip} durationInFrames={CHIP_SHOT.duration * CHIP_SHOT.fps} fps={CHIP_SHOT.fps} width={1920} height={1080} />
       <Composition id="Shot-Neural" component={NeuralActivation} durationInFrames={NEURAL_SHOT.duration * NEURAL_SHOT.fps} fps={NEURAL_SHOT.fps} width={1920} height={1080} />
       <Composition id="Shot-BlackHole" component={BlackHole} durationInFrames={BLACKHOLE_SHOT.duration * BLACKHOLE_SHOT.fps} fps={BLACKHOLE_SHOT.fps} width={1920} height={1080} />
