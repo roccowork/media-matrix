@@ -27,6 +27,7 @@ import { EXPLAINER_DEMO, Explainer, ExplainerCover } from "./explainer/Explainer
 import { SHOTCRAFT_ORIGINALS } from "./showcase/shotcraft-originals";
 import { SHOTS } from "./science";
 import { STYLES } from "./styleboard/StyleBoard";
+import { BlackHole, BLACKHOLE_SHOT } from "./shots/blackhole/BlackHole";
 import { ScienceDemo as GrokDemo } from "./grok3d/scenes/ScienceDemo";
 import { AttentionTest as GrokAttention } from "./grok3d/scenes/AttentionTest";
 import { ATTENTION10_DURATION, Attention10s } from "./grok3d/scenes/Attention10s";
@@ -55,6 +56,10 @@ export const RemotionRoot: React.FC = () => (
       {Object.entries(SHOTS).map(([type, s]) => (
         <Composition key={type} id={`Sci-${type}`} component={s.C} durationInFrames={s.meta.duration} fps={30} width={1920} height={1080} />
       ))}
+    </Folder>
+    {/* 视频引擎第一阶段：验收镜头 */}
+    <Folder name="Shots">
+      <Composition id="Shot-BlackHole" component={BlackHole} durationInFrames={BLACKHOLE_SHOT.duration * BLACKHOLE_SHOT.fps} fps={BLACKHOLE_SHOT.fps} width={1920} height={1080} />
     </Folder>
     {/* 画面风格样张（静态单帧） */}
     <Folder name="StyleBoard">
