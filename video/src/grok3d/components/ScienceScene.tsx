@@ -111,7 +111,7 @@ export const ScienceScene: React.FC<Props> = ({
       {post && (
         <EffectComposer multisampling={0}>
           <DepthOfField focusDistance={0} focalLength={0.05} bokehScale={bokeh} target={focus ? new THREE.Vector3(...focus) : new THREE.Vector3(...lookAt)} />
-          <Bloom intensity={bloom} luminanceThreshold={0.45} luminanceSmoothing={0.3} mipmapBlur radius={0.75} />
+          <Bloom intensity={bloom} luminanceThreshold={0.7} luminanceSmoothing={0.3} mipmapBlur radius={0.75} />
           <Vignette offset={0.25} darkness={0.75} />
           <Noise opacity={0.035} />
         </EffectComposer>
