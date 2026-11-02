@@ -22,6 +22,7 @@ uniform mat4 uProjInv;
 uniform float uDiskGain;   // 吸积盘亮度
 uniform float uSpin;       // 盘的转速倍数
 uniform int uSteps;        // 最大步数（性能 / 质量）
+uniform float uNearGain;   // 镜头靠近时的亮度补偿（防过曝）
 
 // ── 噪声 ──
 float hash12(vec2 p) { vec3 p3 = fract(vec3(p.xyx) * .1031); p3 += dot(p3, p3.yzx + 33.33); return fract((p3.x + p3.y) * p3.z); }
@@ -112,16 +113,18 @@ void main() {
         float arms = 0.5 + 0.5 * cos(spiral * 3.0 + warp.x * 4.0);      // 3 条主臂
         float fil = ridged(vec2(spiral * 6.0, lr * 18.0) + warp * 3.0);  // 细丝
         float lanes = smoothstep(0.3, 0.7, fbm(vec2(spiral * 4.0, lr * 10.0) + warp * 2.0));
+        float fine = ridged(vec2(spiral * 22.0, lr * 60.0) + warp * 5.0);
+        fil = fil * (0.55 + 0.75 * fine);
         float dens = rad * vy * (0.08 + 1.6 * fil * (0.35 + 0.65 * arms)) * (0.25 + 0.75 * lanes);
         float temp = clamp(1.2 - (r - 2.4) / 7.0, 0.0, 1.0);
         vec3 vel = normalize(vec3(-pos.z, 0.0, pos.x)) * clamp(sqrt(0.5 / r) * 1.1, 0.0, 0.6);
         float dop = 1.0 / (1.0 - dot(vel, -dir));
         float beam = pow(dop, 2.5);
         float coolMix = smoothstep(0.45, 0.75, fbm(sp * 0.7 + 11.0)) * smoothstep(4.0, 10.0, r);
-        vec3 hot = tempColor(clamp(temp * (0.75 + 0.35 * dop), 0.0, 1.0)) * (1.0 + 3.0 * temp * temp);
+        vec3 hot = tempColor(clamp(temp * (0.75 + 0.35 * dop), 0.0, 1.0)) * (1.0 + 1.6 * temp * temp);
         vec3 c = mix(hot * vec3(1.0, 0.72, 0.32) * 1.4, vec3(0.2, 0.65, 1.0) * 1.2, coolMix * (1.0 - temp) * 0.8);
         float k = dens * dt * 3.0;
-        acc += trans * c * k * beam * uDiskGain;
+        acc += trans * c * k * beam * uDiskGain * uNearGain;
         float dk = rad * vy * (1.0 - lanes) * 0.6 * dt;                  // 暗尘埃：只吸收不发光
         trans *= exp(-k * 0.8 - dk);
         if (trans < 0.01) break;
