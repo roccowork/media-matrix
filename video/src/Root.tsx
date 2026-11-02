@@ -28,6 +28,7 @@ import { SHOTCRAFT_ORIGINALS } from "./showcase/shotcraft-originals";
 import { SHOTS } from "./science";
 import { STYLES } from "./styleboard/StyleBoard";
 import { BlackHole, BLACKHOLE_SHOT } from "./shots/blackhole/BlackHole";
+import { NeuralActivation, NEURAL_SHOT } from "./shots/neural/NeuralActivation";
 import { ScienceDemo as GrokDemo } from "./grok3d/scenes/ScienceDemo";
 import { AttentionTest as GrokAttention } from "./grok3d/scenes/AttentionTest";
 import { ATTENTION10_DURATION, Attention10s } from "./grok3d/scenes/Attention10s";
@@ -59,6 +60,7 @@ export const RemotionRoot: React.FC = () => (
     </Folder>
     {/* 视频引擎第一阶段：验收镜头 */}
     <Folder name="Shots">
+      <Composition id="Shot-Neural" component={NeuralActivation} durationInFrames={NEURAL_SHOT.duration * NEURAL_SHOT.fps} fps={NEURAL_SHOT.fps} width={1920} height={1080} />
       <Composition id="Shot-BlackHole" component={BlackHole} durationInFrames={BLACKHOLE_SHOT.duration * BLACKHOLE_SHOT.fps} fps={BLACKHOLE_SHOT.fps} width={1920} height={1080} />
     </Folder>
     {/* 画面风格样张（静态单帧） */}

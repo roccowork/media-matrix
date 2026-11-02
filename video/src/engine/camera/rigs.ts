@@ -43,3 +43,19 @@ export const orbit = (center: Vec3, r: number, h: number, a0: number, a1: number
     return {t: (dur * i) / steps, pos: [center[0] + Math.sin(a) * r, center[1] + h, center[2] + Math.cos(a) * r], look: center, fov};
   }),
 });
+
+/** tracking：镜头与目标保持相对偏移，跟着目标沿路线走（目标路线用关键点给出，按秒均分） */
+export const tracking = (path: Vec3[], offset: Vec3, dur: number, fov = 40): CameraConfig => ({
+  preset: 'tracking',
+  keys: path.map((p, i): CameraKey => ({t: (dur * i) / (path.length - 1), pos: [p[0] + offset[0], p[1] + offset[1], p[2] + offset[2]], look: p, fov})),
+});
+
+/** fly_through：镜头沿一串路点飞行，始终看向前方 lookAhead 个路点之后的位置（最后一段看终点） */
+export const flyThrough = (waypoints: Vec3[], dur: number, fov = 45, roll = 0): CameraConfig => ({
+  preset: 'fly_through',
+  keys: waypoints.map((p, i): CameraKey => {
+    const next = waypoints[Math.min(i + 1, waypoints.length - 1)];
+    const look: Vec3 = i === waypoints.length - 1 ? [p[0] + (p[0] - waypoints[i - 1][0]), p[1] + (p[1] - waypoints[i - 1][1]), p[2] + (p[2] - waypoints[i - 1][2])] : next;
+    return {t: (dur * i) / (waypoints.length - 1), pos: p, look, fov, roll: roll * Math.sin((i / (waypoints.length - 1)) * Math.PI)};
+  }),
+});

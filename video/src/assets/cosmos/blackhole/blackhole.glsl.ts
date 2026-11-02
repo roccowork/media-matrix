@@ -23,6 +23,7 @@ uniform float uDiskGain;   // 吸积盘亮度
 uniform float uSpin;       // 盘的转速倍数
 uniform int uSteps;        // 最大步数（性能 / 质量）
 uniform float uNearGain;   // 镜头靠近时的亮度补偿（防过曝）
+uniform vec3 uSeed;        // 种子偏移：换种子 = 星云形状 / 吸积盘纹理全换（每个视频一个种子）
 
 // ── 噪声 ──
 float hash12(vec2 p) { vec3 p3 = fract(vec3(p.xyx) * .1031); p3 += dot(p3, p3.yzx + 33.33); return fract((p3.x + p3.y) * p3.z); }
@@ -50,14 +51,16 @@ vec3 tempColor(float t) {
 }
 
 // ── 背景：星空 + 星云（方向函数） ──
-vec3 sky(vec3 d) {
+vec3 sky(vec3 d0) {
   vec3 col = vec3(0.0);
-  vec3 w = vec3(fbm3(d * 1.6 + 1.3), fbm3(d * 1.6 + 7.7), fbm3(d * 1.6 - 4.1));   // 域扭曲
-  vec3 q = d * 2.6 + w * 1.8;
+  vec3 d = normalize(d0 + 0.0001);
+  vec3 sd = d + uSeed * 0.37;  // 星云用偏移后的方向（星星不偏，保持均匀）
+  vec3 w = vec3(fbm3(sd * 1.6 + 1.3), fbm3(sd * 1.6 + 7.7), fbm3(sd * 1.6 - 4.1));   // 域扭曲
+  vec3 q = sd * 2.6 + w * 1.8;
   float gas = fbm3(q);
   float fil = pow(1.0 - abs(2.0 * fbm3(q * 2.3 + 3.0) - 1.0), 4.0);              // 细丝
   float dust = smoothstep(0.42, 0.62, fbm3(q * 1.7 - 5.0));                     // 暗尘埃带
-  float warmMask = smoothstep(0.35, 0.75, fbm3(d * 1.2 + vec3(0.0, 2.0, 5.0)));
+  float warmMask = smoothstep(0.35, 0.75, fbm3(sd * 1.2 + vec3(0.0, 2.0, 5.0)));
   vec3 warm = vec3(1.0, 0.42, 0.08), cool = vec3(0.12, 0.55, 1.0);
   vec3 neb = mix(cool, warm, warmMask);
   col += neb * (pow(gas, 4.0) * 0.9 + pow(fil, 2.0) * 0.35) * (1.0 - 0.95 * dust) * smoothstep(0.2, 0.6, gas);
@@ -108,10 +111,10 @@ void main() {
         float a2 = ang + uTime * omega * 6.2831;
         float lr = log(r);
         float spiral = a2 + 2.4 * lr;                                    // 对数螺旋臂
-        vec2 sp = vec2(spiral, lr * 4.0);
+        vec2 sp = vec2(spiral, lr * 4.0) + uSeed.xy * 13.0;
         vec2 warp = vec2(fbm(sp * 1.3 + 2.0), fbm(sp * 1.3 - 5.0));
         float arms = 0.5 + 0.5 * cos(spiral * 3.0 + warp.x * 4.0);      // 3 条主臂
-        float fil = ridged(vec2(spiral * 6.0, lr * 18.0) + warp * 3.0);  // 细丝
+        float fil = ridged(vec2(spiral * 6.0, lr * 18.0) + warp * 3.0 + uSeed.yz * 29.0);  // 细丝
         float lanes = smoothstep(0.3, 0.7, fbm(vec2(spiral * 4.0, lr * 10.0) + warp * 2.0));
         float fine = ridged(vec2(spiral * 22.0, lr * 60.0) + warp * 5.0);
         fil = fil * (0.55 + 0.75 * fine);

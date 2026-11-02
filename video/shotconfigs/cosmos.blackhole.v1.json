@@ -86,7 +86,8 @@
       "params": {
         "diskGain": 0.55,
         "spin": 1,
-        "steps": 320
+        "steps": 320,
+        "seed": 0
       }
     },
     {
@@ -103,7 +104,8 @@
           16
         ],
         "count": 2600,
-        "size": 0.06
+        "size": 0.06,
+        "seed": "dust"
       }
     }
   ],

@@ -11,6 +11,14 @@ on:
         description: "渲染方式：swangle（含 three.js / WebGL 的镜头必须用它）或 swiftshader（纯 CSS 镜头，快 3 倍）"
         required: false
         default: "swangle"
+      frames:
+        description: "只渲染这段帧（如 0-299；留空 = 整段）"
+        required: false
+        default: ""
+      parts:
+        description: "把每个 Composition 的帧段拆给几台机器并行（重 Shader 镜头用，最多 20；需同时填 frames）"
+        required: false
+        default: "1"
       caption:
         description: "发到 Telegram 时的说明"
         required: false
@@ -29,13 +37,33 @@ jobs:
       - id: l
         env:
           COMPS: ${{ inputs.compositions }}
+          FRAMES: ${{ inputs.frames }}
+          PARTS: ${{ inputs.parts }}
         run: |
-          python3 -c 'import json,os,re; ids=[x.strip() for x in os.environ["COMPS"].split(",") if x.strip()]; assert ids and all(re.fullmatch(r"[A-Za-z0-9_-]+", i) for i in ids), "id 不对"; print("items=" + json.dumps([{"n": f"{k:02d}", "id": i} for k, i in enumerate(ids)]))' >> "$GITHUB_OUTPUT"
+          python3 - >> "$GITHUB_OUTPUT" <<'PY'
+          import json, os, re
+          ids = [x.strip() for x in os.environ["COMPS"].split(",") if x.strip()]
+          assert ids and all(re.fullmatch(r"[A-Za-z0-9_-]+", i) for i in ids), "id 不对"
+          fr = os.environ.get("FRAMES", "").strip()
+          parts = max(1, min(20, int(os.environ.get("PARTS", "1") or 1)))
+          items = []
+          for k, i in enumerate(ids):
+              if fr:
+                  a, b = map(int, re.fullmatch(r"(\d+)-(\d+)", fr).groups())
+                  n = min(parts, b - a + 1)
+                  for p in range(n):
+                      lo = a + (b - a + 1) * p // n
+                      hi = a + (b - a + 1) * (p + 1) // n - 1
+                      items.append({"n": f"{k:02d}-{p:02d}", "id": i, "frames": f"{lo}-{hi}"})
+              else:
+                  items.append({"n": f"{k:02d}-00", "id": i, "frames": ""})
+          print("items=" + json.dumps(items))
+          PY
 
   render:
     needs: list
     runs-on: ubuntu-24.04
-    timeout-minutes: 30
+    timeout-minutes: 60
     strategy:
       fail-fast: false
       matrix:
@@ -51,8 +79,8 @@ jobs:
           cache: npm
           cache-dependency-path: video/package-lock.json
       - run: npm ci
-      - name: 渲染 ${{ matrix.item.id }}
-        run: npx remotion render src/index.ts "${{ matrix.item.id }}" "out/${{ matrix.item.n }}.mp4" --concurrency=2 --crf=18 --timeout=240000 --gl="${{ inputs.gl }}"
+      - name: 渲染 ${{ matrix.item.id }} ${{ matrix.item.frames }}
+        run: npx remotion render src/index.ts "${{ matrix.item.id }}" "out/${{ matrix.item.n }}.mp4" --concurrency=2 --crf=18 --timeout=600000 --gl="${{ inputs.gl }}" ${{ matrix.item.frames && format('--frames={0}', matrix.item.frames) || '' }}
       - uses: actions/upload-artifact@v4
         with:
           name: p-${{ matrix.item.n }}

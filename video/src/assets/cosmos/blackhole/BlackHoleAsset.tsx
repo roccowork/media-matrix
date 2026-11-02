@@ -11,9 +11,10 @@ export type BlackHoleProps = {
   spin?: number; // 盘的转速倍数
   steps?: number; // 光线步进最大步数（质量 / 速度）
   nearDimming?: boolean; // 镜头靠近时自动压亮度，防过曝
+  seed?: number; // 种子：每个视频用不同的值，星云和吸积盘纹理就不同
 };
 
-export const BlackHoleAsset: React.FC<BlackHoleProps> = ({diskGain = 0.55, spin = 1, steps = 320, nearDimming = true}) => {
+export const BlackHoleAsset: React.FC<BlackHoleProps> = ({diskGain = 0.55, spin = 1, steps = 320, nearDimming = true, seed = 0}) => {
   const frame = useCurrentFrame();
   const {fps} = useVideoConfig();
   const {camera} = useThree();
@@ -33,9 +34,11 @@ export const BlackHoleAsset: React.FC<BlackHoleProps> = ({diskGain = 0.55, spin 
           uSpin: {value: spin},
           uSteps: {value: steps},
           uNearGain: {value: 1},
+          // 种子 → 三个 0–10 的偏移量（同一种子永远同一个值）
+          uSeed: {value: new THREE.Vector3(((seed * 0.6180339) % 1) * 10, ((seed * 0.4142135) % 1) * 10, ((seed * 0.7320508) % 1) * 10)},
         },
       }),
-    [diskGain, spin, steps],
+    [diskGain, spin, steps, seed],
   );
   const u = mat.uniforms;
   u.uTime.value = frame / fps;

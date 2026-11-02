@@ -13,8 +13,8 @@ export const BLACKHOLE_SHOT = cfg as unknown as ShotConfig; // JSON 已由 tools
 export const BlackHole: React.FC = () => (
   <AbsoluteFill style={{backgroundColor: '#000'}}>
     <Stage camera={BLACKHOLE_SHOT.camera} post={BLACKHOLE_SHOT.post}>
-      {BLACKHOLE_SHOT.assets.map((a) => (
-        <AssetView key={a.id} id={a.id} params={a.params} />
+      {BLACKHOLE_SHOT.assets.map((a, i) => (
+        <AssetView key={i} id={a.id} params={a.params} />
       ))}
     </Stage>
   </AbsoluteFill>

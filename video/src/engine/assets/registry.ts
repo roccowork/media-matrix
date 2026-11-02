@@ -5,6 +5,9 @@ import type React from 'react';
 import type {AssetMeta} from './types';
 import {BlackHoleAsset} from '../../assets/cosmos/blackhole/BlackHoleAsset';
 import {StardustAsset} from '../../assets/cosmos/stardust/StardustAsset';
+import {NeuronAsset} from '../../assets/biology/neuron/NeuronAsset';
+import {AxonAsset} from '../../assets/biology/axon/AxonAsset';
+import {NeuralWebAsset} from '../../assets/biology/neural_web/NeuralWebAsset';
 
 const C = <P,>(c: React.FC<P>) => c as unknown as React.FC<Record<string, unknown>>;
 
@@ -21,6 +24,7 @@ export const ASSETS: AssetMeta[] = [
       spin: {type: 'number', default: 1, min: 0, max: 4, desc: '吸积盘转速倍数'},
       steps: {type: 'number', default: 320, min: 120, max: 400, desc: '光线步进步数（越大越精细越慢）'},
       nearDimming: {type: 'boolean', default: true, desc: '镜头靠近时自动压亮度'},
+      seed: {type: 'number', default: 0, min: 0, max: 100000, desc: '种子：每个视频用不同的值（星云形状、吸积盘纹理随之变化；同一值永远同一画面）'},
     },
     effects: ['accretion_disk', 'gravitational_lensing', 'nebula', 'starfield'],
     camera_presets: ['fly_through（俯看飞入）', 'orbit（盘面上方环绕）'],
@@ -42,12 +46,78 @@ export const ASSETS: AssetMeta[] = [
       spread: {type: 'number', default: 16, min: 2, max: 60, desc: '路线两侧散布宽度'},
       size: {type: 'number', default: 0.06, min: 0.01, max: 0.5, desc: '粒子大小'},
       warmRatio: {type: 'number', default: 0.5, min: 0, max: 1, desc: '暖色粒子占比'},
+      from: {type: 'vec3', default: [14, 46, 52], desc: '路线起点'},
+      to: {type: 'vec3', default: [-3, 15, 16], desc: '路线终点'},
     },
     effects: ['particle_field'],
     thumbnail: 'assets/thumbs/cosmos.blackhole.v1.jpg',
     license: 'own',
     version: '1.0.0',
     notes: '需要传 from / to（镜头路线起止点）',
+  },
+  {
+    asset_id: 'biology.neuron.v1',
+    asset_name: '神经元（凹凸胞体 + 分叉树突，可激活）',
+    category: 'biology',
+    kind: 'procedural',
+    renderer: 'threejs',
+    component: C(NeuronAsset),
+    params: {
+      position: {type: 'vec3', default: [0, 0, 0], desc: '位置'},
+      radius: {type: 'number', default: 0.55, min: 0.1, max: 3, desc: '胞体半径'},
+      dendrites: {type: 'number', default: 9, min: 2, max: 24, desc: '树突数量'},
+      reach: {type: 'number', default: 3.2, min: 0.5, max: 10, desc: '树突长度'},
+      activateAt: {type: 'number', default: -1, min: -1, max: 600, desc: '激活时刻（秒，-1 不激活）'},
+      membrane: {type: 'color', default: '#4f8fff', desc: '膜的颜色'},
+      glow: {type: 'color', default: '#ffae42', desc: '激活辉光颜色'},
+    },
+    effects: ['fresnel_membrane', 'activation_glow', 'dendrite_pulse'],
+    license: 'own',
+    version: '1.0.0',
+  },
+  {
+    asset_id: 'biology.axon.v1',
+    asset_name: '轴突信号（电脉冲 + 火花 + 突触爆光）',
+    category: 'biology',
+    kind: 'procedural',
+    renderer: 'threejs',
+    component: C(AxonAsset),
+    params: {
+      from: {type: 'vec3', default: [0, 0, 0], desc: '起点（发出信号的神经元）'},
+      to: {type: 'vec3', default: [4, 0, 0], desc: '终点（接收信号的神经元）'},
+      start: {type: 'number', default: 1, min: 0, max: 600, desc: '信号出发时刻（秒）'},
+      duration: {type: 'number', default: 3, min: 0.2, max: 30, desc: '传到终点用时（秒）'},
+      thickness: {type: 'number', default: 0.07, min: 0.01, max: 0.5, desc: '粗细'},
+      membrane: {type: 'color', default: '#4f8fff', desc: '膜的颜色'},
+      glow: {type: 'color', default: '#ffae42', desc: '信号颜色'},
+    },
+    effects: ['signal_pulse', 'sparks', 'synapse_burst'],
+    license: 'own',
+    version: '1.0.0',
+  },
+  {
+    asset_id: 'biology.neural_web.v1',
+    asset_name: 'GPU 粒子神经网（24 万光点，激活波）',
+    category: 'biology',
+    kind: 'procedural',
+    renderer: 'threejs',
+    component: C(NeuralWebAsset),
+    params: {
+      center: {type: 'vec3', default: [0, 0, 0], desc: '中心'},
+      radius: {type: 'number', default: 8, min: 1, max: 60, desc: '范围半径'},
+      fibers: {type: 'number', default: 480, min: 20, max: 4000, desc: '纤维条数'},
+      perFiber: {type: 'number', default: 500, min: 50, max: 2000, desc: '每条纤维的光点数'},
+      waveOrigin: {type: 'vec3', default: [0, 0, 0], desc: '激活波起点'},
+      waveStart: {type: 'number', default: 0, min: 0, max: 600, desc: '激活波出发时刻（秒）'},
+      waveSpeed: {type: 'number', default: 2.5, min: 0.1, max: 50, desc: '激活波速度（单位/秒）'},
+      size: {type: 'number', default: 0.045, min: 0.005, max: 0.5, desc: '光点大小'},
+      warm: {type: 'color', default: '#ff9a3c', desc: '激活后的暖色'},
+      cool: {type: 'color', default: '#3b7bff', desc: '静息的冷色'},
+    },
+    effects: ['gpu_particles', 'activation_wave'],
+    license: 'own',
+    version: '1.0.0',
+    notes: '粒子位置全部在顶点着色器里按时间计算（GPU 粒子），CPU 零开销',
   },
   {
     asset_id: 'tech.robot.expressive.v1',
@@ -88,11 +158,13 @@ export const validateAssetParams = (id: string, params: Record<string, unknown> 
   for (const [k, v] of Object.entries(params)) {
     const spec = a.params?.[k];
     if (!spec) {
-      if (!['from', 'to', 'seed'].includes(k)) errs.push(`${id}: 未登记的参数 ${k}`);
+      if (!['seed'].includes(k)) errs.push(`${id}: 未登记的参数 ${k}`);
       continue;
     }
     if (spec.type === 'number' && (typeof v !== 'number' || v < spec.min || v > spec.max)) errs.push(`${id}.${k} = ${String(v)}，应在 ${spec.min}–${spec.max}`);
     if (spec.type === 'boolean' && typeof v !== 'boolean') errs.push(`${id}.${k} 应为 true / false`);
+    if (spec.type === 'vec3' && !(Array.isArray(v) && v.length === 3 && v.every((x) => typeof x === 'number'))) errs.push(`${id}.${k} 应为 [x, y, z]`);
+    if (spec.type === 'color' && !(typeof v === 'string' && /^#[0-9a-fA-F]{6}$/.test(v))) errs.push(`${id}.${k} 应为 #rrggbb`);
   }
   return errs;
 };

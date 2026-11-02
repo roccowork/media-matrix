@@ -6,7 +6,11 @@ import type React from 'react';
 
 export type AssetCategory = 'cosmos' | 'biology' | 'tech' | 'history_geo' | 'physics_nature' | 'common';
 
-export type ParamSpec = {type: 'number'; default: number; min: number; max: number; desc: string} | {type: 'boolean'; default: boolean; desc: string};
+export type ParamSpec =
+  | {type: 'number'; default: number; min: number; max: number; desc: string}
+  | {type: 'boolean'; default: boolean; desc: string}
+  | {type: 'vec3'; default: [number, number, number]; desc: string}
+  | {type: 'color'; default: string; desc: string};
 
 export type AssetMeta = {
   asset_id: string; // 如 cosmos.blackhole.v1
