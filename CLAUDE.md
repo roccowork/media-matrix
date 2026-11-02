@@ -6,7 +6,7 @@
   - 只在必要时触发：限定 `paths`、只对 main 分支触发，或者改成手动触发（`workflow_dispatch`）
   - 能合并的步骤合并到一个 job 里，缓存依赖（比如 `actions/cache`）
   - 视频渲染放在 Actions 里跑（公开仓库免费），只在需要出片时触发
-- **渲染一律用 GitHub Actions，按镜头 / 帧段拆成多台机器并行**（2026-11-02 用户明确要求）：成片、样片、测试片都一样，不在会话的虚拟机里渲染视频（只有 4 核，慢几倍，白白耽误时间）。会话里最多渲染几张单帧静图（`remotion still`）检查画面。现成的工作流：`explainer.yml`（AI 科普）、`render.yml`（AI 前沿）、`showcase.yml`（镜头样片）
+- **渲染一律用 GitHub Actions，按镜头 / 帧段拆成多台机器并行**（2026-11-02 用户明确要求）：成片、样片、测试片都一样，不在会话的虚拟机里渲染视频（只有 4 核，慢几倍，白白耽误时间）。会话里最多渲染几张单帧静图（`remotion still`）检查画面。看现成镜头效果直接用 video-shotcraft 的在线画廊，不重复渲染。现成的工作流：`explainer.yml`（AI 科普）、`render.yml`（AI 前沿）
 - 提交时尽量攒一批改动再一起 push，避免零碎的提交
 
 ## Notion

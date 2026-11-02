@@ -15,4 +15,4 @@
 
 ## 怎么看
 
-- Studio（`npm run dev`）里的 **Shotcraft** 文件夹：全部原版镜头（`SC-组件名`），以及挑出来的 32 个高能镜头串成的样片 `Shotcraft-Reel`（`src/showcase/ShotcraftReel.tsx`，左下角标编号）
+- Studio（`npm run dev`）里的 **Shotcraft** 文件夹：全部原版镜头（`SC-组件名`）；看效果优先用在线画廊（每个镜头都有预览视频），不用自己渲染

@@ -25,7 +25,6 @@ import { Cover20261101 } from "./frontier/broll/Cover";
 import { Auto, AutoCover, type AutoData } from "./frontier/auto/Auto";
 import { Explainer, ExplainerCover, type ExplainerData } from "./explainer/Explainer";
 import { SHOTCRAFT_ORIGINALS } from "./showcase/shotcraft-originals";
-import { REEL_DURATION, ShotcraftReel } from "./showcase/ShotcraftReel";
 import sampleExplainer from "../public/explainer/sample/auto.json";
 import sampleAuto from "../public/frontier/2026-11-01/auto.json";
 import { Frontier, FPS as FRONTIER_FPS, getFrontierDuration } from "./frontier/Frontier";
@@ -42,7 +41,6 @@ export const RemotionRoot: React.FC = () => (
     {/* 「AI 科普」横屏（默认 1 分钟）：数据由 tools/make_explainer.py 生成，渲染时 --props 传入；默认数据是一条短样片，方便在 Studio 里预览 */}
     {/* video-shotcraft 原版镜头（Apache-2.0，src/vendor/shotcraft/） */}
     <Folder name="Shotcraft">
-      <Composition id="Shotcraft-Reel" component={ShotcraftReel} durationInFrames={REEL_DURATION} fps={30} width={1920} height={1080} />
       {SHOTCRAFT_ORIGINALS.map((s) => (
         <Composition key={s.id} id={s.id} component={s.component} durationInFrames={s.frames} fps={30} width={1920} height={1080} />
       ))}
