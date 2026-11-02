@@ -1,0 +1,62 @@
+# 阿杜的 AI 剪辑 Skill（adunext/adu-motion-video，MIT）在 GitHub Actions 上出片。
+# 2026-11-02 用户决定：画面特效用这套现成的技术栈（HTML/JS 动画 + Playwright 逐帧 + ffmpeg），不再自己写。
+# 现在先跑它自带的演示片（demo），验证环境能跑通；成片发到 Telegram。
+name: adu
+
+on:
+  workflow_dispatch:
+    inputs:
+      ref:
+        description: "adu-motion-video 的版本（commit）"
+        required: false
+        default: "4a52ae2cff542cfb0bfcf6e93e5120c55d0110cf"
+
+concurrency:
+  group: adu
+  cancel-in-progress: false
+
+jobs:
+  demo:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 60
+    steps:
+      - name: 取 adu-motion-video
+        run: |
+          git clone -q https://github.com/adunext/adu-motion-video adu
+          cd adu && git checkout -q "${{ inputs.ref }}" && git log -1 --oneline
+      - uses: actions/setup-node@v5
+        with:
+          node-version: 22
+      - uses: actions/setup-python@v6
+        with:
+          python-version: "3.12"
+      - name: 安装 ffmpeg 和中文字体
+        run: sudo apt-get update -q && sudo apt-get install -y -q ffmpeg fonts-noto-cjk
+      - name: 安装 Skill 依赖
+        working-directory: adu
+        run: |
+          python3 scripts/pipeline.py setup
+          python3 scripts/pipeline.py doctor || true
+      - name: 渲染演示片
+        working-directory: adu
+        run: |
+          python3 scripts/pipeline.py demo "$RUNNER_TEMP/demo"
+          ls -la "$RUNNER_TEMP/demo" | head -30
+      - name: 发到 Telegram
+        env:
+          TG_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TG_CHAT: ${{ secrets.TELEGRAM_CHAT_ID }}
+        run: |
+          f="$RUNNER_TEMP/demo/demo.mp4"
+          if [ "$(stat -c %s "$f")" -gt 48000000 ]; then
+            ffmpeg -nostdin -v error -y -i "$f" -vf scale=1280:-2 -c:v libx264 -crf 28 -c:a aac -b:a 128k small.mp4 && f=small.mp4
+          fi
+          curl -sf -F chat_id="$TG_CHAT" -F video=@"$f" -F supports_streaming=true \
+            -F caption="🎞 阿杜 adu-motion-video 自带演示片（验证 GitHub Actions 能跑通）" \
+            "https://api.telegram.org/bot$TG_TOKEN/sendVideo" > /dev/null
+      - uses: actions/upload-artifact@v4
+        if: failure()
+        with:
+          name: adu-demo-debug
+          path: ${{ runner.temp }}/demo
+          retention-days: 1
