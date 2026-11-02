@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useMemo} from 'react';
 import {ThreeCanvas} from '@remotion/three';
 import {useVideoConfig} from 'remotion';
 import {StudioLights, LightingPreset} from '../presets/lighting';
@@ -39,6 +39,10 @@ type Props = {
   bloom?: number;
   bokeh?: number;
   particleCount?: number;
+  /** 景深。注意：在 Remotion 截帧下不稳定（焦点变化时物体会整个消失），默认关；纵深感靠雾 + 透视 */
+  dof?: boolean;
+  /** 直接指定相机位姿（优先于 camera 模式） */
+  cameraPose?: {position: [number, number, number]; lookAt: [number, number, number]; fov: number};
 };
 
 /**
@@ -68,8 +72,13 @@ export const ScienceScene: React.FC<Props> = ({
   bloom = 1.2,
   bokeh = 4,
   particleCount,
+  dof = false,
+  cameraPose,
 }) => {
   const {width, height: videoHeight} = useVideoConfig();
+  // 景深对焦点：复用同一个 Vector3、每帧改值（每帧 new 一个会让 DepthOfField 出错，远处物体整个消失）
+  const focusVec = useMemo(() => new THREE.Vector3(), []);
+  focusVec.set(...(focus ?? lookAt));
 
   return (
     <ThreeCanvas
@@ -85,6 +94,7 @@ export const ScienceScene: React.FC<Props> = ({
         radius={radius}
         height={height}
         fov={fov}
+        pose={cameraPose}
       />
 
       {ground && !grid && <Ground />}
@@ -110,7 +120,7 @@ export const ScienceScene: React.FC<Props> = ({
 
       {post && (
         <EffectComposer multisampling={0}>
-          <DepthOfField focusDistance={0} focalLength={0.05} bokehScale={bokeh} target={focus ? new THREE.Vector3(...focus) : new THREE.Vector3(...lookAt)} />
+          {dof ? <DepthOfField focusDistance={0} focalLength={0.05} bokehScale={bokeh} target={focusVec} /> : <></>}
           <Bloom intensity={bloom} luminanceThreshold={0.7} luminanceSmoothing={0.3} mipmapBlur radius={0.75} />
           <Vignette offset={0.25} darkness={0.75} />
           <Noise opacity={0.035} />

@@ -10,6 +10,8 @@ type Props = {
   radius?: number;
   height?: number;
   fov?: number;
+  /** 新增：直接指定相机位姿（每帧由场景算好），优先于 mode */
+  pose?: {position: [number, number, number]; lookAt: [number, number, number]; fov: number};
 };
 
 /**
@@ -22,6 +24,7 @@ export const ScienceCamera: React.FC<Props> = ({
   radius = 6,
   height = 1.8,
   fov = 45,
+  pose: poseOverride,
 }) => {
   const frame = useCurrentFrame();
   const {fps, durationInFrames} = useVideoConfig();
@@ -29,7 +32,7 @@ export const ScienceCamera: React.FC<Props> = ({
 
   // 修：原版在 useEffect 里改相机，Remotion 截帧时相机不动、3D 标签错位；改成渲染时直接设。
   {
-    const pose = getCameraPose({
+    const pose = poseOverride ?? getCameraPose({
       frame,
       fps,
       durationInFrames,
