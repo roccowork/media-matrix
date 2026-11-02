@@ -1,0 +1,103 @@
+# 镜头样片：把 src/showcase/ShotcraftReel.tsx 里挑出的 video-shotcraft 镜头，每个镜头一台机器并行渲染，
+# 加上编号和中文名标签、拼成一条，发到 Telegram（方便挑镜头）。只能手动触发。
+name: showcase
+
+on:
+  workflow_dispatch:
+
+concurrency:
+  group: showcase
+  cancel-in-progress: true
+
+jobs:
+  # 1. 读出镜头清单
+  list:
+    runs-on: ubuntu-24.04
+    outputs:
+      shots: ${{ steps.l.outputs.shots }}
+    steps:
+      - uses: actions/checkout@v5
+      - id: l
+        run: |
+          python3 - >> "$GITHUB_OUTPUT" <<'EOF'
+          import json, re
+          s = open("video/src/showcase/ShotcraftReel.tsx").read()
+          rows = re.findall(r'\{ C: (\w+), frames: \w+, name: "([^"]+)", card: "([^"]+)" \}', s)
+          print("shots=" + json.dumps([{"n": f"{i + 1:02d}", "comp": c, "name": n, "card": k} for i, (c, n, k) in enumerate(rows)], ensure_ascii=False))
+          EOF
+
+  # 2. 每个镜头一台机器
+  render:
+    needs: list
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    strategy:
+      fail-fast: false
+      matrix:
+        shot: ${{ fromJson(needs.list.outputs.shots) }}
+    defaults:
+      run:
+        working-directory: video
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-node@v5
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: video/package-lock.json
+      - run: npm ci
+      - name: 渲染 ${{ matrix.shot.n }} ${{ matrix.shot.comp }}
+        # 带运动模糊的镜头（如 Fracture）多页并行渲染会卡死，所以一次只开一页；单帧超时放宽到 4 分钟
+        run: npx remotion render src/index.ts "SC-${{ matrix.shot.comp }}" "out/${{ matrix.shot.n }}.mp4" --concurrency=1 --crf=20 --timeout=240000
+      - uses: actions/upload-artifact@v4
+        with:
+          name: shot-${{ matrix.shot.n }}
+          path: video/out/${{ matrix.shot.n }}.mp4
+          retention-days: 1
+
+  # 3. 加标签、拼接、发 Telegram
+  merge:
+    needs: [list, render]
+    if: always() && needs.list.result == 'success'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          path: shots
+          merge-multiple: true
+      - name: 安装 ffmpeg 和中文字体
+        run: sudo apt-get update -q && sudo apt-get install -y -q ffmpeg fonts-wqy-zenhei
+      - name: 加标签、拼接（超过 50MB 就压缩）
+        env:
+          SHOTS: ${{ needs.list.outputs.shots }}
+        run: |
+          font=$(fc-match -f '%{file}' 'WenQuanYi Zen Hei')
+          : > list.txt
+          missing=""
+          echo "$SHOTS" | python3 -c 'import json,sys; [print(s["n"], s["comp"], s["name"], s["card"], sep="\t") for s in json.load(sys.stdin)]' > shots.tsv
+          while IFS=$'\t' read n comp name card; do
+            if [ ! -f "shots/$n.mp4" ]; then missing="$missing $n"; continue; fi
+            ffmpeg -nostdin -v error -y -i "shots/$n.mp4" -vf "drawbox=x=24:y=ih-84:w=820:h=62:color=black@0.55:t=fill,drawtext=fontfile=$font:text='$n':x=40:y=h-74:fontsize=40:fontcolor=0xf5b83d,drawtext=fontfile=$font:text='$name':x=110:y=h-72:fontsize=34:fontcolor=white,drawtext=fontfile=$font:text='$card':x=520:y=h-64:fontsize=20:fontcolor=white@0.6" \
+              -c:v libx264 -crf 22 -preset fast -pix_fmt yuv420p -an "L$n.mp4"
+            echo "file 'L$n.mp4'" >> list.txt
+          done < shots.tsv
+          ffmpeg -nostdin -v error -y -f concat -safe 0 -i list.txt -c copy reel-full.mp4
+          if [ "$(stat -c %s reel-full.mp4)" -gt 48000000 ]; then
+            dur=$(ffprobe -v error -show_entries format=duration -of csv=p=0 reel-full.mp4)
+            kbps=$(python3 -c "print(int(46 * 8192 / $dur))")
+            ffmpeg -nostdin -v error -y -i reel-full.mp4 -c:v libx264 -preset medium -b:v "${kbps}k" -maxrate "${kbps}k" -bufsize "$((kbps * 2))k" -movflags +faststart reel.mp4
+          else
+            mv reel-full.mp4 reel.mp4
+          fi
+          echo "MISSING=$missing" >> "$GITHUB_ENV"
+          ls -la reel.mp4
+      - name: 发到 Telegram
+        env:
+          TG_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TG_CHAT: ${{ secrets.TELEGRAM_CHAT_ID }}
+        run: |
+          cap="🎞 video-shotcraft 镜头样片：左下角是编号，回复要哪些编号即可"
+          [ -n "$MISSING" ] && cap="$cap（这几个没渲染出来：$MISSING）"
+          curl -sf -F chat_id="$TG_CHAT" -F video=@reel.mp4 -F supports_streaming=true -F width=1920 -F height=1080 -F caption="$cap" \
+            "https://api.telegram.org/bot$TG_TOKEN/sendVideo" > /dev/null
