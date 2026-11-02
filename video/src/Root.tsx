@@ -27,6 +27,7 @@ import { EXPLAINER_DEMO, Explainer, ExplainerCover } from "./explainer/Explainer
 import { SHOTCRAFT_ORIGINALS } from "./showcase/shotcraft-originals";
 import { SHOTS } from "./science";
 import { MASCOT_INTRO_DURATION, MascotIntro } from "./science/three/MascotIntro";
+import { ATTENTION_SPACE_DURATION, AttentionSpace } from "./science/three/AttentionSpace";
 import sampleAuto from "../public/frontier/2026-11-01/auto.json";
 import { Frontier, FPS as FRONTIER_FPS, getFrontierDuration } from "./frontier/Frontier";
 import { captions as frontier20261101, voiceDuration as frontier20261101Voice } from "./frontier/episodes/2026-11-01.captions";
@@ -42,6 +43,7 @@ export const RemotionRoot: React.FC = () => (
     {/* 「AI 科普」横屏（默认 1 分钟）：数据由 tools/make_explainer.py 生成，渲染时 --props 传入；默认数据是一条短样片，方便在 Studio 里预览 */}
     {/* 「AI 科普」自己的镜头库（src/science/） */}
     <Folder name="Science">
+      <Composition id="Sci3D-AttentionSpace" component={AttentionSpace} durationInFrames={ATTENTION_SPACE_DURATION} fps={30} width={1920} height={1080} />
       <Composition id="Sci3D-MascotIntro" component={MascotIntro} durationInFrames={MASCOT_INTRO_DURATION} fps={30} width={1920} height={1080} />
       {Object.entries(SHOTS).map(([type, s]) => (
         <Composition key={type} id={`Sci-${type}`} component={s.C} durationInFrames={s.meta.duration} fps={30} width={1920} height={1080} />
