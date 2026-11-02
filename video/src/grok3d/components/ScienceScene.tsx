@@ -9,6 +9,7 @@ import {GridFloor} from './GridFloor';
 import {ParticleField} from './ParticleField';
 import {Bloom, DepthOfField, EffectComposer, Noise, Vignette} from '@react-three/postprocessing';
 import * as THREE from 'three';
+import {FilmPost, type FilmOptions} from '../film/FilmPost';
 
 type Props = {
   children: React.ReactNode;
@@ -41,6 +42,8 @@ type Props = {
   particleCount?: number;
   /** 景深。注意：在 Remotion 截帧下不稳定（焦点变化时物体会整个消失），默认关；纵深感靠雾 + 透视 */
   dof?: boolean;
+  /** 电影感后期（描边 + 镜头虚化 + 调色，来自 claude-animated-shorts）；给了就替换 post */
+  film?: FilmOptions;
   /** 直接指定相机位姿（优先于 camera 模式） */
   cameraPose?: {position: [number, number, number]; lookAt: [number, number, number]; fov: number};
 };
@@ -73,6 +76,7 @@ export const ScienceScene: React.FC<Props> = ({
   bokeh = 4,
   particleCount,
   dof = false,
+  film,
   cameraPose,
 }) => {
   const {width, height: videoHeight} = useVideoConfig();
@@ -118,7 +122,8 @@ export const ScienceScene: React.FC<Props> = ({
 
       {children}
 
-      {post && (
+      {film && <FilmPost {...film} lookAt={lookAt} />}
+      {post && !film && (
         <EffectComposer multisampling={0}>
           {dof ? <DepthOfField focusDistance={0} focalLength={0.05} bokehScale={bokeh} target={focusVec} /> : <></>}
           <Bloom intensity={bloom} luminanceThreshold={0.7} luminanceSmoothing={0.3} mipmapBlur radius={0.75} />

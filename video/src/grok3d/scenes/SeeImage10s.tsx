@@ -10,6 +10,7 @@ import {ScienceScene} from '../components/ScienceScene';
 import {PulseWave} from '../components/PulseWave';
 import {Label3D} from '../components/Label3D';
 import {QuaterniusCat, useCatModel} from '../components/QuaterniusCat';
+import {NOINK} from '../film/ink';
 
 export const SEE_IMAGE_DURATION = 300;
 const FONT = loadFont('normal', {weights: ['700', '900'], ignoreTooManyRequestsWarning: true}).fontFamily;
@@ -235,6 +236,7 @@ const Cubes: React.FC<{data: PhotoData; cubes: Cube[]}> = ({data, cubes}) => {
     const m = new THREE.InstancedMesh(new THREE.BoxGeometry(1, 1, 0.6), new THREE.MeshStandardMaterial({roughness: 0.45, metalness: 0.05}), N);
     data.colors.forEach((c, i) => m.setColorAt(i, c));
     m.frustumCulled = false;
+    m.layers.set(NOINK); // 方块不描边（几百个小方块描黑边会变成一片黑点）
     return m;
   }, [data]);
   const o = useMemo(() => new THREE.Object3D(), []);
@@ -306,7 +308,7 @@ const Panel: React.FC<{k: number; tex: THREE.Texture; at: number}> = ({k, tex, a
   );
 };
 
-export const SeeImage10s: React.FC = () => {
+export const SeeImage10s: React.FC<{look?: 'basic' | 'film'}> = ({look = 'basic'}) => {
   const frame = useCurrentFrame();
   const {fps} = useVideoConfig();
   const data = usePhotoData();
@@ -316,11 +318,13 @@ export const SeeImage10s: React.FC = () => {
   const glow = LAYER_X.map((x) => Math.min(1, cubes.filter((c) => c.s > 0 && Math.abs(c.pos.x - x) < 0.35).length / 90));
   const panelAt = [128, 146, 166];
   const cam = cameraAt(frame);
+  // 电影感后期：特写虚化背景，远景全清晰（原版规范：特写 12–16、中景 10–12、远景 0）
+  const cInf = interpolate(frame, [0, 60, 100, 130, 200, 230, 262, 290], [12, 14, 10, 6, 6, 13, 13, 0], {extrapolateRight: 'clamp'});
   const catIn = spring({frame: frame - 214, fps, config: {damping: 12, stiffness: 120}});
   const ORANGE = useMemo(() => ({Grey: '#e8984f'}), []);
   return (
     <AbsoluteFill style={{backgroundColor: '#070b16'}}>
-      <ScienceScene lighting="tech" cameraPose={cam} lookAt={cam.lookAt} ground particles particleCount={260} post focus={cam.lookAt} bloom={0.9} bokeh={2.4}>
+      <ScienceScene lighting="tech" cameraPose={cam} lookAt={cam.lookAt} ground particles particleCount={260} post={look === 'basic'} film={look === 'film' ? {cInf, focus: cam.lookAt} : undefined} focus={cam.lookAt} bloom={0.9} bokeh={2.4}>
         <directionalLight position={[-3, 4, 6]} intensity={1.4} color="#fff3e0" />
         <ambientLight intensity={0.5} />
         {/* 拍立得相框：照片碎掉后只剩空框 */}
