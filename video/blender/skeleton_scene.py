@@ -5,6 +5,7 @@
 #   blender -b -P blender/skeleton_scene.py -- --config shotconfigs/biology.skeleton.v1.json --out public/blender/biology.skeleton.v1 [选项]
 #   python blender/skeleton_scene.py --config ... --out ... --frames 0,150,290 --scale 0.5 --samples 48 --device CPU   # 云端出单帧
 # 坐标：资产原点在两脚之间的地面，z 朝上（ShotConfig 里按 three.js 的 y 朝上写：头顶约 y = 1.70）。
+import math
 import os
 import sys
 
@@ -15,6 +16,7 @@ from common import Shot, bump_node, hex_rgb, math_node, mix, noise, ramp, set_in
 
 shot = Shot('biology.skeleton.v1', {
     'spin': 0.0, 'bone': '#cdbb98', 'tooth': '#e6e0d0', 'cartilage': '#c9d4d6', 'fstop': 4.0, 'seed': 'skeleton',
+    'lumbarStress': 0.0, 'stressAt': 1.0, 'stressRamp': 2.0, 'stressColor': '#ff2410',
 })
 P = shot.P
 parts = shot.import_glb('public/assets/models/anatomy/skeleton.glb')
@@ -70,8 +72,36 @@ def make_bone(name, color, kind):
 
 
 MATS = {k: make_bone(k, hex_rgb(P[k]), k) for k in ('bone', 'tooth', 'cartilage')}
+
+# 腰椎受力泛红（1.1.0 新增，默认关）：L1 → L5 越往下越红（L5 承重最大），骶骨次之；亮度按心跳节奏轻微脉动
+STRESS_W = {'Vertebra L1': 0.35, 'Vertebra L2': 0.5, 'Vertebra L3': 0.65, 'Vertebra L4': 0.85, 'Vertebra L5': 1.0, 'Sacrum': 0.5}
+STRESS = []   # (Emission Strength 输入, 权重)
+
+
+def stressed_bone(name, w):
+    m = make_bone(name, hex_rgb(P['bone']), 'bone')
+    b = m.node_tree.nodes['Principled BSDF']
+    b.inputs['Emission Color' if 'Emission Color' in b.inputs else 'Emission'].default_value = hex_rgb(P['stressColor'])
+    # 底色也往暗红调（骨头本身米白，只靠发光会显得粉），调色程度每帧随泛红强度变
+    nt = m.node_tree
+    src = b.inputs['Base Color'].links[0].from_socket
+    mx = nt.nodes.new('ShaderNodeMixRGB')
+    mx.blend_type = 'MULTIPLY'
+    mx.inputs['Color2'].default_value = (0.75, 0.12, 0.07, 1)
+    nt.links.new(src, mx.inputs['Color1'])
+    nt.links.new(mx.outputs['Color'], b.inputs['Base Color'])
+    STRESS.append((b.inputs['Emission Strength'], w, mx.inputs['Fac']))
+    return m
+
+
 for o in parts:
     o.data.materials.clear()
+    key = next((k for k in STRESS_W if o.name.startswith(k)), None)
+    if key and P['lumbarStress'] > 0:
+        o.data.materials.append(stressed_bone(f'stress_{key}', STRESS_W[key]))
+        for poly in o.data.polygons:
+            poly.use_smooth = True
+        continue
     o.data.materials.append(MATS[part_kind(o.name)])
     for poly in o.data.polygons:
         poly.use_smooth = True
@@ -93,6 +123,13 @@ shot.render_settings(P['seed'])
 
 def apply_frame(f, t):
     pivot.rotation_euler = Euler((0, 0, P['spin'] * t))
+    if STRESS:
+        k = min(1.0, max(0.0, (t - P['stressAt']) / max(P['stressRamp'], 0.01)))
+        k = k * k * (3 - 2 * k)
+        beat = 0.8 + 0.2 * math.sin(2 * math.pi * 1.2 * t) ** 2
+        for inp, w, tint in STRESS:
+            inp.default_value = P['lumbarStress'] * 1.6 * w * w * k * beat   # 平方让 L1 → L5 的差别更明显
+            tint.default_value = min(1.0, P['lumbarStress'] * w * k)
 
 
 shot.run(apply_frame)

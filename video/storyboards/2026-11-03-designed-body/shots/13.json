@@ -1,0 +1,25 @@
+{
+  "n": 13,
+  "visual": "全身骨架，镜头从左后方推近腰椎侧面（看得到腰椎前凸的弧度）；腰椎从上到下渐渐泛红，最下面的 L5 最红，像在承受重压，随心跳轻轻脉动",
+  "onscreen": {"text": "站起来之后，腰椎一直在超载", "position": "top"},
+  "note": "腰椎泛红为示意（表示承重最大的部位），不是真实的发红；直立行走让下腰椎负担加重，腰痛常见（人类进化解剖学）",
+  "config": {
+    "id": "biology.skeleton.v1",
+    "renderer": "blender",
+    "style": "cinematic_science",
+    "fps": 30,
+    "duration": 5,
+    "camera": {
+      "preset": "dolly_in",
+      "keys": [
+        {"t": 0, "pos": [1.0, 1.25, -1.2], "look": [0.0, 1.05, -0.04], "fov": 30, "roll": 0},
+        {"t": 5, "pos": [0.34, 1.07, -0.38], "look": [0.0, 1.035, -0.045], "fov": 30, "roll": 0}
+      ]
+    },
+    "post": {"tone": "aces", "vignette": 0.55, "grain": 0.015},
+    "assets": [
+      {"id": "biology.skeleton.v1", "params": {"spin": 0, "fstop": 4, "lumbarStress": 1, "stressAt": 1.0, "stressRamp": 2.2, "seed": "designed-body-s13"}}
+    ],
+    "version": "1.0.0"
+  }
+}
