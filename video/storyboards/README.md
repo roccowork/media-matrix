@@ -7,7 +7,7 @@
 - `generator.by`：`ai` = 模型生成（`tools/storyboard.py`）；`hand` = 人工手写
 
 ## 流程
-1. **生成**（二选一）
+1. **生成**（主要方式：**直接和 Claude Code 对话**——给选题，Claude 写分镜 JSON、当场校验和出预览，见 ops-desk《方案补充》#16；下面两种是备用）
    - GitHub Actions → `storyboard` 工作流 → 填选题 → 自动生成、校验、出总览图、提交回仓库、发 Telegram
    - 本地：`OPENROUTER_API_KEY=… python3 tools/storyboard.py --topic "选题"`
 2. **审稿**：看 `script.md`（旁白、事实逐条核对）和总览图；要改就直接改 `storyboard.json`（改完 `generator.by` 改成 `hand`）
