@@ -1,0 +1,69 @@
+{
+  "n": 1,
+  "visual": "黑暗中，一颗心脏在跳，冠状血管随心跳搏动；镜头从侧前方慢慢推近",
+  "onscreen": {
+    "text": "你的心脏，一生跳 30 亿次",
+    "position": "bottom"
+  },
+  "note": "70 次 / 分 × 80 年 ≈ 29 亿次；心率 72 次 / 分（正常成人静息）；与第 15 镜首尾呼应（这里推近，那里拉远）",
+  "config": {
+    "id": "biology.heart.v1",
+    "renderer": "blender",
+    "style": "cinematic_science",
+    "fps": 30,
+    "duration": 4,
+    "camera": {
+      "preset": "dolly_in",
+      "keys": [
+        {
+          "t": 0,
+          "pos": [
+            0.9,
+            0.55,
+            3.9
+          ],
+          "look": [
+            -0.15,
+            0.22,
+            0
+          ],
+          "fov": 32,
+          "roll": 1
+        },
+        {
+          "t": 4,
+          "pos": [
+            0.5,
+            0.47,
+            3.35
+          ],
+          "look": [
+            -0.18,
+            0.24,
+            0
+          ],
+          "fov": 32,
+          "roll": 0
+        }
+      ]
+    },
+    "post": {
+      "tone": "aces",
+      "vignette": 0.6,
+      "grain": 0.015
+    },
+    "assets": [
+      {
+        "id": "biology.heart.v1",
+        "params": {
+          "bpm": 72,
+          "beat": 1,
+          "spin": 0,
+          "fstop": 2.8,
+          "seed": "designed-body-s01"
+        }
+      }
+    ],
+    "version": "1.0.0"
+  }
+}
