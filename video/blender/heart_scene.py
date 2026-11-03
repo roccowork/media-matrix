@@ -42,8 +42,8 @@ assert cfg['renderer'] == 'blender', 'ShotConfig 的 renderer 必须是 blender'
 asset = next(a for a in cfg['assets'] if a['id'] == 'biology.heart.v1')
 P = {
     'bpm': 72, 'beat': 1.0, 'spin': 0.0,
-    'myocardium': '#8c1f22', 'artery': '#c9302c', 'vein': '#3b4fae', 'valve': '#e6c3ae',
-    'fstop': 2.8, 'seed': 'heart',
+    'myocardium': '#74181b', 'artery': '#963431', 'vein': '#3b4683', 'valve': '#e6c3ae',
+    'fstop': 2.8, 'seed': 'heart', 'fat': 1.0, 'fatReach': 0.05,
     **asset.get('params', {}),
 }
 fps = cfg['fps']
@@ -82,60 +82,158 @@ def part_kind(name):
     return 'myocardium'
 
 
-def make_mat(name, color, rough, coat, sss, fiber):
+def _set(b, key, val):
+    if key in b.inputs:
+        b.inputs[key].default_value = val
+
+
+def _noise(nt, scale, detail=6.0, rough=0.55, coord='Object', stretch=(1, 1, 1)):
+    tc = nt.nodes.new('ShaderNodeTexCoord')
+    mp = nt.nodes.new('ShaderNodeMapping')
+    mp.inputs['Scale'].default_value = stretch
+    nz = nt.nodes.new('ShaderNodeTexNoise')
+    nz.inputs['Scale'].default_value = scale
+    nz.inputs['Detail'].default_value = detail
+    nz.inputs['Roughness'].default_value = rough
+    nt.links.new(tc.outputs[coord], mp.inputs['Vector'])
+    nt.links.new(mp.outputs['Vector'], nz.inputs['Vector'])
+    return nz
+
+
+def _ramp(nt, fac_socket, stops):
+    r = nt.nodes.new('ShaderNodeValToRGB')
+    els = r.color_ramp.elements
+    els[0].position, els[0].color = stops[0]
+    els[1].position, els[1].color = stops[-1]
+    for pos, col in stops[1:-1]:
+        e = els.new(pos)
+        e.color = col
+    nt.links.new(fac_socket, r.inputs['Fac'])
+    return r
+
+
+def _mix(nt, a, b, fac):
+    m = nt.nodes.new('ShaderNodeMix')
+    m.data_type = 'RGBA'
+    nt.links.new(fac, m.inputs[0])
+    for sock, v in ((m.inputs[6], a), (m.inputs[7], b)):
+        if isinstance(v, tuple):
+            sock.default_value = v
+        else:
+            nt.links.new(v, sock)
+    return m.outputs[2]
+
+
+def _math(nt, op, a, b):
+    m = nt.nodes.new('ShaderNodeMath')
+    m.operation = op
+    for sock, v in ((m.inputs[0], a), (m.inputs[1], b)):
+        if isinstance(v, (int, float)):
+            sock.default_value = v
+        else:
+            nt.links.new(v, sock)
+    return m.outputs[0]
+
+
+def shade_tone(c, k):
+    return (c[0] * k, c[1] * k, c[2] * k, 1.0)
+
+
+def make_tissue(name, color, kind):
+    # 湿润生物组织：颜色斑驳（不均匀）、次表面透光、粗糙度有变化、清漆层带细碎凹凸（高光一闪一闪，不是一层亮漆）
     m = bpy.data.materials.new(name)
     m.use_nodes = True
     nt = m.node_tree
     b = nt.nodes['Principled BSDF']
-    b.inputs['Base Color'].default_value = color
-    b.inputs['Roughness'].default_value = rough
-    for key, val in (('Coat Weight', coat), ('Coat Roughness', 0.25), ('Subsurface Weight', sss)):
-        if key in b.inputs:
-            b.inputs[key].default_value = val
-    if 'Subsurface Radius' in b.inputs:
-        b.inputs['Subsurface Radius'].default_value = (0.9, 0.25, 0.15)
-    if 'Subsurface Scale' in b.inputs:
-        b.inputs['Subsurface Scale'].default_value = 0.03
-    if fiber:
-        # 肌纤维：拉长的噪声 + 波纹做细微凹凸和深浅（湿润的肌肉质感）
-        tc = nt.nodes.new('ShaderNodeTexCoord')
-        mp = nt.nodes.new('ShaderNodeMapping')
-        mp.inputs['Scale'].default_value = (14.0, 14.0, 40.0)
-        nz = nt.nodes.new('ShaderNodeTexNoise')
-        nz.inputs['Scale'].default_value = 3.0
-        nz.inputs['Detail'].default_value = 8.0
-        bump = nt.nodes.new('ShaderNodeBump')
-        bump.inputs['Strength'].default_value = 0.25
-        bump.inputs['Distance'].default_value = 0.01
-        mix = nt.nodes.new('ShaderNodeMixRGB')
-        mix.blend_type = 'MULTIPLY'
-        mix.inputs['Color1'].default_value = color
-        nt.links.new(tc.outputs['Object'], mp.inputs['Vector'])
-        nt.links.new(mp.outputs['Vector'], nz.inputs['Vector'])
-        nt.links.new(nz.outputs['Fac'], bump.inputs['Height'])
-        nt.links.new(bump.outputs['Normal'], b.inputs['Normal'])
-        ramp = nt.nodes.new('ShaderNodeValToRGB')
-        ramp.color_ramp.elements[0].color = (0.65, 0.6, 0.6, 1)
-        ramp.color_ramp.elements[1].color = (1.1, 1.0, 1.0, 1)
-        nt.links.new(nz.outputs['Fac'], ramp.inputs['Fac'])
-        nt.links.new(ramp.outputs['Color'], mix.inputs['Color2'])
-        nt.links.new(mix.outputs['Color'], b.inputs['Base Color'])
+    _set(b, 'Subsurface Weight', 0.4 if kind == 'muscle' else 0.3)
+    _set(b, 'Subsurface Radius', (1.0, 0.3, 0.18))
+    _set(b, 'Subsurface Scale', 0.06)
+    _set(b, 'Coat Weight', 0.7 if kind == 'muscle' else 0.45)
+    _set(b, 'Coat Roughness', 0.07)
+    _set(b, 'Coat IOR', 1.38)
+    _set(b, 'Specular IOR Level', 0.4)
+    # 颜色斑驳：大尺度噪声在深 / 浅 / 偏紫之间变化
+    mot = _noise(nt, 2.2, 8, 0.6)
+    col = _ramp(nt, mot.outputs['Fac'], [
+        (0.30, shade_tone(color, 0.55)), (0.5, color), (0.62, shade_tone(color, 1.15)),
+        (0.78, (color[0] * 0.75, color[1] * 0.6, color[2] * 1.5 + 0.01, 1.0)),
+    ]).outputs['Color']
+    # 肌纤维：沿一个方向拉长的细噪声，压一点深浅
+    fib = _noise(nt, 6.0, 4, 0.5, stretch=(18, 18, 60) if kind == 'muscle' else (6, 6, 30))
+    col = _mix(nt, col, shade_tone(color, 0.7), _math(nt, 'MULTIPLY', fib.outputs['Fac'], 0.35))
+    rough_n = _noise(nt, 9.0, 3, 0.5)
+    rough = _math(nt, 'ADD', _math(nt, 'MULTIPLY', rough_n.outputs['Fac'], 0.35), 0.3)
+    # 清漆层的细碎凹凸：湿润表面的闪点
+    wet = _noise(nt, 70.0, 2, 0.5)
+    wb = nt.nodes.new('ShaderNodeBump'); wb.inputs['Strength'].default_value = 0.35; wb.inputs['Distance'].default_value = 0.002
+    nt.links.new(wet.outputs['Fac'], wb.inputs['Height'])
+    if 'Coat Normal' in b.inputs:
+        nt.links.new(wb.outputs['Normal'], b.inputs['Coat Normal'])
+    # 底层凹凸：纤维 + 斑驳
+    bb = nt.nodes.new('ShaderNodeBump'); bb.inputs['Strength'].default_value = 0.3; bb.inputs['Distance'].default_value = 0.01
+    nt.links.new(fib.outputs['Fac'], bb.inputs['Height'])
+    normal = bb.outputs['Normal']
+    if kind == 'muscle':
+        # 心外膜脂肪：顶点属性 fat（离冠状血管越近越大，见下方 bake_fat），叠上团块状噪声，混成黄白色、更凹凸
+        attr = nt.nodes.new('ShaderNodeAttribute'); attr.attribute_name = 'fat'
+        lump = _noise(nt, 14.0, 5, 0.6)
+        fat_f = _math(nt, 'MULTIPLY', attr.outputs['Fac'], _math(nt, 'ADD', _math(nt, 'MULTIPLY', lump.outputs['Fac'], 2.4), -0.85))
+        fat_f = _math(nt, 'MINIMUM', _math(nt, 'MAXIMUM', fat_f, 0.0), 1.0)
+        fat_col = _ramp(nt, lump.outputs['Fac'], [(0.35, (0.62, 0.42, 0.13, 1)), (0.65, (0.85, 0.66, 0.30, 1))]).outputs['Color']
+        col = _mix(nt, col, fat_col, fat_f)
+        rough = _mix(nt, rough, (0.45, 0.45, 0.45, 1), fat_f)
+        fb = nt.nodes.new('ShaderNodeBump'); fb.inputs['Strength'].default_value = 0.6; fb.inputs['Distance'].default_value = 0.03
+        nt.links.new(_math(nt, 'MULTIPLY', lump.outputs['Fac'], fat_f), fb.inputs['Height'])
+        nt.links.new(normal, fb.inputs['Normal'])
+        normal = fb.outputs['Normal']
+    nt.links.new(col, b.inputs['Base Color'])
+    nt.links.new(rough, b.inputs['Roughness'])
+    nt.links.new(normal, b.inputs['Normal'])
     return m
 
 
 MATS = {
-    'myocardium': make_mat('myocardium', hex_rgb(P['myocardium']), 0.42, 0.35, 0.25, True),
-    'artery': make_mat('artery', hex_rgb(P['artery']), 0.35, 0.5, 0.15, False),
-    'pulmonary_vein': make_mat('pulmonary_vein', hex_rgb(P['artery']), 0.35, 0.5, 0.15, False),
-    'vein': make_mat('vein', hex_rgb(P['vein']), 0.35, 0.5, 0.15, False),
-    'pulmonary_artery': make_mat('pulmonary_artery', hex_rgb(P['vein']), 0.35, 0.5, 0.15, False),
-    'valve': make_mat('valve', hex_rgb(P['valve']), 0.5, 0.2, 0.3, False),
+    'myocardium': make_tissue('myocardium', hex_rgb(P['myocardium']), 'muscle'),
+    'artery': make_tissue('artery', hex_rgb(P['artery']), 'vessel'),
+    'pulmonary_vein': make_tissue('pulmonary_vein', hex_rgb(P['artery']), 'vessel'),
+    'vein': make_tissue('vein', hex_rgb(P['vein']), 'vessel'),
+    'pulmonary_artery': make_tissue('pulmonary_artery', hex_rgb(P['vein']), 'vessel'),
+    'valve': make_tissue('valve', hex_rgb(P['valve']), 'vessel'),
 }
 for o in parts:
     o.data.materials.clear()
     o.data.materials.append(MATS[part_kind(o.name)])
     for poly in o.data.polygons:
         poly.use_smooth = True
+
+
+def bake_fat():
+    # 每个心肌顶点到最近冠状血管（动脉 + 心静脉）的距离 → 顶点属性 fat（0–1）。确定性：纯几何计算
+    from mathutils.kdtree import KDTree
+    vessels = [o for o in parts if part_kind(o.name) in ('artery', 'vein') and ('coronary' in o.name.lower() or 'cardiac' in o.name.lower()
+               or 'interventricular' in o.name.lower() or 'circumflex' in o.name.lower() or 'sinus' in o.name.lower()
+               or 'inferolateral' in o.name.lower() or 'septal' in o.name.lower() or 'ventricle' in o.name.lower())]
+    pts = [o.matrix_world @ v.co for o in vessels for v in o.data.vertices]
+    kd = KDTree(len(pts))
+    for i, p in enumerate(pts):
+        kd.insert(p, i)
+    kd.balance()
+    reach = P.get('fatReach', 0.05)
+    for o in parts:
+        if part_kind(o.name) != 'myocardium':
+            continue
+        attr = o.data.attributes.new('fat', 'FLOAT', 'POINT')
+        mw = o.matrix_world
+        vals = []
+        for v in o.data.vertices:
+            _, _, d = kd.find(mw @ v.co)
+            x = max(0.0, 1.0 - d / reach)
+            vals.append(x * x * (3 - 2 * x) * P.get('fat', 1.0))
+        attr.data.foreach_set('value', vals)
+    print('心外膜脂肪：参考', len(vessels), '条冠状血管')
+
+
+bake_fat()
 
 # 所有部件挂到一个空物体下：心跳 / 自转都作用在它上面（冠状血管贴着心肌，一起动）
 pivot = bpy.data.objects.new('heart_pivot', None)
