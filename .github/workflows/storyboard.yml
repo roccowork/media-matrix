@@ -1,0 +1,79 @@
+# AI 分镜（方案第十三节第 3 周；《方案补充》#15）：输入选题 → 生成旁白稿和分镜（OpenRouter + Claude Sonnet）→ 校验 → 每镜关键帧总览图
+# → 分镜提交回仓库（storyboards/<id>/）→ 总览图 + 旁白稿发 Telegram 给用户审。只出关键帧，不出视频。
+# 需要仓库 Secrets：OPENROUTER_API_KEY、TELEGRAM_BOT_TOKEN、TELEGRAM_CHAT_ID
+name: storyboard
+
+on:
+  workflow_dispatch:
+    inputs:
+      topic:
+        description: "选题（如：心脏怎样把血液送遍全身）"
+        required: true
+      id:
+        description: "分镜 id（留空自动：日期-英文短名）"
+        required: false
+        default: ""
+      model:
+        description: "OpenRouter 模型"
+        required: false
+        default: "anthropic/claude-sonnet-5.5"
+
+concurrency:
+  group: storyboard
+  cancel-in-progress: false
+
+permissions:
+  contents: write
+
+jobs:
+  storyboard:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 60
+    defaults:
+      run:
+        working-directory: video
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-node@v5
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: video/package-lock.json
+      - run: npm ci
+      - name: 中文字体和 Pillow（预览字幕、总览图）
+        run: |
+          sudo apt-get update -q && sudo apt-get install -y -q fonts-wqy-zenhei
+          pip install -q pillow
+      - name: ① 旁白稿 ② 分镜 ③ 校验（不通过自动回修最多 2 轮）
+        id: gen
+        env:
+          OPENROUTER_API_KEY: ${{ secrets.OPENROUTER_API_KEY }}
+          TOPIC: ${{ inputs.topic }}
+          SBID: ${{ inputs.id }}
+          MODEL: ${{ inputs.model }}
+        run: python3 tools/storyboard.py --topic "$TOPIC" ${SBID:+--id "$SBID"} --model "$MODEL"
+      - name: 镜头预览（每镜中间一帧 + 总览图）
+        run: node tools/shot.mjs storyboard-preview "storyboards/${{ steps.gen.outputs.id }}/storyboard.json"
+      - name: 分镜提交回仓库
+        run: |
+          git config user.name "storyboard-bot"
+          git config user.email "storyboard-bot@users.noreply.github.com"
+          git add "storyboards/${{ steps.gen.outputs.id }}/storyboard.json" "storyboards/${{ steps.gen.outputs.id }}/script.md"
+          git commit -m "AI 分镜：${{ inputs.topic }}（${{ steps.gen.outputs.id }}）"
+          git pull --rebase -q origin main && git push -q origin HEAD:main
+      - name: 发到 Telegram（总览图 + 旁白稿）
+        env:
+          TG_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TG_CHAT: ${{ secrets.TELEGRAM_CHAT_ID }}
+          ID: ${{ steps.gen.outputs.id }}
+          TOPIC: ${{ inputs.topic }}
+        run: |
+          curl -sf -F chat_id="$TG_CHAT" -F photo=@"storyboards/$ID/preview/preview.jpg" -F caption="🎬 AI 分镜：$TOPIC（$ID）——请审旁白稿和待核验事实" \
+            "https://api.telegram.org/bot$TG_TOKEN/sendPhoto" > /dev/null
+          curl -sf -F chat_id="$TG_CHAT" -F document=@"storyboards/$ID/script.md" "https://api.telegram.org/bot$TG_TOKEN/sendDocument" > /dev/null
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: storyboard-${{ steps.gen.outputs.id || 'failed' }}
+          path: video/storyboards/
+          retention-days: 7

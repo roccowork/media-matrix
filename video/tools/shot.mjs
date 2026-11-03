@@ -129,9 +129,16 @@ const validateStoryboard = (file, quiet = false) => {
 // 资产目录：给模型看的（只含模型需要的信息）
 const catalog = (out) => {
   const reg = loadRegistry();
+  // 每个资产附一个参考镜头（资产验收配置：相机距离、后期、参数怎么写），给模型照着写
+  const examples = {};
+  for (const f of fs.readdirSync(path.join(root, 'shotconfigs'))) {
+    const c = JSON.parse(fs.readFileSync(path.join(root, 'shotconfigs', f), 'utf8'));
+    for (const x of c.assets ?? []) if (!examples[x.id]) examples[x.id] = {renderer: c.renderer, style: c.style, camera: c.camera, post: c.post, assets: c.assets, note: c.note};
+  }
   const list = Object.values(reg).filter((a) => a.kind === 'procedural' || a.renderer === 'blender').map((a) => ({
     id: a.id, name: a.name, category: a.category, renderer: a.renderer, version: a.version, camera_presets: a.camera_presets,
     no_dof: a.no_dof || undefined, real_range: Object.keys(a.real_range).length ? a.real_range : undefined, notes: a.notes, params: a.params,
+    example_shot: examples[a.id],
   }));
   const json = JSON.stringify({engine_major: ENGINE_MAJOR, blender_post: POST_BLENDER, storyboard_rules: SB, assets: list}, null, 1);
   if (out) { fs.writeFileSync(out, json); console.log(`✓ 资产目录 ${list.length} 个 → ${out}`); } else console.log(json);

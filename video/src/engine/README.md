@@ -83,3 +83,6 @@ postprocessing 6.38.0 · @react-three/postprocessing 3.0.4 · react 19.2.0 · aj
 ## 已知问题
 - 后期 bloom 在极亮区域（如磁场线的磁铁附近）会留下很淡的方形块，正常亮度下几乎看不出（2026-11-03 发现，待查）
 - 加色、不写深度的资产（全息界面、闪电、磁场线、能量场）不要开 post.dof，否则整张图按无穷远一起虚化
+
+## AI 分镜（第 3 周）
+见 `storyboards/README.md`：`tools/storyboard.py`（生成）、`shot.mjs validate-storyboard / storyboard-preview / storyboard-shot / catalog`、Remotion 合成 `Storyboard` / `SB-Shot`、工作流 `.github/workflows/storyboard.yml`。
