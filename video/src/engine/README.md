@@ -53,6 +53,11 @@ postprocessing 6.38.0 · @react-three/postprocessing 3.0.4 · react 19.2.0 · aj
 - 模型 / 贴图 / 字体一律在画布外 `delayRender` 预加载（Suspense 加载完不会重绘）。
 - 云端没有显卡：黑洞 1080p 一帧约 35–90 秒（swangle）；整段渲染放用户笔记本（`--gl=angle`）或 Actions 多机并行。
 - 随机数一律用 Remotion 的 `random(seed)`；同帧确定性已用 `determinism` 验证（黑洞第 330 帧逐字节一致）。
+- LensBlur 景深开着时必须 `multisampling=4`，否则出全黑帧。
+- 分镜转场写在 `transition`（默认叠化 0.6 秒）；字卡写完整句、用 `onscreen.position` 避开主体，改字后逐镜截图检查。
+- 分多台机器渲染时各段音频直接拼会断音：preview.yml 已改成整段音频单独渲染再合进去。会话网络不放行 remotion.media，音频只能在 Actions 里渲。
+- ElevenLabs 最多 5 个并发请求，生成音效一次最多并发 4 个。
+- 完整踩坑清单（含协作上的错）：ops-desk `docs/plan/media-matrix/踩坑记录.md`。
 
 ## 资产（见 registry.ts）
 | id | 类型 | 验收镜头 | 许可 |
