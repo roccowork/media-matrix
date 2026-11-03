@@ -49,6 +49,7 @@ import { EnergyField, ENERGYFIELD_SHOT } from "./shots/energyfield/EnergyField";
 import { BlenderHeart, HEART_SHOT } from "./shots/heart/BlenderHeart";
 import { BlenderSkeleton, SKELETON_SHOT } from "./shots/skeleton/BlenderSkeleton";
 import { BlenderVessels, VESSELS_SHOT } from "./shots/vessels/BlenderVessels";
+import { BlenderRln, RLN_SHOT } from "./shots/rln/BlenderRln";
 import { SBShotView, StoryboardView, type StoryboardData } from "./shots/storyboard/Storyboard";
 import demoStoryboard from "../storyboards/2026-11-03-heart-circulation/storyboard.json";
 import ai100Storyboard from "../storyboards/2026-11-03-ai-100-years/storyboard.json";
@@ -99,6 +100,7 @@ export const RemotionRoot: React.FC = () => (
       <Composition id="Blender-Heart" component={BlenderHeart} durationInFrames={HEART_SHOT.duration * HEART_SHOT.fps} fps={HEART_SHOT.fps} width={1920} height={1080} />
       <Composition id="Blender-Skeleton" component={BlenderSkeleton} durationInFrames={SKELETON_SHOT.duration * SKELETON_SHOT.fps} fps={SKELETON_SHOT.fps} width={1920} height={1080} />
       <Composition id="Blender-Vessels" component={BlenderVessels} durationInFrames={VESSELS_SHOT.duration * VESSELS_SHOT.fps} fps={VESSELS_SHOT.fps} width={1920} height={1080} />
+      <Composition id="Blender-Rln" component={BlenderRln} durationInFrames={RLN_SHOT.duration * RLN_SHOT.fps} fps={RLN_SHOT.fps} width={1920} height={1080} />
       {/* AI 分镜：单镜（单镜重渲染）/ 整条（inputProps 传分镜；默认用手写示例） */}
       <Composition id="SB-Shot" component={SBShotView} defaultProps={{config: (demoStoryboard as unknown as StoryboardData).shots[0].config, annotate: false}} calculateMetadata={({ props }) => ({ durationInFrames: Math.round(props.config.duration * props.config.fps), fps: props.config.fps })} durationInFrames={180} fps={30} width={1920} height={1080} />
       {/* 《一百年后的 AI》第三版整条（无标注；preview.yml 渲染用） */}
