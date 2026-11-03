@@ -484,6 +484,7 @@ export const ASSETS: AssetMeta[] = [
       fog: {type: 'number', default: 1, min: 0, max: 5, desc: '距离雾浓度倍数'},
       haze: {type: 'number', default: 0, min: 0, max: 2, desc: '体液环境（体积雾 + 远景光斑 + 漂浮微粒）浓度，0 关闭；一个镜头只给一个开'},
       hazeColor: {type: 'color', default: '#0d3f6e', desc: '体液 / 距离雾主色'},
+      nucleusInner: {type: 'boolean', default: false, desc: '镜头钻进细胞核时画出核膜内壁（暗紫，挡住核外的细胞器）；默认关'},
       seed: {type: 'seed', default: 'cell', desc: '种子：细胞外形、细胞核位置、细胞器分布和朝向、内质网褶皱随之变化（每个视频用自己的种子）'},
     },
     effects: ['translucent_membrane', 'membrane_wobble', 'nucleus_chromatin', 'mitochondria_cristae', 'golgi_stack', 'rough_er_points', 'vesicles', 'bio_medium'],
@@ -491,7 +492,7 @@ export const ASSETS: AssetMeta[] = [
     lighting_preset: '着色器内置主光 + 菲涅尔边缘光（无需灯光）；配深色背景 + post.dof',
     thumbnail: 'assets/thumbs/biology.cell.v1.jpg',
     license: 'own（自研 Shader）',
-    version: '1.0.0',
+    version: '1.1.0',
     notes: '细胞膜半透明不写深度，景深焦点按里面的细胞器算；细胞器是不透明 InstancedMesh；体液环境 BioMedium 与病毒资产共用',
   },
   {

@@ -35,6 +35,7 @@ export type CellProps = {
   fog?: number;
   haze?: number;
   hazeColor?: string;
+  nucleusInner?: boolean; // 镜头进入细胞核时画核膜内壁（挡住核外的细胞器）
   seed?: string | number;
 };
 
@@ -117,7 +118,7 @@ void main() {
   gl_Position = projectionMatrix * mv;
 }`;
 const NUC_FRAG = /* glsl */ `
-uniform vec3 uCol; uniform vec3 uRim; uniform float uSeedF;
+uniform vec3 uCol; uniform vec3 uRim; uniform float uSeedF; uniform float uInner;
 varying vec3 vN; varying vec3 vV; varying vec3 vObj;
 ${NOISE_GLSL}
 ${SHADE_GLSL}
@@ -125,6 +126,14 @@ void main() {
   vec3 n = normalize(vN); vec3 v = normalize(vV);
   vec3 q = vObj * 3.0 + uSeedF;
   float chrom = snoise(q) * 0.5 + snoise(q * 2.3) * 0.3 + snoise(q * 5.1) * 0.2;
+  if (!gl_FrontFacing) {
+    // 从核里往外看：核膜内壁（nucleusInner 打开时才画），暗紫、有染色质纹理和核孔亮点，挡住核外的细胞器
+    if (uInner < 0.5) discard;
+    float pore = smoothstep(0.86, 0.93, snoise(vObj * 34.0 + uSeedF) * 0.5 + 0.5);
+    vec3 inner = uCol * (0.1 + 0.08 * smoothstep(-0.4, 0.6, chrom)) + uRim * pore * 0.35;
+    gl_FragColor = vec4(fogit(inner, length(vV)), 1.0);
+    return;
+  }
   float pores = smoothstep(0.82, 0.9, snoise(vObj * 34.0 + uSeedF) * 0.5 + 0.5);
   vec3 base = uCol * (0.75 + 0.45 * smoothstep(-0.4, 0.6, chrom));
   base = mix(base, vec3(0.08, 0.04, 0.15), pores * 0.8);
@@ -215,6 +224,7 @@ export const CellAsset: React.FC<CellProps> = ({
   fog = 1,
   haze = 0,
   hazeColor = '#0d3f6e',
+  nucleusInner = false,
   seed = 'cell',
 }) => {
   const frame = useCurrentFrame();
@@ -256,7 +266,8 @@ export const CellAsset: React.FC<CellProps> = ({
       });
     const nucMat = new THREE.ShaderMaterial({
       vertexShader: NUC_VERT, fragmentShader: NUC_FRAG,
-      uniforms: {uT: T, uSeedF: {value: seedF * 0.7}, uCol: {value: new THREE.Color(nucleusColor)}, uRim: {value: rimCol}, ...fogU},
+      uniforms: {uT: T, uSeedF: {value: seedF * 0.7}, uCol: {value: new THREE.Color(nucleusColor)}, uRim: {value: rimCol}, uInner: {value: nucleusInner ? 1 : 0}, ...fogU},
+      side: THREE.DoubleSide,
     });
     const orgMat = (c1: string, c2: string, kind: number, len: number, drift: number) =>
       new THREE.ShaderMaterial({
@@ -346,7 +357,7 @@ export const CellAsset: React.FC<CellProps> = ({
       uniforms: {uT: T, uHalfH: {value: 540}, uEr: {value: new THREE.Color(erColor)}, uSc: {value: R / 2}},
     });
     return {T, memIn: mem(true), memOut: mem(false), nucMat, nucC, nucR, mito, golgi, ves, ptsGeo, ptsMat};
-  }, [S, R, squash, wobble, nMito, nVes, membraneColor, nucleusColor, mitoColor, golgiColor, erColor, vesicleColor, fog, hazeColor]);
+  }, [S, R, squash, wobble, nMito, nVes, membraneColor, nucleusColor, mitoColor, golgiColor, erColor, vesicleColor, fog, hazeColor, nucleusInner]);
 
   built.T.value = t;
   built.ptsMat.uniforms.uHalfH.value = (size.height * gl.getPixelRatio()) / 2;

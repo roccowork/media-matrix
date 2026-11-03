@@ -1,0 +1,158 @@
+{
+  "n": 2,
+  "visual": "镜头从体液中飞向一个细胞，穿过半透明细胞膜，冲进细胞核；核里 DNA 双螺旋缓缓旋转、开始解开",
+  "onscreen": {
+    "text": "每个细胞里，DNA 拉直有 2 米",
+    "position": "bottom"
+  },
+  "note": "人类二倍体基因组约 64 亿碱基对 × 0.34 nm ≈ 2 米；细胞和 DNA 的相对大小为示意（真实 DNA 在核里折叠成染色质，看不到一条光滑的双螺旋）",
+  "config": {
+    "id": "biology.dna.v1",
+    "renderer": "threejs",
+    "style": "cinematic_science",
+    "fps": 30,
+    "duration": 5,
+    "note": "细胞与 DNA 的相对大小为示意",
+    "camera": {
+      "preset": "fly_through",
+      "keys": [
+        {
+          "t": 0,
+          "pos": [
+            0.28,
+            1.12,
+            6.96
+          ],
+          "look": [
+            0.275,
+            -0.072,
+            0.164
+          ],
+          "fov": 38,
+          "roll": -2
+        },
+        {
+          "t": 1.6,
+          "pos": [
+            0.28,
+            0.2,
+            2.6
+          ],
+          "look": [
+            0.275,
+            -0.072,
+            0.164
+          ],
+          "fov": 38,
+          "roll": -1
+        },
+        {
+          "t": 2.5,
+          "pos": [
+            0.28,
+            -0.04,
+            0.95
+          ],
+          "look": [
+            0.275,
+            -0.072,
+            0.164
+          ],
+          "fov": 38,
+          "roll": 0
+        },
+        {
+          "t": 3.1,
+          "pos": [
+            0.28,
+            -0.06,
+            0.5
+          ],
+          "look": [
+            0.275,
+            -0.072,
+            0.164
+          ],
+          "fov": 38,
+          "roll": 0
+        },
+        {
+          "t": 5,
+          "pos": [
+            0.55,
+            0.04,
+            0.42
+          ],
+          "look": [
+            0.275,
+            -0.072,
+            0.164
+          ],
+          "fov": 38,
+          "roll": 1
+        }
+      ]
+    },
+    "post": {
+      "bloom": {
+        "intensity": 0.7,
+        "threshold": 0.95,
+        "radius": 0.6
+      },
+      "dof": {
+        "cInf": 10,
+        "focus": [
+          0.275,
+          -0.072,
+          0.164
+        ]
+      },
+      "tone": "aces",
+      "vignette": 0.6,
+      "grain": 0.015,
+      "chromatic": 0.0007
+    },
+    "assets": [
+      {
+        "id": "biology.cell.v1",
+        "params": {
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "radius": 2,
+          "squash": 0.85,
+          "mitochondria": 16,
+          "vesicles": 40,
+          "spin": 0,
+          "haze": 1,
+          "hazeColor": "#0d3f6e",
+          "seed": "designed-body-s02",
+          "nucleusInner": true
+        }
+      },
+      {
+        "id": "biology.dna.v1",
+        "params": {
+          "position": [
+            0.275,
+            -0.072,
+            0.164
+          ],
+          "length": 30,
+          "radius": 0.1,
+          "spin": 0.3,
+          "unzipAt": 3.2,
+          "unzipSpeed": 5,
+          "flow": true,
+          "dust": 0,
+          "haze": 0,
+          "glow": 1,
+          "seed": "designed-body-s02-dna"
+        }
+      }
+    ],
+    "version": "1.0.0"
+  }
+}
