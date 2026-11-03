@@ -1,0 +1,86 @@
+{
+  "n": 4,
+  "visual": "从高空俯冲向一座城市，白色波前从市中心扩散，路变走线、路口变焊盘、街区变芯片",
+  "onscreen": {
+    "text": "一块芯片，两千亿个晶体管"
+  },
+  "config": {
+    "id": "tech.citychip.v1",
+    "renderer": "threejs",
+    "style": "imax_cosmos",
+    "fps": 30,
+    "duration": 4,
+    "camera": {
+      "preset": "keys",
+      "keys": [
+        {
+          "t": 0,
+          "pos": [
+            0,
+            20,
+            9
+          ],
+          "look": [
+            0,
+            0,
+            -1
+          ],
+          "fov": 45,
+          "roll": -6
+        },
+        {
+          "t": 4,
+          "pos": [
+            0,
+            6.5,
+            2.5
+          ],
+          "look": [
+            0,
+            0,
+            -1.2
+          ],
+          "fov": 45,
+          "roll": 0
+        }
+      ]
+    },
+    "post": {
+      "bloom": {
+        "intensity": 0.7,
+        "threshold": 0.85,
+        "radius": 0.5
+      },
+      "tone": "aces",
+      "vignette": 0.55,
+      "grain": 0.012
+    },
+    "assets": [
+      {
+        "id": "cosmos.milkyway.v1",
+        "params": {
+          "centerAzimuth": 0,
+          "centerElevation": 12,
+          "tilt": 28,
+          "seed": "2026-11-03-ai-100-years-sky"
+        }
+      },
+      {
+        "id": "tech.citychip.v1",
+        "params": {
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "size": 46,
+          "blocks": 44,
+          "morphAt": 0.8,
+          "morphDuration": 3.4,
+          "seed": "2026-11-03-ai-100-years-s4"
+        }
+      }
+    ],
+    "version": "1.0.0"
+  }
+}

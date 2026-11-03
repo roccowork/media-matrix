@@ -1,0 +1,115 @@
+{
+  "n": 3,
+  "visual": "贴近地球夜面，城市之间弹起暖色数据弧线，光点飞过",
+  "onscreen": {
+    "year": "2025",
+    "text": "今天，AI 还住在机房里"
+  },
+  "config": {
+    "id": "tech.citynet.v1",
+    "renderer": "threejs",
+    "style": "imax_cosmos",
+    "fps": 30,
+    "duration": 4,
+    "camera": {
+      "preset": "keys",
+      "keys": [
+        {
+          "t": 0,
+          "pos": [
+            1.8,
+            3.4,
+            9.6
+          ],
+          "look": [
+            0,
+            1.2,
+            0
+          ],
+          "fov": 40,
+          "roll": -4
+        },
+        {
+          "t": 4,
+          "pos": [
+            0.6,
+            2.8,
+            8.4
+          ],
+          "look": [
+            0,
+            1.0,
+            0
+          ],
+          "fov": 40,
+          "roll": -1
+        }
+      ]
+    },
+    "post": {
+      "bloom": {
+        "intensity": 0.7,
+        "threshold": 0.85,
+        "radius": 0.5
+      },
+      "tone": "aces",
+      "vignette": 0.55,
+      "grain": 0.012
+    },
+    "assets": [
+      {
+        "id": "cosmos.milkyway.v1",
+        "params": {
+          "centerAzimuth": 0,
+          "centerElevation": 12,
+          "tilt": 28,
+          "seed": "2026-11-03-ai-100-years-sky"
+        }
+      },
+      {
+        "id": "cosmos.planet.v1",
+        "params": {
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "radius": 5,
+          "kind": 0,
+          "sunDir": [
+            -1,
+            0.15,
+            -0.9
+          ],
+          "spin": 0.4,
+          "clouds": 0.45,
+          "cityLights": true,
+          "seed": "2026-11-03-ai-100-years-earth"
+        }
+      },
+      {
+        "id": "tech.citynet.v1",
+        "params": {
+          "center": [
+            0,
+            0,
+            0
+          ],
+          "radius": 5,
+          "facing": [
+            0.15,
+            0.45,
+            0.88
+          ],
+          "spread": 42,
+          "count": 55,
+          "seed": "2026-11-03-ai-100-years-s3",
+          "width": 0.012,
+          "height": 0.18,
+          "color": "#ff9a3c"
+        }
+      }
+    ],
+    "version": "1.0.0"
+  }
+}

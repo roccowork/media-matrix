@@ -20,6 +20,8 @@ import {BloodFlowAsset} from '../../assets/biology/bloodflow/BloodFlowAsset';
 import {ChipAsset} from '../../assets/tech/chip/ChipAsset';
 import {DataStreamAsset} from '../../assets/tech/datastream/DataStreamAsset';
 import {HudAsset} from '../../assets/tech/hud/HudAsset';
+import {CityNetAsset} from '../../assets/tech/citynet/CityNetAsset';
+import {CityChipAsset} from '../../assets/tech/citychip/CityChipAsset';
 import {LightningAsset} from '../../assets/physics/lightning/LightningAsset';
 import {FieldLinesAsset} from '../../assets/physics/fieldlines/FieldLinesAsset';
 import {EnergyFieldAsset} from '../../assets/physics/energyfield/EnergyFieldAsset';
@@ -680,6 +682,61 @@ export const ASSETS: AssetMeta[] = [
     license: 'own（自研 Shader）',
     version: '1.0.0',
     notes: '加色、不写深度，镜头不要开 post.dof；击中方向偏向资产自身 +z 半球（镜头从 +z 一侧看最清楚）',
+  },
+  {
+    asset_id: 'tech.citynet.v1',
+    asset_name: '城市间数据光带（行星夜面上城市之间不断弹起发光弧线、光点飞过、再熄灭换一对城市）',
+    category: 'tech',
+    kind: 'procedural',
+    renderer: 'threejs',
+    component: C(CityNetAsset),
+    params: {
+      center: {type: 'vec3', default: [0, 0, 0], desc: '行星中心（与 cosmos.planet.v1 的 position 一致）'},
+      radius: {type: 'number', default: 5, min: 0.1, max: 500, desc: '行星半径（与 planet 一致）'},
+      facing: {type: 'vec3', default: [0, 0, 1], desc: '弧线集中在球面这个方向周围（一般朝镜头的夜面）'},
+      spread: {type: 'number', default: 55, min: 5, max: 90, desc: '分布范围（度）'},
+      count: {type: 'number', default: 70, min: 1, max: 400, desc: '同时存在的弧线条数'},
+      height: {type: 'number', default: 0.25, min: 0, max: 1, desc: '弧高（相对弦长）'},
+      width: {type: 'number', default: 0.025, min: 0.002, max: 1, desc: '线宽（世界单位）'},
+      color: {type: 'color', default: '#ffb35c', desc: '弧线颜色'},
+      pulseColor: {type: 'color', default: '#fff2d6', desc: '飞行光点颜色'},
+      period: {type: 'number', default: 3.2, min: 0.5, max: 30, desc: '每条弧的平均周期（秒）'},
+      maxSpan: {type: 'number', default: 30, min: 5, max: 180, desc: '一条弧最远连多远（度）；真实连线多在相邻城市之间'},
+      brightness: {type: 'number', default: 1, min: 0.1, max: 5, desc: '亮度'},
+      seed: {type: 'seed', default: 'citynet', desc: '种子：弧线端点、周期、相位'},
+    },
+    effects: ['great_circle_arcs', 'grow_in', 'flying_pulses', 'respawn'],
+    camera_presets: ['贴近行星夜面', '环绕'],
+    lighting_preset: '自发光；配 bloom',
+    no_dof: true,
+    license: 'own（自研 Shader）',
+    version: '1.0.0',
+    notes: '和 cosmos.planet.v1 叠用（center / radius 对齐），被行星挡住的部分自动隐藏',
+  },
+  {
+    asset_id: 'tech.citychip.v1',
+    asset_name: '城市灯光变芯片（俯瞰城市夜景被一道波前改写成芯片电路：路→走线、路口→焊盘、街区→芯片模块）',
+    category: 'tech',
+    kind: 'procedural',
+    renderer: 'threejs',
+    component: C(CityChipAsset),
+    params: {
+      position: {type: 'vec3', default: [0, 0, 0], desc: '平面中心（水平铺开）'},
+      size: {type: 'number', default: 40, min: 1, max: 2000, desc: '平面边长'},
+      blocks: {type: 'number', default: 40, min: 4, max: 400, desc: '每边大约多少个街区'},
+      morphAt: {type: 'number', default: 1, min: -1, max: 600, desc: '开始变芯片的时间（秒）；-1 = 纯城市'},
+      morphDuration: {type: 'number', default: 3, min: 0.1, max: 60, desc: '波前从中心走到边缘要多久（秒）'},
+      cityColor: {type: 'color', default: '#ffb35c', desc: '城市灯光颜色'},
+      chipColor: {type: 'color', default: '#45d3ff', desc: '芯片走线颜色'},
+      brightness: {type: 'number', default: 1, min: 0.1, max: 5, desc: '亮度'},
+      seed: {type: 'seed', default: 'citychip', desc: '种子：路网扭曲、灯团、芯片模块分布'},
+    },
+    effects: ['city_night_grid', 'street_lamps', 'pcb_traces', 'via_pads', 'chip_modules', 'data_flow', 'radial_morph_front'],
+    camera_presets: ['从高空俯冲（look 向下）'],
+    lighting_preset: '自发光；配 bloom',
+    license: 'own（自研 Shader）',
+    version: '1.0.0',
+    notes: '平面四周自动淡出；镜头俯视时背景可留银河天穹',
   },
   {
     asset_id: 'tech.robot.expressive.v1',

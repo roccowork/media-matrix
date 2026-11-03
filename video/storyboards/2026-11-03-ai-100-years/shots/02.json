@@ -1,0 +1,93 @@
+{
+  "n": 2,
+  "visual": "镜头从银河往下摇，地球夜面从画面底部升起，城市灯光像星星",
+  "onscreen": {
+    "text": "夜空最亮的，也许不是星星",
+    "tag": "设想"
+  },
+  "config": {
+    "id": "cosmos.planet.v1",
+    "renderer": "threejs",
+    "style": "imax_cosmos",
+    "fps": 30,
+    "duration": 4,
+    "camera": {
+      "preset": "keys",
+      "keys": [
+        {
+          "t": 0,
+          "pos": [
+            0,
+            4.2,
+            13
+          ],
+          "look": [
+            0,
+            10.5,
+            0
+          ],
+          "fov": 42,
+          "roll": -3
+        },
+        {
+          "t": 4,
+          "pos": [
+            0,
+            3.6,
+            12.2
+          ],
+          "look": [
+            0,
+            2.6,
+            0
+          ],
+          "fov": 42,
+          "roll": 0
+        }
+      ]
+    },
+    "post": {
+      "bloom": {
+        "intensity": 0.7,
+        "threshold": 0.85,
+        "radius": 0.5
+      },
+      "tone": "aces",
+      "vignette": 0.55,
+      "grain": 0.012
+    },
+    "assets": [
+      {
+        "id": "cosmos.milkyway.v1",
+        "params": {
+          "centerAzimuth": 0,
+          "centerElevation": 12,
+          "tilt": 28,
+          "seed": "2026-11-03-ai-100-years-sky"
+        }
+      },
+      {
+        "id": "cosmos.planet.v1",
+        "params": {
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "radius": 5,
+          "kind": 0,
+          "sunDir": [
+            -1,
+            0.15,
+            -0.9
+          ],
+          "spin": 0.4,
+          "clouds": 0.45,
+          "cityLights": true,
+          "seed": "2026-11-03-ai-100-years-earth"
+        }
+      }
+    ],
+    "version": "1.0.0"
+  }
+}
