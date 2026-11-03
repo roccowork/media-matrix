@@ -47,17 +47,21 @@ const TextCard: React.FC<{card: OnScreen; duration: number}> = ({card, duration}
   const pos = card.position ?? (card.style === 'title' ? 'center' : 'bottom');
   const len = (card.text ?? '').length;
   const big = card.style === 'title';
-  const textSize = big ? Math.min(96, Math.floor(1500 / Math.max(len, 1) / 1.15)) : Math.min(58, Math.floor(1500 / Math.max(len, 1) / 1.1));
+  const total = len + (card.year ? card.year.length * 1.0 + 1 : 0);
+  const textSize = big ? Math.min(96, Math.floor(1500 / Math.max(total, 1) / 1.15)) : Math.min(56, Math.floor(1500 / Math.max(total, 1) / 1.1));
   const justify = pos === 'center' ? 'center' : pos === 'top' ? 'flex-start' : 'flex-end';
-  const pad = pos === 'top' ? '110px 120px 0' : pos === 'bottom' ? '0 120px 70px' : '0 120px';
+  const pad = pos === 'top' ? '64px 120px 0' : pos === 'bottom' ? '0 120px 56px' : '0 120px';
   return (
     <AbsoluteFill style={{fontFamily: FONT, color: '#fff', pointerEvents: 'none'}}>
       <AbsoluteFill style={{justifyContent: justify, alignItems: 'center', padding: pad, textAlign: 'center', textShadow: '0 2px 28px rgba(0,0,0,0.75), 0 0 6px rgba(0,0,0,0.6)'}}>
-        {card.year && <div style={{...st(inP(0.2 * fps)), fontSize: big ? 130 : 96, fontWeight: 200, letterSpacing: '0.16em', paddingLeft: '0.16em', lineHeight: 1, marginBottom: 14}}>{card.year}</div>}
-        {card.text && (
-          <div style={{...st(inP(0.5 * fps)), fontSize: textSize, fontWeight: big ? 300 : 400, whiteSpace: 'nowrap',
-            letterSpacing: big ? `${0.14 - 0.06 * interpolate(frame, [0, end], [0, 1])}em` : '0.06em'}}>{card.text}</div>
-        )}
+        {/* 年份和句子排成一行（年份细体、稍大），字只占一行高，尽量少挡画面 */}
+        <div style={{display: 'flex', alignItems: 'baseline', gap: '0.5em', whiteSpace: 'nowrap'}}>
+          {card.year && <span style={{...st(inP(0.2 * fps)), fontSize: textSize * 1.25, fontWeight: 200, letterSpacing: '0.1em'}}>{card.year}</span>}
+          {card.text && (
+            <span style={{...st(inP(0.5 * fps)), fontSize: textSize, fontWeight: big ? 300 : 400,
+              letterSpacing: big ? `${0.14 - 0.06 * interpolate(frame, [0, end], [0, 1])}em` : '0.06em'}}>{card.text}</span>
+          )}
+        </div>
       </AbsoluteFill>
       {card.tag && (
         <div style={{...st(inP(0.4 * fps)), position: 'absolute', top: 64, right: 80, fontSize: 30, letterSpacing: '0.2em', padding: '8px 22px', border: '1.5px solid rgba(255,255,255,0.6)', borderRadius: 40, color: 'rgba(255,255,255,0.85)'}}>

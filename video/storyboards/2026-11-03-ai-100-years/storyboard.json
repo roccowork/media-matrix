@@ -224,7 +224,8 @@
       "visual": "镜头从银河往下摇，地球夜面从画面底部升起，城市灯光像星星",
       "onscreen": {
         "text": "夜空里最亮的光，也许是 AI",
-        "tag": "设想"
+        "tag": "设想",
+        "position": "top"
       },
       "config": {
         "id": "cosmos.planet.v1",
@@ -642,7 +643,8 @@
       "visual": "继续往外拉，城市灯光一片片从地球夜面升起，飞上轨道，汇成一圈环绕地球的发光环形城市",
       "onscreen": {
         "text": "AI 把城市搬到了天上",
-        "tag": "设想"
+        "tag": "设想",
+        "position": "top"
       },
       "config": {
         "id": "tech.skyring.v1",
