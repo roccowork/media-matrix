@@ -101,7 +101,7 @@ void main() {
   float minW = 1.4 / uViewH;
   float hwH = wH * projectionMatrix[1][1] / cH.w, hwT = wT * projectionMatrix[1][1] / cT.w;
   float fade = clamp(max(hwH, hwT) / minW, 0.0, 1.0);
-  hwH = clamp(hwH, minW, 7.0 / uViewH); hwT = clamp(hwT, minW * 0.5, 4.0 / uViewH);
+  hwH = clamp(hwH, minW, 4.0 / uViewH); hwT = clamp(hwT, minW * 0.5, 2.5 / uViewH);
   // 贴脸的种子淡出（不糊屏）；正对镜头、在屏幕上缩成一团的光尾按比例降亮度（不堆成白斑）
   float nearFade = smoothstep(0.4, 2.5, -mvH.z);
   float endOn = clamp(L * uViewH / 30.0, 0.25, 1.0);
