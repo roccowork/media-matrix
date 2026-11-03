@@ -1,0 +1,1492 @@
+{
+ "id": "2026-11-03-heart-circulation",
+ "topic": "心脏怎样把血液送遍全身",
+ "title": "心脏一天跳十万次：血液怎样流遍全身",
+ "fps": 30,
+ "generator": {
+  "by": "hand",
+  "date": "2026-11-03"
+ },
+ "facts": [
+  {
+   "claim": "心脏一天跳约 10 万次",
+   "basis": "静息心率 60–100 次/分；72 次/分 × 1440 分 ≈ 10.4 万次（生理学教材）",
+   "status": "待核验"
+  },
+  {
+   "claim": "心脏位于胸廓内，受肋骨和胸骨保护",
+   "basis": "系统解剖学教材",
+   "status": "待核验"
+  },
+  {
+   "claim": "血液约 1 分钟循环全身一周",
+   "basis": "静息心输出量约 5 L/min，血容量约 5 L（生理学教材；不同资料 45–60 秒）",
+   "status": "待核验"
+  },
+  {
+   "claim": "红细胞直径约 8 微米",
+   "basis": "正常 7.5–8.0 µm（组织学教材；Evans & Fung 1972 测得平均 7.8 µm）",
+   "status": "待核验"
+  },
+  {
+   "claim": "大脑约占体重 2%，消耗全身约 20% 的氧",
+   "basis": "神经生理综述（如 Raichle & Gusnard 2002）",
+   "status": "待核验"
+  },
+  {
+   "claim": "白细胞负责清除病原体",
+   "basis": "免疫学教材",
+   "status": "待核验"
+  },
+  {
+   "claim": "红细胞寿命约 120 天",
+   "basis": "血液学教材",
+   "status": "待核验"
+  },
+  {
+   "claim": "心脏约拳头大小",
+   "basis": "解剖学教材（成人心脏约 12 × 8 × 6 cm）",
+   "status": "待核验"
+  }
+ ],
+ "shots": [
+  {
+   "n": 1,
+   "narration": "此刻，你的心脏正在跳动，一天大约十万次。",
+   "visual": "暗场里一颗真实比例的心脏在跳，镜头从左前方缓慢绕近",
+   "config": {
+    "id": "biology.heart.v1",
+    "renderer": "blender",
+    "style": "cinematic_science",
+    "fps": 30,
+    "duration": 6,
+    "camera": {
+     "preset": "orbit",
+     "keys": [
+      {
+       "t": 0.0,
+       "pos": [
+        -1.75,
+        0.66,
+        3.45
+       ],
+       "look": [
+        0,
+        0.25,
+        0
+       ],
+       "fov": 32,
+       "roll": -2
+      },
+      {
+       "t": 3.0,
+       "pos": [
+        -0.25,
+        0.5,
+        3.25
+       ],
+       "look": [
+        0,
+        0.27,
+        0
+       ],
+       "fov": 32,
+       "roll": 0
+      },
+      {
+       "t": 6.0,
+       "pos": [
+        1.4,
+        0.36,
+        3.05
+       ],
+       "look": [
+        0.05,
+        0.27,
+        0
+       ],
+       "fov": 32,
+       "roll": 1.5
+      }
+     ]
+    },
+    "post": {
+     "tone": "aces",
+     "vignette": 0.55,
+     "grain": 0.015
+    },
+    "assets": [
+     {
+      "id": "biology.heart.v1",
+      "params": {
+       "bpm": 72,
+       "beat": 1,
+       "spin": 0,
+       "fstop": 2.8,
+       "seed": "2026-11-03-heart-circulation-s1-demo"
+      }
+     }
+    ],
+    "version": "1.0.0"
+   }
+  },
+  {
+   "n": 2,
+   "narration": "它藏在胸廓里，被肋骨和胸骨保护着。",
+   "visual": "全身骨架远景推到胸廓",
+   "config": {
+    "id": "biology.skeleton.v1",
+    "renderer": "blender",
+    "style": "cinematic_science",
+    "fps": 30,
+    "duration": 6,
+    "camera": {
+     "preset": "orbit",
+     "keys": [
+      {
+       "t": 0.0,
+       "pos": [
+        -2.1,
+        1.05,
+        3.0
+       ],
+       "look": [
+        0,
+        0.88,
+        0
+       ],
+       "fov": 32,
+       "roll": -1
+      },
+      {
+       "t": 6,
+       "pos": [
+        0.5,
+        1.25,
+        2.5
+       ],
+       "look": [
+        0,
+        1.05,
+        0
+       ],
+       "fov": 32,
+       "roll": 0
+      }
+     ]
+    },
+    "post": {
+     "tone": "aces",
+     "vignette": 0.55,
+     "grain": 0.015
+    },
+    "assets": [
+     {
+      "id": "biology.skeleton.v1",
+      "params": {
+       "spin": 0,
+       "fstop": 4,
+       "seed": "2026-11-03-heart-circulation-s2-demo"
+      }
+     }
+    ],
+    "version": "1.0.0"
+   }
+  },
+  {
+   "n": 3,
+   "narration": "每次收缩，血液就被推进遍布全身的血管。",
+   "visual": "全身血管网，红色动脉蓝色静脉，心跳光波从心脏向外传",
+   "note": "血流脉冲速度为示意（真实脉搏波约 5–10 m/s），片中注明「示意」",
+   "config": {
+    "id": "biology.vessels.v1",
+    "renderer": "blender",
+    "style": "cinematic_science",
+    "fps": 30,
+    "duration": 7,
+    "camera": {
+     "preset": "orbit",
+     "keys": [
+      {
+       "t": 0.0,
+       "pos": [
+        -2.0,
+        1.05,
+        3.0
+       ],
+       "look": [
+        0,
+        0.9,
+        0
+       ],
+       "fov": 32,
+       "roll": -1
+      },
+      {
+       "t": 3.5,
+       "pos": [
+        0.4,
+        1.2,
+        2.4
+       ],
+       "look": [
+        0,
+        1.05,
+        0
+       ],
+       "fov": 32,
+       "roll": 0
+      },
+      {
+       "t": 7.0,
+       "pos": [
+        0.55,
+        1.35,
+        0.95
+       ],
+       "look": [
+        0,
+        1.25,
+        0
+       ],
+       "fov": 32,
+       "roll": 1
+      }
+     ]
+    },
+    "post": {
+     "tone": "aces",
+     "vignette": 0.55,
+     "grain": 0.015
+    },
+    "assets": [
+     {
+      "id": "biology.vessels.v1",
+      "params": {
+       "pulse": 1,
+       "bpm": 72,
+       "skeleton": 0.12,
+       "fstop": 4,
+       "seed": "2026-11-03-heart-circulation-s3-demo"
+      }
+     }
+    ],
+    "version": "1.0.0"
+   }
+  },
+  {
+   "n": 4,
+   "narration": "血液大约一分钟，就能绕全身走一圈。",
+   "visual": "推近胸口：心脏、主动脉弓、腔静脉",
+   "note": "血流脉冲速度为示意，片中注明「示意」",
+   "config": {
+    "id": "biology.vessels.v1",
+    "renderer": "blender",
+    "style": "cinematic_science",
+    "fps": 30,
+    "duration": 6,
+    "camera": {
+     "preset": "orbit",
+     "keys": [
+      {
+       "t": 0.0,
+       "pos": [
+        0.4,
+        1.2,
+        2.4
+       ],
+       "look": [
+        0,
+        1.05,
+        0
+       ],
+       "fov": 32,
+       "roll": 0
+      },
+      {
+       "t": 6,
+       "pos": [
+        0.55,
+        1.35,
+        0.95
+       ],
+       "look": [
+        0,
+        1.25,
+        0
+       ],
+       "fov": 32,
+       "roll": 1
+      }
+     ]
+    },
+    "post": {
+     "tone": "aces",
+     "vignette": 0.55,
+     "grain": 0.015
+    },
+    "assets": [
+     {
+      "id": "biology.vessels.v1",
+      "params": {
+       "pulse": 1,
+       "bpm": 72,
+       "skeleton": 0.12,
+       "fstop": 4,
+       "seed": "2026-11-03-heart-circulation-s4-demo"
+      }
+     }
+    ],
+    "version": "1.0.0"
+   }
+  },
+  {
+   "n": 5,
+   "narration": "把镜头缩小到六十微米，进入一条小动脉。",
+   "visual": "镜头在小动脉里顺流前进，红细胞翻滚超过（真实密度）",
+   "note": "慢放 20 倍，片中注明「慢放」",
+   "config": {
+    "id": "biology.bloodflow.v1",
+    "renderer": "threejs",
+    "style": "cinematic_science",
+    "fps": 30,
+    "duration": 6,
+    "camera": {
+     "preset": "fly_through",
+     "ease": "linear",
+     "keys": [
+      {
+       "t": 0.0,
+       "pos": [
+        27.13,
+        23.17,
+        -60
+       ],
+       "look": [
+        32.57,
+        12.22,
+        -105
+       ],
+       "fov": 62,
+       "roll": 0.0
+      },
+      {
+       "t": 0.6,
+       "pos": [
+        37.48,
+        14.34,
+        -150
+       ],
+       "look": [
+        34.54,
+        2.53,
+        -195
+       ],
+       "fov": 62,
+       "roll": 2.61
+      },
+      {
+       "t": 1.2,
+       "pos": [
+        36.16,
+        3.41,
+        -240
+       ],
+       "look": [
+        28.89,
+        -7.72,
+        -285
+       ],
+       "fov": 62,
+       "roll": 4.7
+      },
+      {
+       "t": 1.8,
+       "pos": [
+        29.0,
+        -7.19,
+        -330
+       ],
+       "look": [
+        23.05,
+        -16.27,
+        -375
+       ],
+       "fov": 62,
+       "roll": 5.85
+      },
+      {
+       "t": 2.4,
+       "pos": [
+        23.3,
+        -15.12,
+        -420
+       ],
+       "look": [
+        22.5,
+        -21.23,
+        -465
+       ],
+       "fov": 62,
+       "roll": 5.84
+      },
+      {
+       "t": 3.0,
+       "pos": [
+        23.05,
+        -18.59,
+        -510
+       ],
+       "look": [
+        27.27,
+        -21.52,
+        -555
+       ],
+       "fov": 62,
+       "roll": 4.67
+      },
+      {
+       "t": 3.6,
+       "pos": [
+        26.61,
+        -16.83,
+        -600
+       ],
+       "look": [
+        31.97,
+        -17.07,
+        -645
+       ],
+       "fov": 62,
+       "roll": 2.56
+      },
+      {
+       "t": 4.2,
+       "pos": [
+        28.01,
+        -10.22,
+        -690
+       ],
+       "look": [
+        29.29,
+        -8.87,
+        -735
+       ],
+       "fov": 62,
+       "roll": -0.05
+      },
+      {
+       "t": 4.8,
+       "pos": [
+        21.1,
+        -0.2,
+        -780
+       ],
+       "look": [
+        14.97,
+        1.3,
+        -825
+       ],
+       "fov": 62,
+       "roll": -2.66
+      },
+      {
+       "t": 5.4,
+       "pos": [
+        3.89,
+        10.99,
+        -870
+       ],
+       "look": [
+        -8.96,
+        11.17,
+        -915
+       ],
+       "fov": 62,
+       "roll": -4.73
+      },
+      {
+       "t": 6.0,
+       "pos": [
+        -19.58,
+        20.87,
+        -960
+       ],
+       "look": [
+        -34.63,
+        18.59,
+        -1005
+       ],
+       "fov": 62,
+       "roll": -5.87
+      }
+     ]
+    },
+    "post": {
+     "bloom": {
+      "intensity": 0.4,
+      "threshold": 1.0,
+      "radius": 0.6
+     },
+     "dof": {
+      "cInf": 8
+     },
+     "tone": "aces",
+     "vignette": 0.6,
+     "grain": 0.015,
+     "chromatic": 0.0008
+    },
+    "assets": [
+     {
+      "id": "biology.bloodflow.v1",
+      "params": {
+       "diameter": 60,
+       "hematocrit": 0.45,
+       "vmax": 4000,
+       "slowmo": 20,
+       "seed": "2026-11-03-heart-circulation-s5-demo"
+      }
+     }
+    ],
+    "version": "1.0.0"
+   }
+  },
+  {
+   "n": 6,
+   "narration": "这些红色圆盘就是红细胞，直径约八微米。",
+   "visual": "同一血管，红细胞调稀，能看清双凹圆盘形状和管壁",
+   "note": "红细胞密度调稀为示意（真实比容约 45%）；慢放 20 倍；片中注明「示意、慢放」",
+   "config": {
+    "id": "biology.bloodflow.v1",
+    "renderer": "threejs",
+    "style": "cinematic_science",
+    "fps": 30,
+    "duration": 6,
+    "camera": {
+     "preset": "fly_through",
+     "ease": "linear",
+     "keys": [
+      {
+       "t": 0.0,
+       "pos": [
+        27.13,
+        23.17,
+        -60
+       ],
+       "look": [
+        32.57,
+        12.22,
+        -105
+       ],
+       "fov": 62,
+       "roll": 0.0
+      },
+      {
+       "t": 0.6,
+       "pos": [
+        37.48,
+        14.34,
+        -150
+       ],
+       "look": [
+        34.54,
+        2.53,
+        -195
+       ],
+       "fov": 62,
+       "roll": 2.61
+      },
+      {
+       "t": 1.2,
+       "pos": [
+        36.16,
+        3.41,
+        -240
+       ],
+       "look": [
+        28.89,
+        -7.72,
+        -285
+       ],
+       "fov": 62,
+       "roll": 4.7
+      },
+      {
+       "t": 1.8,
+       "pos": [
+        29.0,
+        -7.19,
+        -330
+       ],
+       "look": [
+        23.05,
+        -16.27,
+        -375
+       ],
+       "fov": 62,
+       "roll": 5.85
+      },
+      {
+       "t": 2.4,
+       "pos": [
+        23.3,
+        -15.12,
+        -420
+       ],
+       "look": [
+        22.5,
+        -21.23,
+        -465
+       ],
+       "fov": 62,
+       "roll": 5.84
+      },
+      {
+       "t": 3.0,
+       "pos": [
+        23.05,
+        -18.59,
+        -510
+       ],
+       "look": [
+        27.27,
+        -21.52,
+        -555
+       ],
+       "fov": 62,
+       "roll": 4.67
+      },
+      {
+       "t": 3.6,
+       "pos": [
+        26.61,
+        -16.83,
+        -600
+       ],
+       "look": [
+        31.97,
+        -17.07,
+        -645
+       ],
+       "fov": 62,
+       "roll": 2.56
+      },
+      {
+       "t": 4.2,
+       "pos": [
+        28.01,
+        -10.22,
+        -690
+       ],
+       "look": [
+        29.29,
+        -8.87,
+        -735
+       ],
+       "fov": 62,
+       "roll": -0.05
+      },
+      {
+       "t": 4.8,
+       "pos": [
+        21.1,
+        -0.2,
+        -780
+       ],
+       "look": [
+        14.97,
+        1.3,
+        -825
+       ],
+       "fov": 62,
+       "roll": -2.66
+      },
+      {
+       "t": 5.4,
+       "pos": [
+        3.89,
+        10.99,
+        -870
+       ],
+       "look": [
+        -8.96,
+        11.17,
+        -915
+       ],
+       "fov": 62,
+       "roll": -4.73
+      },
+      {
+       "t": 6.0,
+       "pos": [
+        -19.58,
+        20.87,
+        -960
+       ],
+       "look": [
+        -34.63,
+        18.59,
+        -1005
+       ],
+       "fov": 62,
+       "roll": -5.87
+      }
+     ]
+    },
+    "post": {
+     "bloom": {
+      "intensity": 0.4,
+      "threshold": 1.0,
+      "radius": 0.6
+     },
+     "dof": {
+      "cInf": 8
+     },
+     "tone": "aces",
+     "vignette": 0.6,
+     "grain": 0.015,
+     "chromatic": 0.0008
+    },
+    "assets": [
+     {
+      "id": "biology.bloodflow.v1",
+      "params": {
+       "diameter": 60,
+       "hematocrit": 0.12,
+       "vmax": 4000,
+       "slowmo": 20,
+       "seed": "2026-11-03-heart-circulation-s6-demo"
+      }
+     }
+    ],
+    "version": "1.0.0"
+   }
+  },
+  {
+   "n": 7,
+   "narration": "它们把氧气送到每一个细胞手里。",
+   "visual": "半透明的细胞，细胞核与线粒体清晰",
+   "config": {
+    "id": "biology.cell.v1",
+    "renderer": "threejs",
+    "style": "cinematic_science",
+    "fps": 30,
+    "duration": 6,
+    "camera": {
+     "preset": "orbit",
+     "keys": [
+      {
+       "t": 0.0,
+       "pos": [
+        -4.6,
+        2.2,
+        7.4
+       ],
+       "look": [
+        0,
+        0,
+        0
+       ],
+       "fov": 36,
+       "roll": -3
+      },
+      {
+       "t": 3.0,
+       "pos": [
+        -1.2,
+        1.5,
+        6.6
+       ],
+       "look": [
+        0.1,
+        0,
+        0
+       ],
+       "fov": 36,
+       "roll": -1
+      },
+      {
+       "t": 6.0,
+       "pos": [
+        2.4,
+        1.0,
+        5.6
+       ],
+       "look": [
+        0.2,
+        0,
+        0
+       ],
+       "fov": 36,
+       "roll": 1.5
+      }
+     ]
+    },
+    "post": {
+     "bloom": {
+      "intensity": 0.7,
+      "threshold": 0.95,
+      "radius": 0.6
+     },
+     "dof": {
+      "cInf": 10,
+      "focus": [
+       0,
+       0,
+       0.6
+      ]
+     },
+     "tone": "aces",
+     "vignette": 0.6,
+     "grain": 0.015,
+     "chromatic": 0.0007
+    },
+    "assets": [
+     {
+      "id": "biology.cell.v1",
+      "params": {
+       "position": [
+        0,
+        0,
+        0
+       ],
+       "radius": 2,
+       "squash": 0.85,
+       "mitochondria": 16,
+       "vesicles": 40,
+       "spin": 0.06,
+       "haze": 1,
+       "hazeColor": "#0d3f6e",
+       "seed": "2026-11-03-heart-circulation-s7-demo"
+      }
+     },
+     {
+      "id": "biology.cell.v1",
+      "params": {
+       "position": [
+        -9.5,
+        3.6,
+        -12
+       ],
+       "radius": 2.2,
+       "mitochondria": 12,
+       "vesicles": 25,
+       "spin": -0.04,
+       "seed": "2026-11-03-heart-circulation-s7-b"
+      }
+     },
+     {
+      "id": "biology.cell.v1",
+      "params": {
+       "position": [
+        11.5,
+        -4,
+        -15
+       ],
+       "radius": 2.4,
+       "mitochondria": 12,
+       "vesicles": 25,
+       "spin": 0.03,
+       "seed": "2026-11-03-heart-circulation-s7-c"
+      }
+     }
+    ],
+    "version": "1.0.0"
+   }
+  },
+  {
+   "n": 8,
+   "narration": "大脑只占体重百分之二，却用掉两成氧气。",
+   "visual": "神经网络被依次点亮",
+   "config": {
+    "id": "biology.neural_activation.v1",
+    "renderer": "threejs",
+    "style": "cinematic_science",
+    "fps": 30,
+    "duration": 6,
+    "camera": {
+     "preset": "keys",
+     "keys": [
+      {
+       "t": 0.0,
+       "pos": [
+        -4.6,
+        1.1,
+        3.4
+       ],
+       "look": [
+        -3.2,
+        0.5,
+        0
+       ],
+       "fov": 36,
+       "roll": -3
+      },
+      {
+       "t": 1.2,
+       "pos": [
+        -3.0,
+        1.0,
+        3.3
+       ],
+       "look": [
+        -2.0,
+        0.3,
+        -0.3
+       ],
+       "fov": 36,
+       "roll": -1
+      },
+      {
+       "t": 2.6,
+       "pos": [
+        0.8,
+        0.7,
+        3.2
+       ],
+       "look": [
+        2.2,
+        -0.2,
+        -0.9
+       ],
+       "fov": 38,
+       "roll": 2
+      },
+      {
+       "t": 4.0,
+       "pos": [
+        3.2,
+        2.4,
+        7.5
+       ],
+       "look": [
+        0.6,
+        0.2,
+        -2.2
+       ],
+       "fov": 42,
+       "roll": 3
+      },
+      {
+       "t": 6.0,
+       "pos": [
+        2.0,
+        4.2,
+        17.0
+       ],
+       "look": [
+        0.0,
+        0.0,
+        -3.0
+       ],
+       "fov": 44,
+       "roll": 0
+      }
+     ]
+    },
+    "post": {
+     "bloom": {
+      "intensity": 0.85,
+      "threshold": 1.0,
+      "radius": 0.6
+     },
+     "tone": "aces",
+     "vignette": 0.55,
+     "grain": 0.015,
+     "chromatic": 0.0008,
+     "dof": {
+      "cInf": 9
+     }
+    },
+    "assets": [
+     {
+      "id": "biology.neural_web.v1",
+      "params": {
+       "center": [
+        0,
+        0,
+        -3
+       ],
+       "radius": 9,
+       "waveOrigin": [
+        2.6,
+        -0.3,
+        -1.0
+       ],
+       "waveStart": 6.2,
+       "waveSpeed": 2.8,
+       "size": 0.07
+      }
+     },
+     {
+      "id": "biology.neuron.v1",
+      "params": {
+       "position": [
+        -3.2,
+        0.5,
+        0
+       ],
+       "radius": 0.6,
+       "dendrites": 10,
+       "activateAt": 1.0
+      }
+     },
+     {
+      "id": "biology.neuron.v1",
+      "params": {
+       "position": [
+        2.6,
+        -0.3,
+        -1.0
+       ],
+       "radius": 0.55,
+       "dendrites": 9,
+       "activateAt": 5.6
+      }
+     },
+     {
+      "id": "biology.neuron.v1",
+      "params": {
+       "position": [
+        0.4,
+        2.2,
+        -4.5
+       ],
+       "radius": 0.5,
+       "dendrites": 8,
+       "activateAt": 7.8
+      }
+     },
+     {
+      "id": "biology.neuron.v1",
+      "params": {
+       "position": [
+        -2.5,
+        -2.0,
+        -6.0
+       ],
+       "radius": 0.5,
+       "dendrites": 8,
+       "activateAt": 9.2
+      }
+     },
+     {
+      "id": "biology.axon.v1",
+      "params": {
+       "from": [
+        -3.2,
+        0.5,
+        0
+       ],
+       "to": [
+        2.6,
+        -0.3,
+        -1.0
+       ],
+       "start": 2.0,
+       "duration": 3.6
+      }
+     },
+     {
+      "id": "biology.axon.v1",
+      "params": {
+       "from": [
+        2.6,
+        -0.3,
+        -1.0
+       ],
+       "to": [
+        0.4,
+        2.2,
+        -4.5
+       ],
+       "start": 5.9,
+       "duration": 1.9
+      }
+     },
+     {
+      "id": "biology.axon.v1",
+      "params": {
+       "from": [
+        2.6,
+        -0.3,
+        -1.0
+       ],
+       "to": [
+        -2.5,
+        -2.0,
+        -6.0
+       ],
+       "start": 6.1,
+       "duration": 3.1
+      }
+     }
+    ],
+    "version": "1.0.0"
+   }
+  },
+  {
+   "n": 9,
+   "narration": "血液里还有白细胞，专门对付入侵的病毒。",
+   "visual": "深蓝体液里一个病毒缓慢自转",
+   "config": {
+    "id": "biology.virus.v1",
+    "renderer": "threejs",
+    "style": "cinematic_science",
+    "fps": 30,
+    "duration": 6,
+    "camera": {
+     "preset": "orbit",
+     "keys": [
+      {
+       "t": 0.0,
+       "pos": [
+        -3.0,
+        1.0,
+        5.4
+       ],
+       "look": [
+        0,
+        0,
+        0
+       ],
+       "fov": 36,
+       "roll": -3
+      },
+      {
+       "t": 3.0,
+       "pos": [
+        -0.7,
+        0.55,
+        4.6
+       ],
+       "look": [
+        0.1,
+        0,
+        0
+       ],
+       "fov": 36,
+       "roll": -1
+      },
+      {
+       "t": 6.0,
+       "pos": [
+        1.5,
+        0.25,
+        3.9
+       ],
+       "look": [
+        0.15,
+        0.05,
+        0
+       ],
+       "fov": 36,
+       "roll": 1.5
+      }
+     ]
+    },
+    "post": {
+     "bloom": {
+      "intensity": 0.6,
+      "threshold": 1.0,
+      "radius": 0.6
+     },
+     "dof": {
+      "cInf": 12,
+      "focus": [
+       0,
+       0,
+       0.8
+      ]
+     },
+     "tone": "aces",
+     "vignette": 0.6,
+     "grain": 0.015,
+     "chromatic": 0.0007
+    },
+    "assets": [
+     {
+      "id": "biology.virus.v1",
+      "params": {
+       "position": [
+        0,
+        0,
+        0
+       ],
+       "radius": 1,
+       "spikes": 70,
+       "proteins": 140,
+       "spin": 0.12,
+       "haze": 1,
+       "hazeColor": "#0d3f6e",
+       "seed": "2026-11-03-heart-circulation-s9-demo"
+      }
+     },
+     {
+      "id": "biology.virus.v1",
+      "params": {
+       "position": [
+        -3.2,
+        1.3,
+        -5
+       ],
+       "radius": 0.9,
+       "spikes": 60,
+       "spin": -0.1,
+       "tilt": -30,
+       "seed": "2026-11-03-heart-circulation-s9-b"
+      }
+     },
+     {
+      "id": "biology.virus.v1",
+      "params": {
+       "position": [
+        3.6,
+        -1.0,
+        -8
+       ],
+       "radius": 1.1,
+       "spikes": 75,
+       "spin": 0.08,
+       "tilt": 40,
+       "seed": "2026-11-03-heart-circulation-s9-c"
+      }
+     },
+     {
+      "id": "biology.virus.v1",
+      "params": {
+       "position": [
+        1.9,
+        1.9,
+        -3.2
+       ],
+       "radius": 0.6,
+       "spikes": 50,
+       "spin": 0.15,
+       "tilt": 10,
+       "seed": "2026-11-03-heart-circulation-s9-d"
+      }
+     }
+    ],
+    "version": "1.0.0"
+   }
+  },
+  {
+   "n": 10,
+   "narration": "红细胞大约一百二十天更新一轮。",
+   "visual": "血管里继续前进",
+   "note": "慢放 20 倍，片中注明「慢放」",
+   "config": {
+    "id": "biology.bloodflow.v1",
+    "renderer": "threejs",
+    "style": "cinematic_science",
+    "fps": 30,
+    "duration": 5,
+    "camera": {
+     "preset": "fly_through",
+     "ease": "linear",
+     "keys": [
+      {
+       "t": 0.0,
+       "pos": [
+        23.05,
+        -18.59,
+        -510
+       ],
+       "look": [
+        27.27,
+        -21.52,
+        -555
+       ],
+       "fov": 62,
+       "roll": 4.67
+      },
+      {
+       "t": 1.0,
+       "pos": [
+        26.61,
+        -16.83,
+        -600
+       ],
+       "look": [
+        31.97,
+        -17.07,
+        -645
+       ],
+       "fov": 62,
+       "roll": 2.56
+      },
+      {
+       "t": 2.0,
+       "pos": [
+        28.01,
+        -10.22,
+        -690
+       ],
+       "look": [
+        29.29,
+        -8.87,
+        -735
+       ],
+       "fov": 62,
+       "roll": -0.05
+      },
+      {
+       "t": 3.0,
+       "pos": [
+        21.1,
+        -0.2,
+        -780
+       ],
+       "look": [
+        14.97,
+        1.3,
+        -825
+       ],
+       "fov": 62,
+       "roll": -2.66
+      },
+      {
+       "t": 4.0,
+       "pos": [
+        3.89,
+        10.99,
+        -870
+       ],
+       "look": [
+        -8.96,
+        11.17,
+        -915
+       ],
+       "fov": 62,
+       "roll": -4.73
+      },
+      {
+       "t": 5,
+       "pos": [
+        -19.58,
+        20.87,
+        -960
+       ],
+       "look": [
+        -34.63,
+        18.59,
+        -1005
+       ],
+       "fov": 62,
+       "roll": -5.87
+      }
+     ]
+    },
+    "post": {
+     "bloom": {
+      "intensity": 0.4,
+      "threshold": 1.0,
+      "radius": 0.6
+     },
+     "dof": {
+      "cInf": 8
+     },
+     "tone": "aces",
+     "vignette": 0.6,
+     "grain": 0.015,
+     "chromatic": 0.0008
+    },
+    "assets": [
+     {
+      "id": "biology.bloodflow.v1",
+      "params": {
+       "diameter": 60,
+       "hematocrit": 0.45,
+       "vmax": 4000,
+       "slowmo": 20,
+       "seed": "2026-11-03-heart-circulation-s10-demo"
+      }
+     }
+    ],
+    "version": "1.0.0"
+   }
+  },
+  {
+   "n": 11,
+   "narration": "所以，照顾好这颗拳头大小的心脏。",
+   "visual": "回到心脏，镜头慢慢推近",
+   "config": {
+    "id": "biology.heart.v1",
+    "renderer": "blender",
+    "style": "cinematic_science",
+    "fps": 30,
+    "duration": 6,
+    "camera": {
+     "preset": "orbit",
+     "keys": [
+      {
+       "t": 0.0,
+       "pos": [
+        -1.75,
+        0.66,
+        3.45
+       ],
+       "look": [
+        0,
+        0.25,
+        0
+       ],
+       "fov": 32,
+       "roll": -2
+      },
+      {
+       "t": 1.0,
+       "pos": [
+        -0.25,
+        0.5,
+        3.25
+       ],
+       "look": [
+        0,
+        0.27,
+        0
+       ],
+       "fov": 32,
+       "roll": 0
+      },
+      {
+       "t": 6,
+       "pos": [
+        1.4,
+        0.36,
+        3.05
+       ],
+       "look": [
+        0.05,
+        0.27,
+        0
+       ],
+       "fov": 32,
+       "roll": 1.5
+      }
+     ]
+    },
+    "post": {
+     "tone": "aces",
+     "vignette": 0.55,
+     "grain": 0.015
+    },
+    "assets": [
+     {
+      "id": "biology.heart.v1",
+      "params": {
+       "bpm": 72,
+       "beat": 1,
+       "spin": 0,
+       "fstop": 2.8,
+       "seed": "2026-11-03-heart-circulation-s11-demo"
+      }
+     }
+    ],
+    "version": "1.0.0"
+   }
+  }
+ ],
+ "version": "1.0.0"
+}

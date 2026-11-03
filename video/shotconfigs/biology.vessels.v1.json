@@ -4,17 +4,73 @@
   "style": "cinematic_science",
   "fps": 30,
   "duration": 10,
+  "note": "血流脉冲速度为示意（真实脉搏波 5–10 m/s），片中注明「示意」",
   "camera": {
     "preset": "orbit",
     "keys": [
-      {"t": 0, "pos": [-2.0, 1.05, 3.0], "look": [0, 0.9, 0], "fov": 32, "roll": -1},
-      {"t": 5, "pos": [0.4, 1.2, 2.4], "look": [0, 1.05, 0], "fov": 32, "roll": 0},
-      {"t": 10, "pos": [0.55, 1.35, 0.95], "look": [0, 1.25, 0], "fov": 32, "roll": 1}
+      {
+        "t": 0,
+        "pos": [
+          -2.0,
+          1.05,
+          3.0
+        ],
+        "look": [
+          0,
+          0.9,
+          0
+        ],
+        "fov": 32,
+        "roll": -1
+      },
+      {
+        "t": 5,
+        "pos": [
+          0.4,
+          1.2,
+          2.4
+        ],
+        "look": [
+          0,
+          1.05,
+          0
+        ],
+        "fov": 32,
+        "roll": 0
+      },
+      {
+        "t": 10,
+        "pos": [
+          0.55,
+          1.35,
+          0.95
+        ],
+        "look": [
+          0,
+          1.25,
+          0
+        ],
+        "fov": 32,
+        "roll": 1
+      }
     ]
   },
-  "post": {"tone": "aces", "vignette": 0.55, "grain": 0.015},
+  "post": {
+    "tone": "aces",
+    "vignette": 0.55,
+    "grain": 0.015
+  },
   "assets": [
-    {"id": "biology.vessels.v1", "params": {"pulse": 1, "bpm": 72, "skeleton": 0.12, "fstop": 4, "seed": "vessels-demo"}}
+    {
+      "id": "biology.vessels.v1",
+      "params": {
+        "pulse": 1,
+        "bpm": 72,
+        "skeleton": 0.12,
+        "fstop": 4,
+        "seed": "vessels-demo"
+      }
+    }
   ],
   "version": "1.0.0"
 }

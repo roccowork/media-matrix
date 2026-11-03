@@ -4,6 +4,7 @@
   "style": "cinematic_science",
   "fps": 30,
   "duration": 10,
+  "note": "慢放 20 倍（真实流速 4 mm/s 太快看不清），片中注明「慢放」",
   "camera": {
     "preset": "fly_through",
     "ease": "linear",

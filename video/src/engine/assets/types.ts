@@ -34,4 +34,8 @@ export type AssetMeta = {
   version: string;
   dependencies?: string[];
   notes?: string;
+  /** 渲染器能力：加色、不写深度的资产（post.dof 会把整张图按无穷远虚化），所在镜头不能开 dof */
+  no_dof?: boolean;
+  /** 真实比例（《方案补充》#12 #14）：参数的正常范围；分镜里取值超出时必须写 note 注明「示意」 */
+  real_range?: Record<string, [number, number]>;
 };

@@ -1,0 +1,49 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://github.com/roccowork/media-matrix/video/schemas/storyboard.schema.json",
+  "title": "Storyboard v1：一条视频的分镜 = 选题 + 待核验事实 + 按顺序首尾相接的镜头（每镜一个完整 ShotConfig）",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["id", "topic", "title", "fps", "generator", "facts", "shots", "version"],
+  "properties": {
+    "id": {"type": "string", "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}-[a-z0-9-]+$", "description": "日期-选题英文短名，同时作为每镜种子的前缀（每个视频用自己的种子）"},
+    "topic": {"type": "string", "minLength": 2},
+    "title": {"type": "string", "minLength": 2},
+    "fps": {"enum": [24, 25, 30, 60]},
+    "generator": {
+      "type": "object", "additionalProperties": false, "required": ["by"],
+      "properties": {
+        "by": {"enum": ["ai", "hand"], "description": "ai = 模型生成；hand = 人工手写（示例 / 修改稿）"},
+        "model": {"type": "string"},
+        "date": {"type": "string"},
+        "repair_rounds": {"type": "integer", "minimum": 0}
+      }
+    },
+    "facts": {
+      "type": "array", "minItems": 1,
+      "description": "旁白里的事实性说法，制作前由用户核验",
+      "items": {
+        "type": "object", "additionalProperties": false, "required": ["claim", "basis", "status"],
+        "properties": {
+          "claim": {"type": "string"},
+          "basis": {"type": "string", "description": "依据 / 建议核对的来源（教科书、指南、论文）"},
+          "status": {"enum": ["待核验", "已核验", "有误"]}
+        }
+      }
+    },
+    "shots": {
+      "type": "array", "minItems": 5, "maxItems": 30,
+      "items": {
+        "type": "object", "additionalProperties": false, "required": ["n", "narration", "visual", "config"],
+        "properties": {
+          "n": {"type": "integer", "minimum": 1},
+          "narration": {"type": "string", "description": "这一镜念的旁白（中文约 4–5 字每秒）"},
+          "visual": {"type": "string", "description": "画面说明（给人看的）"},
+          "note": {"type": "string", "description": "参数用了示意 / 慢放等非真实值时必须写"},
+          "config": {"$ref": "shot.schema.json"}
+        }
+      }
+    },
+    "version": {"type": "string", "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$"}
+  }
+}

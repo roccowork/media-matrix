@@ -14,6 +14,7 @@
     "style": {"enum": ["imax_cosmos", "cinematic_science", "cyber_tech", "motion_design", "history_geo"]},
     "fps": {"enum": [24, 25, 30, 60]},
     "duration": {"type": "number", "minimum": 1, "maximum": 120},
+    "note": {"type": "string", "description": "说明：参数用了「示意」/「慢放」等非真实值时必须写（《方案补充》#12 #14）"},
     "version": {"type": "string", "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$"},
     "camera": {
       "type": "object",

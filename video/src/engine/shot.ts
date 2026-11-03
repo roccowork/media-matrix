@@ -32,6 +32,8 @@ export type PostConfig = {
 };
 
 export type ShotConfig = {
+  /** 说明：参数用了「示意」/「慢放」等非真实值时必须写（《方案补充》#12 #14） */
+  note?: string;
   id: string;
   renderer: 'threejs' | 'blender' | 'motion';
   style: 'imax_cosmos' | 'cinematic_science' | 'cyber_tech' | 'motion_design' | 'history_geo';
