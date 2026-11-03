@@ -1,0 +1,90 @@
+{
+  "id": "physics.energyfield.v1",
+  "renderer": "threejs",
+  "style": "cyber_tech",
+  "fps": 30,
+  "duration": 10,
+  "camera": {
+    "preset": "orbit",
+    "keys": [
+      {
+        "t": 0,
+        "pos": [
+          -3.6,
+          1.6,
+          7.2
+        ],
+        "look": [
+          0,
+          0,
+          0
+        ],
+        "fov": 38,
+        "roll": -2
+      },
+      {
+        "t": 5,
+        "pos": [
+          -0.6,
+          1.0,
+          6.6
+        ],
+        "look": [
+          0,
+          0,
+          0
+        ],
+        "fov": 38,
+        "roll": 0
+      },
+      {
+        "t": 10,
+        "pos": [
+          2.8,
+          0.6,
+          5.6
+        ],
+        "look": [
+          0,
+          0,
+          0
+        ],
+        "fov": 38,
+        "roll": 1.5
+      }
+    ]
+  },
+  "post": {
+    "bloom": {
+      "intensity": 1.0,
+      "threshold": 0.85,
+      "radius": 0.6
+    },
+    "tone": "aces",
+    "vignette": 0.6,
+    "grain": 0.018,
+    "chromatic": 0.001
+  },
+  "assets": [
+    {
+      "id": "physics.energyfield.v1",
+      "params": {
+        "position": [
+          0,
+          0,
+          0
+        ],
+        "radius": 2,
+        "cells": 4,
+        "core": true,
+        "arcs": 7,
+        "impacts": 0.9,
+        "appearAt": 0.3,
+        "haze": 1,
+        "hazeColor": "#140a30",
+        "seed": "energyfield-demo"
+      }
+    }
+  ],
+  "version": "1.0.0"
+}

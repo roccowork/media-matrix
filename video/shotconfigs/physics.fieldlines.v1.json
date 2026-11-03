@@ -1,0 +1,88 @@
+{
+  "id": "physics.fieldlines.v1",
+  "renderer": "threejs",
+  "style": "motion_design",
+  "fps": 30,
+  "duration": 10,
+  "camera": {
+    "preset": "orbit",
+    "keys": [
+      {
+        "t": 0,
+        "pos": [
+          -5.5,
+          2.2,
+          7.2
+        ],
+        "look": [
+          0,
+          0,
+          0
+        ],
+        "fov": 38,
+        "roll": -2
+      },
+      {
+        "t": 5,
+        "pos": [
+          -1.0,
+          1.6,
+          7.6
+        ],
+        "look": [
+          0,
+          0,
+          0
+        ],
+        "fov": 38,
+        "roll": 0
+      },
+      {
+        "t": 10,
+        "pos": [
+          4.2,
+          1.0,
+          6.4
+        ],
+        "look": [
+          0,
+          0,
+          0
+        ],
+        "fov": 38,
+        "roll": 1.5
+      }
+    ]
+  },
+  "post": {
+    "bloom": {
+      "intensity": 1.0,
+      "threshold": 0.85,
+      "radius": 0.6
+    },
+    "tone": "aces",
+    "vignette": 0.6,
+    "grain": 0.018,
+    "chromatic": 0.001
+  },
+  "assets": [
+    {
+      "id": "physics.fieldlines.v1",
+      "params": {
+        "position": [
+          0,
+          0,
+          0
+        ],
+        "size": 3,
+        "shells": 5,
+        "perShell": 8,
+        "magnet": true,
+        "flow": 1,
+        "growAt": 0.3,
+        "seed": "fieldlines-demo"
+      }
+    }
+  ],
+  "version": "1.0.0"
+}

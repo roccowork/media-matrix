@@ -1,0 +1,117 @@
+{
+  "id": "physics.lightning.v1",
+  "renderer": "threejs",
+  "style": "cyber_tech",
+  "fps": 30,
+  "duration": 10,
+  "camera": {
+    "preset": "dolly_in",
+    "keys": [
+      {
+        "t": 0,
+        "pos": [
+          -1.2,
+          0.8,
+          7.5
+        ],
+        "look": [
+          0,
+          0.2,
+          0
+        ],
+        "fov": 38,
+        "roll": -2
+      },
+      {
+        "t": 5,
+        "pos": [
+          -0.3,
+          0.5,
+          6.4
+        ],
+        "look": [
+          0,
+          0.1,
+          0
+        ],
+        "fov": 38,
+        "roll": 0
+      },
+      {
+        "t": 10,
+        "pos": [
+          0.8,
+          0.3,
+          5.4
+        ],
+        "look": [
+          0.1,
+          0,
+          0
+        ],
+        "fov": 38,
+        "roll": 1.5
+      }
+    ]
+  },
+  "post": {
+    "bloom": {
+      "intensity": 1.0,
+      "threshold": 0.85,
+      "radius": 0.6
+    },
+    "tone": "aces",
+    "vignette": 0.6,
+    "grain": 0.018,
+    "chromatic": 0.001
+  },
+  "assets": [
+    {
+      "id": "physics.lightning.v1",
+      "params": {
+        "from": [
+          -2.2,
+          0,
+          0
+        ],
+        "to": [
+          2.2,
+          0,
+          0
+        ],
+        "arc": true,
+        "branches": 0.15,
+        "jaggedness": 0.2,
+        "width": 0.035,
+        "color": "#a9c8ff",
+        "electrodes": true,
+        "haze": 0.6,
+        "hazeColor": "#1a1240",
+        "seed": "lightning-demo-arc"
+      }
+    },
+    {
+      "id": "physics.lightning.v1",
+      "params": {
+        "from": [
+          -4,
+          6,
+          -7
+        ],
+        "to": [
+          0.5,
+          -4.5,
+          -9
+        ],
+        "arc": false,
+        "rate": 0.9,
+        "branches": 0.14,
+        "jaggedness": 0.24,
+        "width": 0.07,
+        "color": "#b9a8ff",
+        "seed": "lightning-demo-strike"
+      }
+    }
+  ],
+  "version": "1.0.0"
+}

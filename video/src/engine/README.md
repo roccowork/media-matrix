@@ -70,5 +70,12 @@ postprocessing 6.38.0 · @react-three/postprocessing 3.0.4 · react 19.2.0 · aj
 | tech.chip.v1 | 程序化 | Shot-AIChip | 自研 |
 | tech.datastream.v1 | 程序化（GPU 粒子） | Asset-DataStream | 自研 |
 | tech.hud.v1 | 程序化（Shader，全息界面） | Asset-HUD | 自研 |
+| physics.lightning.v1 | 程序化（发光带 + 中点位移） | Asset-Lightning | 自研 |
+| physics.fieldlines.v1 | 程序化（偶极子解析场线） | Asset-FieldLines | 自研 |
+| physics.energyfield.v1 | 程序化（Shader 护盾 + 等离子电弧） | Asset-EnergyField | 自研 |
 | tech.robot.expressive.v1 | 文件（GLB，14 个动作） | — | CC0 |
 | biology.cat.lowpoly.v1 | 文件（FBX） | — | CC0 |
+
+## 已知问题
+- 后期 bloom 在极亮区域（如磁场线的磁铁附近）会留下很淡的方形块，正常亮度下几乎看不出（2026-11-03 发现，待查）
+- 加色、不写深度的资产（全息界面、闪电、磁场线、能量场）不要开 post.dof，否则整张图按无穷远一起虚化
