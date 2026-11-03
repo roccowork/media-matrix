@@ -19,6 +19,14 @@ on:
         description: "把每个 Composition 的帧段拆给几台机器并行（重 Shader 镜头用，最多 20；需同时填 frames）"
         required: false
         default: "1"
+      storyboard:
+        description: "分镜音频：storyboard.json 路径（相对 video/，如 storyboards/2026-11-03-ai-100-years/storyboard.json）；填了就按它整段混音替换音轨"
+        required: false
+        default: ""
+      reuse_run:
+        description: "复用某次运行已渲好的分段（填 run id，只重新拼接 + 混音，不重渲；分段保留 1 天）"
+        required: false
+        default: ""
       caption:
         description: "发到 Telegram 时的说明"
         required: false
@@ -62,6 +70,7 @@ jobs:
 
   render:
     needs: list
+    if: ${{ inputs.reuse_run == '' }}
     runs-on: ubuntu-24.04
     timeout-minutes: 60
     strategy:
@@ -87,33 +96,12 @@ jobs:
           path: video/out/${{ matrix.item.n }}.mp4
           retention-days: 1
 
-  # 单个 Composition 拆多台机器渲染时，各段音频直接拼会在接缝处留空隙 / 咔哒声：整段音频单独渲一次（只算音频，不截帧），合并时替换
-  audio:
-    if: ${{ !contains(inputs.compositions, ',') && inputs.frames != '' }}
-    runs-on: ubuntu-24.04
-    timeout-minutes: 20
-    defaults:
-      run:
-        working-directory: video
-    steps:
-      - uses: actions/checkout@v5
-      - uses: actions/setup-node@v5
-        with:
-          node-version: 22
-          cache: npm
-          cache-dependency-path: video/package-lock.json
-      - run: npm ci
-      - name: 渲染整段音频
-        run: npx remotion render src/index.ts "${{ inputs.compositions }}" out/audio.wav --codec=wav --frames=${{ inputs.frames }}
-      - uses: actions/upload-artifact@v4
-        with:
-          name: audio
-          path: video/out/audio.wav
-          retention-days: 1
-
   merge:
-    needs: [list, render, audio]
-    if: ${{ always() && needs.render.result == 'success' }}
+    needs: [list, render]
+    if: ${{ always() && (needs.render.result == 'success' || (inputs.reuse_run != '' && needs.render.result == 'skipped')) }}
+    permissions:
+      actions: read
+      contents: read
     runs-on: ubuntu-24.04
     timeout-minutes: 15
     steps:
@@ -122,19 +110,25 @@ jobs:
           pattern: p-*
           path: parts
           merge-multiple: true
-      - uses: actions/download-artifact@v4
-        if: ${{ needs.audio.result == 'success' }}
-        with:
-          name: audio
-          path: audio
+          run-id: ${{ inputs.reuse_run || github.run_id }}
+          github-token: ${{ github.token }}
       - name: 安装 ffmpeg
         run: sudo apt-get update -q && sudo apt-get install -y -q ffmpeg
+      # 有分镜音频：按 storyboard.json 用 ffmpeg 整段混音再替换（分段渲染的音频直接拼会在接缝处断音）
+      - uses: actions/checkout@v5
+        if: ${{ inputs.storyboard != '' }}
+        with:
+          path: src
+      - name: 混音（tools/mix_audio.py）
+        if: ${{ inputs.storyboard != '' }}
+        run: |
+          python3 src/video/tools/mix_audio.py "src/video/${{ inputs.storyboard }}" audio.wav
       - name: 拼接（超过 50MB 就压缩）
         run: |
           ls parts/*.mp4 | sort | sed "s#^#file '#; s#\$#'#" > list.txt
           ffmpeg -nostdin -v error -y -f concat -safe 0 -i list.txt -c copy full.mp4
-          if [ -f audio/audio.wav ]; then
-            ffmpeg -nostdin -v error -y -i full.mp4 -i audio/audio.wav -map 0:v -map 1:a -c:v copy -c:a aac -b:a 192k -shortest full2.mp4 && mv full2.mp4 full.mp4
+          if [ -f audio.wav ]; then
+            ffmpeg -nostdin -v error -y -i full.mp4 -i audio.wav -map 0:v -map 1:a -c:v copy -c:a aac -b:a 192k -shortest full2.mp4 && mv full2.mp4 full.mp4
           fi
           if [ "$(stat -c %s full.mp4)" -gt 48000000 ]; then
             dur=$(ffprobe -v error -show_entries format=duration -of csv=p=0 full.mp4)
