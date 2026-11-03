@@ -22,6 +22,7 @@ import {DataStreamAsset} from '../../assets/tech/datastream/DataStreamAsset';
 import {HudAsset} from '../../assets/tech/hud/HudAsset';
 import {CityNetAsset} from '../../assets/tech/citynet/CityNetAsset';
 import {CityChipAsset} from '../../assets/tech/citychip/CityChipAsset';
+import {ThinkEarthAsset} from '../../assets/tech/thinkearth/ThinkEarthAsset';
 import {LightningAsset} from '../../assets/physics/lightning/LightningAsset';
 import {FieldLinesAsset} from '../../assets/physics/fieldlines/FieldLinesAsset';
 import {EnergyFieldAsset} from '../../assets/physics/energyfield/EnergyFieldAsset';
@@ -737,6 +738,37 @@ export const ASSETS: AssetMeta[] = [
     license: 'own（自研 Shader）',
     version: '1.0.0',
     notes: '平面四周自动淡出；镜头俯视时背景可留银河天穹',
+  },
+  {
+    asset_id: 'tech.thinkearth.v1',
+    asset_name: '会思考的地球（行星表面一层神经网络：波前扫过处节点和连线依次亮起，电信号光点在连线上来回跑）',
+    category: 'tech',
+    kind: 'procedural',
+    renderer: 'threejs',
+    component: C(ThinkEarthAsset),
+    params: {
+      center: {type: 'vec3', default: [0, 0, 0], desc: '行星中心'},
+      radius: {type: 'number', default: 5, min: 0.1, max: 500, desc: '行星半径'},
+      nodes: {type: 'number', default: 420, min: 20, max: 2000, desc: '神经元节点数'},
+      links: {type: 'number', default: 3, min: 1, max: 6, desc: '每个节点连几个最近邻'},
+      lift: {type: 'number', default: 0.02, min: 0, max: 0.5, desc: '网络壳高于地表多少（相对半径）'},
+      arch: {type: 'number', default: 0.18, min: 0, max: 1, desc: '连线拱起高度（相对弦长）'},
+      waveDir: {type: 'vec3', default: [0, 0.3, 1], desc: '波前从球面哪个方向出发'},
+      waveAt: {type: 'number', default: 0.6, min: -1, max: 600, desc: '波前出发时刻（秒）'},
+      waveDuration: {type: 'number', default: 3, min: 0.2, max: 60, desc: '波前扫过半个球用时（秒）'},
+      color: {type: 'color', default: '#5fd2ff', desc: '网络颜色'},
+      pulseColor: {type: 'color', default: '#fff0c8', desc: '电信号光点颜色'},
+      width: {type: 'number', default: 0.014, min: 0.002, max: 1, desc: '线宽（世界单位）'},
+      brightness: {type: 'number', default: 1, min: 0.1, max: 5, desc: '亮度'},
+      seed: {type: 'seed', default: 'thinkearth', desc: '种子：节点分布、连线、信号节奏'},
+    },
+    effects: ['spherical_neural_mesh', 'wave_front_reveal', 'signal_pulses'],
+    camera_presets: ['从地球拉远', '环绕'],
+    lighting_preset: '自发光；配 bloom',
+    no_dof: true,
+    license: 'own（自研 Shader）',
+    version: '1.0.0',
+    notes: '和 cosmos.planet.v1 叠用（center / radius 对齐），被行星挡住的部分自动隐藏；《一百年后》第 5 镜',
   },
   {
     asset_id: 'tech.robot.expressive.v1',
