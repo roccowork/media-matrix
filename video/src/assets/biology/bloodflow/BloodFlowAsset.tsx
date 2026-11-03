@@ -132,6 +132,9 @@ void main() {
     float k = snoise(normalize(position) * 2.5 + aI.w * 10.0) * 0.5 + snoise(normalize(position) * 6.0) * 0.25;
     lp += normalize(position) * k * 1.4;
   }
+  // 离镜头太近的细胞缩小消失（镜头不会被一个细胞糊满；确定性：只看距离）
+  float camD = length(c - cameraPosition);
+  lp *= smoothstep(5.0, 12.0, camD);
   vec3 p = c + rot(lp, ax, an);
   vec4 mv = modelViewMatrix * vec4(p, 1.0);
   vV = -mv.xyz; vN = normalize(normalMatrix * rot(ln, ax, an)); vL = position; vRnd = aI.w;

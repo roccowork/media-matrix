@@ -2,6 +2,8 @@
 //   node tools/shot.mjs validate shotconfigs/cosmos.blackhole.v1.json
 //   node tools/shot.mjs validate-storyboard storyboards/<id>/storyboard.json   分镜校验（时长、旁白语速、资产、渲染器能力、版本、示意）
 //   node tools/shot.mjs catalog [输出.json]                                    导出资产目录（给 AI 分镜用）
+//   node tools/shot.mjs storyboard-preview storyboards/<id>/storyboard.json   镜头预览：每镜中间一帧 + 总览图 preview/preview.jpg
+//   node tools/shot.mjs storyboard-shot storyboards/<id>/storyboard.json 5 [帧号,帧号]   单镜头重渲染（只渲第 5 镜）
 //   node tools/shot.mjs keyframes Shot-BlackHole 0,200,330,440 [输出目录] [--gl=angle]
 //   node tools/shot.mjs determinism Shot-BlackHole 330 [--gl=angle]   同一帧渲染两次，逐像素比对
 // 云端会话没有显卡：--gl=swangle（默认）；在有显卡的笔记本上用 --gl=angle，快很多。
@@ -135,18 +137,18 @@ const catalog = (out) => {
   if (out) { fs.writeFileSync(out, json); console.log(`✓ 资产目录 ${list.length} 个 → ${out}`); } else console.log(json);
 };
 
-const renderFrames = async (comp, frames, out) => {
+const renderFrames = async (comp, frames, out, inputProps = undefined, name = comp) => {
   const {bundle} = await import('@remotion/bundler');
   const {renderStill, selectComposition} = await import('@remotion/renderer');
   const serveUrl = await bundle({entryPoint: path.join(root, 'src/index.ts')});
   const browserExecutable = fs.existsSync('/opt/pw-browsers/chromium') ? '/opt/pw-browsers/chromium' : undefined;
-  const composition = await selectComposition({serveUrl, id: comp, browserExecutable});
+  const composition = await selectComposition({serveUrl, id: comp, browserExecutable, inputProps});
   fs.mkdirSync(out, {recursive: true});
   const files = [];
   for (const f of frames) {
-    const output = path.join(out, `${comp}-${f}.png`);
+    const output = path.join(out, `${name}-${f}.png`);
     const t0 = Date.now();
-    await renderStill({serveUrl, composition, frame: f, output, browserExecutable, timeoutInMilliseconds: 900000, chromiumOptions: {gl}, onBrowserLog: (l) => { if (!l.text.includes('fonts.gstatic') && (process.env.SHOT_DEBUG || l.type === 'error' || l.text.includes('THREE'))) console.log('  [浏览器错误]', l.text.slice(0, 400)); }});
+    await renderStill({serveUrl, composition, frame: f, output, browserExecutable, inputProps, timeoutInMilliseconds: 900000, chromiumOptions: {gl}, onBrowserLog: (l) => { if (!l.text.includes('fonts.gstatic') && (process.env.SHOT_DEBUG || l.type === 'error' || l.text.includes('THREE'))) console.log('  [浏览器错误]', l.text.slice(0, 400)); }});
     console.log(`✓ ${output}（${((Date.now() - t0) / 1000).toFixed(0)} 秒）`);
     files.push(output);
   }
@@ -166,4 +168,28 @@ else if (cmd === 'determinism') {
   const same = pixelHash(x) === pixelHash(y);
   console.log(same ? `✓ 确定性：${a1} 第 ${a2} 帧两次渲染逐字节一致` : `✗ 确定性：两次渲染不一致（${x} vs ${y}）`);
   process.exitCode = same ? 0 : 1;
+} else if (cmd === 'storyboard-preview') {
+  // 镜头预览：先校验，再每镜渲中间一帧（叠镜号 + 旁白），最后拼成一张总览图
+  if (validateStoryboard(a1).length) process.exit(1);
+  const sb = JSON.parse(fs.readFileSync(a1, 'utf8'));
+  const out = a2 ?? path.join(path.dirname(a1), 'preview');
+  const files = [];
+  for (const s of sb.shots) {
+    const mid = Math.floor((s.config.duration * sb.fps) / 2);
+    const [f] = await renderFrames('SB-Shot', [mid], out, {config: s.config, n: s.n, narration: s.narration, note: s.note, annotate: true}, `shot${String(s.n).padStart(2, '0')}`);
+    files.push(f);
+  }
+  const sheet = path.join(out, 'preview.jpg');
+  const {execFileSync} = await import('node:child_process');
+  execFileSync('python3', [path.join(root, 'tools/storyboard_sheet.py'), sheet, sb.title, ...files], {stdio: 'inherit'});
+} else if (cmd === 'storyboard-shot') {
+  // 单镜头重渲染：只渲第 n 镜的指定帧（默认首 / 中 / 尾），不动其他镜
+  const sb = JSON.parse(fs.readFileSync(a1, 'utf8'));
+  const s = sb.shots.find((x) => x.n === Number(a2));
+  if (!s) { console.log(`✗ 没有第 ${a2} 镜`); process.exit(1); }
+  const errs = validateShot(s.config, loadRegistry(), `/shots/${s.n - 1}/config`, s.note ?? '');
+  if (errs.length) { console.log('✗ ' + errs.join('\n  ')); process.exit(1); }
+  const last = Math.round(s.config.duration * sb.fps) - 1;
+  const frames = a3 ? a3.split(',').map(Number) : [0, Math.floor(last / 2), last];
+  await renderFrames('SB-Shot', frames, path.join(path.dirname(a1), 'preview'), {config: s.config, n: s.n, narration: s.narration, note: s.note, annotate: false}, `shot${String(s.n).padStart(2, '0')}`);
 } else console.log('用法见文件开头注释');
