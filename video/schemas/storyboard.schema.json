@@ -135,7 +135,7 @@
               },
               "text": {
                 "type": "string",
-                "description": "一句短的画面文字（≤16 字）"
+                "description": "一句主谓宾完整的话，点明主语、说清这一镜（≤16 字，《方案补充》#22）"
               },
               "tag": {
                 "type": "string",
@@ -148,6 +148,40 @@
                   "title"
                 ],
                 "description": "caption = 左下角字卡（默认）；title = 居中大字（开场 / 点题句）"
+              },
+              "position": {
+                "enum": [
+                  "bottom",
+                  "center",
+                  "top"
+                ],
+                "description": "字的位置：bottom = 下方居中（默认）；center = 画面中央；top = 上方。选不遮挡画面主体的位置（#22）"
+              }
+            }
+          },
+          "transition": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "type"
+            ],
+            "description": "这一镜到下一镜的转场（《方案补充》#23）；不写 = 叠化 0.6 秒",
+            "properties": {
+              "type": {
+                "enum": [
+                  "dissolve",
+                  "flash",
+                  "zoom",
+                  "eyelid",
+                  "cut"
+                ],
+                "description": "dissolve 叠化；flash 白光爆闪；zoom 冲进画面中心、暖光穿出；eyelid 眼睛闭上后切黑；cut 硬切"
+              },
+              "duration": {
+                "type": "number",
+                "minimum": 0,
+                "maximum": 2,
+                "description": "叠化 / 转场时长（秒）"
               }
             }
           }
@@ -181,6 +215,65 @@
           "minimum": 40,
           "maximum": 220,
           "description": "配乐节拍（有了就按节拍调切换点）"
+        },
+        "ambient": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "src"
+          ],
+          "description": "全片环境底噪（循环，《方案补充》#25）",
+          "properties": {
+            "src": {
+              "type": "string"
+            },
+            "volume": {
+              "type": "number",
+              "minimum": 0,
+              "maximum": 1
+            },
+            "mute": {
+              "type": "array",
+              "items": {
+                "type": "array",
+                "items": {
+                  "type": "number"
+                },
+                "minItems": 2,
+                "maxItems": 2
+              },
+              "description": "静音区间 [开始秒, 结束秒]（如星光熄灭）"
+            }
+          }
+        },
+        "sfx": {
+          "type": "array",
+          "description": "音效（public/ 下的文件，按全片秒数放）",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "src",
+              "at"
+            ],
+            "properties": {
+              "src": {
+                "type": "string"
+              },
+              "at": {
+                "type": "number",
+                "minimum": 0
+              },
+              "volume": {
+                "type": "number",
+                "minimum": 0,
+                "maximum": 1
+              },
+              "note": {
+                "type": "string"
+              }
+            }
+          }
         }
       }
     }

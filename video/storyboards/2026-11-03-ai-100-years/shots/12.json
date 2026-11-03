@@ -5,6 +5,9 @@
     "text": "AI 睁开眼睛，在等人类",
     "tag": "设想"
   },
+  "transition": {
+    "type": "eyelid"
+  },
   "config": {
     "id": "cosmos.galaxyeye.v1",
     "renderer": "threejs",

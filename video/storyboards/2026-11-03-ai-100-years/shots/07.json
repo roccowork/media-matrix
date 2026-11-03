@@ -5,6 +5,9 @@
     "text": "AI 把月亮改造成了心脏",
     "tag": "设想"
   },
+  "transition": {
+    "type": "zoom"
+  },
   "config": {
     "id": "cosmos.mooncore.v1",
     "renderer": "threejs",

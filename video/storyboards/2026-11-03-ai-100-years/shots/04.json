@@ -4,6 +4,9 @@
   "onscreen": {
     "text": "AI 芯片里有两千亿个晶体管"
   },
+  "transition": {
+    "type": "flash"
+  },
   "config": {
     "id": "tech.citychip.v1",
     "renderer": "threejs",

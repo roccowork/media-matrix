@@ -5,7 +5,109 @@
   "fps": 30,
   "audio": {
     "mode": "music",
-    "music": "用户在抖音选（待定）"
+    "music": "用户在抖音选（待定）",
+    "ambient": {
+      "src": "sfx/ai100/ambient.mp3",
+      "volume": 0.4,
+      "mute": [
+        [
+          56.4,
+          60
+        ]
+      ]
+    },
+    "sfx": [
+      {
+        "src": "sfx/ai100/whoosh.mp3",
+        "at": 3.3,
+        "volume": 0.35,
+        "note": "1→2"
+      },
+      {
+        "src": "sfx/ai100/whoosh.mp3",
+        "at": 7.3,
+        "volume": 0.35,
+        "note": "2→3"
+      },
+      {
+        "src": "sfx/ai100/whoosh.mp3",
+        "at": 11.3,
+        "volume": 0.35,
+        "note": "3→4"
+      },
+      {
+        "src": "sfx/ai100/flash.mp3",
+        "at": 15.75,
+        "volume": 0.7,
+        "note": "4→5 白光爆闪"
+      },
+      {
+        "src": "sfx/ai100/whoosh.mp3",
+        "at": 20.3,
+        "volume": 0.35,
+        "note": "5→6"
+      },
+      {
+        "src": "sfx/ai100/whoosh.mp3",
+        "at": 25.3,
+        "volume": 0.35,
+        "note": "6→7"
+      },
+      {
+        "src": "sfx/ai100/crack.mp3",
+        "at": 27.5,
+        "volume": 0.75,
+        "note": "第 7 镜月球裂开（crackAt 1.6 秒）"
+      },
+      {
+        "src": "sfx/ai100/zoom.mp3",
+        "at": 29,
+        "volume": 0.7,
+        "note": "7→8 冲进月核"
+      },
+      {
+        "src": "sfx/ai100/panels.mp3",
+        "at": 31.3,
+        "volume": 0.6,
+        "note": "第 8 镜采光板展开合拢（deployAt 0.3 秒，3 秒）"
+      },
+      {
+        "src": "sfx/ai100/whoosh.mp3",
+        "at": 35.3,
+        "volume": 0.35,
+        "note": "8→9"
+      },
+      {
+        "src": "sfx/ai100/whoosh.mp3",
+        "at": 40.3,
+        "volume": 0.35,
+        "note": "9→10"
+      },
+      {
+        "src": "sfx/ai100/whoosh.mp3",
+        "at": 45.3,
+        "volume": 0.35,
+        "note": "10→11"
+      },
+      {
+        "src": "sfx/ai100/whoosh.mp3",
+        "at": 50.3,
+        "volume": 0.35,
+        "note": "11→12"
+      },
+      {
+        "src": "sfx/ai100/eye.mp3",
+        "at": 53.4,
+        "volume": 0.75,
+        "note": "第 12 镜眼睛睁开（openAt 2.6 秒）"
+      },
+      {
+        "src": "sfx/ai100/whoosh.mp3",
+        "at": 59.4,
+        "volume": 0.35,
+        "note": "13→14"
+      }
+    ]
   },
   "generator": {
     "by": "hand",
@@ -333,6 +435,9 @@
       "onscreen": {
         "text": "AI 芯片里有两千亿个晶体管"
       },
+      "transition": {
+        "type": "flash"
+      },
       "config": {
         "id": "tech.citychip.v1",
         "renderer": "threejs",
@@ -654,6 +759,9 @@
       "onscreen": {
         "text": "AI 把月亮改造成了心脏",
         "tag": "设想"
+      },
+      "transition": {
+        "type": "zoom"
       },
       "config": {
         "id": "cosmos.mooncore.v1",
@@ -1311,6 +1419,9 @@
       "onscreen": {
         "text": "AI 睁开眼睛，在等人类",
         "tag": "设想"
+      },
+      "transition": {
+        "type": "eyelid"
       },
       "config": {
         "id": "cosmos.galaxyeye.v1",
