@@ -5,13 +5,15 @@
 //   （正式画面用 blender/<名字>_scene.py 按这一镜的 config 渲染 PNG 序列）。
 // annotate = true 时在底部叠加「镜号 + 旁白」，审片用；正式出片不叠。
 import React from 'react';
-import {AbsoluteFill, Img, Series, staticFile} from 'remotion';
+import {AbsoluteFill, Easing, Img, interpolate, Series, staticFile, useCurrentFrame, useVideoConfig} from 'remotion';
 import {Stage} from '../../engine/core/Stage';
 import {AssetView} from '../../engine/assets/AssetView';
 import {getAsset} from '../../engine/assets/registry';
 import type {ShotConfig} from '../../engine/shot';
+import {FONT} from '../../science/kit';
 
-export type SBShot = {n: number; narration: string; visual: string; note?: string; config: ShotConfig};
+export type OnScreen = {year?: string; text?: string; tag?: string};
+export type SBShot = {n: number; narration?: string; visual: string; note?: string; onscreen?: OnScreen; config: ShotConfig};
 export type StoryboardData = {id: string; topic: string; title: string; fps: number; shots: SBShot[]};
 
 // 背景色按风格（与各资产验收镜头一致）
@@ -29,7 +31,30 @@ const Caption: React.FC<{n?: number; text?: string; extra?: string}> = ({n, text
   </AbsoluteFill>
 );
 
-export const SBShotView: React.FC<{config: ShotConfig; n?: number; narration?: string; note?: string; annotate?: boolean}> = ({config, n, narration, note, annotate}) => {
+// 画面文字（配乐模式的字卡，《方案补充》#17）：年份大号细体 + 一句短句 + 角标；模糊淡入、离场淡出。成片里也显示
+const TextCard: React.FC<{card: OnScreen; duration: number}> = ({card, duration}) => {
+  const frame = useCurrentFrame();
+  const {fps} = useVideoConfig();
+  const end = duration * fps;
+  const inP = (d: number) => interpolate(frame, [d, d + 0.9 * fps], [0, 1], {easing: Easing.bezier(0.16, 1, 0.3, 1), extrapolateLeft: 'clamp', extrapolateRight: 'clamp'});
+  const out = interpolate(frame, [end - 0.6 * fps, end - 0.1 * fps], [1, 0], {extrapolateLeft: 'clamp', extrapolateRight: 'clamp'});
+  const st = (p: number): React.CSSProperties => ({opacity: p * out, filter: `blur(${(1 - p) * 12}px)`, transform: `translateY(${(1 - p) * 18}px)`});
+  return (
+    <AbsoluteFill style={{fontFamily: FONT, color: '#fff', pointerEvents: 'none'}}>
+      <AbsoluteFill style={{justifyContent: 'flex-end', padding: '0 120px 120px', textShadow: '0 2px 24px rgba(0,0,0,0.6)'}}>
+        {card.year && <div style={{...st(inP(0.2 * fps)), fontSize: 148, fontWeight: 200, letterSpacing: '0.12em', lineHeight: 1}}>{card.year}</div>}
+        {card.text && <div style={{...st(inP(0.55 * fps)), fontSize: 60, fontWeight: 400, letterSpacing: '0.08em', marginTop: 18}}>{card.text}</div>}
+      </AbsoluteFill>
+      {card.tag && (
+        <div style={{...st(inP(0.4 * fps)), position: 'absolute', top: 64, right: 80, fontSize: 30, letterSpacing: '0.2em', padding: '8px 22px', border: '1.5px solid rgba(255,255,255,0.6)', borderRadius: 40, color: 'rgba(255,255,255,0.85)'}}>
+          {card.tag}
+        </div>
+      )}
+    </AbsoluteFill>
+  );
+};
+
+export const SBShotView: React.FC<{config: ShotConfig; n?: number; narration?: string; note?: string; onscreen?: OnScreen; annotate?: boolean; visual?: string}> = ({config, n, narration, note, onscreen, annotate, visual}) => {
   const bg = BG[config.style] ?? '#02040a';
   let body: React.ReactNode;
   if (config.renderer === 'blender') {
@@ -58,7 +83,8 @@ export const SBShotView: React.FC<{config: ShotConfig; n?: number; narration?: s
   return (
     <AbsoluteFill>
       {body}
-      {annotate && <Caption n={n} text={narration} extra={note} />}
+      {onscreen && <TextCard card={onscreen} duration={config.duration} />}
+      {annotate && <Caption n={n} text={narration || visual} extra={note} />}
     </AbsoluteFill>
   );
 };
@@ -67,7 +93,7 @@ export const StoryboardView: React.FC<{storyboard: StoryboardData; annotate?: bo
   <Series>
     {storyboard.shots.map((s) => (
       <Series.Sequence key={s.n} durationInFrames={Math.round(s.config.duration * storyboard.fps)}>
-        <SBShotView config={s.config} n={s.n} narration={s.narration} note={s.note} annotate={annotate} />
+        <SBShotView config={s.config} n={s.n} narration={s.narration} note={s.note} onscreen={s.onscreen} visual={s.visual} annotate={annotate} />
       </Series.Sequence>
     ))}
   </Series>

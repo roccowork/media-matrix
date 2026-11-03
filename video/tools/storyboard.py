@@ -111,9 +111,14 @@ def repair(sb, errors, catalog, model):
 
 def write_script_md(sb, path):
     lines = [f"# {sb['title']}", '', f"选题：{sb['topic']}　｜　{len(sb['shots'])} 镜　｜　{sum(s['config']['duration'] for s in sb['shots'])} 秒　｜　生成：{sb['generator'].get('model', '')}", '',
-             '## 旁白稿', '', '| 镜 | 秒 | 旁白 | 画面 | 资产 | 说明 |', '|---|---|---|---|---|---|']
+             '## 旁白稿' if sb.get('audio', {}).get('mode') != 'music' else f"## 画面文字稿（配乐：{sb['audio'].get('music', '待定')}）", '', '| 镜 | 秒 | 旁白 | 画面 | 资产 | 说明 |', '|---|---|---|---|---|---|']
+    music = sb.get('audio', {}).get('mode') == 'music'
+    if music:
+        lines[lines.index('| 镜 | 秒 | 旁白 | 画面 | 资产 | 说明 |')] = '| 镜 | 秒 | 画面文字（无配音，《方案补充》#17） | 画面 | 资产 | 说明 |'
     for s in sb['shots']:
-        lines.append(f"| {s['n']} | {s['config']['duration']} | {s['narration']} | {s['visual']} | {', '.join(a['id'] for a in s['config']['assets'])} | {s.get('note', '')} |")
+        o = s.get('onscreen', {})
+        words = ' / '.join(x for x in (o.get('year'), o.get('text'), f"〔{o['tag']}〕" if o.get('tag') else None) if x) if music else s.get('narration', '')
+        lines.append(f"| {s['n']} | {s['config']['duration']} | {words} | {s['visual']} | {', '.join(a['id'] for a in s['config']['assets'])} | {s.get('note', '')} |")
     lines += ['', '## 待核验事实（制作前请逐条核对）', '']
     for f in sb['facts']:
         lines.append(f"- [ ] {f['claim']} —— 依据：{f['basis']}")

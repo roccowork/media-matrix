@@ -97,7 +97,7 @@ const validate = (file) => {
 };
 
 // ---------- 分镜 ----------
-const SB = {minShot: 3, maxShot: 8, minTotal: 60, maxTotal: 90, maxCharsPerSec: 5}; // 《方案补充》#15；中文旁白约 4–5 字 / 秒
+const SB = {minShot: 3, maxShot: 8, minTotal: 60, maxTotal: 90, maxCharsPerSec: 5, maxCardChars: 16, maxReadPerSec: 3.5}; // 《方案补充》#15 #17；中文旁白约 4–5 字 / 秒；字卡要读得完
 const narrationChars = (t) => [...(t ?? '')].filter((c) => /[\p{L}\p{N}]/u.test(c)).length;
 const validateStoryboard = (file, quiet = false) => {
   const sb = JSON.parse(fs.readFileSync(file, 'utf8'));
@@ -108,6 +108,7 @@ const validateStoryboard = (file, quiet = false) => {
   if (!errs.length) {
     const reg = loadRegistry();
     let total = 0;
+    const music = sb.audio?.mode === 'music';
     sb.shots.forEach((s, i) => {
       const at = `/shots/${i}`;
       const d = s.config.duration;
@@ -115,8 +116,16 @@ const validateStoryboard = (file, quiet = false) => {
       if (s.n !== i + 1) errs.push(`${at}/n 镜号应为 ${i + 1}（按顺序编号）`);
       if (d < SB.minShot || d > SB.maxShot) errs.push(`${at}/config/duration ${d}s，每镜应在 ${SB.minShot}–${SB.maxShot} 秒`);
       if (s.config.fps !== sb.fps) errs.push(`${at}/config/fps ${s.config.fps} 与分镜 fps ${sb.fps} 不一致`);
-      const rate = narrationChars(s.narration) / d;
-      if (rate > SB.maxCharsPerSec) errs.push(`${at}/narration ${narrationChars(s.narration)} 字 / ${d} 秒 = ${rate.toFixed(1)} 字每秒，超过 ${SB.maxCharsPerSec}（念不完）`);
+      if (music) {
+        // 配乐模式（《方案补充》#17）：没有旁白；画面文字短、读得完
+        if (narrationChars(s.narration)) errs.push(`${at}/narration 配乐模式不能有旁白（画面文字写在 onscreen）`);
+        const tc = narrationChars(s.onscreen?.text);
+        if (tc > SB.maxCardChars) errs.push(`${at}/onscreen/text ${tc} 字，每张字卡最多 ${SB.maxCardChars} 字`);
+        if (tc / d > SB.maxReadPerSec) errs.push(`${at}/onscreen/text ${tc} 字 / ${d} 秒，超过阅读速度 ${SB.maxReadPerSec} 字每秒`);
+      } else {
+        const rate = narrationChars(s.narration) / d;
+        if (rate > SB.maxCharsPerSec) errs.push(`${at}/narration ${narrationChars(s.narration)} 字 / ${d} 秒 = ${rate.toFixed(1)} 字每秒，超过 ${SB.maxCharsPerSec}（念不完）`);
+      }
       errs.push(...validateShot(s.config, reg, `${at}/config`, s.note ?? ''));
     });
     if (total < SB.minTotal || total > SB.maxTotal) errs.push(`/shots 总时长 ${total} 秒，应在 ${SB.minTotal}–${SB.maxTotal} 秒`);
@@ -183,7 +192,7 @@ else if (cmd === 'determinism') {
   const files = [];
   for (const s of sb.shots) {
     const mid = Math.floor((s.config.duration * sb.fps) / 2);
-    const [f] = await renderFrames('SB-Shot', [mid], out, {config: s.config, n: s.n, narration: s.narration, note: s.note, annotate: true}, `shot${String(s.n).padStart(2, '0')}`);
+    const [f] = await renderFrames('SB-Shot', [mid], out, {config: s.config, n: s.n, narration: s.narration, note: s.note, onscreen: s.onscreen, visual: s.visual, annotate: true}, `shot${String(s.n).padStart(2, '0')}`);
     files.push(f);
   }
   const sheet = path.join(out, 'preview.jpg');
@@ -198,5 +207,5 @@ else if (cmd === 'determinism') {
   if (errs.length) { console.log('✗ ' + errs.join('\n  ')); process.exit(1); }
   const last = Math.round(s.config.duration * sb.fps) - 1;
   const frames = a3 ? a3.split(',').map(Number) : [0, Math.floor(last / 2), last];
-  await renderFrames('SB-Shot', frames, path.join(path.dirname(a1), 'preview'), {config: s.config, n: s.n, narration: s.narration, note: s.note, annotate: false}, `shot${String(s.n).padStart(2, '0')}`);
+  await renderFrames('SB-Shot', frames, path.join(path.dirname(a1), 'preview'), {config: s.config, n: s.n, narration: s.narration, note: s.note, onscreen: s.onscreen, visual: s.visual, annotate: false}, `shot${String(s.n).padStart(2, '0')}`);
 } else console.log('用法见文件开头注释');

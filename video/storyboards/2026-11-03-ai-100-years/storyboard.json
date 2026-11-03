@@ -1,0 +1,1573 @@
+{
+ "id": "2026-11-03-ai-100-years",
+ "topic": "一百年后 AI 会发展成什么样？人类社会会是什么样？",
+ "title": "一百年后的 AI",
+ "fps": 30,
+ "audio": {
+  "mode": "music",
+  "music": "用户在抖音选（待定）"
+ },
+ "generator": {
+  "by": "ai",
+  "model": "Claude Code（对话生成，《方案补充》#16）",
+  "date": "2026-11-03",
+  "repair_rounds": 0
+ },
+ "facts": [
+  {
+   "claim": "一块 AI 芯片约有 2000 亿个晶体管",
+   "basis": "NVIDIA B200（2024 年 GTC 发布）约 2080 亿个晶体管",
+   "status": "待核验"
+  },
+  {
+   "claim": "今天的 AI 已能写作、作画、对话",
+   "basis": "大语言模型（如 ChatGPT，2022）与图像生成模型的公开能力",
+   "status": "待核验"
+  },
+  {
+   "claim": "（设想出处）文明利用整颗恒星的能量",
+   "basis": "卡尔达肖夫文明等级 II 型（Kardashev, 1964）；戴森球 / 戴森云（Freeman Dyson, 1960，《Science》）",
+   "status": "待核验"
+  },
+  {
+   "claim": "物理学推算的计算极限与黑洞有关",
+   "basis": "Seth Lloyd, “Ultimate physical limits to computation”, Nature 406 (2000)：把质量压到黑洞密度时计算机达到极限",
+   "status": "待核验"
+  },
+  {
+   "claim": "（设想）2055 年 AI 连接万物、人人有 AI 助手",
+   "basis": "属预测，片中标「设想」；简介里注明是创作设想、非事实",
+   "status": "待核验"
+  }
+ ],
+ "shots": [
+  {
+   "n": 1,
+   "narration": "",
+   "visual": "黑场里星云缓缓浮现，镜头向深处推进",
+   "onscreen": {
+    "text": "一百年后"
+   },
+   "config": {
+    "id": "cosmos.nebula.v1",
+    "renderer": "threejs",
+    "style": "imax_cosmos",
+    "fps": 30,
+    "duration": 4,
+    "camera": {
+     "preset": "fly_through",
+     "keys": [
+      {
+       "t": 0.0,
+       "pos": [
+        8,
+        5,
+        48
+       ],
+       "look": [
+        0,
+        0,
+        0
+       ],
+       "fov": 42,
+       "roll": -3
+      },
+      {
+       "t": 4,
+       "pos": [
+        6,
+        3.5,
+        38
+       ],
+       "look": [
+        0,
+        0,
+        0
+       ],
+       "fov": 42,
+       "roll": -1
+      }
+     ]
+    },
+    "post": {
+     "bloom": {
+      "intensity": 0.7,
+      "threshold": 1.0,
+      "radius": 0.6
+     },
+     "tone": "aces",
+     "vignette": 0.5,
+     "grain": 0.015
+    },
+    "assets": [
+     {
+      "id": "cosmos.nebula.v1",
+      "params": {
+       "radius": 24,
+       "seed": "2026-11-03-ai-100-years-s1-0",
+       "steps": 96,
+       "stars": 0.7,
+       "dust": 1.6,
+       "warm": "#ff6418",
+       "cool": "#2259ff"
+      }
+     },
+     {
+      "id": "cosmos.stardust.v1",
+      "params": {
+       "from": [
+        10,
+        6,
+        62
+       ],
+       "to": [
+        -1,
+        0.8,
+        12
+       ],
+       "count": 2400,
+       "spread": 14,
+       "size": 0.05,
+       "seed": "2026-11-03-ai-100-years-s1-1"
+      }
+     }
+    ],
+    "version": "1.0.0"
+   }
+  },
+  {
+   "n": 2,
+   "narration": "",
+   "visual": "地球夜面，城市灯光连成网，远处一颗气态巨行星",
+   "onscreen": {
+    "text": "夜空最亮的，也许不是星星",
+    "tag": "设想"
+   },
+   "config": {
+    "id": "cosmos.planet.v1",
+    "renderer": "threejs",
+    "style": "imax_cosmos",
+    "fps": 30,
+    "duration": 5,
+    "camera": {
+     "preset": "orbit",
+     "keys": [
+      {
+       "t": 0.0,
+       "pos": [
+        -3,
+        1.5,
+        15
+       ],
+       "look": [
+        3,
+        0.5,
+        -6
+       ],
+       "fov": 40,
+       "roll": -2
+      },
+      {
+       "t": 2.5,
+       "pos": [
+        1,
+        1.2,
+        13
+       ],
+       "look": [
+        4,
+        0.6,
+        -8
+       ],
+       "fov": 40,
+       "roll": 0
+      },
+      {
+       "t": 5.0,
+       "pos": [
+        5,
+        1.0,
+        11
+       ],
+       "look": [
+        6,
+        0.8,
+        -10
+       ],
+       "fov": 40,
+       "roll": 3
+      }
+     ]
+    },
+    "post": {
+     "bloom": {
+      "intensity": 0.6,
+      "threshold": 1.0,
+      "radius": 0.6
+     },
+     "tone": "aces",
+     "vignette": 0.5,
+     "grain": 0.015
+    },
+    "assets": [
+     {
+      "id": "cosmos.nebula.v1",
+      "params": {
+       "center": [
+        -60,
+        10,
+        -160
+       ],
+       "radius": 70,
+       "gain": 0.6,
+       "steps": 64,
+       "seed": "2026-11-03-ai-100-years-s2-0",
+       "stars": 0.55
+      }
+     },
+     {
+      "id": "cosmos.planet.v1",
+      "params": {
+       "radius": 5,
+       "kind": 0,
+       "sunDir": [
+        -1,
+        0.15,
+        -0.9
+       ],
+       "spin": 2,
+       "seed": "2026-11-03-ai-100-years-s2-1",
+       "position": [
+        -2,
+        0,
+        0
+       ]
+      }
+     },
+     {
+      "id": "cosmos.planet.v1",
+      "params": {
+       "position": [
+        16,
+        5,
+        -32
+       ],
+       "radius": 9,
+       "kind": 1,
+       "ring": true,
+       "atmosphere": "#ffcf8a",
+       "sunDir": [
+        -1,
+        0.15,
+        -0.9
+       ],
+       "spin": 4,
+       "tilt": 22,
+       "seed": "2026-11-03-ai-100-years-s2-2"
+      }
+     }
+    ],
+    "version": "1.0.0"
+   }
+  },
+  {
+   "n": 3,
+   "narration": "",
+   "visual": "镜头掠过 AI 芯片内部的电路",
+   "onscreen": {
+    "year": "2025",
+    "text": "一块芯片，两千亿个晶体管"
+   },
+   "config": {
+    "id": "tech.ai_chip.v1",
+    "renderer": "threejs",
+    "style": "cyber_tech",
+    "fps": 30,
+    "duration": 4,
+    "camera": {
+     "preset": "keys",
+     "keys": [
+      {
+       "t": 0.0,
+       "pos": [
+        7.5,
+        6.2,
+        8.5
+       ],
+       "look": [
+        0,
+        0,
+        0
+       ],
+       "fov": 34,
+       "roll": -3
+      },
+      {
+       "t": 4,
+       "pos": [
+        3.8,
+        3.3,
+        4.4
+       ],
+       "look": [
+        0,
+        0.2,
+        0
+       ],
+       "fov": 34,
+       "roll": -1
+      }
+     ]
+    },
+    "post": {
+     "bloom": {
+      "intensity": 0.9,
+      "threshold": 1.0,
+      "radius": 0.55
+     },
+     "dof": {
+      "cInf": 8
+     },
+     "tone": "aces",
+     "vignette": 0.6,
+     "grain": 0.015,
+     "chromatic": 0.0008
+    },
+    "assets": [
+     {
+      "id": "tech.chip.v1",
+      "params": {
+       "activateAt": 1.5,
+       "pulseSpeed": 0.35
+      }
+     }
+    ],
+    "version": "1.0.0"
+   }
+  },
+  {
+   "n": 4,
+   "narration": "",
+   "visual": "神经网络被一层层点亮",
+   "onscreen": {
+    "text": "AI 刚学会写作、作画、对话"
+   },
+   "config": {
+    "id": "biology.neural_activation.v1",
+    "renderer": "threejs",
+    "style": "cinematic_science",
+    "fps": 30,
+    "duration": 4,
+    "camera": {
+     "preset": "keys",
+     "keys": [
+      {
+       "t": 0.0,
+       "pos": [
+        -3.0,
+        1.0,
+        3.3
+       ],
+       "look": [
+        -2.0,
+        0.3,
+        -0.3
+       ],
+       "fov": 36,
+       "roll": -1
+      },
+      {
+       "t": 1.667,
+       "pos": [
+        0.8,
+        0.7,
+        3.2
+       ],
+       "look": [
+        2.2,
+        -0.2,
+        -0.9
+       ],
+       "fov": 38,
+       "roll": 2
+      },
+      {
+       "t": 4,
+       "pos": [
+        3.2,
+        2.4,
+        7.5
+       ],
+       "look": [
+        0.6,
+        0.2,
+        -2.2
+       ],
+       "fov": 42,
+       "roll": 3
+      }
+     ]
+    },
+    "post": {
+     "bloom": {
+      "intensity": 0.85,
+      "threshold": 1.0,
+      "radius": 0.6
+     },
+     "tone": "aces",
+     "vignette": 0.55,
+     "grain": 0.015,
+     "chromatic": 0.0008,
+     "dof": {
+      "cInf": 9
+     }
+    },
+    "assets": [
+     {
+      "id": "biology.neural_web.v1",
+      "params": {
+       "center": [
+        0,
+        0,
+        -3
+       ],
+       "radius": 9,
+       "waveOrigin": [
+        2.6,
+        -0.3,
+        -1.0
+       ],
+       "waveStart": 6.2,
+       "waveSpeed": 2.8,
+       "size": 0.07
+      }
+     },
+     {
+      "id": "biology.neuron.v1",
+      "params": {
+       "position": [
+        -3.2,
+        0.5,
+        0
+       ],
+       "radius": 0.6,
+       "dendrites": 10,
+       "activateAt": 1.0
+      }
+     },
+     {
+      "id": "biology.neuron.v1",
+      "params": {
+       "position": [
+        2.6,
+        -0.3,
+        -1.0
+       ],
+       "radius": 0.55,
+       "dendrites": 9,
+       "activateAt": 5.6
+      }
+     },
+     {
+      "id": "biology.neuron.v1",
+      "params": {
+       "position": [
+        0.4,
+        2.2,
+        -4.5
+       ],
+       "radius": 0.5,
+       "dendrites": 8,
+       "activateAt": 7.8
+      }
+     },
+     {
+      "id": "biology.neuron.v1",
+      "params": {
+       "position": [
+        -2.5,
+        -2.0,
+        -6.0
+       ],
+       "radius": 0.5,
+       "dendrites": 8,
+       "activateAt": 9.2
+      }
+     },
+     {
+      "id": "biology.axon.v1",
+      "params": {
+       "from": [
+        -3.2,
+        0.5,
+        0
+       ],
+       "to": [
+        2.6,
+        -0.3,
+        -1.0
+       ],
+       "start": 2.0,
+       "duration": 3.6
+      }
+     },
+     {
+      "id": "biology.axon.v1",
+      "params": {
+       "from": [
+        2.6,
+        -0.3,
+        -1.0
+       ],
+       "to": [
+        0.4,
+        2.2,
+        -4.5
+       ],
+       "start": 5.9,
+       "duration": 1.9
+      }
+     },
+     {
+      "id": "biology.axon.v1",
+      "params": {
+       "from": [
+        2.6,
+        -0.3,
+        -1.0
+       ],
+       "to": [
+        -2.5,
+        -2.0,
+        -6.0
+       ],
+       "start": 6.1,
+       "duration": 3.1
+      }
+     }
+    ],
+    "version": "1.0.0"
+   }
+  },
+  {
+   "n": 5,
+   "narration": "",
+   "visual": "在数据洪流里高速穿行",
+   "onscreen": {
+    "year": "2055",
+    "text": "AI 连接每一台机器",
+    "tag": "设想"
+   },
+   "config": {
+    "id": "tech.datastream.v1",
+    "renderer": "threejs",
+    "style": "cyber_tech",
+    "fps": 30,
+    "duration": 5,
+    "camera": {
+     "preset": "fly_through",
+     "ease": "linear",
+     "keys": [
+      {
+       "t": 0.0,
+       "pos": [
+        1.69,
+        0.27,
+        -6
+       ],
+       "look": [
+        5.95,
+        0.25,
+        -22
+       ],
+       "fov": 48,
+       "roll": 0
+      },
+      {
+       "t": 1.0,
+       "pos": [
+        4.68,
+        0.4,
+        -17
+       ],
+       "look": [
+        8.42,
+        0.55,
+        -33
+       ],
+       "fov": 48,
+       "roll": 2.4
+      },
+      {
+       "t": 2.0,
+       "pos": [
+        7.35,
+        0.65,
+        -28
+       ],
+       "look": [
+        10.33,
+        0.96,
+        -44
+       ],
+       "fov": 56,
+       "roll": 4.4
+      },
+      {
+       "t": 3.0,
+       "pos": [
+        9.54,
+        1.01,
+        -39
+       ],
+       "look": [
+        11.55,
+        1.47,
+        -55
+       ],
+       "fov": 56,
+       "roll": 5.6
+      },
+      {
+       "t": 4.0,
+       "pos": [
+        11.09,
+        1.48,
+        -50
+       ],
+       "look": [
+        12,
+        2.06,
+        -66
+       ],
+       "fov": 56,
+       "roll": 6
+      },
+      {
+       "t": 5,
+       "pos": [
+        11.89,
+        2.03,
+        -61
+       ],
+       "look": [
+        11.65,
+        2.72,
+        -77
+       ],
+       "fov": 56,
+       "roll": 5.3
+      }
+     ]
+    },
+    "post": {
+     "bloom": {
+      "intensity": 1.1,
+      "threshold": 0.9,
+      "radius": 0.6
+     },
+     "tone": "aces",
+     "vignette": 0.55,
+     "grain": 0.018,
+     "chromatic": 0.0012
+    },
+    "assets": [
+     {
+      "id": "tech.datastream.v1",
+      "params": {
+       "position": [
+        0,
+        0,
+        0
+       ],
+       "length": 200,
+       "fibers": 96,
+       "packets": 2400,
+       "speed": 30,
+       "spread": 3,
+       "colorA": "#22d8ff",
+       "colorB": "#ff3fc8",
+       "curve": 0.6,
+       "glyphs": true,
+       "seed": "2026-11-03-ai-100-years-s5-0"
+      }
+     }
+    ],
+    "version": "1.0.0"
+   }
+  },
+  {
+   "n": 6,
+   "narration": "",
+   "visual": "全息界面在暗处依次开机",
+   "onscreen": {
+    "text": "每个人身边，都有一个 AI",
+    "tag": "设想"
+   },
+   "config": {
+    "id": "tech.hud.v1",
+    "renderer": "threejs",
+    "style": "cyber_tech",
+    "fps": 30,
+    "duration": 5,
+    "camera": {
+     "preset": "dolly_in",
+     "keys": [
+      {
+       "t": 0.0,
+       "pos": [
+        -2.2,
+        2.6,
+        7.8
+       ],
+       "look": [
+        0,
+        1.8,
+        0
+       ],
+       "fov": 40,
+       "roll": -2
+      },
+      {
+       "t": 5,
+       "pos": [
+        -0.6,
+        2.2,
+        6.4
+       ],
+       "look": [
+        0,
+        1.9,
+        -0.5
+       ],
+       "fov": 40,
+       "roll": 0
+      }
+     ]
+    },
+    "post": {
+     "bloom": {
+      "intensity": 1.0,
+      "threshold": 0.85,
+      "radius": 0.6
+     },
+     "tone": "aces",
+     "vignette": 0.55,
+     "grain": 0.018,
+     "chromatic": 0.001
+    },
+    "assets": [
+     {
+      "id": "tech.hud.v1",
+      "params": {
+       "position": [
+        0,
+        0,
+        0
+       ],
+       "size": 1,
+       "panels": 7,
+       "color": "#38d9ff",
+       "accent": "#ffb347",
+       "bootAt": 0.4,
+       "flicker": 0.5,
+       "globe": true,
+       "floor": true,
+       "brightness": 1,
+       "seed": "2026-11-03-ai-100-years-s6-0"
+      }
+     }
+    ],
+    "version": "1.0.0"
+   }
+  },
+  {
+   "n": 7,
+   "narration": "",
+   "visual": "能量护盾成形，等离子电弧在内部游走",
+   "onscreen": {
+    "text": "能源，成为新的边界",
+    "tag": "设想"
+   },
+   "config": {
+    "id": "physics.energyfield.v1",
+    "renderer": "threejs",
+    "style": "cyber_tech",
+    "fps": 30,
+    "duration": 5,
+    "camera": {
+     "preset": "orbit",
+     "keys": [
+      {
+       "t": 0.0,
+       "pos": [
+        -3.6,
+        1.6,
+        7.2
+       ],
+       "look": [
+        0,
+        0,
+        0
+       ],
+       "fov": 38,
+       "roll": -2
+      },
+      {
+       "t": 2.5,
+       "pos": [
+        -0.6,
+        1.0,
+        6.6
+       ],
+       "look": [
+        0,
+        0,
+        0
+       ],
+       "fov": 38,
+       "roll": 0
+      },
+      {
+       "t": 5.0,
+       "pos": [
+        2.8,
+        0.6,
+        5.6
+       ],
+       "look": [
+        0,
+        0,
+        0
+       ],
+       "fov": 38,
+       "roll": 1.5
+      }
+     ]
+    },
+    "post": {
+     "bloom": {
+      "intensity": 1.0,
+      "threshold": 0.85,
+      "radius": 0.6
+     },
+     "tone": "aces",
+     "vignette": 0.6,
+     "grain": 0.018,
+     "chromatic": 0.001
+    },
+    "assets": [
+     {
+      "id": "physics.energyfield.v1",
+      "params": {
+       "position": [
+        0,
+        0,
+        0
+       ],
+       "radius": 2,
+       "cells": 4,
+       "core": true,
+       "arcs": 7,
+       "impacts": 0.9,
+       "appearAt": 0.3,
+       "haze": 1,
+       "hazeColor": "#140a30",
+       "seed": "2026-11-03-ai-100-years-s7-0"
+      }
+     }
+    ],
+    "version": "1.0.0"
+   }
+  },
+  {
+   "n": 8,
+   "narration": "",
+   "visual": "整个螺旋星系在眼前展开",
+   "onscreen": {
+    "year": "2125",
+    "text": "文明，开始走向恒星",
+    "tag": "设想"
+   },
+   "config": {
+    "id": "cosmos.galaxy.v1",
+    "renderer": "threejs",
+    "style": "imax_cosmos",
+    "fps": 30,
+    "duration": 5,
+    "camera": {
+     "preset": "dolly_in",
+     "keys": [
+      {
+       "t": 0.0,
+       "pos": [
+        -14,
+        22,
+        34
+       ],
+       "look": [
+        0,
+        0,
+        0
+       ],
+       "fov": 38,
+       "roll": -4
+      },
+      {
+       "t": 5,
+       "pos": [
+        -4,
+        16,
+        26
+       ],
+       "look": [
+        0,
+        -0.5,
+        0
+       ],
+       "fov": 38,
+       "roll": -1
+      }
+     ]
+    },
+    "post": {
+     "bloom": {
+      "intensity": 0.7,
+      "threshold": 0.9,
+      "radius": 0.7
+     },
+     "tone": "aces",
+     "vignette": 0.5,
+     "grain": 0.015
+    },
+    "assets": [
+     {
+      "id": "cosmos.nebula.v1",
+      "params": {
+       "center": [
+        60,
+        -40,
+        -260
+       ],
+       "radius": 120,
+       "gain": 0.25,
+       "density": 0.6,
+       "steps": 48,
+       "stars": 0.6,
+       "seed": "2026-11-03-ai-100-years-s8-0"
+      }
+     },
+     {
+      "id": "cosmos.galaxy.v1",
+      "params": {
+       "position": [
+        0,
+        0,
+        0
+       ],
+       "radius": 12,
+       "arms": 2,
+       "twist": 2.6,
+       "count": 300000,
+       "tilt": 8,
+       "spin": 0.5,
+       "brightness": 1,
+       "seed": "2026-11-03-ai-100-years-s8-1"
+      }
+     }
+    ],
+    "version": "1.0.0"
+   }
+  },
+  {
+   "n": 9,
+   "narration": "",
+   "visual": "太阳被一层金色能量网包裹，网格逐片亮起",
+   "onscreen": {
+    "text": "收集一整颗恒星的能量",
+    "tag": "设想"
+   },
+   "note": "戴森云的示意：暂用能量场资产代替，正式版换成戴森云资产",
+   "config": {
+    "id": "cosmos.star.v1",
+    "renderer": "threejs",
+    "style": "imax_cosmos",
+    "fps": 30,
+    "duration": 6,
+    "camera": {
+     "preset": "dolly_in",
+     "keys": [
+      {
+       "t": 0.0,
+       "pos": [
+        4,
+        2,
+        40
+       ],
+       "look": [
+        0,
+        0,
+        0
+       ],
+       "fov": 38,
+       "roll": -2
+      },
+      {
+       "t": 3.6,
+       "pos": [
+        2,
+        1.2,
+        22
+       ],
+       "look": [
+        0,
+        0,
+        0
+       ],
+       "fov": 38,
+       "roll": 0
+      },
+      {
+       "t": 6.0,
+       "pos": [
+        -1,
+        2.5,
+        12
+       ],
+       "look": [
+        2,
+        3.2,
+        0
+       ],
+       "fov": 40,
+       "roll": 4
+      }
+     ]
+    },
+    "post": {
+     "bloom": {
+      "intensity": 0.9,
+      "threshold": 0.9,
+      "radius": 0.7
+     },
+     "tone": "aces",
+     "vignette": 0.5,
+     "grain": 0.015
+    },
+    "assets": [
+     {
+      "id": "cosmos.nebula.v1",
+      "params": {
+       "center": [
+        40,
+        -10,
+        -180
+       ],
+       "radius": 80,
+       "gain": 0.45,
+       "stars": 0.6,
+       "steps": 64,
+       "seed": "2026-11-03-ai-100-years-s9-0"
+      }
+     },
+     {
+      "id": "cosmos.star.v1",
+      "params": {
+       "radius": 5,
+       "prominences": 7,
+       "seed": "2026-11-03-ai-100-years-s9-1"
+      }
+     },
+     {
+      "id": "physics.energyfield.v1",
+      "params": {
+       "position": [
+        0,
+        0,
+        0
+       ],
+       "radius": 9,
+       "cells": 5,
+       "color": "#ffcf7a",
+       "plasmaColor": "#ffb347",
+       "core": false,
+       "arcs": 0,
+       "impacts": 0.6,
+       "appearAt": 0.6,
+       "brightness": 0.8
+      }
+     }
+    ],
+    "version": "1.0.0"
+   }
+  },
+  {
+   "n": 10,
+   "narration": "",
+   "visual": "星云深处，一座全息思维界面悬浮着运转",
+   "onscreen": {
+    "text": "思考，在星际间流动",
+    "tag": "设想"
+   },
+   "config": {
+    "id": "tech.hud.v1",
+    "renderer": "threejs",
+    "style": "imax_cosmos",
+    "fps": 30,
+    "duration": 5,
+    "camera": {
+     "preset": "dolly_in",
+     "keys": [
+      {
+       "t": 0.0,
+       "pos": [
+        -2.2,
+        2.6,
+        7.8
+       ],
+       "look": [
+        0,
+        1.8,
+        0
+       ],
+       "fov": 40,
+       "roll": -2
+      },
+      {
+       "t": 1.429,
+       "pos": [
+        -0.6,
+        2.2,
+        6.4
+       ],
+       "look": [
+        0,
+        1.9,
+        -0.5
+       ],
+       "fov": 40,
+       "roll": 0
+      },
+      {
+       "t": 5,
+       "pos": [
+        1.4,
+        2.0,
+        5.2
+       ],
+       "look": [
+        0.2,
+        1.95,
+        -0.8
+       ],
+       "fov": 40,
+       "roll": 1.5
+      }
+     ]
+    },
+    "post": {
+     "bloom": {
+      "intensity": 1.0,
+      "threshold": 0.85,
+      "radius": 0.6
+     },
+     "tone": "aces",
+     "vignette": 0.55,
+     "grain": 0.018,
+     "chromatic": 0.001
+    },
+    "assets": [
+     {
+      "id": "cosmos.nebula.v1",
+      "params": {
+       "center": [
+        0,
+        8,
+        -160
+       ],
+       "radius": 90,
+       "gain": 0.6,
+       "density": 0.7,
+       "steps": 48,
+       "stars": 0.8
+      }
+     },
+     {
+      "id": "tech.hud.v1",
+      "params": {
+       "position": [
+        0,
+        0,
+        0
+       ],
+       "size": 1,
+       "panels": 7,
+       "color": "#38d9ff",
+       "accent": "#ffb347",
+       "bootAt": -1,
+       "flicker": 0.5,
+       "globe": true,
+       "floor": true,
+       "brightness": 1,
+       "seed": "2026-11-03-ai-100-years-s10-1"
+      }
+     }
+    ],
+    "version": "1.0.0"
+   }
+  },
+  {
+   "n": 11,
+   "narration": "",
+   "visual": "黑洞吸积盘旋转，背后的星光被弯成光环",
+   "onscreen": {
+    "text": "计算的极限，在黑洞边缘"
+   },
+   "config": {
+    "id": "cosmos.blackhole.v1",
+    "renderer": "threejs",
+    "style": "imax_cosmos",
+    "fps": 30,
+    "duration": 6,
+    "camera": {
+     "preset": "fly_through",
+     "keys": [
+      {
+       "t": 0.0,
+       "pos": [
+        14,
+        46,
+        52
+       ],
+       "look": [
+        9,
+        0,
+        3
+       ],
+       "fov": 40,
+       "roll": -6
+      },
+      {
+       "t": 0.6,
+       "pos": [
+        8,
+        30,
+        33
+       ],
+       "look": [
+        8,
+        0,
+        2
+       ],
+       "fov": 40,
+       "roll": -3
+      },
+      {
+       "t": 3.6,
+       "pos": [
+        2,
+        20,
+        22
+       ],
+       "look": [
+        6.5,
+        0,
+        1
+       ],
+       "fov": 42,
+       "roll": 2
+      },
+      {
+       "t": 6,
+       "pos": [
+        -3,
+        15,
+        16
+       ],
+       "look": [
+        5.5,
+        0,
+        1
+       ],
+       "fov": 44,
+       "roll": 6
+      }
+     ]
+    },
+    "post": {
+     "bloom": {
+      "intensity": 0.65,
+      "threshold": 1.15,
+      "radius": 0.45
+     },
+     "tone": "aces",
+     "vignette": 0.55,
+     "grain": 0.018,
+     "chromatic": 0.0009
+    },
+    "assets": [
+     {
+      "id": "cosmos.blackhole.v1",
+      "params": {
+       "diskGain": 0.55,
+       "spin": 1,
+       "steps": 320,
+       "seed": "2026-11-03-ai-100-years-s11-0"
+      }
+     },
+     {
+      "id": "cosmos.stardust.v1",
+      "params": {
+       "from": [
+        14,
+        46,
+        52
+       ],
+       "to": [
+        -3,
+        15,
+        16
+       ],
+       "count": 2600,
+       "size": 0.06,
+       "seed": "2026-11-03-ai-100-years-s11-1"
+      }
+     }
+    ],
+    "version": "1.0.0"
+   }
+  },
+  {
+   "n": 12,
+   "narration": "",
+   "visual": "镜头从星系拉远，银河渐渐变小",
+   "onscreen": {
+    "text": "而人类，在哪里？"
+   },
+   "config": {
+    "id": "cosmos.galaxy.v1",
+    "renderer": "threejs",
+    "style": "imax_cosmos",
+    "fps": 30,
+    "duration": 5,
+    "camera": {
+     "preset": "dolly_in",
+     "keys": [
+      {
+       "t": 0.0,
+       "pos": [
+        -4,
+        16,
+        26
+       ],
+       "look": [
+        0,
+        -0.5,
+        0
+       ],
+       "fov": 38,
+       "roll": -1
+      },
+      {
+       "t": 5,
+       "pos": [
+        7,
+        11,
+        19
+       ],
+       "look": [
+        0.5,
+        -1,
+        0
+       ],
+       "fov": 38,
+       "roll": 2
+      }
+     ]
+    },
+    "post": {
+     "bloom": {
+      "intensity": 0.7,
+      "threshold": 0.9,
+      "radius": 0.7
+     },
+     "tone": "aces",
+     "vignette": 0.5,
+     "grain": 0.015
+    },
+    "assets": [
+     {
+      "id": "cosmos.nebula.v1",
+      "params": {
+       "center": [
+        60,
+        -40,
+        -260
+       ],
+       "radius": 120,
+       "gain": 0.25,
+       "density": 0.6,
+       "steps": 48,
+       "stars": 0.6,
+       "seed": "2026-11-03-ai-100-years-s12-0"
+      }
+     },
+     {
+      "id": "cosmos.galaxy.v1",
+      "params": {
+       "position": [
+        0,
+        0,
+        0
+       ],
+       "radius": 12,
+       "arms": 2,
+       "twist": 2.6,
+       "count": 300000,
+       "tilt": 8,
+       "spin": 0.5,
+       "brightness": 1,
+       "seed": "2026-11-03-ai-100-years-s12-1"
+      }
+     }
+    ],
+    "version": "1.0.0"
+   }
+  },
+  {
+   "n": 13,
+   "narration": "",
+   "visual": "回到地球夜面，城市灯光安静闪烁",
+   "onscreen": {
+    "text": "答案，写在今天"
+   },
+   "config": {
+    "id": "cosmos.planet.v1",
+    "renderer": "threejs",
+    "style": "imax_cosmos",
+    "fps": 30,
+    "duration": 5,
+    "camera": {
+     "preset": "orbit",
+     "keys": [
+      {
+       "t": 0.0,
+       "pos": [
+        -3,
+        1.5,
+        15
+       ],
+       "look": [
+        3,
+        0.5,
+        -6
+       ],
+       "fov": 40,
+       "roll": -2
+      },
+      {
+       "t": 0.833,
+       "pos": [
+        1,
+        1.2,
+        13
+       ],
+       "look": [
+        4,
+        0.6,
+        -8
+       ],
+       "fov": 40,
+       "roll": 0
+      },
+      {
+       "t": 5,
+       "pos": [
+        5,
+        1.0,
+        11
+       ],
+       "look": [
+        6,
+        0.8,
+        -10
+       ],
+       "fov": 40,
+       "roll": 3
+      }
+     ]
+    },
+    "post": {
+     "bloom": {
+      "intensity": 0.6,
+      "threshold": 1.0,
+      "radius": 0.6
+     },
+     "tone": "aces",
+     "vignette": 0.5,
+     "grain": 0.015
+    },
+    "assets": [
+     {
+      "id": "cosmos.nebula.v1",
+      "params": {
+       "center": [
+        -60,
+        10,
+        -160
+       ],
+       "radius": 70,
+       "gain": 0.6,
+       "steps": 64,
+       "seed": "2026-11-03-ai-100-years-s13-0",
+       "stars": 0.55
+      }
+     },
+     {
+      "id": "cosmos.planet.v1",
+      "params": {
+       "radius": 5,
+       "kind": 0,
+       "sunDir": [
+        -1,
+        0.15,
+        -0.9
+       ],
+       "spin": 2,
+       "seed": "2026-11-03-ai-100-years-s13-1",
+       "position": [
+        -2,
+        0,
+        0
+       ]
+      }
+     },
+     {
+      "id": "cosmos.planet.v1",
+      "params": {
+       "position": [
+        16,
+        5,
+        -32
+       ],
+       "radius": 9,
+       "kind": 1,
+       "ring": true,
+       "atmosphere": "#ffcf8a",
+       "sunDir": [
+        -1,
+        0.15,
+        -0.9
+       ],
+       "spin": 4,
+       "tilt": 22,
+       "seed": "2026-11-03-ai-100-years-s13-2"
+      }
+     }
+    ],
+    "version": "1.0.0"
+   }
+  }
+ ],
+ "version": "1.0.0"
+}
