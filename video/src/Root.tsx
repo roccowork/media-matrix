@@ -42,6 +42,8 @@ import { Virus, VIRUS_SHOT } from "./shots/virus/Virus";
 import { Cell, CELL_SHOT } from "./shots/cell/Cell";
 import { Eye, EYE_SHOT } from "./shots/eye/Eye";
 import { Retina, RETINA_SHOT } from "./shots/retina/Retina";
+import { NerveDetour, NERVEDETOUR_SHOT } from "./shots/nervedetour/NerveDetour";
+import { CityNet, CITYNET_SHOT, CityChip, CITYCHIP_SHOT, ThinkEarth, THINKEARTH_SHOT, SkyRing, SKYRING_SHOT, MoonCore, MOONCORE_SHOT, DysonSwarm, DYSONSWARM_SHOT, SeedBurst, SEEDBURST_SHOT, GalaxyNet, GALAXYNET_SHOT, GalaxyEye, GALAXYEYE_SHOT } from "./shots/ai100/Ai100Assets";
 import { BloodFlow, BLOODFLOW_SHOT } from "./shots/bloodflow/BloodFlow";
 import { Lightning, LIGHTNING_SHOT } from "./shots/lightning/Lightning";
 import { FieldLines, FIELDLINES_SHOT } from "./shots/fieldlines/FieldLines";
@@ -93,6 +95,16 @@ export const RemotionRoot: React.FC = () => (
       <Composition id="Asset-Cell" component={Cell} durationInFrames={CELL_SHOT.duration * CELL_SHOT.fps} fps={CELL_SHOT.fps} width={1920} height={1080} />
       <Composition id="Asset-Eye" component={Eye} durationInFrames={EYE_SHOT.duration * EYE_SHOT.fps} fps={EYE_SHOT.fps} width={1920} height={1080} />
       <Composition id="Asset-Retina" component={Retina} durationInFrames={RETINA_SHOT.duration * RETINA_SHOT.fps} fps={RETINA_SHOT.fps} width={1920} height={1080} />
+      <Composition id="Asset-NerveDetour" component={NerveDetour} durationInFrames={NERVEDETOUR_SHOT.duration * NERVEDETOUR_SHOT.fps} fps={NERVEDETOUR_SHOT.fps} width={1920} height={1080} />
+      <Composition id="Asset-CityNet" component={CityNet} durationInFrames={CITYNET_SHOT.duration * CITYNET_SHOT.fps} fps={CITYNET_SHOT.fps} width={1920} height={1080} />
+      <Composition id="Asset-CityChip" component={CityChip} durationInFrames={CITYCHIP_SHOT.duration * CITYCHIP_SHOT.fps} fps={CITYCHIP_SHOT.fps} width={1920} height={1080} />
+      <Composition id="Asset-ThinkEarth" component={ThinkEarth} durationInFrames={THINKEARTH_SHOT.duration * THINKEARTH_SHOT.fps} fps={THINKEARTH_SHOT.fps} width={1920} height={1080} />
+      <Composition id="Asset-SkyRing" component={SkyRing} durationInFrames={SKYRING_SHOT.duration * SKYRING_SHOT.fps} fps={SKYRING_SHOT.fps} width={1920} height={1080} />
+      <Composition id="Asset-MoonCore" component={MoonCore} durationInFrames={MOONCORE_SHOT.duration * MOONCORE_SHOT.fps} fps={MOONCORE_SHOT.fps} width={1920} height={1080} />
+      <Composition id="Asset-DysonSwarm" component={DysonSwarm} durationInFrames={DYSONSWARM_SHOT.duration * DYSONSWARM_SHOT.fps} fps={DYSONSWARM_SHOT.fps} width={1920} height={1080} />
+      <Composition id="Asset-SeedBurst" component={SeedBurst} durationInFrames={SEEDBURST_SHOT.duration * SEEDBURST_SHOT.fps} fps={SEEDBURST_SHOT.fps} width={1920} height={1080} />
+      <Composition id="Asset-GalaxyNet" component={GalaxyNet} durationInFrames={GALAXYNET_SHOT.duration * GALAXYNET_SHOT.fps} fps={GALAXYNET_SHOT.fps} width={1920} height={1080} />
+      <Composition id="Asset-GalaxyEye" component={GalaxyEye} durationInFrames={GALAXYEYE_SHOT.duration * GALAXYEYE_SHOT.fps} fps={GALAXYEYE_SHOT.fps} width={1920} height={1080} />
       <Composition id="Asset-BloodFlow" component={BloodFlow} durationInFrames={BLOODFLOW_SHOT.duration * BLOODFLOW_SHOT.fps} fps={BLOODFLOW_SHOT.fps} width={1920} height={1080} />
       <Composition id="Asset-Lightning" component={Lightning} durationInFrames={LIGHTNING_SHOT.duration * LIGHTNING_SHOT.fps} fps={LIGHTNING_SHOT.fps} width={1920} height={1080} />
       <Composition id="Asset-FieldLines" component={FieldLines} durationInFrames={FIELDLINES_SHOT.duration * FIELDLINES_SHOT.fps} fps={FIELDLINES_SHOT.fps} width={1920} height={1080} />

@@ -1,0 +1,121 @@
+{
+  "id": "cosmos.dysonswarm.v1",
+  "renderer": "threejs",
+  "style": "imax_cosmos",
+  "fps": 30,
+  "duration": 5,
+  "camera": {
+    "preset": "keys",
+    "keys": [
+      {
+        "t": 0,
+        "pos": [
+          -11,
+          5,
+          -22
+        ],
+        "look": [
+          0,
+          0.5,
+          0
+        ],
+        "fov": 40,
+        "roll": 1
+      },
+      {
+        "t": 2,
+        "pos": [
+          -18,
+          30,
+          -40
+        ],
+        "look": [
+          0,
+          0,
+          0
+        ],
+        "fov": 40,
+        "roll": 2
+      },
+      {
+        "t": 5,
+        "pos": [
+          -32,
+          94,
+          -72
+        ],
+        "look": [
+          0,
+          -3,
+          0
+        ],
+        "fov": 40,
+        "roll": 3
+      }
+    ]
+  },
+  "post": {
+    "bloom": {
+      "intensity": 0.7,
+      "threshold": 0.85,
+      "radius": 0.5
+    },
+    "tone": "aces",
+    "vignette": 0.55,
+    "grain": 0.012
+  },
+  "assets": [
+    {
+      "id": "cosmos.milkyway.v1",
+      "params": {
+        "centerAzimuth": 0,
+        "centerElevation": 12,
+        "tilt": 28,
+        "seed": "2026-11-03-ai-100-years-sky"
+      }
+    },
+    {
+      "id": "cosmos.star.v1",
+      "params": {
+        "position": [
+          0,
+          0,
+          0
+        ],
+        "radius": 5,
+        "color": "#ffa43a",
+        "brightness": 1,
+        "activity": 1.2,
+        "corona": 8,
+        "prominences": 7,
+        "seed": "2026-11-03-ai-100-years-sun"
+      }
+    },
+    {
+      "id": "cosmos.dysonswarm.v1",
+      "params": {
+        "position": [
+          0,
+          0,
+          0
+        ],
+        "radius": 5,
+        "shellRadius": 1.5,
+        "count": 80000,
+        "rings": 40,
+        "bandWidth": 9,
+        "deployAt": 0.3,
+        "deployDuration": 3,
+        "ringOpen": 1.2,
+        "seed": "2026-11-03-ai-100-years-s8",
+        "timeOffset": 5,
+        "neuralAt": 5.3,
+        "neuralSpeed": 40,
+        "outerRings": 5,
+        "outerAt": 6.2
+      }
+    }
+  ],
+  "version": "1.0.0",
+  "note": "验收配置取自《一百年后的 AI》第 9 镜（storyboards/2026-11-03-ai-100-years/shots/09.json）"
+}

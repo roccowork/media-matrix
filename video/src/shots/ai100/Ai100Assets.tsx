@@ -1,0 +1,32 @@
+// 《一百年后的 AI》新做的 9 个资产的验收镜头：配置取自该片对应那一镜（shotconfigs/<id>.json），用分镜单镜视图渲染（不带字卡）。
+import React from 'react';
+import type {ShotConfig} from '../../engine/shot';
+import {SBShotView} from '../storyboard/Storyboard';
+import CityNetCfg from '../../../shotconfigs/tech.citynet.v1.json';
+import CityChipCfg from '../../../shotconfigs/tech.citychip.v1.json';
+import ThinkEarthCfg from '../../../shotconfigs/tech.thinkearth.v1.json';
+import SkyRingCfg from '../../../shotconfigs/tech.skyring.v1.json';
+import MoonCoreCfg from '../../../shotconfigs/cosmos.mooncore.v1.json';
+import DysonSwarmCfg from '../../../shotconfigs/cosmos.dysonswarm.v1.json';
+import SeedBurstCfg from '../../../shotconfigs/cosmos.seedburst.v1.json';
+import GalaxyNetCfg from '../../../shotconfigs/cosmos.galaxynet.v1.json';
+import GalaxyEyeCfg from '../../../shotconfigs/cosmos.galaxyeye.v1.json';
+
+export const CITYNET_SHOT = CityNetCfg as unknown as ShotConfig;
+export const CityNet: React.FC = () => <SBShotView config={CITYNET_SHOT} annotate={false} />;
+export const CITYCHIP_SHOT = CityChipCfg as unknown as ShotConfig;
+export const CityChip: React.FC = () => <SBShotView config={CITYCHIP_SHOT} annotate={false} />;
+export const THINKEARTH_SHOT = ThinkEarthCfg as unknown as ShotConfig;
+export const ThinkEarth: React.FC = () => <SBShotView config={THINKEARTH_SHOT} annotate={false} />;
+export const SKYRING_SHOT = SkyRingCfg as unknown as ShotConfig;
+export const SkyRing: React.FC = () => <SBShotView config={SKYRING_SHOT} annotate={false} />;
+export const MOONCORE_SHOT = MoonCoreCfg as unknown as ShotConfig;
+export const MoonCore: React.FC = () => <SBShotView config={MOONCORE_SHOT} annotate={false} />;
+export const DYSONSWARM_SHOT = DysonSwarmCfg as unknown as ShotConfig;
+export const DysonSwarm: React.FC = () => <SBShotView config={DYSONSWARM_SHOT} annotate={false} />;
+export const SEEDBURST_SHOT = SeedBurstCfg as unknown as ShotConfig;
+export const SeedBurst: React.FC = () => <SBShotView config={SEEDBURST_SHOT} annotate={false} />;
+export const GALAXYNET_SHOT = GalaxyNetCfg as unknown as ShotConfig;
+export const GalaxyNet: React.FC = () => <SBShotView config={GALAXYNET_SHOT} annotate={false} />;
+export const GALAXYEYE_SHOT = GalaxyEyeCfg as unknown as ShotConfig;
+export const GalaxyEye: React.FC = () => <SBShotView config={GALAXYEYE_SHOT} annotate={false} />;

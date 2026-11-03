@@ -1,0 +1,109 @@
+{
+  "id": "tech.thinkearth.v1",
+  "renderer": "threejs",
+  "style": "imax_cosmos",
+  "fps": 30,
+  "duration": 5,
+  "camera": {
+    "preset": "keys",
+    "keys": [
+      {
+        "t": 0,
+        "pos": [
+          0.8,
+          3,
+          8.6
+        ],
+        "look": [
+          0,
+          0.8,
+          0
+        ],
+        "fov": 42,
+        "roll": -2
+      },
+      {
+        "t": 5,
+        "pos": [
+          -0.6,
+          5,
+          15.5
+        ],
+        "look": [
+          0,
+          0.2,
+          0
+        ],
+        "fov": 42,
+        "roll": 2
+      }
+    ]
+  },
+  "post": {
+    "bloom": {
+      "intensity": 0.7,
+      "threshold": 0.85,
+      "radius": 0.5
+    },
+    "tone": "aces",
+    "vignette": 0.55,
+    "grain": 0.012
+  },
+  "assets": [
+    {
+      "id": "cosmos.milkyway.v1",
+      "params": {
+        "centerAzimuth": 0,
+        "centerElevation": 12,
+        "tilt": 28,
+        "seed": "2026-11-03-ai-100-years-sky"
+      }
+    },
+    {
+      "id": "cosmos.planet.v1",
+      "params": {
+        "position": [
+          0,
+          0,
+          0
+        ],
+        "radius": 5,
+        "kind": 0,
+        "sunDir": [
+          -1,
+          0.15,
+          -0.9
+        ],
+        "spin": 0.4,
+        "clouds": 0.3,
+        "cityLights": true,
+        "seed": "2026-11-03-ai-100-years-earth"
+      }
+    },
+    {
+      "id": "tech.thinkearth.v1",
+      "params": {
+        "center": [
+          0,
+          0,
+          0
+        ],
+        "radius": 5,
+        "nodes": 520,
+        "waveDir": [
+          0.1,
+          0.45,
+          0.88
+        ],
+        "waveAt": 0.5,
+        "waveDuration": 3.2,
+        "seed": "2026-11-03-ai-100-years-s5",
+        "width": 0.024,
+        "brightness": 1.6,
+        "color": "#3fc8ff"
+      }
+    }
+  ],
+  "version": "1.0.0",
+  "note": "验收配置取自《一百年后的 AI》第 5 镜（storyboards/2026-11-03-ai-100-years/shots/05.json）"
+}

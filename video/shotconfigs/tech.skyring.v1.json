@@ -1,0 +1,108 @@
+{
+  "id": "tech.skyring.v1",
+  "renderer": "threejs",
+  "style": "imax_cosmos",
+  "fps": 30,
+  "duration": 5,
+  "camera": {
+    "preset": "keys",
+    "keys": [
+      {
+        "t": 0,
+        "pos": [
+          -0.6,
+          5,
+          15.5
+        ],
+        "look": [
+          0,
+          0.2,
+          0
+        ],
+        "fov": 42,
+        "roll": 2
+      },
+      {
+        "t": 5,
+        "pos": [
+          -2,
+          7.5,
+          23
+        ],
+        "look": [
+          0,
+          0,
+          0
+        ],
+        "fov": 42,
+        "roll": 4
+      }
+    ]
+  },
+  "post": {
+    "bloom": {
+      "intensity": 0.7,
+      "threshold": 0.85,
+      "radius": 0.5
+    },
+    "tone": "aces",
+    "vignette": 0.55,
+    "grain": 0.012
+  },
+  "assets": [
+    {
+      "id": "cosmos.milkyway.v1",
+      "params": {
+        "centerAzimuth": 0,
+        "centerElevation": 12,
+        "tilt": 28,
+        "seed": "2026-11-03-ai-100-years-sky"
+      }
+    },
+    {
+      "id": "cosmos.planet.v1",
+      "params": {
+        "position": [
+          0,
+          0,
+          0
+        ],
+        "radius": 5,
+        "kind": 0,
+        "sunDir": [
+          -1,
+          0.15,
+          -0.9
+        ],
+        "spin": 0.4,
+        "clouds": 0.3,
+        "cityLights": true,
+        "seed": "2026-11-03-ai-100-years-earth"
+      }
+    },
+    {
+      "id": "tech.skyring.v1",
+      "params": {
+        "center": [
+          0,
+          0,
+          0
+        ],
+        "radius": 5,
+        "ringRadius": 1.75,
+        "tilt": 14,
+        "facing": [
+          0.1,
+          0.45,
+          0.88
+        ],
+        "liftAt": 0.3,
+        "liftDuration": 2.4,
+        "flight": 1.6,
+        "seed": "2026-11-03-ai-100-years-s6"
+      }
+    }
+  ],
+  "version": "1.0.0",
+  "note": "验收配置取自《一百年后的 AI》第 6 镜（storyboards/2026-11-03-ai-100-years/shots/06.json）"
+}

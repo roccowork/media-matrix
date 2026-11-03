@@ -1,0 +1,110 @@
+{
+  "id": "cosmos.seedburst.v1",
+  "renderer": "threejs",
+  "style": "imax_cosmos",
+  "fps": 30,
+  "duration": 5,
+  "camera": {
+    "preset": "keys",
+    "keys": [
+      {
+        "t": 0,
+        "pos": [
+          15,
+          4,
+          16
+        ],
+        "look": [
+          0,
+          0,
+          0
+        ],
+        "fov": 38,
+        "roll": 3
+      },
+      {
+        "t": 2,
+        "pos": [
+          12,
+          3,
+          -9
+        ],
+        "look": [
+          2,
+          0,
+          -40
+        ],
+        "fov": 46,
+        "roll": -2
+      },
+      {
+        "t": 5,
+        "pos": [
+          4,
+          1,
+          -36
+        ],
+        "look": [
+          0,
+          0,
+          -90
+        ],
+        "fov": 50,
+        "roll": -5
+      }
+    ]
+  },
+  "post": {
+    "bloom": {
+      "intensity": 0.8,
+      "threshold": 0.8,
+      "radius": 0.55
+    },
+    "tone": "aces",
+    "vignette": 0.55,
+    "grain": 0.012
+  },
+  "assets": [
+    {
+      "id": "cosmos.milkyway.v1",
+      "params": {
+        "centerAzimuth": 0,
+        "centerElevation": 12,
+        "tilt": 28,
+        "seed": "2026-11-03-ai-100-years-sky"
+      }
+    },
+    {
+      "id": "cosmos.seedburst.v1",
+      "params": {
+        "position": [
+          0,
+          0,
+          0
+        ],
+        "radius": 3,
+        "count": 18000,
+        "cluster": 0.2,
+        "clusterDir": [
+          0.12,
+          0.06,
+          -1
+        ],
+        "clusterSpread": 20,
+        "speed": 10,
+        "burst": 1.4,
+        "tail": 0.35,
+        "size": 0.05,
+        "fluff": 0.18,
+        "fluffLength": 0.35,
+        "emitAt": 0.3,
+        "emitDuration": 2.6,
+        "seed": "2026-11-03-ai-100-years-s10",
+        "brightness": 0.6,
+        "core": 0.8
+      }
+    }
+  ],
+  "version": "1.0.0",
+  "note": "验收配置取自《一百年后的 AI》第 10 镜（storyboards/2026-11-03-ai-100-years/shots/10.json）"
+}

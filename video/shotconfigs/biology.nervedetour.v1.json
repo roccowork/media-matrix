@@ -1,0 +1,21 @@
+{
+  "id": "biology.nervedetour.v1",
+  "renderer": "threejs",
+  "style": "cinematic_science",
+  "fps": 30,
+  "duration": 5,
+  "note": "示意图：《人是被设计出来的吗？》第 10 镜（长颈鹿：脖子拉长，喉返神经的弯路跟着越拉越长）",
+  "camera": {
+    "preset": "pull_back",
+    "keys": [
+      {"t": 0, "pos": [0.35, -0.35, 4.6], "look": [0.35, -0.35, 0], "fov": 35, "roll": 0},
+      {"t": 3.6, "pos": [0.55, 0.2, 7.0], "look": [0.55, 0.2, 0], "fov": 35, "roll": 0},
+      {"t": 5, "pos": [0.6, 0.25, 7.2], "look": [0.6, 0.25, 0], "fov": 35, "roll": 0}
+    ]
+  },
+  "post": {"bloom": {"intensity": 0.9, "threshold": 0.6, "radius": 0.6}, "tone": "aces", "vignette": 0.5, "grain": 0.012},
+  "assets": [
+    {"id": "biology.nervedetour.v1", "params": {"position": [0, 0, 0], "scale": 1, "startNeck": 0.35, "endNeck": 1.8, "growAt": 0.4, "growDuration": 3.2, "fishStart": false, "pulseAt": 2.4, "pulseTime": 2.4, "direct": true}}
+  ],
+  "version": "1.0.0"
+}
