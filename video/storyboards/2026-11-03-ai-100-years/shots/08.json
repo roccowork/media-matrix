@@ -33,11 +33,11 @@
       },
       {
         "id": "cosmos.mooncore.v1",
-        "params": {"position": [35.5, 4.6, 54.5], "radius": 2.2, "crackAt": -1, "openAt": -1, "openSpeed": 0.25, "sunDir": [-0.54, -0.07, -0.84], "seed": "2026-11-03-ai-100-years-s7"}
+        "params": {"position": [39.2, 3.8, 52.3], "radius": 2.2, "crackAt": -1, "openAt": -1, "openSpeed": 0.14, "sunDir": [-0.54, -0.07, -0.84], "seed": "2026-11-03-ai-100-years-s7"}
       },
       {
         "id": "cosmos.star.v1",
-        "params": {"position": [0, 0, 0], "radius": 5, "color": "#ffa43a", "brightness": 1, "activity": 1.2, "corona": 2.6, "prominences": 7, "seed": "2026-11-03-ai-100-years-sun"}
+        "params": {"position": [0, 0, 0], "radius": 5, "color": "#ffa43a", "brightness": 1, "activity": 1.2, "corona": 4.5, "prominences": 7, "seed": "2026-11-03-ai-100-years-sun"}
       },
       {
         "id": "cosmos.dysonswarm.v1",

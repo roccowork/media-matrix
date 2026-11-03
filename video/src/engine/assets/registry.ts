@@ -26,6 +26,7 @@ import {ThinkEarthAsset} from '../../assets/tech/thinkearth/ThinkEarthAsset';
 import {SkyRingAsset} from '../../assets/tech/skyring/SkyRingAsset';
 import {MoonCoreAsset} from '../../assets/cosmos/mooncore/MoonCoreAsset';
 import {GalaxyNetAsset} from '../../assets/cosmos/galaxynet/GalaxyNetAsset';
+import {GalaxyEyeAsset} from '../../assets/cosmos/galaxyeye/GalaxyEyeAsset';
 import {SeedBurstAsset} from '../../assets/cosmos/seedburst/SeedBurstAsset';
 import {DysonSwarmAsset} from '../../assets/cosmos/dysonswarm/DysonSwarmAsset';
 import {LightningAsset} from '../../assets/physics/lightning/LightningAsset';
@@ -955,6 +956,43 @@ export const ASSETS: AssetMeta[] = [
     license: 'own（自研 Shader）',
     version: '1.0.0',
     notes: '和 cosmos.star.v1 叠用（position / radius 对齐）；《一百年后》第 8 镜（展开包裹）、第 9 镜（neuralAt + outerRings，timeOffset 接第 8 镜）',
+  },
+  {
+    asset_id: 'cosmos.galaxyeye.v1',
+    asset_name: '星光之眼（星系光点先外后内打旋汇向银心，组成一只正对镜头的巨大眼睛：发光细缝缓缓睁开，放射状虹膜光丝、深黑瞳孔慢慢收缩）',
+    category: 'cosmos',
+    kind: 'procedural',
+    renderer: 'threejs',
+    component: C(GalaxyEyeAsset),
+    params: {
+      position: {type: 'vec3', default: [0, 0, 0], desc: '眼睛中心（= 星系中心）'},
+      facing: {type: 'vec3', default: [0, 0.8, 0.6], desc: '眼睛朝向（指向镜头终点位置，直视镜头）'},
+      size: {type: 'number', default: 12, min: 0.1, max: 1000, desc: '眼睛半宽（世界单位）'},
+      galaxyRadius: {type: 'number', default: 30, min: 0.5, max: 1000, desc: '星系半径（与 cosmos.galaxy.v1 一致）'},
+      galaxyTilt: {type: 'number', default: 0, min: -90, max: 90, desc: '星系盘面倾角（度，与 cosmos.galaxy.v1 一致）'},
+      arms: {type: 'number', default: 2, min: 1, max: 6, desc: '旋臂条数（与 cosmos.galaxy.v1 一致）'},
+      twist: {type: 'number', default: 2.2, min: 0.5, max: 5, desc: '旋臂缠绕程度（与 cosmos.galaxy.v1 一致）'},
+      galaxySeed: {type: 'seed', default: 'galaxy', desc: '填 cosmos.galaxy.v1 的 seed：光点从它的旋臂上出发'},
+      count: {type: 'number', default: 70000, min: 5000, max: 400000, desc: '光点数量'},
+      gatherAt: {type: 'number', default: 0.2, min: -10, max: 600, desc: '开始汇聚（秒）'},
+      gatherDuration: {type: 'number', default: 2.6, min: 0.2, max: 60, desc: '汇聚用时（秒，先外后内；暗幕同步把星系盘面压暗）'},
+      openAt: {type: 'number', default: 2.6, min: -10, max: 600, desc: '开始睁眼（秒）'},
+      openDuration: {type: 'number', default: 1.8, min: 0.1, max: 60, desc: '睁眼用时（秒）'},
+      opening: {type: 'number', default: 0.5, min: 0.1, max: 0.8, desc: '睁开后上眼睑高度（相对半宽）'},
+      veil: {type: 'number', default: 1, min: 0, max: 1, desc: '暗幕压暗星系盘面的程度（0 = 不压）'},
+      irisColor: {type: 'color', default: '#3fd0ff', desc: '虹膜外圈颜色'},
+      innerColor: {type: 'color', default: '#ffb347', desc: '虹膜内圈（瞳孔边）颜色'},
+      lidColor: {type: 'color', default: '#bfe8ff', desc: '眼睑轮廓颜色'},
+      brightness: {type: 'number', default: 1, min: 0.1, max: 5, desc: '亮度'},
+      seed: {type: 'seed', default: 'galaxyeye', desc: '种子：光点分布、飞行节奏、虹膜纹理'},
+    },
+    effects: ['particle_gather', 'spiral_inflow', 'galaxy_drain', 'eye_opening', 'radial_iris_filaments', 'pupil_constriction'],
+    camera_presets: ['从俯看星系推近到正对眼睛'],
+    lighting_preset: '自发光；配 bloom',
+    no_dof: true,
+    license: 'own（自研 Shader）',
+    version: '1.0.0',
+    notes: '接 cosmos.galaxy.v1 + cosmos.galaxynet.v1（collapseAt 同步）叠用；facing 填镜头终点方向；《一百年后》第 12 镜',
   },
   {
     asset_id: 'tech.robot.expressive.v1',

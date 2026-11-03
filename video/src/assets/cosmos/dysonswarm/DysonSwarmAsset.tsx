@@ -124,10 +124,10 @@ void main() {
     float behind = smoothstep(sunAng * 1.6, sunAng * 0.7, ang);
     float fres = pow(1.0 - abs(dot(vNrm, V)), 4.0);
     float ribs = smoothstep(0.46, 0.5, abs(fract(vUv.x * 3.0) - 0.5));
-    col = uBack * (0.35 + 0.25 * ribs) + uGlint * (border * (0.12 + 1.3 * behind) + fres * (0.25 + 0.9 * behind));
+    col = uBack * (0.35 + 0.25 * ribs) + uGlint * (border * (0.06 + 0.75 * behind) + fres * (0.2 + 0.6 * behind));
     // 随机反光闪烁（摆动的板子把阳光反射向镜头）
-    float fl = pow(max(sin(uTime * (1.2 + 2.5 * vRnd) + vRnd * 91.0), 0.0), 90.0) * step(0.55, fract(vRnd * 37.0));
-    col += uGlint * fl * 7.0 * uGlintK;
+    float fl = pow(max(sin(uTime * (1.2 + 2.5 * vRnd) + vRnd * 91.0), 0.0), 90.0) * step(0.88, fract(vRnd * 37.0));
+    col += uGlint * fl * 9.0 * uGlintK;
   }
   col += uGlint * vHead * 9.0;                 // 正在展开的轨道最前端：一颗亮点
   vec2 nr = neural(vDir);
