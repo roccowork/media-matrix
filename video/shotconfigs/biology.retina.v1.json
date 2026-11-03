@@ -1,0 +1,89 @@
+{
+  "id": "biology.retina.v1",
+  "renderer": "threejs",
+  "style": "cinematic_science",
+  "fps": 30,
+  "duration": 12,
+  "camera": {
+    "preset": "dolly_in",
+    "keys": [
+      {
+        "t": 0,
+        "pos": [
+          -150,
+          40,
+          600
+        ],
+        "look": [
+          0,
+          -140,
+          -30
+        ],
+        "fov": 35,
+        "roll": -1
+      },
+      {
+        "t": 6,
+        "pos": [
+          -60,
+          10,
+          560
+        ],
+        "look": [
+          20,
+          -140,
+          -30
+        ],
+        "fov": 35,
+        "roll": 0
+      },
+      {
+        "t": 12,
+        "pos": [
+          90,
+          30,
+          580
+        ],
+        "look": [
+          30,
+          -130,
+          -30
+        ],
+        "fov": 35,
+        "roll": 1
+      }
+    ]
+  },
+  "post": {
+    "bloom": {
+      "intensity": 0.8,
+      "threshold": 0.8,
+      "radius": 0.55
+    },
+    "tone": "aces",
+    "vignette": 0.55,
+    "grain": 0.012
+  },
+  "assets": [
+    {
+      "id": "biology.retina.v1",
+      "params": {
+        "position": [
+          0,
+          0,
+          0
+        ],
+        "scale": 1,
+        "layout": 0,
+        "flipAt": 6,
+        "flipDuration": 3,
+        "discX": 220,
+        "photons": 22,
+        "photonsAt": 0.3,
+        "signals": true,
+        "seed": "retina-demo"
+      }
+    }
+  ],
+  "version": "1.0.0"
+}

@@ -18,6 +18,7 @@ import {VirusAsset} from '../../assets/biology/virus/VirusAsset';
 import {CellAsset} from '../../assets/biology/cell/CellAsset';
 import {BloodFlowAsset} from '../../assets/biology/bloodflow/BloodFlowAsset';
 import {EyeAsset} from '../../assets/biology/eye/EyeAsset';
+import {RetinaAsset} from '../../assets/biology/retina/RetinaAsset';
 import {ChipAsset} from '../../assets/tech/chip/ChipAsset';
 import {DataStreamAsset} from '../../assets/tech/datastream/DataStreamAsset';
 import {HudAsset} from '../../assets/tech/hud/HudAsset';
@@ -515,6 +516,36 @@ export const ASSETS: AssetMeta[] = [
     version: '1.0.0',
     real_range: {scale: [1, 1]},
     notes: '单位毫米、右眼：角膜朝 +z、鼻侧 +x、上方 +y；视神经在后极偏鼻侧 15°；切面上的各层颜色由剖面盖板解析计算；角膜、晶状体半透明不写深度',
+  },
+  {
+    asset_id: 'biology.retina.v1',
+    asset_name: '视网膜微观剖面（脊椎动物倒置视网膜 ↔ 章鱼正置视网膜可渐变切换；视盘盲点；光点感光与神经信号）',
+    category: 'biology',
+    kind: 'procedural',
+    renderer: 'threejs',
+    component: C(RetinaAsset),
+    params: {
+      position: {type: 'vec3', default: [0, 0, 0], desc: '切片位置（切片宽 800 µm，x −400…400；玻璃体一侧 y = 0 朝上，视网膜向下约 250 µm）'},
+      scale: {type: 'number', default: 1, min: 0.0001, max: 1000, desc: '缩放；1 = 真实尺寸（单位微米）'},
+      layout: {type: 'number', default: 0, min: 0, max: 1, desc: '排布：0 = 脊椎动物（人，感光细胞在最下面、背对光），1 = 章鱼（感光细胞朝光、神经在后、无盲点）'},
+      flipAt: {type: 'number', default: -1, min: -1, max: 600, desc: '开始从 layout 切换到另一种排布的时刻（秒），-1 = 不切换'},
+      flipDuration: {type: 'number', default: 3, min: 0.3, max: 20, desc: '切换用时（秒）'},
+      discX: {type: 'number', default: 220, min: -300, max: 600, desc: '视盘边缘 x（µm）：以右没有感光细胞（盲点），神经纤维从这里穿出；> 400 = 画面里没有视盘'},
+      photons: {type: 'number', default: 0, min: 0, max: 80, desc: '每秒射入的光点数，0 = 关（切换过程中自动暂停）'},
+      photonsAt: {type: 'number', default: 0, min: 0, max: 600, desc: '光点开始射入的时刻（秒）'},
+      signals: {type: 'boolean', default: true, desc: '显示感光后传回的神经信号（流向视盘）'},
+      lightColor: {type: 'color', default: '#fff3c4', desc: '光点颜色'},
+      signalColor: {type: 'color', default: '#6fd8ff', desc: '神经信号颜色'},
+      seed: {type: 'seed', default: 'retina', desc: '种子：细胞位置、大小、视杆 / 视锥分布、神经纤维走向、光点随之变化'},
+    },
+    effects: ['retina_layers', 'rods_cones', 'optic_disc_blind_spot', 'nerve_fibers', 'layout_morph_vertebrate_octopus', 'photon_absorption', 'neural_signal'],
+    camera_presets: ['dolly_in（正对切面慢推）', 'orbit（斜看切片的纵深）'],
+    lighting_preset: '着色器内置顶光（光从玻璃体一侧来）+ 补光；配深色背景 + bloom',
+    thumbnail: 'assets/thumbs/biology.retina.v1.jpg',
+    license: 'own（自研 Shader；分层厚度与细胞尺寸按组织学教科书数值）',
+    version: '1.0.0',
+    real_range: {scale: [1, 1]},
+    notes: '单位微米；光点速度是示意（真实光速看不见）；章鱼排布把神经层整体挪到后面作示意（章鱼的双极 / 神经节细胞其实在视叶里），镜头里要标「示意」；光点 / 信号是加色、不写深度，不开 post.dof',
   },
   {
     asset_id: 'biology.virus.v1',
