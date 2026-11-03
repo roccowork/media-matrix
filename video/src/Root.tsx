@@ -37,6 +37,8 @@ import { Galaxy, GALAXY_SHOT } from "./shots/galaxy/Galaxy";
 import { Star, STAR_SHOT } from "./shots/star/Star";
 import { Dna, DNA_SHOT } from "./shots/dna/Dna";
 import { Hud, HUD_SHOT } from "./shots/hud/Hud";
+import { Virus, VIRUS_SHOT } from "./shots/virus/Virus";
+import { Cell, CELL_SHOT } from "./shots/cell/Cell";
 import { ScienceDemo as GrokDemo } from "./grok3d/scenes/ScienceDemo";
 import { AttentionTest as GrokAttention } from "./grok3d/scenes/AttentionTest";
 import { ATTENTION10_DURATION, Attention10s } from "./grok3d/scenes/Attention10s";
@@ -72,6 +74,8 @@ export const RemotionRoot: React.FC = () => (
       <Composition id="Asset-Galaxy" component={Galaxy} durationInFrames={GALAXY_SHOT.duration * GALAXY_SHOT.fps} fps={GALAXY_SHOT.fps} width={1920} height={1080} />
       <Composition id="Asset-DataStream" component={DataStream} durationInFrames={DATASTREAM_SHOT.duration * DATASTREAM_SHOT.fps} fps={DATASTREAM_SHOT.fps} width={1920} height={1080} />
       <Composition id="Asset-HUD" component={Hud} durationInFrames={HUD_SHOT.duration * HUD_SHOT.fps} fps={HUD_SHOT.fps} width={1920} height={1080} />
+      <Composition id="Asset-Virus" component={Virus} durationInFrames={VIRUS_SHOT.duration * VIRUS_SHOT.fps} fps={VIRUS_SHOT.fps} width={1920} height={1080} />
+      <Composition id="Asset-Cell" component={Cell} durationInFrames={CELL_SHOT.duration * CELL_SHOT.fps} fps={CELL_SHOT.fps} width={1920} height={1080} />
       <Composition id="Asset-DNA" component={Dna} durationInFrames={DNA_SHOT.duration * DNA_SHOT.fps} fps={DNA_SHOT.fps} width={1920} height={1080} />
       <Composition id="Asset-Planet" component={Planet} durationInFrames={PLANET_SHOT.duration * PLANET_SHOT.fps} fps={PLANET_SHOT.fps} width={1920} height={1080} />
       <Composition id="Asset-Nebula" component={Nebula} durationInFrames={NEBULA_SHOT.duration * NEBULA_SHOT.fps} fps={NEBULA_SHOT.fps} width={1920} height={1080} />

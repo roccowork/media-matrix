@@ -1,0 +1,38 @@
+{
+  "id": "biology.cell.v1",
+  "renderer": "threejs",
+  "style": "cinematic_science",
+  "fps": 30,
+  "duration": 10,
+  "camera": {
+    "preset": "orbit",
+    "keys": [
+      {"t": 0, "pos": [-4.6, 2.2, 7.4], "look": [0, 0, 0], "fov": 36, "roll": -3},
+      {"t": 5, "pos": [-1.2, 1.5, 6.6], "look": [0.1, 0, 0], "fov": 36, "roll": -1},
+      {"t": 10, "pos": [2.4, 1.0, 5.6], "look": [0.2, 0, 0], "fov": 36, "roll": 1.5}
+    ]
+  },
+  "post": {
+    "bloom": {"intensity": 0.7, "threshold": 0.95, "radius": 0.6},
+    "dof": {"cInf": 10, "focus": [0, 0, 0.6]},
+    "tone": "aces",
+    "vignette": 0.6,
+    "grain": 0.015,
+    "chromatic": 0.0007
+  },
+  "assets": [
+    {
+      "id": "biology.cell.v1",
+      "params": {"position": [0, 0, 0], "radius": 2, "squash": 0.85, "mitochondria": 16, "vesicles": 40, "spin": 0.06, "haze": 1, "hazeColor": "#0d3f6e", "seed": "cell-demo"}
+    },
+    {
+      "id": "biology.cell.v1",
+      "params": {"position": [-9.5, 3.6, -12], "radius": 2.2, "mitochondria": 12, "vesicles": 25, "spin": -0.04, "seed": "cell-demo-b"}
+    },
+    {
+      "id": "biology.cell.v1",
+      "params": {"position": [11.5, -4, -15], "radius": 2.4, "mitochondria": 12, "vesicles": 25, "spin": 0.03, "seed": "cell-demo-c"}
+    }
+  ],
+  "version": "1.0.0"
+}
