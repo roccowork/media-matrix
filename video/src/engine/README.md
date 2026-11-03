@@ -96,6 +96,7 @@ postprocessing 6.38.0 · @react-three/postprocessing 3.0.4 · react 19.2.0 · aj
 | biology.skeleton.v1 | 文件（GLB，Blender 渲染） | Blender-Skeleton | CC BY-SA 4.0（Z-Anatomy） |
 | biology.vessels.v1 | 文件（GLB，Blender 渲染） | Blender-Vessels | CC BY-SA 4.0（Z-Anatomy） |
 | biology.rln.v1 | 文件（neck.glb，Blender 渲染；喉返神经按模型位置自绘） | Blender-Rln | CC BY-SA 4.0（Z-Anatomy） |
+| biology.throat.v1 | 文件（throat.glb，Blender 渲染；正中矢状剖面 + 空气 / 食物路线） | Blender-Throat | CC BY-SA 4.0（Z-Anatomy） |
 | tech.robot.expressive.v1 | 文件（GLB，14 个动作） | — | CC0 |
 | biology.cat.lowpoly.v1 | 文件（FBX） | — | CC0 |
 

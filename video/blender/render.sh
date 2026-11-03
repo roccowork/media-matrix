@@ -5,7 +5,7 @@
 # 名字 → 场景脚本 blender/<名字>_scene.py、配置 shotconfigs/biology.<名字>.v1.json、Remotion 合成 Blender-<名字首字母大写>
 # Blender 不在 PATH 里时：BLENDER=/path/to/blender bash blender/render.sh heart
 set -euo pipefail
-NAME="${1:?用法：bash blender/render.sh <heart|skeleton|vessels|rln> [preview]}"
+NAME="${1:?用法：bash blender/render.sh <heart|skeleton|vessels|rln|throat> [preview]}"
 BLENDER="${BLENDER:-blender}"
 ID="biology.${NAME}.v1"
 CFG="shotconfigs/${ID}.json"

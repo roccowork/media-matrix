@@ -23,7 +23,8 @@ Remotion 合成 Blender-Heart（src/shots/heart/BlenderHeart.tsx）← 逐帧显
 | `extract_skeleton.py` / `skeleton_scene.py` | 全身骨架：提取（减面、真实尺寸、原点在脚底，写 body_frame.json）/ 场景（骨头、牙齿、肋软骨三种材质） |
 | `extract_vessels.py` / `vessels_scene.py` | 全身血管网：提取（分类动脉 / 静脉 / 肺血管 / 心脏、与骨架同原点）/ 场景（红蓝配色、心跳血流脉冲、半透明参照骨架） |
 | `extract_neck.py` / `rln_scene.py` | 喉返神经：提取颈胸部结构（迷走神经、主动脉弓及分支、心脏、气管、食管、喉软骨、甲状腺）/ 场景（按模型位置画左右喉返神经、沿神经走的光脉冲、可调半透明血管）|
-| `render.ps1` / `render.sh` | 笔记本一键渲染（Windows / Mac·Linux）：`render.sh <heart|skeleton|vessels|rln> [preview]`，校验 → Blender 渲染 → Remotion 合成 |
+| `extract_throat.py` / `throat_scene.py` | 咽喉剖面：提取头颈部结构 / 场景（正中矢状切开、空气和食物两条路线在口咽交叉）|
+| `render.ps1` / `render.sh` | 笔记本一键渲染（Windows / Mac·Linux）：`render.sh <heart|skeleton|vessels|rln|throat> [preview]`，校验 → Blender 渲染 → Remotion 合成 |
 
 ## 在笔记本上渲染（需要用户同意后才出片）
 1. 装 Blender 4.2 或更新版本（https://www.blender.org/download/ ），装好 Node（video 目录 `npm ci`）

@@ -1,0 +1,65 @@
+{
+  "id": "biology.throat.v1",
+  "renderer": "blender",
+  "style": "cinematic_science",
+  "fps": 30,
+  "duration": 5,
+  "note": "《人是被设计出来的吗？》第 12 镜：咽喉正中矢状剖面，空气和食物在口咽交叉；路线流动速度为示意",
+  "camera": {
+    "preset": "orbit",
+    "keys": [
+      {
+        "t": 0,
+        "pos": [
+          0.3,
+          1.525,
+          0.06
+        ],
+        "look": [
+          0.0,
+          1.505,
+          -0.008
+        ],
+        "fov": 30,
+        "roll": 0
+      },
+      {
+        "t": 5,
+        "pos": [
+          0.27,
+          1.515,
+          0.03
+        ],
+        "look": [
+          0.0,
+          1.5,
+          -0.008
+        ],
+        "fov": 30,
+        "roll": 0
+      }
+    ]
+  },
+  "post": {
+    "tone": "aces",
+    "vignette": 0.55,
+    "grain": 0.015
+  },
+  "assets": [
+    {
+      "id": "biology.throat.v1",
+      "params": {
+        "cut": 0,
+        "air": 1,
+        "airAt": 0.3,
+        "airSpeed": 0.12,
+        "food": 1,
+        "foodAt": 1.5,
+        "foodSpeed": 0.07,
+        "fstop": 5.6,
+        "seed": "throat-demo"
+      }
+    }
+  ],
+  "version": "1.0.0"
+}

@@ -8,5 +8,7 @@
 
 | neck.glb | 颈胸部：左右迷走神经、升主动脉 / 主动脉弓 / 胸主动脉 / 头臂干 / 颈总动脉 / 锁骨下动脉、肺动脉干及左右肺动脉、上腔静脉 / 头臂静脉、心脏、气管 / 主支气管、甲状 / 环状 / 杓状软骨、会厌、舌骨、食管 / 喉咽、甲状腺；每件带 kind 分类，真实尺寸，与骨架同一原点（喉返神经不在模型里，由 `blender/rln_scene.py` 按解剖走法画） | [Z-Anatomy](https://github.com/LluisV/Z-Anatomy) `Resources/Models/FBX/` NervousSystem100 / CardioVascular41 / VisceralSystem100 / SkeletalSystem100，用 `blender/extract_neck.py` 提取、减面 | [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/) |
 
+| throat.glb | 头颈部：颅骨各块、下颌骨、舌骨、颈椎、牙齿、甲状 / 环状 / 杓状软骨、会厌、鼻腔黏膜、鼻咽 / 口咽 / 喉咽、软腭、悬雍垂、舌、气管、食管、甲状腺；每件带 kind 分类，真实尺寸，与骨架同一原点 | [Z-Anatomy](https://github.com/LluisV/Z-Anatomy) `Resources/Models/FBX/` VisceralSystem100 / SkeletalSystem100，用 `blender/extract_throat.py` 提取、减面 | [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/) |
+
 **署名要求**：用到这些模型的视频，在简介或片尾写「3D 模型：Z-Anatomy（CC BY-SA 4.0）」。
 **相同方式共享**：对模型文件本身的修改（如这里的 heart.glb）也按 CC BY-SA 4.0 公开（本仓库是公开仓库，满足要求）。
