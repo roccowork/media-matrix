@@ -15,6 +15,7 @@ import {NeuralWebAsset} from '../../assets/biology/neural_web/NeuralWebAsset';
 import {DnaAsset} from '../../assets/biology/dna/DnaAsset';
 import {VirusAsset} from '../../assets/biology/virus/VirusAsset';
 import {CellAsset} from '../../assets/biology/cell/CellAsset';
+import {BloodFlowAsset} from '../../assets/biology/bloodflow/BloodFlowAsset';
 import {ChipAsset} from '../../assets/tech/chip/ChipAsset';
 import {DataStreamAsset} from '../../assets/tech/datastream/DataStreamAsset';
 import {HudAsset} from '../../assets/tech/hud/HudAsset';
@@ -374,6 +375,34 @@ export const ASSETS: AssetMeta[] = [
     version: '1.0.0',
     dependencies: ['Blender 4.2+（或 pip 的 bpy）', 'blender/vessels_scene.py', 'blender/common.py', 'assets/models/anatomy/skeleton.glb（参照骨架）'],
     notes: '与骨架同一原点（body_frame.json），ShotConfig 按 y 朝上写（头顶约 y = 1.70）；血管粗细为原模型真实尺寸；pulseSpeed 是示意速度，片中如讲脉搏波速度要说明',
+  },
+  {
+    asset_id: 'biology.bloodflow.v1',
+    asset_name: '血管内部穿行（小动脉内壁 + 真实形状和比例的红细胞 / 白细胞 / 血小板随血流流过）',
+    category: 'biology',
+    kind: 'procedural',
+    renderer: 'threejs',
+    component: C(BloodFlowAsset),
+    params: {
+      diameter: {type: 'number', default: 60, min: 8, max: 500, desc: '血管内径（µm；毛细血管 5–10，小动脉 30–100）'},
+      length: {type: 'number', default: 2000, min: 200, max: 20000, desc: '血管总长（µm，镜头要走的距离以内）'},
+      hematocrit: {type: 'number', default: 0.45, min: 0, max: 0.7, desc: '血细胞比容（正常约 0.40–0.50；决定红细胞多少）'},
+      vmax: {type: 'number', default: 4000, min: 0, max: 50000, desc: '中心最大流速（µm/s，真实值；小动脉约 2000–10000）'},
+      slowmo: {type: 'number', default: 20, min: 1, max: 1000, desc: '慢放倍数（真实速度太快看不清；片中要说明慢放）'},
+      window: {type: 'number', default: 320, min: 60, max: 2000, desc: '镜头前方保持有细胞的距离（µm）'},
+      curve: {type: 'number', default: 1, min: 0, max: 3, desc: '血管弯曲程度（0 为直管）'},
+      wallColor: {type: 'color', default: '#c4545a', desc: '血管内壁颜色'},
+      rbcColor: {type: 'color', default: '#b3121a', desc: '红细胞颜色'},
+      plasmaColor: {type: 'color', default: '#3a0a0c', desc: '血浆雾颜色（远处淡入）'},
+      seed: {type: 'seed', default: 'bloodflow', desc: '种子：细胞分布、朝向、内皮细胞纹理随之变化'},
+    },
+    effects: ['evans_fung_rbc', 'poiseuille_flow', 'cell_free_layer', 'leukocyte_rolling', 'shear_tumbling', 'endothelium_cells', 'headlight', 'plasma_fog'],
+    camera_presets: ['fly_through（沿中心线顺流前进；关键帧用导出的 bloodflowPath 算）'],
+    lighting_preset: '着色器内置「头灯」（光从镜头来）+ 次表面红光 + 边缘光；写深度，可开 post.dof',
+    thumbnail: 'assets/thumbs/biology.bloodflow.v1.jpg',
+    license: 'own（自研 Shader；红细胞形状公式来自 Evans & Fung 1972）',
+    version: '1.0.0',
+    notes: '单位 µm；中心线 bloodflowPath(s) = (40·sin(s/260) + 18·sin(s/113 + 1), 22·sin(s/190 + 2), −s)×curve；镜头必须走在中心线附近（细胞窗口按镜头 z 跟随）；数量按真实比例：红细胞 = 比容 × 容积 ÷ 90 µm³，白细胞约 1/700，血小板约 1/20',
   },
   {
     asset_id: 'biology.cell.v1',

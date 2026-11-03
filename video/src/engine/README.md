@@ -67,6 +67,7 @@ postprocessing 6.38.0 · @react-three/postprocessing 3.0.4 · react 19.2.0 · aj
 | biology.dna.v1 | 程序化（Instanced + Shader） | Asset-DNA | 自研 |
 | biology.virus.v1 | 程序化（位移包膜 + Instanced 刺突） | Asset-Virus | 自研 |
 | biology.cell.v1 | 程序化（半透明膜 + Instanced 细胞器） | Asset-Cell | 自研 |
+| biology.bloodflow.v1 | 程序化（Evans–Fung 红细胞 + 泊肃叶流速，单位 µm） | Asset-BloodFlow | 自研 |
 | tech.chip.v1 | 程序化 | Shot-AIChip | 自研 |
 | tech.datastream.v1 | 程序化（GPU 粒子） | Asset-DataStream | 自研 |
 | tech.hud.v1 | 程序化（Shader，全息界面） | Asset-HUD | 自研 |
