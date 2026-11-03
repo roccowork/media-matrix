@@ -72,7 +72,8 @@ void main() {
     albedo = mix(seaCol, landCol, landM);
     albedo = mix(albedo, vec3(0.92, 0.95, 1.0), smoothstep(0.74, 0.82, lat + 0.06 * snoise(q * 5.0)));  // 冰盖
     spec = (1.0 - landM) * 0.9;
-    night = landM * smoothstep(0.86, 0.95, snoise(q * 70.0 + uSeed) * 0.5 + 0.5) * smoothstep(0.3, 0.7, snoise(q * 6.0 + uSeed) * 0.5 + 0.5) * (1.0 - smoothstep(0.6, 0.75, lat)) * uCity;
+    float metro = smoothstep(0.45, 0.8, snoise(q * 5.0 + uSeed) * 0.5 + 0.5);                // 城市群分布
+    night = landM * metro * (smoothstep(0.7, 0.92, snoise(q * 80.0 + uSeed) * 0.5 + 0.5) + 0.25 * smoothstep(0.55, 0.9, snoise(q * 25.0 + uSeed) * 0.5 + 0.5)) * (1.0 - smoothstep(0.6, 0.75, lat)) * uCity;
     // 云层（比地表转得快一点）
     vec3 cq = vec3(mat2(cos(ang * 0.25), -sin(ang * 0.25), sin(ang * 0.25), cos(ang * 0.25)) * q.xz, q.y).xzy;
     float cn = fbm3s(cq * 3.5 + uSeed + vec3(0.0, 0.0, uTime * 0.01)) + 0.25 * fbm3s(cq * 12.0 + uSeed);
@@ -101,7 +102,7 @@ void main() {
   float fres = pow(1.0 - max(dot(n, v), 0.0), 3.0);
   col += uAtm * fres * (0.15 + 1.4 * smoothstep(-0.25, 0.5, ndl));
   col += vec3(1.0, 0.45, 0.15) * smoothstep(0.08, 0.0, abs(ndl)) * fres * 0.6 * (uKind < 0.5 ? 1.0 : 0.4);  // 晨昏线只在边缘泛暖
-  col += vec3(1.0, 0.72, 0.38) * night * (1.0 - day) * 1.6;
+  col += vec3(1.0, 0.7, 0.35) * night * (1.0 - day) * 3.2;
   gl_FragColor = vec4(col, 1.0);
 }`;
 

@@ -87,8 +87,8 @@
         "kind": 0,
         "sunDir": [
           1,
-          0.15,
-          -0.35
+          0.2,
+          0.15
         ],
         "spin": 2,
         "seed": "planet-demo",
@@ -103,9 +103,9 @@
       "id": "cosmos.planet.v1",
       "params": {
         "position": [
-          18,
-          4,
-          -34
+          16,
+          5,
+          -32
         ],
         "radius": 9,
         "kind": 1,
@@ -113,8 +113,8 @@
         "atmosphere": "#ffcf8a",
         "sunDir": [
           1,
-          0.15,
-          -0.35
+          0.2,
+          0.15
         ],
         "spin": 4,
         "tilt": 22,
