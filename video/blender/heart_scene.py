@@ -43,7 +43,7 @@ asset = next(a for a in cfg['assets'] if a['id'] == 'biology.heart.v1')
 P = {
     'bpm': 72, 'beat': 1.0, 'spin': 0.0,
     'myocardium': '#74181b', 'artery': '#963431', 'vein': '#3b4683', 'valve': '#e6c3ae',
-    'fstop': 2.8, 'seed': 'heart', 'fat': 1.0, 'fatReach': 0.05,
+    'fstop': 2.8, 'seed': 'heart', 'fat': 1.0, 'fatReach': 0.05, 'embed': 0.5, 'coronaryArtery': '#7c2624', 'coronaryVein': '#3c3c70',
     **asset.get('params', {}),
 }
 fps = cfg['fps']
@@ -69,8 +69,19 @@ bpy.ops.import_scene.gltf(filepath=os.path.join(VIDEO, 'public/assets/models/ana
 parts = [o for o in scene.objects if o.type == 'MESH']
 
 # 部件 → 材质类别（教科书配色：含氧血红、缺氧血蓝）
+CORONARY_WORDS = ('coronary', 'cardiac vein', 'interventricular', 'circumflex', 'sinus', 'inferolateral', 'septal branches', 'vein of left ventricle')
+
+
+def is_coronary(name):
+    n = name.lower()
+    return any(w in n for w in CORONARY_WORDS)
+
+
 def part_kind(name):
     n = name.lower()
+    if is_coronary(name):
+        # 冠状血管单独一类：半埋在心肌 / 脂肪里，颜色更暗、反光更弱
+        return 'coronary_vein' if ('vein' in n or 'sinus' in n) else 'coronary_artery'
     if 'leaflet' in n:
         return 'valve'
     if 'vein' in n or 'sinus' in n or 'vena cava' in n:
@@ -148,7 +159,7 @@ def make_tissue(name, color, kind):
     _set(b, 'Subsurface Weight', 0.4 if kind == 'muscle' else 0.3)
     _set(b, 'Subsurface Radius', (1.0, 0.3, 0.18))
     _set(b, 'Subsurface Scale', 0.06)
-    _set(b, 'Coat Weight', 0.7 if kind == 'muscle' else 0.45)
+    _set(b, 'Coat Weight', {'muscle': 0.7, 'vessel': 0.45, 'coronary': 0.3}[kind])
     _set(b, 'Coat Roughness', 0.07)
     _set(b, 'Coat IOR', 1.38)
     _set(b, 'Specular IOR Level', 0.4)
@@ -199,6 +210,8 @@ MATS = {
     'vein': make_tissue('vein', hex_rgb(P['vein']), 'vessel'),
     'pulmonary_artery': make_tissue('pulmonary_artery', hex_rgb(P['vein']), 'vessel'),
     'valve': make_tissue('valve', hex_rgb(P['valve']), 'vessel'),
+    'coronary_artery': make_tissue('coronary_artery', hex_rgb(P['coronaryArtery']), 'coronary'),
+    'coronary_vein': make_tissue('coronary_vein', hex_rgb(P['coronaryVein']), 'coronary'),
 }
 for o in parts:
     o.data.materials.clear()
@@ -210,9 +223,7 @@ for o in parts:
 def bake_fat():
     # 每个心肌顶点到最近冠状血管（动脉 + 心静脉）的距离 → 顶点属性 fat（0–1）。确定性：纯几何计算
     from mathutils.kdtree import KDTree
-    vessels = [o for o in parts if part_kind(o.name) in ('artery', 'vein') and ('coronary' in o.name.lower() or 'cardiac' in o.name.lower()
-               or 'interventricular' in o.name.lower() or 'circumflex' in o.name.lower() or 'sinus' in o.name.lower()
-               or 'inferolateral' in o.name.lower() or 'septal' in o.name.lower() or 'ventricle' in o.name.lower())]
+    vessels = [o for o in parts if is_coronary(o.name)]
     pts = [o.matrix_world @ v.co for o in vessels for v in o.data.vertices]
     kd = KDTree(len(pts))
     for i, p in enumerate(pts):
@@ -233,6 +244,32 @@ def bake_fat():
     print('心外膜脂肪：参考', len(vessels), '条冠状血管')
 
 
+def embed_coronaries():
+    # 冠状血管在原模型里整根浮在心肌表面、显得太粗太突兀：每个顶点往最近的心肌表面拉 embed 比例
+    # → 管子朝外的一侧压下去，变细、半埋进心肌，走向不变。确定性：纯几何计算
+    from mathutils.kdtree import KDTree
+    k = P['embed']
+    if k <= 0:
+        return
+    myo = [o for o in parts if part_kind(o.name) == 'myocardium']
+    pts = [o.matrix_world @ v.co for o in myo for v in o.data.vertices]
+    kd = KDTree(len(pts))
+    for i, p in enumerate(pts):
+        kd.insert(p, i)
+    kd.balance()
+    for o in parts:
+        if not is_coronary(o.name):
+            continue
+        mw = o.matrix_world
+        inv = mw.inverted()
+        for v in o.data.vertices:
+            w = mw @ v.co
+            near, _, _ = kd.find(w)
+            v.co = inv @ (w + (near - w) * k)
+        o.data.update()
+
+
+embed_coronaries()
 bake_fat()
 
 # 所有部件挂到一个空物体下：心跳 / 自转都作用在它上面（冠状血管贴着心肌，一起动）
