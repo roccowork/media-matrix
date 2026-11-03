@@ -23,6 +23,7 @@ float vnoise3(vec3 p) {
              mix(mix(hash13(i + vec3(0,0,1)), hash13(i + vec3(1,0,1)), u.x), mix(hash13(i + vec3(0,1,1)), hash13(i + vec3(1,1,1)), u.x), u.y), u.z);
 }
 float fbm(vec3 p) { float a = .5, s = 0.; for (int i = 0; i < 5; i++) { s += a * vnoise3(p); p = p * 2.03 + 7.1; a *= .5; } return s; }
+float ridged3(vec3 p) { float a = .5, s = 0.; for (int i = 0; i < 6; i++) { float n = 1. - abs(2. * vnoise3(p) - 1.); s += a * n * n * n; p = p * 2.1 + 5.3; a *= .55; } return s; }
 float fbmLo(vec3 p) { float a = .5, s = 0.; for (int i = 0; i < 3; i++) { s += a * vnoise3(p); p = p * 2.03 + 3.3; a *= .5; } return s; }
 
 vec3 stars(vec3 d) {
@@ -43,6 +44,7 @@ vec3 stars(vec3 d) {
 }
 
 // 星云在某点的「气体密度、尘埃、颜色分区」
+uniform vec3 uCore;   // 发光核心（亮星群）位置，归一化坐标
 void sampleNebula(vec3 p, out float gas, out float dust, out float warmMix, out float fil) {
   vec3 q = (p - uCenter) / uRadius;                       // 归一化到 [-1,1] 球
   vec3 qs = q * vec3(0.75, 1.35, 1.0);                       // 压扁拉长，不是正球
@@ -51,10 +53,10 @@ void sampleNebula(vec3 p, out float gas, out float dust, out float warmMix, out 
   vec3 w = vec3(fbmLo(q * 1.6 + uSeed), fbmLo(q * 1.6 + uSeed + 5.2), fbmLo(q * 1.6 + uSeed - 3.7));
   vec3 s = q * 2.4 + w * 1.6 + uSeed;
   float n = fbm(s);
-  fil = pow(1.0 - abs(2.0 * fbm(s * 1.9 + 4.0) - 1.0), 5.0);  // 发亮的细丝
+  fil = pow(ridged3(s * 1.7 + 4.0), 2.2) * 1.6;              // 发亮的细丝（脊状噪声，高频，飞近也锐利）
   gas = pow(max(0.0, n - 0.45) * 2.2, 1.6) * fall * uDensity;
-  dust = smoothstep(0.5, 0.72, fbmLo(s * 1.3 - 2.0)) * fall * uDust;
-  warmMix = smoothstep(0.42, 0.52, fbmLo(q * 1.4 + uSeed + 11.0));
+  dust = (smoothstep(0.48, 0.66, fbmLo(s * 1.3 - 2.0)) + 0.6 * smoothstep(0.55, 0.8, ridged3(s * 2.6 - 7.0))) * fall * uDust;  // 大块暗区 + 细暗纹
+  warmMix = clamp(smoothstep(0.4, 0.47, fbmLo(q * 1.2 + uSeed + 11.0)) + 0.6 * smoothstep(0.5, 0.0, length(q - uCore)), 0.0, 1.0);  // 暖区更大，核心附近偏暖
 }
 
 void main() {
@@ -81,13 +83,16 @@ void main() {
         vec3 p = ro + rd * t;
         float gas, dust, warmMix, fil;
         sampleNebula(p, gas, dust, warmMix, fil);
-        vec3 tint = mix(uCool, uWarm, warmMix);
-        vec3 emit = tint * tint * 1.4 * gas * (0.12 + 2.6 * fil) + vec3(1.0, 0.8, 0.6) * pow(fil, 3.0) * gas * 1.5;
-        // 内部的几颗亮星照亮周围气体
-        for (int k = 0; k < 4; k++) {
+        vec3 tint = mix(uCool, uWarm, warmMix * warmMix * (3.0 - 2.0 * warmMix));
+        vec3 emit = tint * tint * 1.6 * gas * (0.04 + 2.4 * fil) + vec3(1.0, 0.8, 0.6) * pow(fil, 3.0) * gas * 1.5;
+        // 发光核心（亮星群）照亮周围气体：越近越亮、越白
+        vec3 cp = uCenter + uCore * uRadius;
+        float dc = dot(p - cp, p - cp) / (uRadius * uRadius);
+        emit += mix(uWarm, vec3(1.0, 0.9, 0.75), 0.3) * gas * 0.035 / (dc + 0.01);
+        for (int k = 0; k < 3; k++) {
           vec3 sp = uCenter + (vec3(hash13(uSeed + float(k)), hash13(uSeed + float(k) + 3.1), hash13(uSeed + float(k) + 7.7)) - 0.5) * uRadius * 0.9;
           float d2 = dot(p - sp, p - sp) / (uRadius * uRadius);
-          emit += mix(tint, vec3(1.0, 0.9, 0.8), 0.5) * gas * 0.015 / (d2 + 0.01);
+          emit += mix(tint, vec3(1.0), 0.4) * gas * 0.008 / (d2 + 0.01);
         }
         col += trans * emit * dt * uGain * (1.0 / uRadius) * 4.0;
         trans *= exp(-(gas * 0.6 + dust * 2.5) * dt / uRadius * 6.0);
@@ -95,7 +100,7 @@ void main() {
       }
     }
   }
-  col = col / (1.0 + 0.35 * max(col.r, max(col.g, col.b)));   // 压住大片气体叠加出的灰雾，保留对比
+  col = col / (1.0 + 0.15 * max(col.r, max(col.g, col.b)));   // 压住大片气体叠加出的灰雾，保留对比
   col += trans * stars(rd);
   gl_FragColor = vec4(col, 1.0);
 }`;

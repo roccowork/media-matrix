@@ -87,7 +87,9 @@
         "seed": "demo-nebula",
         "steps": 96,
         "stars": 0.7,
-        "dust": 1.6
+        "dust": 1.6,
+        "warm": "#ff6418",
+        "cool": "#2259ff"
       }
     },
     {
