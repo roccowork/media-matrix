@@ -15,7 +15,14 @@
    （Schema、每镜 3–8 秒、总长 60–90 秒、旁白 ≤ 5 字每秒、资产 id、参数范围、渲染器能力、版本、真实比例示意须写 note）
 4. **预览**：`node tools/shot.mjs storyboard-preview storyboards/<id>/storyboard.json`
 5. **单镜重渲**：`node tools/shot.mjs storyboard-shot storyboards/<id>/storyboard.json 5`（只重渲第 5 镜）
-6. 出视频（需用户同意）：Remotion 合成 `Storyboard`（整条）/ `SB-Shot`（单镜），`--props` 传分镜；Blender 镜头用 `blender/<名字>_scene.py` 按该镜 config 在笔记本上渲染
+6. **一键出片（需用户同意才触发）**：GitHub Actions → `produce` 工作流 → 填 `storyboard`（如 `storyboards/<id>/storyboard.json`），自动：
+   校验分镜 → 按帧拆给最多 20 台机器渲染 `Storyboard` 合成 → 拼接 → `tools/mix_audio.py` 混音 → `tools/qc.py` 质检 → `tools/archive.py` 归档提交回 main（`archives/<id>/`）→ 成片 + 质检报告发 Telegram（成片在 Actions 产物里保留 7 天）
+   - 只是看几个新镜头效果，用 `preview` 工作流；Blender 镜头用 `blender/<名字>_scene.py` 按该镜 config 在笔记本上渲染
+7. **质检**（本地也能跑）：`python3 tools/qc.py 成片.mp4 storyboards/<id>/storyboard.json [输出目录]`
+   - 错误（退出码 1）：时长帧数对不上、字卡超框、真峰值 > 0 dBTP（爆音）
+   - 提醒：分镜没安排的黑帧、画面静止 > 1.5 秒、字号 < 36px、字卡底色太亮 / 可能压住主体、峰值 > -1 dBTP、响度 < -30 LUFS、无声 > 2 秒
+   - 分镜里有意的黑场 / 静音（开场 1.5 秒、eyelid 转场、`audio.ambient.mute`）只记「正常」
+8. **归档**：见 `archives/README.md`；发布后在 manifest 的 `publish` 里补平台 / 日期 / 链接
 
 ## 生成器怎么保证不乱来
 - 模型只输出 JSON（不写代码）；资产只能从 `node tools/shot.mjs catalog` 导出的目录里选（含每个资产的参考镜头）
