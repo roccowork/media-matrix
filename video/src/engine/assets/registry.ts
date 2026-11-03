@@ -325,6 +325,8 @@ export const ASSETS: AssetMeta[] = [
       dust: {type: 'number', default: 1, min: 0, max: 3, desc: '周围漂浮微尘的密度倍数（增加纵深，0 关闭）'},
       haze: {type: 'number', default: 1, min: 0, max: 3, desc: '氛围浓度：多层体积雾 + 远景虚化光斑 + 距离雾（远端渐隐），0 关闭'},
       hazeColor: {type: 'color', default: '#0d3f6e', desc: '雾的主色（深蓝；青色由它推出），距离雾也用它'},
+      mutation: {type: 'number', default: -1, min: -1, max: 200, desc: '复制时第几对碱基配错（-1 = 不配错，需同时开启复制）：新接上的碱基换成不互补的一种（A↔G、T↔C），接上后一直带一圈光（突变，示意）'},
+      mutationColor: {type: 'color', default: '#ff3a3a', desc: '突变光圈颜色'},
       seed: {type: 'seed', default: 'dna', desc: '种子：碱基序列、粒子分布随之变化（同一种子画面永远不变；每个视频用自己的种子，如视频编号）'},
     },
     effects: ['fresnel_membrane', 'subsurface_tint', 'instanced_atoms', 'unzip_replication', 'nucleotide_docking', 'flow_particles', 'floating_dust', 'volumetric_haze', 'bokeh', 'distance_fog'],
@@ -332,7 +334,7 @@ export const ASSETS: AssetMeta[] = [
     lighting_preset: '着色器内置主光 + 菲涅尔边缘光（无需灯光）；自带体积雾 / bokeh；配深色背景 + bloom + post.dof（cInf 12–16，focus 对在主体那段螺旋）',
     thumbnail: 'assets/thumbs/biology.dna.v1.jpg',
     license: 'own',
-    version: '1.0.0',
+    version: '1.1.0',
     notes: '尺寸：半径 radius，螺距 ≈ 3.5 × radius，螺旋轴沿 x、中心在 position；全部几何在顶点着色器里计算（frustumCulled 关闭）',
   },
   {

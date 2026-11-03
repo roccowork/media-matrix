@@ -37,6 +37,8 @@ export type DnaProps = {
   dust?: number; // 周围微尘密度倍数
   haze?: number; // 体积雾 / 远景光斑 / 距离雾浓度，0 关闭
   hazeColor?: string; // 雾的主色（深蓝），青色由它推出
+  mutation?: number; // 复制时第几对碱基配错（-1 = 不配错）：新接上的碱基换成不互补的一种，并一直带一圈光（突变）
+  mutationColor?: string;
   seed?: string | number;
 };
 
@@ -241,7 +243,7 @@ void main() {
 // 发光点：kind 0 沿链流动的粒子；1 氢键缝里的亮点；2 分叉点的亮光；3 新碱基对接的闪光 + 新氢键
 const GLOW_VERT = /* glsl */ `
 attribute vec4 aG; // kind, a, b, c
-uniform float uHalfH; uniform float uFlowSpeed; uniform vec3 uFlowCol; uniform vec3 uForkCol; uniform float uGlowAmt; uniform float uFogD;
+uniform float uHalfH; uniform float uFlowSpeed; uniform vec3 uFlowCol; uniform vec3 uForkCol; uniform vec3 uMutCol; uniform float uGlowAmt; uniform float uFogD;
 varying vec3 vC; varying float vA;
 ${HELIX_GLSL}
 float h1(float n) { return fract(sin(n * 127.1) * 43758.5453); }
@@ -268,6 +270,16 @@ void main() {
     size = uR * (aG.y < 0.5 ? 1.0 : 0.2 + 0.3 * h1(aG.y + 7.0));
     col = uForkCol;
     a = (aG.y < 0.5 ? 0.22 : 0.7) * smoothstep(0.0, 1.5, uFork) * smoothstep(uN + 2.0, uN - 1.0, uFork) * (0.8 + 0.2 * sin(uTime * 6.0 + aG.y * 9.0));
+  } else if (kind > 3.5) {
+    // 突变：配错的新碱基接上后，一圈红光一直留着（轻轻脉动）
+    float i = aG.y; float s = aG.z;
+    float q = nucQ(i, s);
+    p = 0.5 * (newPos(i, s) + strandPos(i, s));
+    float on = smoothstep(0.9, 1.15, q);
+    float flash = exp(-pow((q - 1.0) * 3.0, 2.0));
+    size = uR * (aG.w < 0.5 ? 1.6 + 0.2 * sin(uTime * 5.0) + 1.2 * flash : 0.45);
+    col = aG.w < 0.5 ? uMutCol : mix(uMutCol, vec3(1.0), 0.6);
+    a = on * (aG.w < 0.5 ? 0.9 : 2.0) + 2.0 * flash * step(0.0, q);
   } else {
     float i = aG.y; float s = aG.z;
     float q = nucQ(i, s);
@@ -388,6 +400,8 @@ export const DnaAsset: React.FC<DnaProps> = ({
   dust = 1,
   haze = 1,
   hazeColor = '#0d3f6e',
+  mutation = -1,
+  mutationColor = '#ff3a3a',
   seed = 'dna',
 }) => {
   const frame = useCurrentFrame();
@@ -475,7 +489,8 @@ export const DnaAsset: React.FC<DnaProps> = ({
     for (let nw = 0; nw < NS; nw++)
       for (let i = 0; i < N; i++)
         for (let s = 0; s < 2; s++) {
-          bIdx.push(i, s, nw ? seq[i][1 - s] : seq[i][s], nw); // 新碱基与母链碱基互补：A-T、G-C
+          const t = nw ? seq[i][1 - s] : seq[i][s];                           // 新碱基与母链碱基互补：A-T、G-C
+          bIdx.push(i, s, nw && s === 0 && i === Math.round(mutation) ? (t + 2) % 4 : t, nw);   // 突变：A↔G、T↔C 配错
           bFly.push(...(nw ? flyOf(i, s) : [0, 0, 0, 0]));
         }
     baseGeo.setAttribute('aIdx', new THREE.InstancedBufferAttribute(new Float32Array(bIdx), 4));
@@ -509,6 +524,7 @@ export const DnaAsset: React.FC<DnaProps> = ({
     for (let i = 0; i < N; i++) g.push(1, i, 0, 0);
     for (let k = 0; k < 24; k++) g.push(2, k === 0 ? 0 : 1 + random(`${S}-fk${k}`) * 10, 0, 0);
     if (replicate) for (let i = 0; i < N; i++) for (let s = 0; s < 2; s++) g.push(3, i, s, 0);
+    if (replicate && mutation >= 0 && mutation < N) { g.push(4, Math.round(mutation), 0, 0); g.push(4, Math.round(mutation), 0, 1); }   // 突变处的光圈 + 亮芯
     const glowGeo = new THREE.BufferGeometry();
     glowGeo.setAttribute('position', new THREE.BufferAttribute(new Float32Array((g.length / 4) * 3), 3));
     glowGeo.setAttribute('aG', new THREE.BufferAttribute(new Float32Array(g), 4));
@@ -550,7 +566,7 @@ export const DnaAsset: React.FC<DnaProps> = ({
       tube: mat(BACKBONE_VERT, BACKBONE_FRAG, {uCol: {value: new THREE.Color()}, uTubeR: {value: 0.1}}, {transparent: true, depthWrite: true, side: THREE.FrontSide}),
       atom: mat(ATOM_VERT, ATOM_FRAG, {uCol: {value: new THREE.Color()}, uAtomR: {value: 0.17}}),
       base: mat(BASE_VERT, BASE_FRAG, {uBaseW: {value: 0.16}, uBaseTh: {value: 0.055}, uBaseCol: {value: [new THREE.Color(), new THREE.Color(), new THREE.Color(), new THREE.Color()]}}),
-      glow: mat(GLOW_VERT, GLOW_FRAG, {uFlowSpeed: {value: 2.5}, uFlowCol: {value: new THREE.Color()}, uForkCol: {value: new THREE.Color('#7fd0ff')}, uGlowAmt: {value: 1}}, additive),
+      glow: mat(GLOW_VERT, GLOW_FRAG, {uFlowSpeed: {value: 2.5}, uFlowCol: {value: new THREE.Color()}, uForkCol: {value: new THREE.Color('#7fd0ff')}, uMutCol: {value: new THREE.Color(mutationColor)}, uGlowAmt: {value: 1}}, additive),
       dust: mat(DUST_VERT, DUST_FRAG, {uA: {value: new THREE.Color('#5aa8ff')}, uB: {value: new THREE.Color('#ffb36b')}}, additive),
       bokeh: mat(BOKEH_VERT, BOKEH_FRAG, hz, additive),
     };
@@ -571,7 +587,7 @@ export const DnaAsset: React.FC<DnaProps> = ({
     const atoms = new THREE.InstancedMesh(atomGeo, mats.atom, atomCount);
     for (const m of [bases, atoms]) m.frustumCulled = false;
     return {tube, glowGeo, dustGeo, bokehGeo, nb, mats, hz, layers, bases, atoms};
-  }, [N, S, flow, dust, haze, replicate, U]);
+  }, [N, S, flow, dust, haze, replicate, U, mutation, mutationColor]);
 
   // ── 每帧：只改 uniform ──
   const r = radius;
