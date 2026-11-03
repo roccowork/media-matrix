@@ -80,7 +80,7 @@ postprocessing 6.38.0 · @react-three/postprocessing 3.0.4 · react 19.2.0 · aj
 | biology.cell.v1 | 程序化（半透明膜 + Instanced 细胞器） | Asset-Cell | 自研 |
 | biology.bloodflow.v1 | 程序化（Evans–Fung 红细胞 + 泊肃叶流速，单位 µm） | Asset-BloodFlow | 自研 |
 | biology.eye.v1 | 程序化（眼球剖面：解析剖面盖板 + 视网膜血管 + 光线折射聚焦，单位 mm） | Asset-Eye | 自研 |
-| biology.nervedetour.v1 | 程序化（发光线稿示意：脖子拉长 / 从鱼开始，喉返神经绕远路） | Asset-NerveDetour | 自研 |
+| biology.nervedetour.v1 | 程序化（3D 透视身体示意：长颈鹿 / 鱼，脖子拉长、喉返神经绕远路） | Asset-NerveDetour | 自研 |
 | biology.retina.v1 | 程序化（视网膜九层 + 视盘盲点 + 光点感光 / 信号，脊椎动物 ↔ 章鱼排布渐变，单位 µm） | Asset-Retina | 自研 |
 | tech.chip.v1 | 程序化 | Shot-AIChip | 自研 |
 | tech.datastream.v1 | 程序化（GPU 粒子） | Asset-DataStream | 自研 |
