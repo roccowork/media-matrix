@@ -6,6 +6,7 @@ import type {AssetMeta} from './types';
 import {BlackHoleAsset} from '../../assets/cosmos/blackhole/BlackHoleAsset';
 import {StardustAsset} from '../../assets/cosmos/stardust/StardustAsset';
 import {NebulaAsset} from '../../assets/cosmos/nebula/NebulaAsset';
+import {PlanetAsset} from '../../assets/cosmos/planet/PlanetAsset';
 import {NeuronAsset} from '../../assets/biology/neuron/NeuronAsset';
 import {AxonAsset} from '../../assets/biology/axon/AxonAsset';
 import {NeuralWebAsset} from '../../assets/biology/neural_web/NeuralWebAsset';
@@ -62,6 +63,38 @@ export const ASSETS: AssetMeta[] = [
     license: 'own（自研 Shader）',
     version: '1.0.0',
     notes: '全屏光线步进；可单独当宇宙背景，也可放在其他宇宙镜头后面（renderOrder -2，先画）',
+  },
+  {
+    asset_id: 'cosmos.planet.v1',
+    asset_name: '行星（类地 / 气态巨行星，大气辉光，可选光环）',
+    category: 'cosmos',
+    kind: 'procedural',
+    renderer: 'threejs',
+    component: C(PlanetAsset),
+    params: {
+      position: {type: 'vec3', default: [0, 0, 0], desc: '位置'},
+      radius: {type: 'number', default: 5, min: 0.1, max: 500, desc: '半径'},
+      kind: {type: 'number', default: 0, min: 0, max: 1, desc: '类型：0 类地行星，1 气态巨行星'},
+      ocean: {type: 'color', default: '#1c4fa0', desc: '海洋颜色（类地）'},
+      land: {type: 'color', default: '#3f6b35', desc: '陆地颜色（类地）'},
+      band1: {type: 'color', default: '#d9b48a', desc: '条带色 1（气态）'},
+      band2: {type: 'color', default: '#9c6a45', desc: '条带色 2（气态）'},
+      atmosphere: {type: 'color', default: '#5fa8ff', desc: '大气辉光颜色'},
+      sunDir: {type: 'vec3', default: [1, 0.25, 0.6], desc: '太阳方向（光从哪边来）'},
+      spin: {type: 'number', default: 0.6, min: 0, max: 30, desc: '自转速度（圈 / 分钟）'},
+      tilt: {type: 'number', default: 18, min: -90, max: 90, desc: '自转轴倾角（度）'},
+      clouds: {type: 'number', default: 0.5, min: 0, max: 1, desc: '云量（类地）'},
+      cityLights: {type: 'boolean', default: true, desc: '夜面城市灯光（类地）'},
+      ring: {type: 'boolean', default: false, desc: '光环'},
+      ringColor: {type: 'color', default: '#d8c6a4', desc: '光环颜色'},
+      seed: {type: 'seed', default: 'planet', desc: '种子：大陆形状、云、条带、光环纹理随之变化（每个视频用自己的种子）'},
+    },
+    effects: ['procedural_terrain', 'gas_bands', 'atmosphere_rim', 'clouds', 'city_lights', 'rings'],
+    camera_presets: ['orbit（环绕）', 'dolly_in（推近）'],
+    lighting_preset: '自带平行光（sunDir），不需要场景灯光',
+    license: 'own（自研 Shader）',
+    version: '1.0.0',
+    notes: '背景建议叠 cosmos.nebula.v1',
   },
   {
     asset_id: 'cosmos.stardust.v1',

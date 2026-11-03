@@ -1,0 +1,121 @@
+{
+  "id": "cosmos.planet.v1",
+  "renderer": "threejs",
+  "style": "imax_cosmos",
+  "fps": 30,
+  "duration": 10,
+  "camera": {
+    "preset": "orbit",
+    "keys": [
+      {
+        "t": 0,
+        "pos": [
+          -5,
+          2.5,
+          17
+        ],
+        "look": [
+          -1,
+          0,
+          0
+        ],
+        "fov": 38,
+        "roll": -2
+      },
+      {
+        "t": 5,
+        "pos": [
+          3,
+          1.8,
+          13.5
+        ],
+        "look": [
+          -1,
+          0,
+          0
+        ],
+        "fov": 38,
+        "roll": 0
+      },
+      {
+        "t": 10,
+        "pos": [
+          9,
+          1.2,
+          9
+        ],
+        "look": [
+          -2.5,
+          0,
+          -1
+        ],
+        "fov": 40,
+        "roll": 3
+      }
+    ]
+  },
+  "post": {
+    "bloom": {
+      "intensity": 0.6,
+      "threshold": 1.0,
+      "radius": 0.6
+    },
+    "tone": "aces",
+    "vignette": 0.5,
+    "grain": 0.015
+  },
+  "assets": [
+    {
+      "id": "cosmos.nebula.v1",
+      "params": {
+        "center": [
+          -60,
+          10,
+          -160
+        ],
+        "radius": 70,
+        "gain": 0.6,
+        "steps": 64,
+        "seed": "planet-demo-bg",
+        "stars": 0.55
+      }
+    },
+    {
+      "id": "cosmos.planet.v1",
+      "params": {
+        "radius": 5,
+        "kind": 0,
+        "sunDir": [
+          1,
+          0.3,
+          0.4
+        ],
+        "spin": 2,
+        "seed": "planet-demo"
+      }
+    },
+    {
+      "id": "cosmos.planet.v1",
+      "params": {
+        "position": [
+          -30,
+          6,
+          -55
+        ],
+        "radius": 7,
+        "kind": 1,
+        "ring": true,
+        "atmosphere": "#ffcf8a",
+        "sunDir": [
+          1,
+          0.3,
+          0.4
+        ],
+        "spin": 4,
+        "tilt": 22,
+        "seed": "gas-demo"
+      }
+    }
+  ],
+  "version": "1.0.0"
+}
