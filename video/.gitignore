@@ -1,3 +1,5 @@
 node_modules/
 out/
 .DS_Store
+# Blender 渲染出的 PNG 序列（很大，不进 git；笔记本上渲染后由 Remotion 合成）
+public/blender/

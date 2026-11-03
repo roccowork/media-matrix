@@ -1,0 +1,27 @@
+{
+  "id": "biology.heart.v1",
+  "renderer": "blender",
+  "style": "cinematic_science",
+  "fps": 30,
+  "duration": 10,
+  "camera": {
+    "preset": "orbit",
+    "keys": [
+      {"t": 0, "pos": [-2.3, 0.75, 4.5], "look": [0, 0.15, 0], "fov": 32, "roll": -2},
+      {"t": 5, "pos": [-0.3, 0.5, 4.1], "look": [0, 0.15, 0], "fov": 32, "roll": 0},
+      {"t": 10, "pos": [1.7, 0.3, 3.6], "look": [0.05, 0.12, 0], "fov": 32, "roll": 1.5}
+    ]
+  },
+  "post": {
+    "tone": "aces",
+    "vignette": 0.55,
+    "grain": 0.015
+  },
+  "assets": [
+    {
+      "id": "biology.heart.v1",
+      "params": {"bpm": 72, "beat": 1, "spin": 0, "fstop": 2.8, "seed": "heart-demo"}
+    }
+  ],
+  "version": "1.0.0"
+}

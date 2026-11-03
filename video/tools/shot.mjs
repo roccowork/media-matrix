@@ -23,11 +23,29 @@ const validate = (file) => {
   const reg = fs.readFileSync(path.join(root, 'src/engine/assets/registry.ts'), 'utf8');
   const ids = [...reg.matchAll(/asset_id: '([^']+)'/g)].map((m) => m[1]);
   for (const a of cfg.assets ?? []) if (!ids.includes(a.id)) errs.push(`/assets 资产库里没有 ${a.id}`);
+  // 参数按资产库登记的类型 / 范围检查（Three.js 资产渲染时 AssetView 还会再查一次；Blender 资产只在这里查）
+  (cfg.assets ?? []).forEach((a, i) => {
+    if (!ids.includes(a.id)) return;
+    const start = reg.indexOf(`asset_id: '${a.id}'`);
+    const block = reg.slice(start, reg.indexOf('\n  },\n', start));
+    const spec = {};
+    for (const m of block.matchAll(/^ {6}(\w+): \{type: '(\w+)', default: .*?(?:min: (-?[\d.]+), max: (-?[\d.]+), )?desc/gm)) spec[m[1]] = {type: m[2], min: m[3] && Number(m[3]), max: m[4] && Number(m[4])};
+    for (const [k, v] of Object.entries(a.params ?? {})) {
+      const sp = spec[k];
+      const at = `/assets/${i}/params/${k}`;
+      if (!sp) { errs.push(`${at} 资产库里 ${a.id} 没有这个参数`); continue; }
+      if (sp.type === 'number' && (typeof v !== 'number' || v < sp.min || v > sp.max)) errs.push(`${at} = ${v}，应在 ${sp.min}–${sp.max}`);
+      if (sp.type === 'boolean' && typeof v !== 'boolean') errs.push(`${at} 应为 true / false`);
+      if (sp.type === 'color' && !/^#[0-9a-fA-F]{6}$/.test(v)) errs.push(`${at} 应为 #rrggbb 颜色`);
+      if (sp.type === 'vec3' && !(Array.isArray(v) && v.length === 3 && v.every((x) => typeof x === 'number'))) errs.push(`${at} 应为 [x, y, z]`);
+      if (sp.type === 'seed' && !['string', 'number'].includes(typeof v)) errs.push(`${at} 种子只接受字符串或数字`);
+    }
+  });
   // 关键帧时间递增、覆盖整段
   const keys = cfg.camera?.keys ?? [];
   for (let i = 1; i < keys.length; i++) if (keys[i].t <= keys[i - 1].t) errs.push(`/camera/keys/${i} 时间必须递增`);
   if (keys.length && keys[keys.length - 1].t < cfg.duration) errs.push(`/camera/keys 最后一个关键帧（${keys.at(-1).t}s）没覆盖到结尾（${cfg.duration}s）`);
-  console.log(errs.length ? `✗ ${file}\n  ` + errs.join('\n  ') : `✓ ${file} 校验通过（资产参数范围在渲染时再按资产库校验一次）`);
+  console.log(errs.length ? `✗ ${file}\n  ` + errs.join('\n  ') : `✓ ${file} 校验通过（Schema + 资产库登记 + 参数类型 / 范围）`);
   process.exitCode = errs.length ? 1 : 0;
 };
 
