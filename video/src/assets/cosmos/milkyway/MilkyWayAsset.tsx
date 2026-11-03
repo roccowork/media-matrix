@@ -25,6 +25,8 @@ export type MilkyWayProps = {
   coolColor?: string; // 外侧颜色
   revealAt?: number; // 秒；-1 = 一开始就全亮
   revealDuration?: number; // 秒
+  hideAt?: number; // 秒；星光开始逐颗熄灭（银河带先暗、星星后灭，和亮起相反）；-1 = 不熄灭
+  hideDuration?: number; // 秒
   seed?: string | number;
 };
 
@@ -114,6 +116,8 @@ export const MilkyWayAsset: React.FC<MilkyWayProps> = ({
   coolColor = '#b9c8ff',
   revealAt = -1,
   revealDuration = 3,
+  hideAt = -1,
+  hideDuration = 2,
   seed = 'milkyway',
 }) => {
   const frame = useCurrentFrame();
@@ -142,7 +146,9 @@ export const MilkyWayAsset: React.FC<MilkyWayProps> = ({
   mat.uniforms.uC.value.copy(c);
   mat.uniforms.uY.value.copy(y);
   mat.uniforms.uP.value.copy(p);
-  mat.uniforms.uReveal.value = revealAt < 0 ? 1 : Math.min(1, Math.max(0, (t - revealAt) / Math.max(revealDuration, 0.01)));
+  const shown = revealAt < 0 ? 1 : Math.min(1, Math.max(0, (t - revealAt) / Math.max(revealDuration, 0.01)));
+  const hidden = hideAt < 0 ? 0 : Math.min(1, Math.max(0, (t - hideAt) / Math.max(hideDuration, 0.01)));
+  mat.uniforms.uReveal.value = Math.min(shown, 1 - hidden);
   return (
     <mesh
       material={mat}

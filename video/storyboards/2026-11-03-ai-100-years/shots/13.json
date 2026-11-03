@@ -1,0 +1,74 @@
+{
+  "n": 13,
+  "visual": "星光一颗颗熄灭，银河暗下去，画面归于全黑，静默一拍，只剩一行字",
+  "onscreen": {
+    "text": "而人类，在哪里？",
+    "style": "title"
+  },
+  "config": {
+    "id": "story.ai_100_years.s13.v1",
+    "renderer": "threejs",
+    "style": "imax_cosmos",
+    "fps": 30,
+    "duration": 4,
+    "camera": {
+      "preset": "keys",
+      "keys": [
+        {
+          "t": 0,
+          "pos": [
+            0,
+            0,
+            0
+          ],
+          "look": [
+            -0.05,
+            0.16,
+            -1
+          ],
+          "fov": 40,
+          "roll": 0
+        },
+        {
+          "t": 4,
+          "pos": [
+            0,
+            0,
+            0
+          ],
+          "look": [
+            -0.04,
+            0.15,
+            -1
+          ],
+          "fov": 36,
+          "roll": 0
+        }
+      ]
+    },
+    "post": {
+      "bloom": {
+        "intensity": 0.7,
+        "threshold": 0.85,
+        "radius": 0.5
+      },
+      "tone": "aces",
+      "vignette": 0.55,
+      "grain": 0.012
+    },
+    "assets": [
+      {
+        "id": "cosmos.milkyway.v1",
+        "params": {
+          "centerAzimuth": 0,
+          "centerElevation": 12,
+          "tilt": 28,
+          "seed": "2026-11-03-ai-100-years-sky",
+          "hideAt": 0.2,
+          "hideDuration": 2.0
+        }
+      }
+    ],
+    "version": "1.0.0"
+  }
+}

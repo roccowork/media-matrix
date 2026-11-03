@@ -1,0 +1,95 @@
+{
+  "n": 14,
+  "visual": "星光重新亮起，镜头回到地球夜面，城市灯光安静闪烁，缓缓推近",
+  "onscreen": {
+    "text": "答案，写在今天",
+    "style": "title"
+  },
+  "config": {
+    "id": "story.ai_100_years.s14.v1",
+    "renderer": "threejs",
+    "style": "imax_cosmos",
+    "fps": 30,
+    "duration": 5,
+    "camera": {
+      "preset": "keys",
+      "keys": [
+        {
+          "t": 0,
+          "pos": [
+            1.4,
+            3.0,
+            12.5
+          ],
+          "look": [
+            0,
+            6.6,
+            0
+          ],
+          "fov": 40,
+          "roll": -2
+        },
+        {
+          "t": 5,
+          "pos": [
+            0.6,
+            2.4,
+            10.8
+          ],
+          "look": [
+            0,
+            6.0,
+            0
+          ],
+          "fov": 40,
+          "roll": 0
+        }
+      ]
+    },
+    "post": {
+      "bloom": {
+        "intensity": 0.7,
+        "threshold": 0.85,
+        "radius": 0.5
+      },
+      "tone": "aces",
+      "vignette": 0.55,
+      "grain": 0.012
+    },
+    "assets": [
+      {
+        "id": "cosmos.milkyway.v1",
+        "params": {
+          "centerAzimuth": 0,
+          "centerElevation": 12,
+          "tilt": 28,
+          "seed": "2026-11-03-ai-100-years-sky",
+          "revealAt": 0,
+          "revealDuration": 2.4
+        }
+      },
+      {
+        "id": "cosmos.planet.v1",
+        "params": {
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "radius": 5,
+          "kind": 0,
+          "sunDir": [
+            -1,
+            0.15,
+            -0.9
+          ],
+          "spin": 0.4,
+          "clouds": 0.45,
+          "cityLights": true,
+          "seed": "2026-11-03-ai-100-years-earth"
+        }
+      }
+    ],
+    "version": "1.0.0"
+  }
+}
