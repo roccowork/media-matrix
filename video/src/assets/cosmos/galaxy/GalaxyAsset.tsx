@@ -68,7 +68,7 @@ void main() {
   if (idx < uN1) {
     // 核球：扁球，密度向中心陡增，暖黄白
     // Plummer 分布（中心密度有限，避免成千上万颗星叠在同一个像素上溢出）
-    r = min(0.055 / sqrt(pow(max(rnd() * 0.97, 1e-4), -0.6667) - 1.0), 0.3);
+    r = min(0.085 / sqrt(pow(max(rnd() * 0.97, 1e-4), -0.6667) - 1.0), 0.3);
     th = rnd() * 6.2831853;
     float cz = rnd() * 2.0 - 1.0;
     y = r * cz * 0.55;
@@ -146,8 +146,7 @@ void main() {
   float d2 = dot(c, c);
   float a = mix(exp(-d2 * 28.0) + 0.06 * exp(-d2 * 7.0), exp(-d2 * 9.0) * 0.6, vSoft);
   vec3 cc = vCol * vA * a;
-  if (cc.r != cc.r || cc.g != cc.g || cc.b != cc.b) cc = vec3(0.0, 50.0, 0.0);  // DEBUG
-  gl_FragColor = vec4(clamp(cc, 0.0, 60.0), 1.0);
+  gl_FragColor = vec4(cc, 1.0);
 }`;
 
 // ---------- 尘埃（相乘混合：dst *= 输出色） ----------
@@ -285,7 +284,7 @@ export const GalaxyAsset: React.FC<GalaxyProps> = ({
     const star = new THREE.ShaderMaterial({
       vertexShader: STAR_VERT, fragmentShader: STAR_FRAG, transparent: true, depthWrite: false, depthTest: false,
       blending: THREE.AdditiveBlending,
-      uniforms: {...common, uN1: {value: Math.round(n * 0.16)}, uN2: {value: Math.round(n * 0.84)}, uN3: {value: Math.round(n * 0.98)}},
+      uniforms: {...common, uN1: {value: Math.round(n * 0.1)}, uN2: {value: Math.round(n * 0.84)}, uN3: {value: Math.round(n * 0.98)}},
     });
     const dustGeo = new THREE.BufferGeometry();
     dustGeo.setAttribute('position', new THREE.BufferAttribute(new Float32Array(nDust * 3), 3));
