@@ -82,7 +82,7 @@ void main() {
     r = min(0.04 + -log(1.0 - rnd() * 0.985) / 3.6, 1.15);
     float k = floor(rnd() * uArms);
     bool onArm = rnd() < 0.68 * smoothstep(0.05, 0.2, r);
-    float sig = clamp(0.1 / r, 0.14, 0.8);
+    float sig = clamp(0.16 / r, 0.24, 0.8);
     th = onArm ? armAngle(k, r) + gauss() * sig : rnd() * 6.2831853;
     // 约 1/4 的旋臂星落在「羽状支流」上：从旋臂向外侧斜出去的短条（M51 那种分叉、毛边）
     if (onArm && rnd() < 0.25) {
@@ -134,6 +134,7 @@ void main() {
   // 小于 1.6 像素的星：固定像素大小、按面积压亮度（不闪烁、远看能量守恒）
   if (px < 1.6) { a *= (px * px) / (1.6 * 1.6); px = 1.6; }
   else if (soft < 0.5) a *= 1.6 / px;   // 近处星点亮度只按 1/距离 增长，防止近景星团过曝
+  else a *= min(1.0, 5.0 / px);         // 近处电离氢区变大时压亮度，防止叠成一团白
   px = min(px, soft > 0.5 ? 40.0 : 4.0);
   vCol = col; vA = a * uBright; vSoft = soft;
   gl_PointSize = px;
@@ -161,12 +162,12 @@ void main() {
   float r = 0.1 + 0.85 * pow(rnd(), 0.9);
   float k = floor(rnd() * uArms);
   // 贴着旋臂内侧（同一角度上半径更小的一侧 = 角度偏 +）
-  float th = armAngle(k, r) + clamp(0.05 / r, 0.05, 0.35) + gauss() * clamp(0.03 / r, 0.03, 0.25);
+  float th = armAngle(k, r) + clamp(0.08 / r, 0.08, 0.4) + gauss() * clamp(0.03 / r, 0.03, 0.25);
   float y = gauss() * 0.004;
   vec2 q = vec2(cos(th), sin(th)) * r;
   // 噪声把尘埃带撕成丝状 / 断续
   float n = snoise(vec3(q * 7.0, uSeed * 0.01)) * 0.6 + snoise(vec3(q * 19.0, 3.0 + uSeed * 0.01)) * 0.4;
-  float a = smoothstep(-0.7, 0.5, n) * smoothstep(0.08, 0.2, r) * (1.0 - smoothstep(0.65, 1.0, r));
+  float a = smoothstep(-0.15, 0.7, n) * smoothstep(0.08, 0.2, r) * (1.0 - smoothstep(0.65, 1.0, r));
   th -= uSpinT * omega(r);
   vec3 p = vec3(cos(th) * r, y, sin(th) * r) * uR;
   vec4 mv = modelViewMatrix * vec4(p, 1.0);
@@ -174,7 +175,7 @@ void main() {
   float px = (0.007 + 0.009 * rnd()) * uR * pxScale / max(-mv.z, 0.001);
   if (px < 2.0) { a *= px / 2.0; px = 2.0; }
   px = min(px, 128.0);
-  vA = a * uDust * 0.32;
+  vA = a * uDust * 0.24;
   gl_PointSize = px;
   gl_Position = projectionMatrix * mv;
 }`;
@@ -203,7 +204,7 @@ void main() {
   if (r > 1.25) discard;
   float th = atan(q.y, q.x) + uSpinT * omega(r);   // 回到 t=0 的坐标系里算旋臂
   vec2 q0 = vec2(cos(th), sin(th)) * r;
-  float sig = clamp(0.1 / max(r, 0.01), 0.14, 0.8);
+  float sig = clamp(0.16 / max(r, 0.01), 0.24, 0.8);
   float arm = 0.0; float dust = 0.0;
   for (int i = 0; i < 6; i++) {
     float k = float(i);
@@ -211,7 +212,7 @@ void main() {
     float a0 = armAngle(k, r);
     float d = wrapPi(th - a0);
     arm += armStrength(k) * exp(-d * d / (2.0 * sig * sig));
-    float dd = wrapPi(th - a0 - clamp(0.05 / max(r, 0.01), 0.05, 0.35));
+    float dd = wrapPi(th - a0 - clamp(0.08 / max(r, 0.01), 0.08, 0.4));
     float ds = clamp(0.03 / max(r, 0.01), 0.03, 0.2);
     dust += exp(-dd * dd / (2.0 * ds * ds));
   }
@@ -226,7 +227,7 @@ void main() {
   float bulge = exp(-pow(r / 0.12, 2.0)) * 0.8 + exp(-r / 0.04) * 0.5;
   e += uCore * bulge;
   float dl = clamp(dust * smoothstep(-0.2, 0.6, n2 * 0.7 + n3 * 0.3 + 0.2), 0.0, 1.0) * smoothstep(0.07, 0.18, r) * (1.0 - smoothstep(0.6, 1.05, r));
-  e *= 1.0 - 0.8 * dl;
+  e *= 1.0 - 0.6 * dl;
   gl_FragColor = vec4(e * uBright * 0.55, 1.0);
 }`;
 
