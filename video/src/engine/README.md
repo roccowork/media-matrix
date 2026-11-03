@@ -63,6 +63,7 @@ postprocessing 6.38.0 · @react-three/postprocessing 3.0.4 · react 19.2.0 · aj
 | cosmos.planet.v1 | 程序化（Shader） | Asset-Planet | 自研 |
 | cosmos.star.v1 | 程序化（Shader） | Asset-Star | 自研 |
 | cosmos.galaxy.v1 | 程序化（GPU 粒子 + Shader） | Asset-Galaxy | 自研 |
+| cosmos.milkyway.v1 | 程序化（天穹 Shader，全片固定背景） | Asset-MilkyWay | 自研 |
 | biology.neuron.v1 / axon.v1 / neural_web.v1 | 程序化 | Shot-Neural | 自研 |
 | biology.dna.v1 | 程序化（Instanced + Shader） | Asset-DNA | 自研 |
 | biology.virus.v1 | 程序化（位移包膜 + Instanced 刺突） | Asset-Virus | 自研 |

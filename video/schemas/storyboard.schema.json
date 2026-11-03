@@ -141,6 +141,13 @@
                 "type": "string",
                 "maxLength": 8,
                 "description": "角标，如「设想」（推测性画面必须标）"
+              },
+              "style": {
+                "enum": [
+                  "caption",
+                  "title"
+                ],
+                "description": "caption = 左下角字卡（默认）；title = 居中大字（开场 / 点题句）"
               }
             }
           }

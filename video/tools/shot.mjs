@@ -4,6 +4,7 @@
 //   node tools/shot.mjs catalog [输出.json]                                    导出资产目录（给 AI 分镜用）
 //   node tools/shot.mjs storyboard-preview storyboards/<id>/storyboard.json   镜头预览：每镜中间一帧 + 总览图 preview/preview.jpg
 //   node tools/shot.mjs storyboard-shot storyboards/<id>/storyboard.json 5 [帧号,帧号]   单镜头重渲染（只渲第 5 镜）
+//   node tools/shot.mjs sbshot storyboards/<id>/shots/01.json [帧号,帧号]     单镜文件截图（分镜还没凑齐时逐镜做）
 //   node tools/shot.mjs keyframes Shot-BlackHole 0,200,330,440 [输出目录] [--gl=angle]
 //   node tools/shot.mjs determinism Shot-BlackHole 330 [--gl=angle]   同一帧渲染两次，逐像素比对
 // 云端会话没有显卡：--gl=swangle（默认）；在有显卡的笔记本上用 --gl=angle，快很多。
@@ -208,4 +209,12 @@ else if (cmd === 'determinism') {
   const last = Math.round(s.config.duration * sb.fps) - 1;
   const frames = a3 ? a3.split(',').map(Number) : [0, Math.floor(last / 2), last];
   await renderFrames('SB-Shot', frames, path.join(path.dirname(a1), 'preview'), {config: s.config, n: s.n, narration: s.narration, note: s.note, onscreen: s.onscreen, visual: s.visual, annotate: false}, `shot${String(s.n).padStart(2, '0')}`);
+} else if (cmd === 'sbshot') {
+  // 单镜文件（分镜还没凑齐时逐镜做、逐镜给用户截图）：{n, visual, onscreen?, note?, config}
+  const s = JSON.parse(fs.readFileSync(a1, 'utf8'));
+  const errs = validateShot(s.config, loadRegistry(), '/config', s.note ?? '');
+  if (errs.length) { console.log('✗ ' + errs.join('\n  ')); process.exit(1); }
+  const last = Math.round(s.config.duration * s.config.fps) - 1;
+  const frames = a2 ? a2.split(',').map(Number) : [Math.floor(last / 2)];
+  await renderFrames('SB-Shot', frames, a3 ?? path.join(path.dirname(a1), 'preview'), {config: s.config, n: s.n, onscreen: s.onscreen, visual: s.visual, note: s.note, annotate: false}, path.basename(a1, '.json'));
 } else console.log('用法见文件开头注释');

@@ -1,0 +1,74 @@
+{
+  "n": 1,
+  "visual": "黑场，星光一颗颗亮起，银河横贯画面，镜头缓慢转向银心并推近",
+  "onscreen": {
+    "text": "一百年后",
+    "style": "title"
+  },
+  "config": {
+    "id": "cosmos.milkyway.v1",
+    "renderer": "threejs",
+    "style": "imax_cosmos",
+    "fps": 30,
+    "duration": 4,
+    "camera": {
+      "preset": "keys",
+      "keys": [
+        {
+          "t": 0,
+          "pos": [
+            0,
+            0,
+            0
+          ],
+          "look": [
+            -0.2,
+            0.12,
+            -1
+          ],
+          "fov": 58,
+          "roll": -6
+        },
+        {
+          "t": 4,
+          "pos": [
+            0,
+            0,
+            0
+          ],
+          "look": [
+            -0.05,
+            0.16,
+            -1
+          ],
+          "fov": 50,
+          "roll": -3
+        }
+      ]
+    },
+    "post": {
+      "bloom": {
+        "intensity": 0.6,
+        "threshold": 0.85,
+        "radius": 0.45
+      },
+      "tone": "aces",
+      "vignette": 0.55,
+      "grain": 0.012
+    },
+    "assets": [
+      {
+        "id": "cosmos.milkyway.v1",
+        "params": {
+          "centerAzimuth": 0,
+          "centerElevation": 12,
+          "tilt": 28,
+          "revealAt": 0,
+          "revealDuration": 2.6,
+          "seed": "2026-11-03-ai-100-years-sky"
+        }
+      }
+    ],
+    "version": "1.0.0"
+  }
+}

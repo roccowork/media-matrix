@@ -1,0 +1,20 @@
+{
+  "id": "cosmos.milkyway.v1",
+  "renderer": "threejs",
+  "style": "imax_cosmos",
+  "fps": 30,
+  "duration": 10,
+  "camera": {
+    "preset": "keys",
+    "keys": [
+      {"t": 0, "pos": [0, 0, 0], "look": [-0.25, 0.12, -1], "fov": 62, "roll": -6},
+      {"t": 5, "pos": [0, 0, 0], "look": [-0.1, 0.16, -1], "fov": 54, "roll": -3},
+      {"t": 10, "pos": [0, 0, 0], "look": [0.05, 0.2, -1], "fov": 46, "roll": 0}
+    ]
+  },
+  "post": {"bloom": {"intensity": 0.6, "threshold": 0.85, "radius": 0.45}, "tone": "aces", "vignette": 0.5, "grain": 0.012},
+  "assets": [
+    {"id": "cosmos.milkyway.v1", "params": {"centerAzimuth": 0, "centerElevation": 12, "tilt": 28, "revealAt": 0.3, "revealDuration": 3.5, "seed": "milkyway-demo"}}
+  ],
+  "version": "1.0.0"
+}

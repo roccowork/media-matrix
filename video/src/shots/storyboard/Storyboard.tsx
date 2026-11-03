@@ -12,7 +12,7 @@ import {getAsset} from '../../engine/assets/registry';
 import type {ShotConfig} from '../../engine/shot';
 import {FONT} from '../../science/kit';
 
-export type OnScreen = {year?: string; text?: string; tag?: string};
+export type OnScreen = {year?: string; text?: string; tag?: string; style?: 'caption' | 'title'};
 export type SBShot = {n: number; narration?: string; visual: string; note?: string; onscreen?: OnScreen; config: ShotConfig};
 export type StoryboardData = {id: string; topic: string; title: string; fps: number; shots: SBShot[]};
 
@@ -41,10 +41,21 @@ const TextCard: React.FC<{card: OnScreen; duration: number}> = ({card, duration}
   const st = (p: number): React.CSSProperties => ({opacity: p * out, filter: `blur(${(1 - p) * 12}px)`, transform: `translateY(${(1 - p) * 18}px)`});
   return (
     <AbsoluteFill style={{fontFamily: FONT, color: '#fff', pointerEvents: 'none'}}>
-      <AbsoluteFill style={{justifyContent: 'flex-end', padding: '0 120px 120px', textShadow: '0 2px 24px rgba(0,0,0,0.6)'}}>
-        {card.year && <div style={{...st(inP(0.2 * fps)), fontSize: 148, fontWeight: 200, letterSpacing: '0.12em', lineHeight: 1}}>{card.year}</div>}
-        {card.text && <div style={{...st(inP(0.55 * fps)), fontSize: 60, fontWeight: 400, letterSpacing: '0.08em', marginTop: 18}}>{card.text}</div>}
-      </AbsoluteFill>
+      {card.style === 'title' ? (
+        // 标题：居中大字、字距拉宽，慢慢收紧（开场 / 点题句）
+        <AbsoluteFill style={{justifyContent: 'center', alignItems: 'center', textShadow: '0 2px 40px rgba(0,0,0,0.7)'}}>
+          {card.year && <div style={{...st(inP(0.2 * fps)), fontSize: 150, fontWeight: 200, letterSpacing: '0.2em', lineHeight: 1, marginBottom: 24}}>{card.year}</div>}
+          {card.text && (
+            <div style={{...st(inP(0.5 * fps)), fontSize: 120, fontWeight: 300, paddingLeft: '0.4em',
+              letterSpacing: `${0.4 - 0.12 * interpolate(frame, [0, end], [0, 1])}em`}}>{card.text}</div>
+          )}
+        </AbsoluteFill>
+      ) : (
+        <AbsoluteFill style={{justifyContent: 'flex-end', padding: '0 120px 120px', textShadow: '0 2px 24px rgba(0,0,0,0.6)'}}>
+          {card.year && <div style={{...st(inP(0.2 * fps)), fontSize: 148, fontWeight: 200, letterSpacing: '0.12em', lineHeight: 1}}>{card.year}</div>}
+          {card.text && <div style={{...st(inP(0.55 * fps)), fontSize: 60, fontWeight: 400, letterSpacing: '0.08em', marginTop: 18}}>{card.text}</div>}
+        </AbsoluteFill>
+      )}
       {card.tag && (
         <div style={{...st(inP(0.4 * fps)), position: 'absolute', top: 64, right: 80, fontSize: 30, letterSpacing: '0.2em', padding: '8px 22px', border: '1.5px solid rgba(255,255,255,0.6)', borderRadius: 40, color: 'rgba(255,255,255,0.85)'}}>
           {card.tag}

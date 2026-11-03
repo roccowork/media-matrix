@@ -8,6 +8,7 @@ import {StardustAsset} from '../../assets/cosmos/stardust/StardustAsset';
 import {NebulaAsset} from '../../assets/cosmos/nebula/NebulaAsset';
 import {PlanetAsset} from '../../assets/cosmos/planet/PlanetAsset';
 import {GalaxyAsset} from '../../assets/cosmos/galaxy/GalaxyAsset';
+import {MilkyWayAsset} from '../../assets/cosmos/milkyway/MilkyWayAsset';
 import {StarAsset} from '../../assets/cosmos/star/StarAsset';
 import {NeuronAsset} from '../../assets/biology/neuron/NeuronAsset';
 import {AxonAsset} from '../../assets/biology/axon/AxonAsset';
@@ -160,6 +161,36 @@ export const ASSETS: AssetMeta[] = [
     license: 'own（自研 Shader）',
     version: '1.0.0',
     notes: '粒子位置全在顶点着色器里按 gl_VertexID + 种子哈希计算，CPU 零开销、同帧确定；背景建议叠 cosmos.nebula.v1（gain 调低）',
+  },
+  {
+    asset_id: 'cosmos.milkyway.v1',
+    asset_name: '银河天穹（全天星空背景：银河带、核球、尘埃大裂缝、电离氢区、三层彩色星点；星光逐颗亮起）',
+    category: 'cosmos',
+    kind: 'procedural',
+    renderer: 'threejs',
+    component: C(MilkyWayAsset),
+    params: {
+      centerAzimuth: {type: 'number', default: 0, min: -360, max: 360, desc: '银心方向（度）：0 = 镜头默认前方（-z），90 = 右'},
+      centerElevation: {type: 'number', default: 10, min: -90, max: 90, desc: '银心仰角（度）'},
+      tilt: {type: 'number', default: 28, min: -90, max: 90, desc: '银河带倾斜（度，绕银心方向转）'},
+      drift: {type: 'number', default: 0.15, min: -10, max: 10, desc: '天穹缓慢转动（度 / 秒）'},
+      brightness: {type: 'number', default: 1, min: 0.1, max: 5, desc: '整体亮度'},
+      stars: {type: 'number', default: 1, min: 0, max: 3, desc: '星星密度倍数'},
+      dust: {type: 'number', default: 1, min: 0, max: 2, desc: '尘埃带浓度（暗裂缝）'},
+      warmColor: {type: 'color', default: '#ffd9a8', desc: '银心颜色（暖）'},
+      coolColor: {type: 'color', default: '#b9c8ff', desc: '外侧颜色（冷）'},
+      revealAt: {type: 'number', default: -1, min: -1, max: 600, desc: '星光开始逐颗亮起的时间（秒）；-1 = 一开始就全亮'},
+      revealDuration: {type: 'number', default: 3, min: 0.1, max: 60, desc: '星光全部亮起要多久（秒；银河带在后半段浮现）'},
+      seed: {type: 'seed', default: 'milkyway', desc: '种子：星点分布、星云纹理、尘埃形状随之变化'},
+    },
+    effects: ['sky_dome', 'galactic_band', 'bulge', 'dust_rift', 'hii_regions', 'colored_stars', 'star_reveal'],
+    camera_presets: ['任意：天穹在无穷远，镜头移动不产生视差，只有转向 / 变焦（fov）可见'],
+    lighting_preset: '自发光；配 bloom（threshold 0.8 左右让亮星有星芒感）',
+    thumbnail: 'assets/thumbs/cosmos.milkyway.v1.jpg',
+    no_dof: true,
+    license: 'own（自研 Shader）',
+    version: '1.0.0',
+    notes: '全片固定背景用：和任何资产叠加（它永远画在最远处、不写深度）；镜头要有「推进」感时用 fov 变小 + 轻微转向',
   },
   {
     asset_id: 'cosmos.stardust.v1',
