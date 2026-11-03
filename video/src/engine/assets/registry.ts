@@ -24,6 +24,7 @@ import {CityNetAsset} from '../../assets/tech/citynet/CityNetAsset';
 import {CityChipAsset} from '../../assets/tech/citychip/CityChipAsset';
 import {ThinkEarthAsset} from '../../assets/tech/thinkearth/ThinkEarthAsset';
 import {SkyRingAsset} from '../../assets/tech/skyring/SkyRingAsset';
+import {MoonCoreAsset} from '../../assets/cosmos/mooncore/MoonCoreAsset';
 import {LightningAsset} from '../../assets/physics/lightning/LightningAsset';
 import {FieldLinesAsset} from '../../assets/physics/fieldlines/FieldLinesAsset';
 import {EnergyFieldAsset} from '../../assets/physics/energyfield/EnergyFieldAsset';
@@ -803,6 +804,33 @@ export const ASSETS: AssetMeta[] = [
     license: 'own（自研 Shader）',
     version: '1.0.0',
     notes: '和 cosmos.planet.v1 叠用（center / radius 对齐）；《一百年后》第 6 镜',
+  },
+  {
+    asset_id: 'cosmos.mooncore.v1',
+    asset_name: '月球心脏（月面裂缝发出金光，壳板向外分开，露出发光脉动的核心）',
+    category: 'cosmos',
+    kind: 'procedural',
+    renderer: 'threejs',
+    component: C(MoonCoreAsset),
+    params: {
+      position: {type: 'vec3', default: [0, 0, 0], desc: '位置'},
+      radius: {type: 'number', default: 2, min: 0.1, max: 500, desc: '半径'},
+      plates: {type: 'number', default: 22, min: 4, max: 48, desc: '壳板块数'},
+      crackAt: {type: 'number', default: 0.6, min: -1, max: 600, desc: '裂缝开始发光（秒）'},
+      openAt: {type: 'number', default: 2.2, min: -1, max: 600, desc: '壳板开始分开（秒）'},
+      openSpeed: {type: 'number', default: 0.22, min: 0, max: 5, desc: '分开速度（半径 / 秒）'},
+      coreColor: {type: 'color', default: '#ffb347', desc: '核心颜色'},
+      crackColor: {type: 'color', default: '#ffcf7a', desc: '裂缝光颜色'},
+      sunDir: {type: 'vec3', default: [-1, 0.2, 0.6], desc: '太阳方向'},
+      brightness: {type: 'number', default: 1, min: 0.1, max: 5, desc: '亮度'},
+      seed: {type: 'seed', default: 'mooncore', desc: '种子：月面、裂缝走向、壳板分开方向'},
+    },
+    effects: ['procedural_moon_surface', 'voronoi_cracks', 'shell_fracture', 'pulsing_core'],
+    camera_presets: ['推近月球'],
+    lighting_preset: '自带太阳方向；核心自发光并照亮周围',
+    license: 'own（自研 Shader）',
+    version: '1.0.0',
+    notes: '《一百年后》第 7 镜',
   },
   {
     asset_id: 'tech.robot.expressive.v1',
