@@ -1,0 +1,21 @@
+{
+  "id": "cosmos.star.v1",
+  "renderer": "threejs",
+  "style": "imax_cosmos",
+  "fps": 30,
+  "duration": 10,
+  "camera": {
+    "preset": "dolly_in",
+    "keys": [
+      {"t": 0, "pos": [4, 2, 40], "look": [0, 0, 0], "fov": 38, "roll": -2},
+      {"t": 6, "pos": [2, 1.2, 22], "look": [0, 0, 0], "fov": 38, "roll": 0},
+      {"t": 10, "pos": [-1, 2.5, 12], "look": [2, 3.2, 0], "fov": 40, "roll": 4}
+    ]
+  },
+  "post": {"bloom": {"intensity": 0.8, "threshold": 1.0, "radius": 0.7}, "tone": "aces", "vignette": 0.55, "grain": 0.015},
+  "assets": [
+    {"id": "cosmos.nebula.v1", "params": {"center": [40, -10, -180], "radius": 80, "gain": 0.45, "stars": 0.6, "steps": 64, "seed": "star-demo-bg"}},
+    {"id": "cosmos.star.v1", "params": {"radius": 5, "prominences": 7, "seed": "star-demo"}}
+  ],
+  "version": "1.0.0"
+}

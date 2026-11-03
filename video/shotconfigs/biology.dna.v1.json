@@ -1,0 +1,41 @@
+{
+  "id": "biology.dna.v1",
+  "renderer": "threejs",
+  "style": "cinematic_science",
+  "fps": 30,
+  "duration": 10,
+  "camera": {
+    "preset": "tracking",
+    "keys": [
+      {"t": 0, "pos": [5.5, 1.6, 8.5], "look": [3.0, 0, 0], "fov": 38, "roll": -4},
+      {"t": 5, "pos": [-2.0, 1.1, 6.8], "look": [-4.2, 0, 0], "fov": 38, "roll": -1},
+      {"t": 10, "pos": [-3.6, 0.7, 4.9], "look": [-2.8, 0.1, 0], "fov": 38, "roll": 2}
+    ]
+  },
+  "post": {
+    "bloom": {"intensity": 0.8, "threshold": 1.0, "radius": 0.6},
+    "dof": {"cInf": 8},
+    "tone": "aces",
+    "vignette": 0.55,
+    "grain": 0.015,
+    "chromatic": 0.0006
+  },
+  "assets": [
+    {
+      "id": "biology.dna.v1",
+      "params": {
+        "position": [0, 0, 0],
+        "length": 48,
+        "radius": 1,
+        "spin": 0.22,
+        "unzipAt": 5,
+        "unzipSpeed": 4,
+        "glow": 1,
+        "flow": true,
+        "dust": 1,
+        "seed": "dna-demo"
+      }
+    }
+  ],
+  "version": "1.0.0"
+}

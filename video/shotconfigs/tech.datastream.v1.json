@@ -1,0 +1,50 @@
+{
+  "id": "tech.datastream.v1",
+  "renderer": "threejs",
+  "style": "cyber_tech",
+  "fps": 30,
+  "duration": 10,
+  "camera": {
+    "preset": "fly_through",
+    "ease": "linear",
+    "keys": [
+      {"t": 0, "pos": [1.69, 0.27, -6], "look": [5.95, 0.25, -22], "fov": 48, "roll": 0},
+      {"t": 1, "pos": [4.68, 0.4, -17], "look": [8.42, 0.55, -33], "fov": 48, "roll": 2.4},
+      {"t": 2, "pos": [7.35, 0.65, -28], "look": [10.33, 0.96, -44], "fov": 56, "roll": 4.4},
+      {"t": 3, "pos": [9.54, 1.01, -39], "look": [11.55, 1.47, -55], "fov": 56, "roll": 5.6},
+      {"t": 4, "pos": [11.09, 1.48, -50], "look": [12, 2.06, -66], "fov": 56, "roll": 6},
+      {"t": 5, "pos": [11.89, 2.03, -61], "look": [11.65, 2.72, -77], "fov": 56, "roll": 5.3},
+      {"t": 6, "pos": [11.91, 2.66, -72], "look": [10.52, 3.41, -88], "fov": 56, "roll": 3.8},
+      {"t": 7, "pos": [11.12, 3.34, -83], "look": [8.68, 4.13, -99], "fov": 56, "roll": 1.7},
+      {"t": 8, "pos": [9.6, 4.05, -94], "look": [6.27, 4.86, -110], "fov": 56, "roll": -0.8},
+      {"t": 9, "pos": [7.43, 4.78, -105], "look": [3.44, 5.56, -121], "fov": 56, "roll": -3.1},
+      {"t": 10, "pos": [4.77, 5.49, -116], "look": [0.38, 6.22, -132], "fov": 56, "roll": -4.9}
+    ]
+  },
+  "post": {
+    "bloom": {"intensity": 1.1, "threshold": 0.9, "radius": 0.6},
+    "tone": "aces",
+    "vignette": 0.55,
+    "grain": 0.018,
+    "chromatic": 0.0012
+  },
+  "assets": [
+    {
+      "id": "tech.datastream.v1",
+      "params": {
+        "position": [0, 0, 0],
+        "length": 200,
+        "fibers": 96,
+        "packets": 2400,
+        "speed": 30,
+        "spread": 3,
+        "colorA": "#22d8ff",
+        "colorB": "#ff3fc8",
+        "curve": 0.6,
+        "glyphs": true,
+        "seed": "datastream-demo"
+      }
+    }
+  ],
+  "version": "1.0.0"
+}

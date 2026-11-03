@@ -32,6 +32,10 @@ import { NeuralActivation, NEURAL_SHOT } from "./shots/neural/NeuralActivation";
 import { AIChip, CHIP_SHOT } from "./shots/chip/AIChip";
 import { Nebula, NEBULA_SHOT } from "./shots/nebula/Nebula";
 import { Planet, PLANET_SHOT } from "./shots/planet/Planet";
+import { DataStream, DATASTREAM_SHOT } from "./shots/datastream/DataStream";
+import { Galaxy, GALAXY_SHOT } from "./shots/galaxy/Galaxy";
+import { Star, STAR_SHOT } from "./shots/star/Star";
+import { Dna, DNA_SHOT } from "./shots/dna/Dna";
 import { ScienceDemo as GrokDemo } from "./grok3d/scenes/ScienceDemo";
 import { AttentionTest as GrokAttention } from "./grok3d/scenes/AttentionTest";
 import { ATTENTION10_DURATION, Attention10s } from "./grok3d/scenes/Attention10s";
@@ -63,6 +67,10 @@ export const RemotionRoot: React.FC = () => (
     </Folder>
     {/* 视频引擎第一阶段：验收镜头 */}
     <Folder name="Shots">
+      <Composition id="Asset-Star" component={Star} durationInFrames={STAR_SHOT.duration * STAR_SHOT.fps} fps={STAR_SHOT.fps} width={1920} height={1080} />
+      <Composition id="Asset-Galaxy" component={Galaxy} durationInFrames={GALAXY_SHOT.duration * GALAXY_SHOT.fps} fps={GALAXY_SHOT.fps} width={1920} height={1080} />
+      <Composition id="Asset-DataStream" component={DataStream} durationInFrames={DATASTREAM_SHOT.duration * DATASTREAM_SHOT.fps} fps={DATASTREAM_SHOT.fps} width={1920} height={1080} />
+      <Composition id="Asset-DNA" component={Dna} durationInFrames={DNA_SHOT.duration * DNA_SHOT.fps} fps={DNA_SHOT.fps} width={1920} height={1080} />
       <Composition id="Asset-Planet" component={Planet} durationInFrames={PLANET_SHOT.duration * PLANET_SHOT.fps} fps={PLANET_SHOT.fps} width={1920} height={1080} />
       <Composition id="Asset-Nebula" component={Nebula} durationInFrames={NEBULA_SHOT.duration * NEBULA_SHOT.fps} fps={NEBULA_SHOT.fps} width={1920} height={1080} />
       <Composition id="Shot-AIChip" component={AIChip} durationInFrames={CHIP_SHOT.duration * CHIP_SHOT.fps} fps={CHIP_SHOT.fps} width={1920} height={1080} />

@@ -7,10 +7,14 @@ import {BlackHoleAsset} from '../../assets/cosmos/blackhole/BlackHoleAsset';
 import {StardustAsset} from '../../assets/cosmos/stardust/StardustAsset';
 import {NebulaAsset} from '../../assets/cosmos/nebula/NebulaAsset';
 import {PlanetAsset} from '../../assets/cosmos/planet/PlanetAsset';
+import {GalaxyAsset} from '../../assets/cosmos/galaxy/GalaxyAsset';
+import {StarAsset} from '../../assets/cosmos/star/StarAsset';
 import {NeuronAsset} from '../../assets/biology/neuron/NeuronAsset';
 import {AxonAsset} from '../../assets/biology/axon/AxonAsset';
 import {NeuralWebAsset} from '../../assets/biology/neural_web/NeuralWebAsset';
+import {DnaAsset} from '../../assets/biology/dna/DnaAsset';
 import {ChipAsset} from '../../assets/tech/chip/ChipAsset';
+import {DataStreamAsset} from '../../assets/tech/datastream/DataStreamAsset';
 
 const C = <P,>(c: React.FC<P>) => c as unknown as React.FC<Record<string, unknown>>;
 
@@ -95,6 +99,56 @@ export const ASSETS: AssetMeta[] = [
     license: 'own（自研 Shader）',
     version: '1.0.0',
     notes: '背景建议叠 cosmos.nebula.v1',
+  },
+  {
+    asset_id: 'cosmos.star.v1',
+    asset_name: '恒星（翻腾等离子体表面、黑子、日冕、日珥）',
+    category: 'cosmos',
+    kind: 'procedural',
+    renderer: 'threejs',
+    component: C(StarAsset),
+    params: {
+      position: {type: 'vec3', default: [0, 0, 0], desc: '位置'},
+      radius: {type: 'number', default: 5, min: 0.1, max: 500, desc: '半径'},
+      color: {type: 'color', default: '#ffa43a', desc: '主色（温度）：橙黄 = 太阳，红 = 红矮星，蓝白 = 高温恒星'},
+      brightness: {type: 'number', default: 1, min: 0.1, max: 5, desc: '亮度'},
+      activity: {type: 'number', default: 1, min: 0, max: 3, desc: '活跃度：湍流、黑子、日珥亮度'},
+      corona: {type: 'number', default: 2.6, min: 1.2, max: 8, desc: '日冕大小（相对半径）'},
+      prominences: {type: 'number', default: 5, min: 0, max: 20, desc: '日珥数量'},
+      seed: {type: 'seed', default: 'star', desc: '种子：表面纹理、黑子、日冕流线、日珥位置随之变化（每个视频用自己的种子）'},
+    },
+    effects: ['plasma_surface', 'granulation', 'sunspots', 'limb_darkening', 'corona', 'prominences'],
+    camera_presets: ['dolly_in（推近表面）', 'orbit'],
+    lighting_preset: '自发光；可作为行星资产的光源方向参考',
+    license: 'own（自研 Shader）',
+    version: '1.0.0',
+  },
+  {
+    asset_id: 'cosmos.galaxy.v1',
+    asset_name: '螺旋星系（GPU 粒子：核球、旋臂、年轻星团、电离氢区、尘埃带）',
+    category: 'cosmos',
+    kind: 'procedural',
+    renderer: 'threejs',
+    component: C(GalaxyAsset),
+    params: {
+      position: {type: 'vec3', default: [0, 0, 0], desc: '星系中心位置'},
+      radius: {type: 'number', default: 10, min: 0.5, max: 1000, desc: '星系半径（盘面外缘）'},
+      arms: {type: 'number', default: 2, min: 1, max: 6, desc: '旋臂条数（取整）'},
+      twist: {type: 'number', default: 2.2, min: 0.5, max: 5, desc: '旋臂缠绕程度：越大绕得越紧（对数螺旋系数）'},
+      count: {type: 'number', default: 300000, min: 20000, max: 1000000, desc: '星点数量（另加 40% 尘埃粒子；越多越细越慢）'},
+      coreColor: {type: 'color', default: '#ffd9a0', desc: '核球颜色（老年星，暖黄白）'},
+      armColor: {type: 'color', default: '#9cc4ff', desc: '旋臂颜色（年轻星，蓝白）'},
+      tilt: {type: 'number', default: 0, min: -90, max: 90, desc: '盘面倾角（度，绕 X 轴）：0 = 盘面水平'},
+      spin: {type: 'number', default: 0.4, min: 0, max: 10, desc: '转速（圈 / 分钟，半径一半处；内圈更快 = 差速旋转）'},
+      brightness: {type: 'number', default: 1, min: 0.1, max: 5, desc: '整体亮度'},
+      seed: {type: 'seed', default: 'galaxy', desc: '种子：旋臂朝向和摆动、星团 / 电离氢区位置、尘埃带纹理随之变化（每个视频用自己的种子）'},
+    },
+    effects: ['spiral_arms', 'differential_rotation', 'galactic_bulge', 'star_clusters', 'hii_regions', 'dust_lanes', 'core_glow'],
+    camera_presets: ['dolly_in（远处斜俯看推近）', 'orbit（环绕）', 'fly_through（掠过盘面）'],
+    lighting_preset: '自发光（无需灯光）',
+    license: 'own（自研 Shader）',
+    version: '1.0.0',
+    notes: '粒子位置全在顶点着色器里按 gl_VertexID + 种子哈希计算，CPU 零开销、同帧确定；背景建议叠 cosmos.nebula.v1（gain 调低）',
   },
   {
     asset_id: 'cosmos.stardust.v1',
@@ -186,6 +240,38 @@ export const ASSETS: AssetMeta[] = [
     notes: '粒子位置全部在顶点着色器里按时间计算（GPU 粒子），CPU 零开销',
   },
   {
+    asset_id: 'biology.dna.v1',
+    asset_name: 'DNA 双螺旋（半透明发光骨架 + 彩色碱基对，可解旋）',
+    category: 'biology',
+    kind: 'procedural',
+    renderer: 'threejs',
+    component: C(DnaAsset),
+    params: {
+      position: {type: 'vec3', default: [0, 0, 0], desc: '位置（螺旋中心；螺旋轴沿 x）'},
+      length: {type: 'number', default: 40, min: 4, max: 200, desc: '碱基对数量（长度 = 数量 × 0.34 × 半径）'},
+      radius: {type: 'number', default: 1, min: 0.1, max: 20, desc: '螺旋半径（整体尺寸随之缩放）'},
+      twist: {type: 'number', default: 34.3, min: 10, max: 60, desc: '每个碱基对转过的角度（度；B 型 DNA ≈ 34.3，约 10.5 对一圈）'},
+      spin: {type: 'number', default: 0.25, min: -3, max: 3, desc: '绕轴自旋角速度（弧度 / 秒，负数反转）'},
+      backbone: {type: 'color', default: '#4f9dff', desc: '糖-磷酸骨架颜色（边缘光、流动粒子随之变化）'},
+      baseA: {type: 'color', default: '#ff4f6a', desc: '腺嘌呤 A 的颜色（与 T 配对）'},
+      baseT: {type: 'color', default: '#ffc23d', desc: '胸腺嘧啶 T 的颜色（与 A 配对）'},
+      baseG: {type: 'color', default: '#27e3a0', desc: '鸟嘌呤 G 的颜色（与 C 配对）'},
+      baseC: {type: 'color', default: '#4a6bff', desc: '胞嘧啶 C 的颜色（与 G 配对）'},
+      glow: {type: 'number', default: 1, min: 0, max: 3, desc: '发光强度倍数（边缘光、自发光、粒子）'},
+      unzipAt: {type: 'number', default: -1, min: -1, max: 600, desc: '解旋开始时刻（秒；从左端 i=0 开始双链分开，-1 不解旋）'},
+      unzipSpeed: {type: 'number', default: 4, min: 0.5, max: 40, desc: '解旋速度（每秒解开的碱基对数）'},
+      flow: {type: 'boolean', default: true, desc: '沿两条链流动的发光粒子'},
+      dust: {type: 'number', default: 1, min: 0, max: 3, desc: '周围漂浮微尘的密度倍数（增加纵深，0 关闭）'},
+      seed: {type: 'seed', default: 'dna', desc: '种子：碱基序列、粒子分布随之变化（同一种子画面永远不变；每个视频用自己的种子，如视频编号）'},
+    },
+    effects: ['fresnel_membrane', 'subsurface_tint', 'instanced_atoms', 'unzip_replication', 'flow_particles', 'floating_dust'],
+    camera_presets: ['tracking（沿侧面滑过 + 推近）', 'orbit（绕螺旋轴环绕）', 'macro_push（推到分叉点特写）'],
+    lighting_preset: '着色器内置主光 + 菲涅尔边缘光（无需灯光）；配深色背景 + bloom + post.dof',
+    license: 'own',
+    version: '1.0.0',
+    notes: '尺寸：半径 radius，螺距 ≈ 3.5 × radius，螺旋轴沿 x、中心在 position；全部几何在顶点着色器里计算（frustumCulled 关闭）',
+  },
+  {
     asset_id: 'tech.chip.v1',
     asset_name: 'AI 芯片（电路板 + 封装 + 硅晶片 + 金线 + 数据脉冲）',
     category: 'tech',
@@ -205,6 +291,33 @@ export const ASSETS: AssetMeta[] = [
     license: 'own',
     version: '1.0.0',
     notes: '尺寸：封装 4×4，晶片 2.4×2.4（中心原点，晶片表面 y≈0.31）；电路版图随 seed 变化',
+  },
+  {
+    asset_id: 'tech.datastream.v1',
+    asset_name: '数据高速公路（光纤束 + 高速数据包 + 闪电式数据交换 + 网格 + 0/1 字符）',
+    category: 'tech',
+    kind: 'procedural',
+    renderer: 'threejs',
+    component: C(DataStreamAsset),
+    params: {
+      position: {type: 'vec3', default: [0, 0, 0], desc: '光纤束起点（束沿 -z 方向延伸）'},
+      length: {type: 'number', default: 200, min: 20, max: 1000, desc: '光纤束长度'},
+      fibers: {type: 'number', default: 96, min: 12, max: 400, desc: '光纤条数'},
+      packets: {type: 'number', default: 2400, min: 0, max: 20000, desc: '数据包数量（发光短条 + 方块）'},
+      speed: {type: 'number', default: 30, min: 0, max: 200, desc: '数据包流速（单位/秒，拖尾长度随之变化）'},
+      spread: {type: 'number', default: 3, min: 0.5, max: 30, desc: '光纤束粗细（截面半径）'},
+      colorA: {type: 'color', default: '#22d8ff', desc: '主色（光纤 / 数据光条 / 网格）'},
+      colorB: {type: 'color', default: '#ff3fc8', desc: '副色（部分子束 / 数据方块）'},
+      curve: {type: 'number', default: 0.6, min: 0, max: 2, desc: '光纤束整体弯曲程度（0 为直线）'},
+      glyphs: {type: 'boolean', default: true, desc: '显示漂浮的 0/1 字符粒子和尘埃'},
+      seed: {type: 'seed', default: 'datastream', desc: '种子：子束分布、扭转、数据包和闪电的出现位置随之变化（同一种子画面永远不变；每个视频用自己的种子，如视频编号）'},
+    },
+    effects: ['gpu_particles', 'fiber_bundle', 'packet_trails', 'lightning_exchange', 'floor_grid', 'binary_glyphs'],
+    camera_presets: ['fly_through（沿中心线在束内部穿行）', 'tracking（束外侧平行跟拍）'],
+    lighting_preset: '自发光（无需灯光）；配 bloom + ACES',
+    license: 'own',
+    version: '1.0.0',
+    notes: '中心线 spine(s) = position + [curve·L·0.10·sin(4.712s), curve·L·0.035·(1−cos πs), −s·L]（导出 dataStreamSpine 可算镜头路线）；束中间留空心通道（半径约 0.3·spread）；全部位置在着色器里按时间计算（确定性）',
   },
   {
     asset_id: 'tech.robot.expressive.v1',
