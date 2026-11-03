@@ -40,6 +40,7 @@ import { Dna, DNA_SHOT } from "./shots/dna/Dna";
 import { Hud, HUD_SHOT } from "./shots/hud/Hud";
 import { Virus, VIRUS_SHOT } from "./shots/virus/Virus";
 import { Cell, CELL_SHOT } from "./shots/cell/Cell";
+import { Eye, EYE_SHOT } from "./shots/eye/Eye";
 import { BloodFlow, BLOODFLOW_SHOT } from "./shots/bloodflow/BloodFlow";
 import { Lightning, LIGHTNING_SHOT } from "./shots/lightning/Lightning";
 import { FieldLines, FIELDLINES_SHOT } from "./shots/fieldlines/FieldLines";
@@ -88,6 +89,7 @@ export const RemotionRoot: React.FC = () => (
       <Composition id="Asset-HUD" component={Hud} durationInFrames={HUD_SHOT.duration * HUD_SHOT.fps} fps={HUD_SHOT.fps} width={1920} height={1080} />
       <Composition id="Asset-Virus" component={Virus} durationInFrames={VIRUS_SHOT.duration * VIRUS_SHOT.fps} fps={VIRUS_SHOT.fps} width={1920} height={1080} />
       <Composition id="Asset-Cell" component={Cell} durationInFrames={CELL_SHOT.duration * CELL_SHOT.fps} fps={CELL_SHOT.fps} width={1920} height={1080} />
+      <Composition id="Asset-Eye" component={Eye} durationInFrames={EYE_SHOT.duration * EYE_SHOT.fps} fps={EYE_SHOT.fps} width={1920} height={1080} />
       <Composition id="Asset-BloodFlow" component={BloodFlow} durationInFrames={BLOODFLOW_SHOT.duration * BLOODFLOW_SHOT.fps} fps={BLOODFLOW_SHOT.fps} width={1920} height={1080} />
       <Composition id="Asset-Lightning" component={Lightning} durationInFrames={LIGHTNING_SHOT.duration * LIGHTNING_SHOT.fps} fps={LIGHTNING_SHOT.fps} width={1920} height={1080} />
       <Composition id="Asset-FieldLines" component={FieldLines} durationInFrames={FIELDLINES_SHOT.duration * FIELDLINES_SHOT.fps} fps={FIELDLINES_SHOT.fps} width={1920} height={1080} />

@@ -17,6 +17,7 @@ import {DnaAsset} from '../../assets/biology/dna/DnaAsset';
 import {VirusAsset} from '../../assets/biology/virus/VirusAsset';
 import {CellAsset} from '../../assets/biology/cell/CellAsset';
 import {BloodFlowAsset} from '../../assets/biology/bloodflow/BloodFlowAsset';
+import {EyeAsset} from '../../assets/biology/eye/EyeAsset';
 import {ChipAsset} from '../../assets/tech/chip/ChipAsset';
 import {DataStreamAsset} from '../../assets/tech/datastream/DataStreamAsset';
 import {HudAsset} from '../../assets/tech/hud/HudAsset';
@@ -482,6 +483,38 @@ export const ASSETS: AssetMeta[] = [
     license: 'own（自研 Shader）',
     version: '1.0.0',
     notes: '细胞膜半透明不写深度，景深焦点按里面的细胞器算；细胞器是不透明 InstancedMesh；体液环境 BioMedium 与病毒资产共用',
+  },
+  {
+    asset_id: 'biology.eye.v1',
+    asset_name: '人眼球剖面（巩膜、脉络膜、视网膜眼底与血管、角膜、虹膜、晶状体、睫状体、视神经；可切开、可显示光线聚焦）',
+    category: 'biology',
+    kind: 'procedural',
+    renderer: 'threejs',
+    component: C(EyeAsset),
+    params: {
+      position: {type: 'vec3', default: [0, 0, 0], desc: '眼球中心位置'},
+      scale: {type: 'number', default: 1, min: 0.01, max: 1000, desc: '缩放；1 = 真实尺寸（单位毫米，眼轴约 24.4）'},
+      yaw: {type: 'number', default: 0, min: -90, max: 90, desc: '视线左右转（度）'},
+      pitch: {type: 'number', default: 0, min: -60, max: 60, desc: '视线上下转（度）'},
+      cutNormal: {type: 'vec3', default: [0, 1, 0], desc: '切面法线（被切掉的一侧）；[0,1,0] = 切掉上半，露出经过视神经的水平切面'},
+      cutAt: {type: 'number', default: -1, min: -1, max: 600, desc: '开始切开的时刻（秒），-1 = 不切'},
+      cutDuration: {type: 'number', default: 3, min: 0.1, max: 30, desc: '切开用时（秒）'},
+      cutDepth: {type: 'number', default: 0, min: -11, max: 11, desc: '最终切到离球心多远（毫米），0 = 正中'},
+      pupil: {type: 'number', default: 2, min: 0.8, max: 4.5, desc: '瞳孔半径（毫米，正常 1–4）'},
+      irisColor: {type: 'color', default: '#6b4a2e', desc: '虹膜颜色'},
+      rays: {type: 'number', default: 0, min: 0, max: 15, desc: '光线条数（取整），0 = 不显示；光线画在水平切面上方 0.25 毫米'},
+      raysAt: {type: 'number', default: 0, min: 0, max: 600, desc: '光线开始射入的时刻（秒），约 2.2 秒到达视网膜'},
+      rayColor: {type: 'color', default: '#fff2c8', desc: '光线颜色'},
+      seed: {type: 'seed', default: 'eye', desc: '种子：视网膜血管分支、巩膜血管、虹膜纹理随之变化'},
+    },
+    effects: ['cutaway_section', 'analytic_cross_section', 'retina_fundus', 'retinal_vessels', 'iris_fibers', 'glass_cornea_lens', 'light_ray_refraction'],
+    camera_presets: ['orbit（绕眼球转到切面上方）', 'dolly_in（推进眼球内部看眼底）'],
+    lighting_preset: '着色器内置主光（左上前）+ 冷色补光 + 湿润高光（无需灯光）',
+    thumbnail: 'assets/thumbs/biology.eye.v1.jpg',
+    license: 'own（自研 Shader；解剖尺寸按 Gullstrand 模型眼与教科书数值）',
+    version: '1.0.0',
+    real_range: {scale: [1, 1]},
+    notes: '单位毫米、右眼：角膜朝 +z、鼻侧 +x、上方 +y；视神经在后极偏鼻侧 15°；切面上的各层颜色由剖面盖板解析计算；角膜、晶状体半透明不写深度',
   },
   {
     asset_id: 'biology.virus.v1',

@@ -1,0 +1,28 @@
+{
+  "id": "biology.eye.v1",
+  "renderer": "threejs",
+  "style": "cinematic_science",
+  "fps": 30,
+  "duration": 10,
+  "camera": {
+    "preset": "orbit",
+    "keys": [
+      {"t": 0, "pos": [-26, 9, 52], "look": [0, 0, 0], "fov": 34, "roll": -2},
+      {"t": 4, "pos": [-24, 34, 34], "look": [0, 0, 0], "fov": 34, "roll": -1},
+      {"t": 10, "pos": [-6, 50, 16], "look": [0, 0, -1], "fov": 34, "roll": 0}
+    ]
+  },
+  "post": {
+    "bloom": {"intensity": 0.6, "threshold": 0.9, "radius": 0.5},
+    "tone": "aces",
+    "vignette": 0.55,
+    "grain": 0.012
+  },
+  "assets": [
+    {
+      "id": "biology.eye.v1",
+      "params": {"position": [0, 0, 0], "scale": 1, "yaw": 0, "pitch": 0, "cutNormal": [0, 1, 0], "cutAt": 1.5, "cutDuration": 3, "cutDepth": 0, "pupil": 2, "irisColor": "#6b4a2e", "rays": 7, "raysAt": 5.5, "seed": "eye-demo"}
+    }
+  ],
+  "version": "1.0.0"
+}
