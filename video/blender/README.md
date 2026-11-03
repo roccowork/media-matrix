@@ -21,6 +21,7 @@ Remotion 合成 Blender-Heart（src/shots/heart/BlenderHeart.tsx）← 逐帧显
 | `extract_heart.py` | 从 Z-Anatomy 的心血管 FBX 提取心脏 + 大血管 → `public/assets/models/anatomy/heart.glb`（只需跑一次） |
 | `heart_scene.py` | 心脏场景：读 ShotConfig，渲染 PNG 序列；`--determinism 帧号` 做确定性检查 |
 | `extract_skeleton.py` / `skeleton_scene.py` | 全身骨架：提取（减面、真实尺寸、原点在脚底，写 body_frame.json）/ 场景（骨头、牙齿、肋软骨三种材质） |
+| `extract_vessels.py` / `vessels_scene.py` | 全身血管网：提取（分类动脉 / 静脉 / 肺血管 / 心脏、与骨架同原点）/ 场景（红蓝配色、心跳血流脉冲、半透明参照骨架） |
 | `render.ps1` / `render.sh` | 笔记本一键渲染（Windows / Mac·Linux）：`render.sh <heart|skeleton|vessels> [preview]`，校验 → Blender 渲染 → Remotion 合成 |
 
 ## 在笔记本上渲染（需要用户同意后才出片）
