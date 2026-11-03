@@ -101,7 +101,11 @@ void main() {
   float minW = 1.4 / uViewH;
   float hwH = wH * projectionMatrix[1][1] / cH.w, hwT = wT * projectionMatrix[1][1] / cT.w;
   float fade = clamp(max(hwH, hwT) / minW, 0.0, 1.0);
-  hwH = max(hwH, minW); hwT = max(hwT, minW * 0.5);
+  hwH = clamp(hwH, minW, 7.0 / uViewH); hwT = clamp(hwT, minW * 0.5, 4.0 / uViewH);
+  // 贴脸的种子淡出（不糊屏）；正对镜头、在屏幕上缩成一团的光尾按比例降亮度（不堆成白斑）
+  float nearFade = smoothstep(0.4, 2.5, -mvH.z);
+  float endOn = clamp(L * uViewH / 30.0, 0.25, 1.0);
+  fade *= nearFade * (iF.x < 0.5 ? endOn : 1.0);
   vec4 c = mix(cH, cT, aQ.x);
   float hw = mix(hwH, hwT, aQ.x);
   c.xy += perp * aQ.y * hw / vec2(aspect, 1.0) * c.w;
@@ -132,8 +136,8 @@ void main() {
   vec4 mv = modelViewMatrix * vec4(p, 1.0);
   if (mv.z > -0.05) { gl_Position = vec4(2.0, 2.0, 2.0, 1.0); gl_PointSize = 0.0; vA = 0.0; return; }
   float px = uSize * 3.0 * projectionMatrix[1][1] / -mv.z * uViewH * 0.5;
-  float fade = clamp(px / 2.5, 0.0, 1.0);
-  gl_PointSize = clamp(px, 2.5, 90.0);
+  float fade = clamp(px / 2.5, 0.0, 1.0) * smoothstep(0.4, 2.5, -mv.z);
+  gl_PointSize = clamp(px, 2.5, 36.0);
   // 还在球面上的种子暗一些（蒲公英的绒球），起飞时一闪
   float flash = dt > 0.0 ? 1.0 + 1.5 * exp(-dt * 4.0) : 0.35;
   vA = (0.6 + 0.8 * iR.z) * flash * fade;
@@ -177,8 +181,8 @@ void main() {
   float seam = smoothstep(0.09, 0.0, d2 - d1);
   float flick = 0.55 + 0.45 * sin(uTime * (1.0 + id.x * 2.0) + id.y * 6.2831853);
   float fres = pow(1.0 - max(dot(normalize(vN), vV), 0.0), 2.2);
-  vec3 panel = uCol * (0.10 + 0.22 * id.z * flick);
-  vec3 c = panel + uCol * seam * 1.3 + mix(uCol, vec3(1.0, 0.95, 0.85), 0.5) * fres * 1.4;
+  vec3 panel = uCol * (0.06 + 0.16 * id.z * flick);
+  vec3 c = panel + uCol * seam * 0.9 + mix(uCol, vec3(1.0, 0.95, 0.85), 0.4) * fres * 1.1;
   gl_FragColor = vec4(c * uOn, 1.0);
 }`;
 // 光晕：朝向镜头的平面

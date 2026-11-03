@@ -1,0 +1,117 @@
+{
+  "n": 10,
+  "visual": "远处被包裹、发着光的太阳系（戴森球）表面，成千上万颗带光尾的光种子像吹散的蒲公英一样飞向四面八方；镜头跟着一簇种子向前飞，种子从身边掠过，飞向银河里的群星",
+  "onscreen": {
+    "text": "它把自己，撒向群星",
+    "tag": "设想"
+  },
+  "config": {
+    "id": "cosmos.seedburst.v1",
+    "renderer": "threejs",
+    "style": "imax_cosmos",
+    "fps": 30,
+    "duration": 5,
+    "camera": {
+      "preset": "keys",
+      "keys": [
+        {
+          "t": 0,
+          "pos": [
+            15,
+            4,
+            16
+          ],
+          "look": [
+            0,
+            0,
+            0
+          ],
+          "fov": 38,
+          "roll": 3
+        },
+        {
+          "t": 2.0,
+          "pos": [
+            10,
+            2.8,
+            -5
+          ],
+          "look": [
+            -2,
+            0,
+            -34
+          ],
+          "fov": 46,
+          "roll": -2
+        },
+        {
+          "t": 5,
+          "pos": [
+            3,
+            1,
+            -34
+          ],
+          "look": [
+            0,
+            0,
+            -90
+          ],
+          "fov": 50,
+          "roll": -5
+        }
+      ]
+    },
+    "post": {
+      "bloom": {
+        "intensity": 0.8,
+        "threshold": 0.8,
+        "radius": 0.55
+      },
+      "tone": "aces",
+      "vignette": 0.55,
+      "grain": 0.012
+    },
+    "assets": [
+      {
+        "id": "cosmos.milkyway.v1",
+        "params": {
+          "centerAzimuth": 0,
+          "centerElevation": 12,
+          "tilt": 28,
+          "seed": "2026-11-03-ai-100-years-sky"
+        }
+      },
+      {
+        "id": "cosmos.seedburst.v1",
+        "params": {
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "radius": 3,
+          "count": 20000,
+          "cluster": 0.2,
+          "clusterDir": [
+            0.12,
+            0.06,
+            -1
+          ],
+          "clusterSpread": 20,
+          "speed": 10,
+          "burst": 1.4,
+          "tail": 0.35,
+          "size": 0.05,
+          "fluff": 0.18,
+          "fluffLength": 0.35,
+          "emitAt": 0.3,
+          "emitDuration": 2.6,
+          "seed": "2026-11-03-ai-100-years-s10",
+          "brightness": 0.75,
+          "core": 0.8
+        }
+      }
+    ],
+    "version": "1.0.0"
+  }
+}

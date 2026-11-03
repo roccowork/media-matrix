@@ -27,6 +27,7 @@ import {SkyRingAsset} from '../../assets/tech/skyring/SkyRingAsset';
 import {MoonCoreAsset} from '../../assets/cosmos/mooncore/MoonCoreAsset';
 import {GalaxyNetAsset} from '../../assets/cosmos/galaxynet/GalaxyNetAsset';
 import {SeedBurstAsset} from '../../assets/cosmos/seedburst/SeedBurstAsset';
+import {DysonSwarmAsset} from '../../assets/cosmos/dysonswarm/DysonSwarmAsset';
 import {LightningAsset} from '../../assets/physics/lightning/LightningAsset';
 import {FieldLinesAsset} from '../../assets/physics/fieldlines/FieldLinesAsset';
 import {EnergyFieldAsset} from '../../assets/physics/energyfield/EnergyFieldAsset';
@@ -914,6 +915,46 @@ export const ASSETS: AssetMeta[] = [
     license: 'own（自研 Shader）',
     version: '1.0.0',
     notes: '和 cosmos.galaxy.v1 叠用（position / radius / tilt / arms / twist / galaxySeed 对齐）；建议星系 spin 设 0，跨镜衔接不跳；《一百年后》第 11 镜',
+  },
+  {
+    asset_id: 'cosmos.dysonswarm.v1',
+    asset_name: '戴森云（几万块采光板沿几十条倾斜轨道依次展开、合拢，包住恒星；可选球面脑电波光纹 + 外圈轨道光环连行星）',
+    category: 'cosmos',
+    kind: 'procedural',
+    renderer: 'threejs',
+    component: C(DysonSwarmAsset),
+    params: {
+      position: {type: 'vec3', default: [0, 0, 0], desc: '恒星中心（和 cosmos.star.v1 的 position 对齐）'},
+      radius: {type: 'number', default: 5, min: 0.1, max: 500, desc: '恒星半径（和 cosmos.star.v1 的 radius 对齐）'},
+      shellRadius: {type: 'number', default: 1.5, min: 1.05, max: 5, desc: '采光板球壳半径（相对恒星半径）'},
+      count: {type: 'number', default: 80000, min: 1000, max: 300000, desc: '采光板块数（GPU 实例化）'},
+      rings: {type: 'number', default: 40, min: 1, max: 120, desc: '轨道带条数（按倾角从小到大依次展开：先赤道、后极区）'},
+      bandWidth: {type: 'number', default: 9, min: 0.5, max: 45, desc: '每条轨道带的半宽（度）：越宽包得越严'},
+      panelSize: {type: 'number', default: 0.016, min: 0.001, max: 0.2, desc: '采光板边长（相对球壳半径）'},
+      deployAt: {type: 'number', default: 0.3, min: -600, max: 600, desc: '第一条轨道开始展开（秒）；取负值 = 一开始已展开'},
+      deployDuration: {type: 'number', default: 3, min: 0.05, max: 60, desc: '最后一条轨道比第一条晚多久开始展开（秒）'},
+      ringOpen: {type: 'number', default: 1.2, min: 0.1, max: 30, desc: '一条轨道从展开到合拢成一圈用时（秒）'},
+      orbitSpeed: {type: 'number', default: 4, min: 0, max: 90, desc: '采光板绕恒星转速（度 / 秒，各轨道 0.7–1.3 倍、方向随机）'},
+      panelColor: {type: 'color', default: '#24407a', desc: '光伏面（朝恒星一面）颜色'},
+      backColor: {type: 'color', default: '#1a1d24', desc: '背板（朝外一面）颜色'},
+      glintColor: {type: 'color', default: '#ffd59a', desc: '反光 / 漏光 / 展开亮点颜色'},
+      glint: {type: 'number', default: 1, min: 0, max: 5, desc: '随机反光闪烁强度'},
+      neuralAt: {type: 'number', default: -1, min: -1, max: 600, desc: '脑电波光纹开始（秒）；-1 = 关闭'},
+      neuralColor: {type: 'color', default: '#8be9ff', desc: '脑电波光纹颜色'},
+      neuralSpeed: {type: 'number', default: 40, min: 1, max: 360, desc: '波前在球面上扩散速度（度 / 秒）'},
+      outerRings: {type: 'number', default: 0, min: 0, max: 8, desc: '外圈轨道光环数（每圈一颗行星光点，用光纤连回球面）；0 = 不画'},
+      outerAt: {type: 'number', default: 0, min: -600, max: 600, desc: '外圈光环开始出现（秒，由内向外依次画出）'},
+      outerColor: {type: 'color', default: '#9fdcff', desc: '外圈光环和光纤颜色'},
+      timeOffset: {type: 'number', default: 0, min: 0, max: 600, desc: '时间偏移（秒）：下一镜接着上一镜的状态时填上一镜时长'},
+      brightness: {type: 'number', default: 1, min: 0.1, max: 5, desc: '亮度'},
+      seed: {type: 'seed', default: 'dysonswarm', desc: '种子：轨道倾角和顺序、采光板分布、脑电波源头、外圈轨道'},
+    },
+    effects: ['gpu_instancing', 'orbital_bands', 'sequential_deploy', 'panel_unfold', 'light_leak', 'specular_glints', 'neural_waves', 'outer_orbit_rings'],
+    camera_presets: ['从远处飞向恒星', '拉远看整个星系'],
+    lighting_preset: '恒星在中心：朝恒星一面受光，背板边缘被漏出的阳光勾亮；配 bloom',
+    license: 'own（自研 Shader）',
+    version: '1.0.0',
+    notes: '和 cosmos.star.v1 叠用（position / radius 对齐）；《一百年后》第 8 镜（展开包裹）、第 9 镜（neuralAt + outerRings，timeOffset 接第 8 镜）',
   },
   {
     asset_id: 'tech.robot.expressive.v1',
