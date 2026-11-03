@@ -1,0 +1,1738 @@
+{
+  "id": "2026-11-03-ai-100-years",
+  "topic": "一百年后 AI 会发展成什么样？人类社会会是什么样？",
+  "title": "一百年后的 AI",
+  "fps": 30,
+  "audio": {
+    "mode": "music",
+    "music": "用户在抖音选（待定）",
+    "ambient": {
+      "src": "sfx/ai100/ambient.mp3",
+      "volume": 0.65,
+      "mute": [
+        [
+          56.4,
+          60
+        ]
+      ]
+    },
+    "sfx": [
+      {
+        "src": "sfx/ai100/whoosh.mp3",
+        "at": 3.3,
+        "volume": 0.7,
+        "note": "1→2"
+      },
+      {
+        "src": "sfx/ai100/whoosh.mp3",
+        "at": 7.3,
+        "volume": 0.7,
+        "note": "2→3"
+      },
+      {
+        "src": "sfx/ai100/whoosh.mp3",
+        "at": 11.3,
+        "volume": 0.7,
+        "note": "3→4"
+      },
+      {
+        "src": "sfx/ai100/flash.mp3",
+        "at": 15.75,
+        "volume": 1,
+        "note": "4→5 白光爆闪"
+      },
+      {
+        "src": "sfx/ai100/whoosh.mp3",
+        "at": 20.3,
+        "volume": 0.7,
+        "note": "5→6"
+      },
+      {
+        "src": "sfx/ai100/whoosh.mp3",
+        "at": 25.3,
+        "volume": 0.7,
+        "note": "6→7"
+      },
+      {
+        "src": "sfx/ai100/crack.mp3",
+        "at": 27.5,
+        "volume": 1,
+        "note": "第 7 镜月球裂开（crackAt 1.6 秒）"
+      },
+      {
+        "src": "sfx/ai100/zoom.mp3",
+        "at": 29,
+        "volume": 1,
+        "note": "7→8 冲进月核"
+      },
+      {
+        "src": "sfx/ai100/panels.mp3",
+        "at": 31.3,
+        "volume": 1,
+        "note": "第 8 镜采光板展开合拢（deployAt 0.3 秒，3 秒）"
+      },
+      {
+        "src": "sfx/ai100/whoosh.mp3",
+        "at": 35.3,
+        "volume": 0.7,
+        "note": "8→9"
+      },
+      {
+        "src": "sfx/ai100/whoosh.mp3",
+        "at": 40.3,
+        "volume": 0.7,
+        "note": "9→10"
+      },
+      {
+        "src": "sfx/ai100/whoosh.mp3",
+        "at": 45.3,
+        "volume": 0.7,
+        "note": "10→11"
+      },
+      {
+        "src": "sfx/ai100/whoosh.mp3",
+        "at": 50.3,
+        "volume": 0.7,
+        "note": "11→12"
+      },
+      {
+        "src": "sfx/ai100/eye.mp3",
+        "at": 53.4,
+        "volume": 1,
+        "note": "第 12 镜眼睛睁开（openAt 2.6 秒）"
+      },
+      {
+        "src": "sfx/ai100/whoosh.mp3",
+        "at": 59.4,
+        "volume": 0.7,
+        "note": "13→14"
+      }
+    ]
+  },
+  "generator": {
+    "by": "hand",
+    "model": "Claude Code（对话生成，第三版：逐镜文件 shots/01–14 拼合）",
+    "date": "2026-11-03",
+    "repair_rounds": 0
+  },
+  "facts": [
+    {
+      "claim": "一块 AI 芯片约有 2000 亿个晶体管",
+      "basis": "NVIDIA B200（2024 年 GTC 发布）约 2080 亿个晶体管",
+      "status": "待核验"
+    },
+    {
+      "claim": "今天的 AI 已能写作、作画、对话",
+      "basis": "大语言模型（如 ChatGPT，2022）与图像生成模型的公开能力",
+      "status": "待核验"
+    },
+    {
+      "claim": "（设想出处）文明利用整颗恒星的能量",
+      "basis": "卡尔达肖夫文明等级 II 型（Kardashev, 1964）；戴森球 / 戴森云（Freeman Dyson, 1960，《Science》）",
+      "status": "待核验"
+    },
+    {
+      "claim": "物理学推算的计算极限与黑洞有关",
+      "basis": "Seth Lloyd, “Ultimate physical limits to computation”, Nature 406 (2000)：把质量压到黑洞密度时计算机达到极限",
+      "status": "待核验"
+    },
+    {
+      "claim": "（设想）2055 年 AI 连接万物、人人有 AI 助手",
+      "basis": "属预测，片中标「设想」；简介里注明是创作设想、非事实",
+      "status": "待核验"
+    }
+  ],
+  "shots": [
+    {
+      "n": 1,
+      "narration": "",
+      "visual": "黑场，星光一颗颗亮起，银河横贯画面，镜头缓慢转向银心并推近",
+      "onscreen": {
+        "text": "一百年后，AI 会变成什么样？",
+        "style": "title"
+      },
+      "config": {
+        "id": "cosmos.milkyway.v1",
+        "renderer": "threejs",
+        "style": "imax_cosmos",
+        "fps": 30,
+        "duration": 4,
+        "camera": {
+          "preset": "keys",
+          "keys": [
+            {
+              "t": 0,
+              "pos": [
+                0,
+                0,
+                0
+              ],
+              "look": [
+                -0.2,
+                0.12,
+                -1
+              ],
+              "fov": 58,
+              "roll": -6
+            },
+            {
+              "t": 4,
+              "pos": [
+                0,
+                0,
+                0
+              ],
+              "look": [
+                -0.05,
+                0.16,
+                -1
+              ],
+              "fov": 50,
+              "roll": -3
+            }
+          ]
+        },
+        "post": {
+          "bloom": {
+            "intensity": 0.6,
+            "threshold": 0.85,
+            "radius": 0.45
+          },
+          "tone": "aces",
+          "vignette": 0.55,
+          "grain": 0.012
+        },
+        "assets": [
+          {
+            "id": "cosmos.milkyway.v1",
+            "params": {
+              "centerAzimuth": 0,
+              "centerElevation": 12,
+              "tilt": 28,
+              "revealAt": 0,
+              "revealDuration": 2.6,
+              "seed": "2026-11-03-ai-100-years-sky"
+            }
+          }
+        ],
+        "version": "1.0.0"
+      }
+    },
+    {
+      "n": 2,
+      "narration": "",
+      "visual": "镜头从银河往下摇，地球夜面从画面底部升起，城市灯光像星星",
+      "onscreen": {
+        "text": "夜空里最亮的光，也许是 AI",
+        "tag": "设想",
+        "position": "top"
+      },
+      "config": {
+        "id": "cosmos.planet.v1",
+        "renderer": "threejs",
+        "style": "imax_cosmos",
+        "fps": 30,
+        "duration": 4,
+        "camera": {
+          "preset": "keys",
+          "keys": [
+            {
+              "t": 0,
+              "pos": [
+                0,
+                4.2,
+                13
+              ],
+              "look": [
+                0,
+                10.5,
+                0
+              ],
+              "fov": 42,
+              "roll": -3
+            },
+            {
+              "t": 4,
+              "pos": [
+                0,
+                3.6,
+                12.2
+              ],
+              "look": [
+                0,
+                2.6,
+                0
+              ],
+              "fov": 42,
+              "roll": 0
+            }
+          ]
+        },
+        "post": {
+          "bloom": {
+            "intensity": 0.7,
+            "threshold": 0.85,
+            "radius": 0.5
+          },
+          "tone": "aces",
+          "vignette": 0.55,
+          "grain": 0.012
+        },
+        "assets": [
+          {
+            "id": "cosmos.milkyway.v1",
+            "params": {
+              "centerAzimuth": 0,
+              "centerElevation": 12,
+              "tilt": 28,
+              "seed": "2026-11-03-ai-100-years-sky"
+            }
+          },
+          {
+            "id": "cosmos.planet.v1",
+            "params": {
+              "position": [
+                0,
+                0,
+                0
+              ],
+              "radius": 5,
+              "kind": 0,
+              "sunDir": [
+                -1,
+                0.15,
+                -0.9
+              ],
+              "spin": 0.4,
+              "clouds": 0.45,
+              "cityLights": true,
+              "seed": "2026-11-03-ai-100-years-earth"
+            }
+          }
+        ],
+        "version": "1.0.0"
+      }
+    },
+    {
+      "n": 3,
+      "narration": "",
+      "visual": "贴近地球夜面，城市之间弹起暖色数据弧线，光点飞过",
+      "onscreen": {
+        "year": "2025",
+        "text": "今天的 AI，还住在机房里"
+      },
+      "config": {
+        "id": "tech.citynet.v1",
+        "renderer": "threejs",
+        "style": "imax_cosmos",
+        "fps": 30,
+        "duration": 4,
+        "camera": {
+          "preset": "keys",
+          "keys": [
+            {
+              "t": 0,
+              "pos": [
+                1.8,
+                3.4,
+                9.6
+              ],
+              "look": [
+                0,
+                1.2,
+                0
+              ],
+              "fov": 40,
+              "roll": -4
+            },
+            {
+              "t": 4,
+              "pos": [
+                0.6,
+                2.8,
+                8.4
+              ],
+              "look": [
+                0,
+                1,
+                0
+              ],
+              "fov": 40,
+              "roll": -1
+            }
+          ]
+        },
+        "post": {
+          "bloom": {
+            "intensity": 0.7,
+            "threshold": 0.85,
+            "radius": 0.5
+          },
+          "tone": "aces",
+          "vignette": 0.55,
+          "grain": 0.012
+        },
+        "assets": [
+          {
+            "id": "cosmos.milkyway.v1",
+            "params": {
+              "centerAzimuth": 0,
+              "centerElevation": 12,
+              "tilt": 28,
+              "seed": "2026-11-03-ai-100-years-sky"
+            }
+          },
+          {
+            "id": "cosmos.planet.v1",
+            "params": {
+              "position": [
+                0,
+                0,
+                0
+              ],
+              "radius": 5,
+              "kind": 0,
+              "sunDir": [
+                -1,
+                0.15,
+                -0.9
+              ],
+              "spin": 0.4,
+              "clouds": 0.45,
+              "cityLights": true,
+              "seed": "2026-11-03-ai-100-years-earth"
+            }
+          },
+          {
+            "id": "tech.citynet.v1",
+            "params": {
+              "center": [
+                0,
+                0,
+                0
+              ],
+              "radius": 5,
+              "facing": [
+                0.15,
+                0.45,
+                0.88
+              ],
+              "spread": 42,
+              "count": 55,
+              "seed": "2026-11-03-ai-100-years-s3",
+              "width": 0.012,
+              "height": 0.18,
+              "color": "#ff9a3c"
+            }
+          }
+        ],
+        "version": "1.0.0"
+      }
+    },
+    {
+      "n": 4,
+      "narration": "",
+      "visual": "从高空俯冲向一座城市，白色波前从市中心扩散，路变走线、路口变焊盘、街区变芯片",
+      "onscreen": {
+        "text": "AI 芯片里有两千亿个晶体管"
+      },
+      "transition": {
+        "type": "flash"
+      },
+      "config": {
+        "id": "tech.citychip.v1",
+        "renderer": "threejs",
+        "style": "imax_cosmos",
+        "fps": 30,
+        "duration": 4,
+        "camera": {
+          "preset": "keys",
+          "keys": [
+            {
+              "t": 0,
+              "pos": [
+                0,
+                20,
+                9
+              ],
+              "look": [
+                0,
+                0,
+                -1
+              ],
+              "fov": 45,
+              "roll": -6
+            },
+            {
+              "t": 4,
+              "pos": [
+                0,
+                6.5,
+                2.5
+              ],
+              "look": [
+                0,
+                0,
+                -1.2
+              ],
+              "fov": 45,
+              "roll": 0
+            }
+          ]
+        },
+        "post": {
+          "bloom": {
+            "intensity": 0.7,
+            "threshold": 0.85,
+            "radius": 0.5
+          },
+          "tone": "aces",
+          "vignette": 0.55,
+          "grain": 0.012
+        },
+        "assets": [
+          {
+            "id": "cosmos.milkyway.v1",
+            "params": {
+              "centerAzimuth": 0,
+              "centerElevation": 12,
+              "tilt": 28,
+              "seed": "2026-11-03-ai-100-years-sky"
+            }
+          },
+          {
+            "id": "tech.citychip.v1",
+            "params": {
+              "position": [
+                0,
+                0,
+                0
+              ],
+              "size": 46,
+              "blocks": 44,
+              "morphAt": 0.8,
+              "morphDuration": 3.4,
+              "seed": "2026-11-03-ai-100-years-s4"
+            }
+          }
+        ],
+        "version": "1.0.0"
+      }
+    },
+    {
+      "n": 5,
+      "narration": "",
+      "visual": "镜头从城市上空拉远，整个地球夜面上，一道白色波前扫过，云层的位置亮起一张发光的神经网络，电信号在上面奔跑",
+      "onscreen": {
+        "year": "2055",
+        "text": "AI 让整个地球开始思考",
+        "tag": "设想"
+      },
+      "config": {
+        "id": "tech.thinkearth.v1",
+        "renderer": "threejs",
+        "style": "imax_cosmos",
+        "fps": 30,
+        "duration": 5,
+        "camera": {
+          "preset": "keys",
+          "keys": [
+            {
+              "t": 0,
+              "pos": [
+                0.8,
+                3,
+                8.6
+              ],
+              "look": [
+                0,
+                0.8,
+                0
+              ],
+              "fov": 42,
+              "roll": -2
+            },
+            {
+              "t": 5,
+              "pos": [
+                -0.6,
+                5,
+                15.5
+              ],
+              "look": [
+                0,
+                0.2,
+                0
+              ],
+              "fov": 42,
+              "roll": 2
+            }
+          ]
+        },
+        "post": {
+          "bloom": {
+            "intensity": 0.7,
+            "threshold": 0.85,
+            "radius": 0.5
+          },
+          "tone": "aces",
+          "vignette": 0.55,
+          "grain": 0.012
+        },
+        "assets": [
+          {
+            "id": "cosmos.milkyway.v1",
+            "params": {
+              "centerAzimuth": 0,
+              "centerElevation": 12,
+              "tilt": 28,
+              "seed": "2026-11-03-ai-100-years-sky"
+            }
+          },
+          {
+            "id": "cosmos.planet.v1",
+            "params": {
+              "position": [
+                0,
+                0,
+                0
+              ],
+              "radius": 5,
+              "kind": 0,
+              "sunDir": [
+                -1,
+                0.15,
+                -0.9
+              ],
+              "spin": 0.4,
+              "clouds": 0.3,
+              "cityLights": true,
+              "seed": "2026-11-03-ai-100-years-earth"
+            }
+          },
+          {
+            "id": "tech.thinkearth.v1",
+            "params": {
+              "center": [
+                0,
+                0,
+                0
+              ],
+              "radius": 5,
+              "nodes": 520,
+              "waveDir": [
+                0.1,
+                0.45,
+                0.88
+              ],
+              "waveAt": 0.5,
+              "waveDuration": 3.2,
+              "seed": "2026-11-03-ai-100-years-s5",
+              "width": 0.024,
+              "brightness": 1.6,
+              "color": "#3fc8ff"
+            }
+          }
+        ],
+        "version": "1.0.0"
+      }
+    },
+    {
+      "n": 6,
+      "narration": "",
+      "visual": "继续往外拉，城市灯光一片片从地球夜面升起，飞上轨道，汇成一圈环绕地球的发光环形城市",
+      "onscreen": {
+        "text": "AI 把城市搬到了天上",
+        "tag": "设想",
+        "position": "top"
+      },
+      "config": {
+        "id": "tech.skyring.v1",
+        "renderer": "threejs",
+        "style": "imax_cosmos",
+        "fps": 30,
+        "duration": 5,
+        "camera": {
+          "preset": "keys",
+          "keys": [
+            {
+              "t": 0,
+              "pos": [
+                -0.6,
+                5,
+                15.5
+              ],
+              "look": [
+                0,
+                0.2,
+                0
+              ],
+              "fov": 42,
+              "roll": 2
+            },
+            {
+              "t": 5,
+              "pos": [
+                -2,
+                7.5,
+                23
+              ],
+              "look": [
+                0,
+                0,
+                0
+              ],
+              "fov": 42,
+              "roll": 4
+            }
+          ]
+        },
+        "post": {
+          "bloom": {
+            "intensity": 0.7,
+            "threshold": 0.85,
+            "radius": 0.5
+          },
+          "tone": "aces",
+          "vignette": 0.55,
+          "grain": 0.012
+        },
+        "assets": [
+          {
+            "id": "cosmos.milkyway.v1",
+            "params": {
+              "centerAzimuth": 0,
+              "centerElevation": 12,
+              "tilt": 28,
+              "seed": "2026-11-03-ai-100-years-sky"
+            }
+          },
+          {
+            "id": "cosmos.planet.v1",
+            "params": {
+              "position": [
+                0,
+                0,
+                0
+              ],
+              "radius": 5,
+              "kind": 0,
+              "sunDir": [
+                -1,
+                0.15,
+                -0.9
+              ],
+              "spin": 0.4,
+              "clouds": 0.3,
+              "cityLights": true,
+              "seed": "2026-11-03-ai-100-years-earth"
+            }
+          },
+          {
+            "id": "tech.skyring.v1",
+            "params": {
+              "center": [
+                0,
+                0,
+                0
+              ],
+              "radius": 5,
+              "ringRadius": 1.75,
+              "tilt": 14,
+              "facing": [
+                0.1,
+                0.45,
+                0.88
+              ],
+              "liftAt": 0.3,
+              "liftDuration": 2.4,
+              "flight": 1.6,
+              "seed": "2026-11-03-ai-100-years-s6"
+            }
+          }
+        ],
+        "version": "1.0.0"
+      }
+    },
+    {
+      "n": 7,
+      "narration": "",
+      "visual": "镜头离开地球飞向月球，月面裂开金色的缝，壳板缓缓向外分开，露出里面发光、像心脏一样跳动的核心",
+      "onscreen": {
+        "text": "AI 把月亮改造成了心脏",
+        "tag": "设想"
+      },
+      "transition": {
+        "type": "zoom"
+      },
+      "config": {
+        "id": "cosmos.mooncore.v1",
+        "renderer": "threejs",
+        "style": "imax_cosmos",
+        "fps": 30,
+        "duration": 5,
+        "camera": {
+          "preset": "keys",
+          "keys": [
+            {
+              "t": 0,
+              "pos": [
+                -2,
+                7.5,
+                23
+              ],
+              "look": [
+                6,
+                2,
+                4
+              ],
+              "fov": 42,
+              "roll": 4
+            },
+            {
+              "t": 2.2,
+              "pos": [
+                8,
+                6,
+                14
+              ],
+              "look": [
+                18,
+                4,
+                -2
+              ],
+              "fov": 40,
+              "roll": 2
+            },
+            {
+              "t": 5,
+              "pos": [
+                13,
+                5.2,
+                5.5
+              ],
+              "look": [
+                18,
+                4,
+                -2
+              ],
+              "fov": 40,
+              "roll": -2
+            }
+          ]
+        },
+        "post": {
+          "bloom": {
+            "intensity": 0.7,
+            "threshold": 0.85,
+            "radius": 0.5
+          },
+          "tone": "aces",
+          "vignette": 0.55,
+          "grain": 0.012
+        },
+        "assets": [
+          {
+            "id": "cosmos.milkyway.v1",
+            "params": {
+              "centerAzimuth": 0,
+              "centerElevation": 12,
+              "tilt": 28,
+              "seed": "2026-11-03-ai-100-years-sky"
+            }
+          },
+          {
+            "id": "cosmos.planet.v1",
+            "params": {
+              "position": [
+                0,
+                0,
+                0
+              ],
+              "radius": 5,
+              "kind": 0,
+              "sunDir": [
+                -1,
+                0.15,
+                -0.9
+              ],
+              "spin": 0.4,
+              "clouds": 0.3,
+              "cityLights": true,
+              "seed": "2026-11-03-ai-100-years-earth"
+            }
+          },
+          {
+            "id": "tech.skyring.v1",
+            "params": {
+              "center": [
+                0,
+                0,
+                0
+              ],
+              "radius": 5,
+              "ringRadius": 1.75,
+              "tilt": 14,
+              "facing": [
+                0.1,
+                0.45,
+                0.88
+              ],
+              "liftAt": 0,
+              "liftDuration": 0.1,
+              "flight": 0.3,
+              "seed": "2026-11-03-ai-100-years-s6"
+            }
+          },
+          {
+            "id": "cosmos.mooncore.v1",
+            "params": {
+              "position": [
+                18,
+                4,
+                -2
+              ],
+              "radius": 2.2,
+              "crackAt": 1.6,
+              "openAt": 3,
+              "openSpeed": 0.25,
+              "sunDir": [
+                -1,
+                0.15,
+                0.4
+              ],
+              "seed": "2026-11-03-ai-100-years-s7"
+            }
+          }
+        ],
+        "version": "1.0.0"
+      }
+    },
+    {
+      "n": 8,
+      "narration": "",
+      "visual": "镜头从月球身边飞向太阳，成千上万块采光板沿几十条倾斜轨道一圈圈依次展开、合拢，逐渐把太阳包住；采光板反光闪烁，缝隙里漏出阳光",
+      "onscreen": {
+        "year": "2125",
+        "text": "AI 用亿万块采光板，包住了太阳",
+        "tag": "设想"
+      },
+      "config": {
+        "id": "cosmos.dysonswarm.v1",
+        "renderer": "threejs",
+        "style": "imax_cosmos",
+        "fps": 30,
+        "duration": 5,
+        "camera": {
+          "preset": "keys",
+          "keys": [
+            {
+              "t": 0,
+              "pos": [
+                -30,
+                6,
+                -42
+              ],
+              "look": [
+                0,
+                0,
+                0
+              ],
+              "fov": 40,
+              "roll": -2
+            },
+            {
+              "t": 2.5,
+              "pos": [
+                -19,
+                5.5,
+                -30
+              ],
+              "look": [
+                0,
+                0,
+                0
+              ],
+              "fov": 40,
+              "roll": 0
+            },
+            {
+              "t": 5,
+              "pos": [
+                -11,
+                5,
+                -22
+              ],
+              "look": [
+                0,
+                0.5,
+                0
+              ],
+              "fov": 40,
+              "roll": 1
+            }
+          ]
+        },
+        "post": {
+          "bloom": {
+            "intensity": 0.7,
+            "threshold": 0.85,
+            "radius": 0.5
+          },
+          "tone": "aces",
+          "vignette": 0.55,
+          "grain": 0.012
+        },
+        "assets": [
+          {
+            "id": "cosmos.milkyway.v1",
+            "params": {
+              "centerAzimuth": 0,
+              "centerElevation": 12,
+              "tilt": 28,
+              "seed": "2026-11-03-ai-100-years-sky"
+            }
+          },
+          {
+            "id": "cosmos.mooncore.v1",
+            "params": {
+              "position": [
+                -29.25,
+                3.16,
+                -31.56
+              ],
+              "radius": 2.2,
+              "crackAt": -1,
+              "openAt": -1,
+              "openSpeed": 0.14,
+              "sunDir": [
+                0.68,
+                -0.07,
+                0.73
+              ],
+              "seed": "2026-11-03-ai-100-years-s7"
+            }
+          },
+          {
+            "id": "cosmos.star.v1",
+            "params": {
+              "position": [
+                0,
+                0,
+                0
+              ],
+              "radius": 5,
+              "color": "#ffa43a",
+              "brightness": 1,
+              "activity": 1.2,
+              "corona": 8,
+              "prominences": 7,
+              "seed": "2026-11-03-ai-100-years-sun"
+            }
+          },
+          {
+            "id": "cosmos.dysonswarm.v1",
+            "params": {
+              "position": [
+                0,
+                0,
+                0
+              ],
+              "radius": 5,
+              "shellRadius": 1.5,
+              "count": 80000,
+              "rings": 40,
+              "bandWidth": 9,
+              "deployAt": 0.3,
+              "deployDuration": 3,
+              "ringOpen": 1.2,
+              "seed": "2026-11-03-ai-100-years-s8"
+            }
+          }
+        ],
+        "version": "1.0.0"
+      }
+    },
+    {
+      "n": 9,
+      "narration": "",
+      "visual": "被包裹的球面上流过一道道青白色脑电波似的光纹（扩散、交汇、闪烁），镜头缓缓拉远，外面几圈更大的轨道光环由内向外亮起，连着一颗颗行星光点和回到球面的光纤，整个太阳系像一个发光的大脑",
+      "onscreen": {
+        "text": "AI 把太阳系连成一个大脑",
+        "tag": "设想"
+      },
+      "config": {
+        "id": "cosmos.dysonswarm.v1",
+        "renderer": "threejs",
+        "style": "imax_cosmos",
+        "fps": 30,
+        "duration": 5,
+        "camera": {
+          "preset": "keys",
+          "keys": [
+            {
+              "t": 0,
+              "pos": [
+                -11,
+                5,
+                -22
+              ],
+              "look": [
+                0,
+                0.5,
+                0
+              ],
+              "fov": 40,
+              "roll": 1
+            },
+            {
+              "t": 2,
+              "pos": [
+                -18,
+                30,
+                -40
+              ],
+              "look": [
+                0,
+                0,
+                0
+              ],
+              "fov": 40,
+              "roll": 2
+            },
+            {
+              "t": 5,
+              "pos": [
+                -32,
+                94,
+                -72
+              ],
+              "look": [
+                0,
+                -3,
+                0
+              ],
+              "fov": 40,
+              "roll": 3
+            }
+          ]
+        },
+        "post": {
+          "bloom": {
+            "intensity": 0.7,
+            "threshold": 0.85,
+            "radius": 0.5
+          },
+          "tone": "aces",
+          "vignette": 0.55,
+          "grain": 0.012
+        },
+        "assets": [
+          {
+            "id": "cosmos.milkyway.v1",
+            "params": {
+              "centerAzimuth": 0,
+              "centerElevation": 12,
+              "tilt": 28,
+              "seed": "2026-11-03-ai-100-years-sky"
+            }
+          },
+          {
+            "id": "cosmos.star.v1",
+            "params": {
+              "position": [
+                0,
+                0,
+                0
+              ],
+              "radius": 5,
+              "color": "#ffa43a",
+              "brightness": 1,
+              "activity": 1.2,
+              "corona": 8,
+              "prominences": 7,
+              "seed": "2026-11-03-ai-100-years-sun"
+            }
+          },
+          {
+            "id": "cosmos.dysonswarm.v1",
+            "params": {
+              "position": [
+                0,
+                0,
+                0
+              ],
+              "radius": 5,
+              "shellRadius": 1.5,
+              "count": 80000,
+              "rings": 40,
+              "bandWidth": 9,
+              "deployAt": 0.3,
+              "deployDuration": 3,
+              "ringOpen": 1.2,
+              "seed": "2026-11-03-ai-100-years-s8",
+              "timeOffset": 5,
+              "neuralAt": 5.3,
+              "neuralSpeed": 40,
+              "outerRings": 5,
+              "outerAt": 6.2
+            }
+          }
+        ],
+        "version": "1.0.0"
+      }
+    },
+    {
+      "n": 10,
+      "narration": "",
+      "visual": "远处被包裹、发着光的太阳系（戴森球）表面，成千上万颗带光尾的光种子像吹散的蒲公英一样飞向四面八方；镜头跟着一簇种子向前飞，种子从身边掠过，飞向银河里的群星",
+      "onscreen": {
+        "text": "AI 把自己的种子撒向群星",
+        "tag": "设想"
+      },
+      "config": {
+        "id": "cosmos.seedburst.v1",
+        "renderer": "threejs",
+        "style": "imax_cosmos",
+        "fps": 30,
+        "duration": 5,
+        "camera": {
+          "preset": "keys",
+          "keys": [
+            {
+              "t": 0,
+              "pos": [
+                15,
+                4,
+                16
+              ],
+              "look": [
+                0,
+                0,
+                0
+              ],
+              "fov": 38,
+              "roll": 3
+            },
+            {
+              "t": 2,
+              "pos": [
+                12,
+                3,
+                -9
+              ],
+              "look": [
+                2,
+                0,
+                -40
+              ],
+              "fov": 46,
+              "roll": -2
+            },
+            {
+              "t": 5,
+              "pos": [
+                4,
+                1,
+                -36
+              ],
+              "look": [
+                0,
+                0,
+                -90
+              ],
+              "fov": 50,
+              "roll": -5
+            }
+          ]
+        },
+        "post": {
+          "bloom": {
+            "intensity": 0.8,
+            "threshold": 0.8,
+            "radius": 0.55
+          },
+          "tone": "aces",
+          "vignette": 0.55,
+          "grain": 0.012
+        },
+        "assets": [
+          {
+            "id": "cosmos.milkyway.v1",
+            "params": {
+              "centerAzimuth": 0,
+              "centerElevation": 12,
+              "tilt": 28,
+              "seed": "2026-11-03-ai-100-years-sky"
+            }
+          },
+          {
+            "id": "cosmos.seedburst.v1",
+            "params": {
+              "position": [
+                0,
+                0,
+                0
+              ],
+              "radius": 3,
+              "count": 18000,
+              "cluster": 0.2,
+              "clusterDir": [
+                0.12,
+                0.06,
+                -1
+              ],
+              "clusterSpread": 20,
+              "speed": 10,
+              "burst": 1.4,
+              "tail": 0.35,
+              "size": 0.05,
+              "fluff": 0.18,
+              "fluffLength": 0.35,
+              "emitAt": 0.3,
+              "emitDuration": 2.6,
+              "seed": "2026-11-03-ai-100-years-s10",
+              "brightness": 0.6,
+              "core": 0.8
+            }
+          }
+        ],
+        "version": "1.0.0"
+      }
+    },
+    {
+      "n": 11,
+      "narration": "",
+      "visual": "镜头已飞到银河之外，俯看整个螺旋星系；一道唤醒波前从银心向外扫过，恒星之间一条条亮起连线，连成遍布星系的神经网络，信号光点沿连线奔跑，光环一波波向外扩散，星系像在呼吸、苏醒",
+      "onscreen": {
+        "text": "AI 点亮了整个银河",
+        "tag": "设想"
+      },
+      "config": {
+        "id": "cosmos.galaxynet.v1",
+        "renderer": "threejs",
+        "style": "imax_cosmos",
+        "fps": 30,
+        "duration": 5,
+        "camera": {
+          "preset": "keys",
+          "keys": [
+            {
+              "t": 0,
+              "pos": [
+                -16,
+                60,
+                40
+              ],
+              "look": [
+                0,
+                -2,
+                2
+              ],
+              "fov": 46,
+              "roll": -6
+            },
+            {
+              "t": 5,
+              "pos": [
+                2,
+                47,
+                38
+              ],
+              "look": [
+                0,
+                -1,
+                3
+              ],
+              "fov": 44,
+              "roll": 0
+            }
+          ]
+        },
+        "post": {
+          "bloom": {
+            "intensity": 0.7,
+            "threshold": 0.85,
+            "radius": 0.5
+          },
+          "tone": "aces",
+          "vignette": 0.55,
+          "grain": 0.012
+        },
+        "assets": [
+          {
+            "id": "cosmos.milkyway.v1",
+            "params": {
+              "centerAzimuth": 0,
+              "centerElevation": 12,
+              "tilt": 28,
+              "seed": "2026-11-03-ai-100-years-sky"
+            }
+          },
+          {
+            "id": "cosmos.galaxy.v1",
+            "params": {
+              "position": [
+                0,
+                0,
+                0
+              ],
+              "radius": 30,
+              "arms": 2,
+              "twist": 2.2,
+              "count": 400000,
+              "tilt": 0,
+              "spin": 0,
+              "brightness": 0.45,
+              "seed": "2026-11-03-ai-100-years-s11"
+            }
+          },
+          {
+            "id": "cosmos.galaxynet.v1",
+            "params": {
+              "position": [
+                0,
+                0,
+                0
+              ],
+              "radius": 30,
+              "tilt": 0,
+              "arms": 2,
+              "twist": 2.2,
+              "galaxySeed": "2026-11-03-ai-100-years-s11",
+              "nodes": 1400,
+              "links": 3,
+              "axons": 20,
+              "wakeAt": 0.4,
+              "wakeDuration": 2.4,
+              "width": 0.05,
+              "seed": "2026-11-03-ai-100-years-s11",
+              "brightness": 1.3
+            }
+          }
+        ],
+        "version": "1.0.0"
+      }
+    },
+    {
+      "n": 12,
+      "narration": "",
+      "visual": "接上一镜：星系的光点和连线打着旋向中心汇聚，盘面的光被一点点吸走，汇成一道发光的细缝，缓缓睁开成一只巨大的眼睛——虹膜是一圈圈放射状的光丝，瞳孔深黑、慢慢收缩，直视镜头",
+      "onscreen": {
+        "text": "AI 睁开眼睛，在等人类",
+        "tag": "设想"
+      },
+      "transition": {
+        "type": "eyelid"
+      },
+      "config": {
+        "id": "cosmos.galaxyeye.v1",
+        "renderer": "threejs",
+        "style": "imax_cosmos",
+        "fps": 30,
+        "duration": 5,
+        "camera": {
+          "preset": "keys",
+          "keys": [
+            {
+              "t": 0,
+              "pos": [
+                2,
+                47,
+                38
+              ],
+              "look": [
+                0,
+                -1,
+                3
+              ],
+              "fov": 44,
+              "roll": 0
+            },
+            {
+              "t": 5,
+              "pos": [
+                1.3,
+                26.5,
+                21.2
+              ],
+              "look": [
+                0,
+                0,
+                0
+              ],
+              "fov": 40,
+              "roll": 0
+            }
+          ]
+        },
+        "post": {
+          "bloom": {
+            "intensity": 0.7,
+            "threshold": 0.85,
+            "radius": 0.5
+          },
+          "tone": "aces",
+          "vignette": 0.55,
+          "grain": 0.012
+        },
+        "assets": [
+          {
+            "id": "cosmos.milkyway.v1",
+            "params": {
+              "centerAzimuth": 0,
+              "centerElevation": 12,
+              "tilt": 28,
+              "seed": "2026-11-03-ai-100-years-sky"
+            }
+          },
+          {
+            "id": "cosmos.galaxy.v1",
+            "params": {
+              "position": [
+                0,
+                0,
+                0
+              ],
+              "radius": 30,
+              "arms": 2,
+              "twist": 2.2,
+              "count": 400000,
+              "tilt": 0,
+              "spin": 0,
+              "brightness": 0.45,
+              "seed": "2026-11-03-ai-100-years-s11"
+            }
+          },
+          {
+            "id": "cosmos.galaxynet.v1",
+            "params": {
+              "position": [
+                0,
+                0,
+                0
+              ],
+              "radius": 30,
+              "tilt": 0,
+              "arms": 2,
+              "twist": 2.2,
+              "galaxySeed": "2026-11-03-ai-100-years-s11",
+              "nodes": 1400,
+              "links": 3,
+              "axons": 20,
+              "wakeAt": 0.4,
+              "wakeDuration": 2.4,
+              "width": 0.05,
+              "seed": "2026-11-03-ai-100-years-s11",
+              "brightness": 1.3,
+              "timeOffset": 5,
+              "collapseAt": 5.15,
+              "collapseDuration": 2.6
+            }
+          },
+          {
+            "id": "cosmos.galaxyeye.v1",
+            "params": {
+              "position": [
+                0,
+                0,
+                0
+              ],
+              "facing": [
+                1.5,
+                30,
+                24
+              ],
+              "size": 15,
+              "galaxyRadius": 30,
+              "galaxyTilt": 0,
+              "arms": 2,
+              "twist": 2.2,
+              "galaxySeed": "2026-11-03-ai-100-years-s11",
+              "count": 70000,
+              "gatherAt": 0.15,
+              "gatherDuration": 2.6,
+              "openAt": 2.6,
+              "openDuration": 1.8,
+              "opening": 0.5,
+              "seed": "2026-11-03-ai-100-years-s12"
+            }
+          }
+        ],
+        "version": "1.0.0"
+      }
+    },
+    {
+      "n": 13,
+      "narration": "",
+      "visual": "星光一颗颗熄灭，银河暗下去，画面归于全黑，静默一拍，只剩一行字",
+      "onscreen": {
+        "text": "那时的人类，在哪里？",
+        "style": "title"
+      },
+      "config": {
+        "id": "story.ai_100_years.s13.v1",
+        "renderer": "threejs",
+        "style": "imax_cosmos",
+        "fps": 30,
+        "duration": 4,
+        "camera": {
+          "preset": "keys",
+          "keys": [
+            {
+              "t": 0,
+              "pos": [
+                0,
+                0,
+                0
+              ],
+              "look": [
+                -0.05,
+                0.16,
+                -1
+              ],
+              "fov": 40,
+              "roll": 0
+            },
+            {
+              "t": 4,
+              "pos": [
+                0,
+                0,
+                0
+              ],
+              "look": [
+                -0.04,
+                0.15,
+                -1
+              ],
+              "fov": 36,
+              "roll": 0
+            }
+          ]
+        },
+        "post": {
+          "bloom": {
+            "intensity": 0.7,
+            "threshold": 0.85,
+            "radius": 0.5
+          },
+          "tone": "aces",
+          "vignette": 0.55,
+          "grain": 0.012
+        },
+        "assets": [
+          {
+            "id": "cosmos.milkyway.v1",
+            "params": {
+              "centerAzimuth": 0,
+              "centerElevation": 12,
+              "tilt": 28,
+              "seed": "2026-11-03-ai-100-years-sky",
+              "hideAt": 0.2,
+              "hideDuration": 2
+            }
+          }
+        ],
+        "version": "1.0.0"
+      }
+    },
+    {
+      "n": 14,
+      "narration": "",
+      "visual": "星光重新亮起，镜头回到地球夜面，城市灯光安静闪烁，缓缓推近",
+      "onscreen": {
+        "text": "人类的答案，写在今天",
+        "style": "title"
+      },
+      "config": {
+        "id": "story.ai_100_years.s14.v1",
+        "renderer": "threejs",
+        "style": "imax_cosmos",
+        "fps": 30,
+        "duration": 5,
+        "camera": {
+          "preset": "keys",
+          "keys": [
+            {
+              "t": 0,
+              "pos": [
+                1.4,
+                3,
+                12.5
+              ],
+              "look": [
+                0,
+                6.6,
+                0
+              ],
+              "fov": 40,
+              "roll": -2
+            },
+            {
+              "t": 5,
+              "pos": [
+                0.6,
+                2.4,
+                10.8
+              ],
+              "look": [
+                0,
+                6,
+                0
+              ],
+              "fov": 40,
+              "roll": 0
+            }
+          ]
+        },
+        "post": {
+          "bloom": {
+            "intensity": 0.7,
+            "threshold": 0.85,
+            "radius": 0.5
+          },
+          "tone": "aces",
+          "vignette": 0.55,
+          "grain": 0.012
+        },
+        "assets": [
+          {
+            "id": "cosmos.milkyway.v1",
+            "params": {
+              "centerAzimuth": 0,
+              "centerElevation": 12,
+              "tilt": 28,
+              "seed": "2026-11-03-ai-100-years-sky",
+              "revealAt": 0,
+              "revealDuration": 2.4
+            }
+          },
+          {
+            "id": "cosmos.planet.v1",
+            "params": {
+              "position": [
+                0,
+                0,
+                0
+              ],
+              "radius": 5,
+              "kind": 0,
+              "sunDir": [
+                -1,
+                0.15,
+                -0.9
+              ],
+              "spin": 0.4,
+              "clouds": 0.45,
+              "cityLights": true,
+              "seed": "2026-11-03-ai-100-years-earth"
+            }
+          }
+        ],
+        "version": "1.0.0"
+      }
+    }
+  ],
+  "version": "3.0.0"
+}

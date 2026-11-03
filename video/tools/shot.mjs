@@ -1,6 +1,7 @@
 // 单镜头工具（方案第六 / 十二节：关键帧预览、确定性复现、配置校验）
 //   node tools/shot.mjs validate shotconfigs/cosmos.blackhole.v1.json
 //   node tools/shot.mjs validate-storyboard storyboards/<id>/storyboard.json   分镜校验（时长、旁白语速、资产、渲染器能力、版本、示意）
+//   node tools/shot.mjs registry                                               输出完整资产登记表 JSON（含版本 / 许可 / 出处，归档用）
 //   node tools/shot.mjs catalog [输出.json]                                    导出资产目录（给 AI 分镜用）
 //   node tools/shot.mjs storyboard-preview storyboards/<id>/storyboard.json   镜头预览：每镜中间一帧 + 总览图 preview/preview.jpg
 //   node tools/shot.mjs storyboard-shot storyboards/<id>/storyboard.json 5 [帧号,帧号]   单镜头重渲染（只渲第 5 镜）
@@ -36,6 +37,7 @@ const loadRegistry = () => {
     out[m[1]] = {
       id: m[1], name: str('asset_name'), category: str('category'), kind: str('kind'), renderer: str('renderer'), version: str('version'),
       params, camera_presets: presets, notes: str('notes'), no_dof: /^ {4}no_dof: true/m.test(block), real_range: rr,
+      license: str('license'), source: str('source'), thumbnail: str('thumbnail'),
     };
   }
   return out;
@@ -177,6 +179,7 @@ const pixelHash = (file) => crypto.createHash('sha256').update(fs.readFileSync(f
 if (cmd === 'validate') validate(a1);
 else if (cmd === 'validate-storyboard') validateStoryboard(a1);
 else if (cmd === 'catalog') catalog(a1);
+else if (cmd === 'registry') console.log(JSON.stringify({engine_major: ENGINE_MAJOR, assets: loadRegistry()}));
 else if (cmd === 'keyframes') await renderFrames(a1, a2.split(',').map(Number), a3 ?? path.join(root, 'out/keyframes'));
 else if (cmd === 'determinism') {
   const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'det-'));
