@@ -1,0 +1,86 @@
+{
+  "n": 5,
+  "visual": "全身骨架 + 血管网，镜头绕着全身缓缓转半圈；标题大字",
+  "onscreen": {
+    "text": "这么精密，是被设计出来的吗？",
+    "style": "title",
+    "position": "top"
+  },
+  "note": "提出全片的问题；原稿写居中大字，按《方案补充》#22（字不能挡主体）放在上方；血流脉冲速度为示意",
+  "config": {
+    "id": "biology.vessels.v1",
+    "renderer": "blender",
+    "style": "cinematic_science",
+    "fps": 30,
+    "duration": 5,
+    "note": "血流脉冲速度为示意（真实脉搏波 5–10 m/s），片中注明「示意」",
+    "camera": {
+      "preset": "orbit",
+      "keys": [
+        {
+          "t": 0,
+          "pos": [
+            -2.6,
+            1.15,
+            2.3
+          ],
+          "look": [
+            0.0,
+            1.0,
+            0.0
+          ],
+          "fov": 32,
+          "roll": 0
+        },
+        {
+          "t": 2.5,
+          "pos": [
+            0.0,
+            1.1,
+            3.55
+          ],
+          "look": [
+            0.0,
+            1.0,
+            0.0
+          ],
+          "fov": 32,
+          "roll": 0
+        },
+        {
+          "t": 5,
+          "pos": [
+            2.6,
+            1.15,
+            2.3
+          ],
+          "look": [
+            0.0,
+            1.0,
+            0.0
+          ],
+          "fov": 32,
+          "roll": 0
+        }
+      ]
+    },
+    "post": {
+      "tone": "aces",
+      "vignette": 0.6,
+      "grain": 0.015
+    },
+    "assets": [
+      {
+        "id": "biology.vessels.v1",
+        "params": {
+          "pulse": 1.0,
+          "bpm": 72,
+          "skeleton": 0.35,
+          "fstop": 6,
+          "seed": "designed-body-s05"
+        }
+      }
+    ],
+    "version": "1.0.0"
+  }
+}
