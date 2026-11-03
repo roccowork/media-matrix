@@ -23,6 +23,7 @@ import {HudAsset} from '../../assets/tech/hud/HudAsset';
 import {CityNetAsset} from '../../assets/tech/citynet/CityNetAsset';
 import {CityChipAsset} from '../../assets/tech/citychip/CityChipAsset';
 import {ThinkEarthAsset} from '../../assets/tech/thinkearth/ThinkEarthAsset';
+import {SkyRingAsset} from '../../assets/tech/skyring/SkyRingAsset';
 import {LightningAsset} from '../../assets/physics/lightning/LightningAsset';
 import {FieldLinesAsset} from '../../assets/physics/fieldlines/FieldLinesAsset';
 import {EnergyFieldAsset} from '../../assets/physics/energyfield/EnergyFieldAsset';
@@ -769,6 +770,39 @@ export const ASSETS: AssetMeta[] = [
     license: 'own（自研 Shader）',
     version: '1.0.0',
     notes: '和 cosmos.planet.v1 叠用（center / radius 对齐），被行星挡住的部分自动隐藏；《一百年后》第 5 镜',
+  },
+  {
+    asset_id: 'tech.skyring.v1',
+    asset_name: '城市升空成光环（城市光点从夜面整片升起，飞到轨道上汇成一圈环形城市，环带亮起并自转）',
+    category: 'tech',
+    kind: 'procedural',
+    renderer: 'threejs',
+    component: C(SkyRingAsset),
+    params: {
+      center: {type: 'vec3', default: [0, 0, 0], desc: '行星中心'},
+      radius: {type: 'number', default: 5, min: 0.1, max: 500, desc: '行星半径'},
+      ringRadius: {type: 'number', default: 1.7, min: 1.05, max: 5, desc: '光环半径（相对行星半径）'},
+      tilt: {type: 'number', default: 18, min: -90, max: 90, desc: '光环平面倾角（度）'},
+      facing: {type: 'vec3', default: [0.1, 0.45, 0.88], desc: '光点从球面哪片区域升起'},
+      spread: {type: 'number', default: 55, min: 5, max: 90, desc: '升起区域范围（度）'},
+      count: {type: 'number', default: 30000, min: 1000, max: 200000, desc: '光点数'},
+      liftAt: {type: 'number', default: 0.4, min: 0, max: 600, desc: '开始升起（秒）'},
+      liftDuration: {type: 'number', default: 2.6, min: 0.1, max: 60, desc: '所有城市升起完毕要多久（秒）'},
+      flight: {type: 'number', default: 1.6, min: 0.2, max: 30, desc: '单个光点飞到环上用时（秒）'},
+      spin: {type: 'number', default: 1.2, min: 0, max: 30, desc: '光环自转（圈 / 分钟）'},
+      cityColor: {type: 'color', default: '#ffb35c', desc: '城市灯光颜色'},
+      ringColor: {type: 'color', default: '#bfe9ff', desc: '光环颜色'},
+      size: {type: 'number', default: 0.02, min: 0.002, max: 0.5, desc: '光点大小'},
+      brightness: {type: 'number', default: 1, min: 0.1, max: 5, desc: '亮度'},
+      seed: {type: 'seed', default: 'skyring', desc: '种子：城市分布、升起顺序、环上位置'},
+    },
+    effects: ['gpu_particles', 'lift_off', 'bezier_flight', 'orbital_ring', 'ring_band'],
+    camera_presets: ['从地球拉远、略俯视看环'],
+    lighting_preset: '自发光；配 bloom',
+    no_dof: true,
+    license: 'own（自研 Shader）',
+    version: '1.0.0',
+    notes: '和 cosmos.planet.v1 叠用（center / radius 对齐）；《一百年后》第 6 镜',
   },
   {
     asset_id: 'tech.robot.expressive.v1',
