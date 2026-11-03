@@ -1,0 +1,43 @@
+# 生成音效（ElevenLabs，扣用户账号额度）：按 spec.json 清单生成、提交回 main。触发前先得到用户同意。
+name: sfx
+
+on:
+  workflow_dispatch:
+    inputs:
+      spec:
+        description: "音效清单路径（相对 video/，如 public/sfx/designed-body/spec.json）"
+        required: true
+      force:
+        description: "已存在的文件也重新生成"
+        type: boolean
+        default: false
+
+jobs:
+  sfx:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    permissions:
+      contents: write
+    defaults:
+      run:
+        working-directory: video
+    steps:
+      - uses: actions/checkout@v5
+      - name: 生成音效
+        env:
+          ELEVENLABS_API_KEY: ${{ secrets.ELEVENLABS_API_KEY }}
+          SPEC: ${{ inputs.spec }}
+        run: |
+          case "$SPEC" in public/sfx/*/spec.json) ;; *) echo "路径应为 public/sfx/<目录>/spec.json"; exit 1;; esac
+          python3 tools/make_sfx.py "$SPEC" ${{ inputs.force && '--force' || '' }}
+      - name: 提交回 main
+        env:
+          SPEC: ${{ inputs.spec }}
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add "$(dirname "$SPEC")"
+          if ! git diff --cached --quiet; then
+            git commit -m "音效：$(dirname "$SPEC")（sfx run ${{ github.run_id }}）"
+            for i in 1 2 3; do git pull --rebase -q origin main && git push -q origin HEAD:main && break; sleep 5; done
+          fi

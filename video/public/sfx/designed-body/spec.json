@@ -1,0 +1,13 @@
+[
+ {"file": "ambient.mp3", "duration": 22, "use": "全片人体内部底噪（循环）", "prompt": "calm deep organic body interior ambience, soft low warm drone with distant muffled heartbeat, no melody, no beat, seamless loop"},
+ {"file": "heartbeat.mp3", "duration": 1.0, "use": "第 1、15 镜心跳（72 次 / 分）", "prompt": "single strong deep cinematic heartbeat, lub-dub, close, warm, clean"},
+ {"file": "dive.mp3", "duration": 2.0, "use": "第 2 镜冲进细胞核", "prompt": "soft underwater whoosh plunging through a thin membrane, gentle bubbly pop, cinematic"},
+ {"file": "slice.mp3", "duration": 2.0, "use": "第 6 镜眼球切开", "prompt": "smooth clean slicing swoosh, soft and precise, cinematic science"},
+ {"file": "shimmer.mp3", "duration": 3.0, "use": "第 8 镜视网膜翻转", "prompt": "soft magical transformation whoosh with shimmering glassy chimes, gentle"},
+ {"file": "zap.mp3", "duration": 4.0, "use": "第 9 镜神经信号沿喉返神经走", "prompt": "electric nerve signal traveling along a long wire, soft crackling buzz sweeping, sci-fi, subtle"},
+ {"file": "stretch.mp3", "duration": 3.0, "use": "第 10、11 镜脖子拉长", "prompt": "slow organic elastic stretching creak, soft rubbery stretch, cinematic"},
+ {"file": "gulp.mp3", "duration": 2.0, "use": "第 12 镜吞咽", "prompt": "gentle human swallowing gulp with soft airy breath, close, clean"},
+ {"file": "strain.mp3", "duration": 3.0, "use": "第 13 镜腰椎超载", "prompt": "deep low creaking strain under heavy load, bone pressure groan, tense, cinematic"},
+ {"file": "glitch.mp3", "duration": 1.5, "use": "第 14 镜碱基配错", "prompt": "subtle soft digital error blip, short glitch tone, clean"},
+ {"file": "powerdown.mp3", "duration": 3.0, "use": "第 16 镜熄灯", "prompt": "deep soft power down hum slowly fading into silence, cinematic"}
+]
