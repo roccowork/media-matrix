@@ -131,7 +131,7 @@ void main() {
   }
   col += uGlint * vHead * 9.0;                 // 正在展开的轨道最前端：一颗亮点
   vec2 nr = neural(vDir);
-  col = col * (1.0 - 0.6 * clamp(nr.y, 0.0, 1.0) * step(0.001, uNeural)) + uNCol * (nr.x * 2.2 + nr.y * 0.18) + vec3(1.0) * pow(max(nr.x - 1.2, 0.0), 2.0) * 0.6;
+  col = col * (1.0 - 0.6 * clamp(nr.y, 0.0, 1.0) * step(0.001, uNeural)) + uNCol * (nr.x * 1.3 + nr.y * 0.12) + vec3(1.0) * pow(max(nr.x - 1.6, 0.0), 2.0) * 0.4;
   gl_FragColor = vec4(col * uBright, 1.0);
 }`;
 
@@ -149,7 +149,7 @@ void main() {
     float a = s * 6.2831853;
     p = (cos(a) * uRU[i] + sin(a) * uRW[i]) * uRR[i];
     // 沿环流动的光脉冲
-    vPulse = pow(0.5 + 0.5 * sin(s * 6.2831853 * 3.0 - uTime * 1.3 + aO.y * 2.0), 24.0);
+    vPulse = pow(max(0.5 + 0.5 * sin(s * 6.2831853 * 3.0 - uTime * 1.3 + aO.y * 2.0), 0.0), 24.0);   // max：防止负底数 pow 出 NaN（辉光会把 NaN 扩成亮条）
     vA = (0.35 + 0.15 * aO.w) * step(abs(fract(s - aO.y * 0.37) - 0.5) * 2.0, reveal);
   } else {
     vec3 pl = uPl[i];
@@ -159,13 +159,14 @@ void main() {
     vec3 c2 = mix(a0, pl, 0.7) - side * length(pl) * 0.06;
     float is = 1.0 - s;
     p = is * is * is * a0 + 3.0 * is * is * s * c1 + 3.0 * is * s * s * c2 + s * s * s * pl;
-    vPulse = pow(0.5 + 0.5 * sin(s * 18.0 + uTime * 3.0 + aO.y), 16.0);
+    vPulse = pow(max(0.5 + 0.5 * sin(s * 18.0 + uTime * 3.0 + aO.y), 0.0), 16.0);
     vA = 0.28 * step(s, reveal * 1.2 - 0.1);
   }
   vec4 mv = modelViewMatrix * vec4(p, 1.0);
-  gl_PointSize = uPix * (1.0 + 1.5 * vPulse) / -mv.z;
+  gl_PointSize = uPix * (1.0 + 1.5 * vPulse) / max(-mv.z, 0.1);
   gl_Position = projectionMatrix * mv;
   vA *= uOutOn;
+  if (uOutOn <= 0.0 || -mv.z < 0.1) gl_Position = vec4(2.0, 2.0, 2.0, 1.0);   // 未出现 / 在镜头后面：不画
 }`;
 const OUT_FRAG = /* glsl */ `
 uniform vec3 uCol; varying float vA; varying float vPulse;
@@ -175,10 +176,11 @@ uniform vec3 uPl[${MAX_OUT}]; uniform float uOutOn; uniform float uPix; attribut
 void main() {
   int i = int(aI + 0.5);
   vec4 mv = modelViewMatrix * vec4(uPl[i], 1.0);
-  gl_PointSize = uPix / -mv.z;
+  gl_PointSize = uPix / max(-mv.z, 0.1);
   vA = clamp(uOutOn * 1.6 - aI * 0.12, 0.0, 1.0);
   vC = mix(vec3(1.0, 0.85, 0.6), vec3(0.6, 0.9, 1.0), fract(aI * 0.618));
   gl_Position = projectionMatrix * mv;
+  if (vA <= 0.0 || -mv.z < 0.1) gl_Position = vec4(2.0, 2.0, 2.0, 1.0);
 }`;
 const PL_FRAG = /* glsl */ `
 varying float vA; varying vec3 vC;
