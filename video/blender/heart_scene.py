@@ -43,7 +43,7 @@ asset = next(a for a in cfg['assets'] if a['id'] == 'biology.heart.v1')
 P = {
     'bpm': 72, 'beat': 1.0, 'spin': 0.0,
     'myocardium': '#74181b', 'artery': '#963431', 'vein': '#3b4683', 'valve': '#e6c3ae',
-    'fstop': 2.8, 'seed': 'heart', 'fat': 1.0, 'fatReach': 0.05, 'embed': 0.5, 'coronaryArtery': '#7c2624', 'coronaryVein': '#3c3c70',
+    'fstop': 2.8, 'seed': 'heart', 'fat': 1.0, 'fatReach': 0.05, 'embed': 0.15, 'coronaryArtery': '#7c2624', 'coronaryVein': '#3c3c70',
     **asset.get('params', {}),
 }
 fps = cfg['fps']

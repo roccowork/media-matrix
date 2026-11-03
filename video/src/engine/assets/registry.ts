@@ -306,7 +306,7 @@ export const ASSETS: AssetMeta[] = [
       valve: {type: 'color', default: '#e6c3ae', desc: '瓣膜颜色'},
       coronaryArtery: {type: 'color', default: '#7c2624', desc: '冠状动脉颜色（比大动脉暗，融进心肌）'},
       coronaryVein: {type: 'color', default: '#3c3c70', desc: '心静脉颜色'},
-      embed: {type: 'number', default: 0.5, min: 0, max: 0.9, desc: '冠状血管埋进心肌的程度（0 = 原模型浮在表面，越大越细越平）'},
+      embed: {type: 'number', default: 0.15, min: 0, max: 0.9, desc: '冠状血管贴合心肌的程度（0 = 原模型；默认 0.15 只轻微贴合，粗细保持真实；《方案补充》#12 要求真实比例，不要为了观感调大）'},
       fat: {type: 'number', default: 1, min: 0, max: 2, desc: '心外膜脂肪多少（沿冠状血管的黄白色脂肪）'},
       fatReach: {type: 'number', default: 0.05, min: 0, max: 0.3, desc: '脂肪离冠状血管最远多远（模型单位，心脏约 1.2）'},
       fstop: {type: 'number', default: 2.8, min: 0.5, max: 32, desc: '景深光圈（越小背景越虚）'},
