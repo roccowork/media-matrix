@@ -51,17 +51,26 @@ void main() {
   vec3 q = vec3(r * p.xz, p.y).xzy;                      // 绕 y 自转后的表面坐标
   vec3 sun = normalize(uSun);
   float ndl = dot(normalize(vWN), sun);
-  float day = smoothstep(-0.05, 0.15, ndl);
+  float day = smoothstep(-0.08, 0.2, ndl);
   vec3 albedo; float spec = 0.0; float night = 0.0;
   if (uKind < 0.5) {
-    float h = fbm3s(q * 1.8 + uSeed) * 0.7 + 0.22 * fbm3s(q * 6.0 + uSeed * 1.7) + 0.08 * fbm3s(q * 20.0 + uSeed);
-    float landM = smoothstep(0.02, 0.06, h);
+    // 域扭曲：海岸线不规则、有半岛和海湾
+    vec3 wq = q + 0.35 * vec3(fbm3s(q * 2.0 + uSeed + 1.3), fbm3s(q * 2.0 + uSeed + 7.1), fbm3s(q * 2.0 + uSeed - 4.2));
+    float h = fbm3s(wq * 1.6 + uSeed) * 0.72 + 0.2 * fbm3s(wq * 5.5 + uSeed * 1.7) + 0.08 * fbm3s(wq * 22.0 + uSeed);
+    float landM = smoothstep(0.0, 0.025, h);
     float lat = abs(p.y);
-    vec3 landCol = mix(uLand, uLand * vec3(1.2, 1.05, 0.8), smoothstep(0.1, 0.4, h)) * (0.8 + 0.4 * fbm3s(q * 14.0));
-    landCol = mix(landCol, vec3(0.55, 0.45, 0.3), smoothstep(0.25, 0.45, h) * 0.6);         // 高地 / 沙漠
-    vec3 seaCol = mix(uOcean * 0.55, uOcean, smoothstep(-0.4, 0.05, h));                  // 浅海更亮
+    float moist = fbm3s(q * 3.0 + uSeed + 20.0);
+    vec3 forest = uLand * 0.8;
+    vec3 grass = mix(uLand, vec3(0.55, 0.6, 0.3), 0.5);
+    vec3 desert = vec3(0.72, 0.6, 0.42);
+    vec3 rock = vec3(0.45, 0.4, 0.36);
+    vec3 landCol = mix(forest, grass, smoothstep(-0.1, 0.25, moist));
+    landCol = mix(landCol, desert, smoothstep(0.1, 0.35, -moist + (0.35 - abs(lat - 0.3))));        // 副热带沙漠带
+    landCol = mix(landCol, rock, smoothstep(0.22, 0.38, h));                                           // 山地
+    landCol *= 0.85 + 0.3 * fbm3s(wq * 30.0);
+    vec3 seaCol = mix(uOcean * 0.45, uOcean * 1.1, smoothstep(-0.25, 0.02, h));                       // 近岸浅海更亮
     albedo = mix(seaCol, landCol, landM);
-    albedo = mix(albedo, vec3(0.92, 0.95, 1.0), smoothstep(0.72, 0.8, lat + 0.06 * snoise(q * 5.0)));  // 冰盖
+    albedo = mix(albedo, vec3(0.92, 0.95, 1.0), smoothstep(0.74, 0.82, lat + 0.06 * snoise(q * 5.0)));  // 冰盖
     spec = (1.0 - landM) * 0.9;
     night = landM * smoothstep(0.86, 0.95, snoise(q * 70.0 + uSeed) * 0.5 + 0.5) * smoothstep(0.3, 0.7, snoise(q * 6.0 + uSeed) * 0.5 + 0.5) * (1.0 - smoothstep(0.6, 0.75, lat)) * uCity;
     // 云层（比地表转得快一点）
