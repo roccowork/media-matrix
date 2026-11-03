@@ -145,7 +145,9 @@ void main() {
   vec2 c = gl_PointCoord - 0.5;
   float d2 = dot(c, c);
   float a = mix(exp(-d2 * 28.0) + 0.06 * exp(-d2 * 7.0), exp(-d2 * 9.0) * 0.6, vSoft);
-  gl_FragColor = vec4(vCol * vA * a, 1.0);
+  vec3 cc = vCol * vA * a;
+  if (cc.r != cc.r || cc.g != cc.g || cc.b != cc.b) cc = vec3(0.0, 50.0, 0.0);  // DEBUG
+  gl_FragColor = vec4(clamp(cc, 0.0, 60.0), 1.0);
 }`;
 
 // ---------- 尘埃（相乘混合：dst *= 输出色） ----------
@@ -317,7 +319,7 @@ export const GalaxyAsset: React.FC<GalaxyProps> = ({
       <mesh material={built.glow} frustumCulled={false} renderOrder={3}>
         <planeGeometry args={[2, 2]} />
       </mesh>
-{null}
+      <points geometry={built.dustGeo} material={built.dust} frustumCulled={false} renderOrder={4} />
     </group>
   );
 };
