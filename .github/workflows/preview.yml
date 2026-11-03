@@ -87,21 +87,55 @@ jobs:
           path: video/out/${{ matrix.item.n }}.mp4
           retention-days: 1
 
+  # 单个 Composition 拆多台机器渲染时，各段音频直接拼会在接缝处留空隙 / 咔哒声：整段音频单独渲一次（只算音频，不截帧），合并时替换
+  audio:
+    if: ${{ !contains(inputs.compositions, ',') && inputs.frames != '' }}
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    defaults:
+      run:
+        working-directory: video
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-node@v5
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: video/package-lock.json
+      - run: npm ci
+      - name: 渲染整段音频
+        run: npx remotion render src/index.ts "${{ inputs.compositions }}" out/audio.wav --codec=wav --frames=${{ inputs.frames }}
+      - uses: actions/upload-artifact@v4
+        with:
+          name: audio
+          path: video/out/audio.wav
+          retention-days: 1
+
   merge:
-    needs: [list, render]
+    needs: [list, render, audio]
+    if: ${{ always() && needs.render.result == 'success' }}
     runs-on: ubuntu-24.04
     timeout-minutes: 15
     steps:
       - uses: actions/download-artifact@v4
         with:
+          pattern: p-*
           path: parts
           merge-multiple: true
+      - uses: actions/download-artifact@v4
+        if: ${{ needs.audio.result == 'success' }}
+        with:
+          name: audio
+          path: audio
       - name: 安装 ffmpeg
         run: sudo apt-get update -q && sudo apt-get install -y -q ffmpeg
       - name: 拼接（超过 50MB 就压缩）
         run: |
           ls parts/*.mp4 | sort | sed "s#^#file '#; s#\$#'#" > list.txt
           ffmpeg -nostdin -v error -y -f concat -safe 0 -i list.txt -c copy full.mp4
+          if [ -f audio/audio.wav ]; then
+            ffmpeg -nostdin -v error -y -i full.mp4 -i audio/audio.wav -map 0:v -map 1:a -c:v copy -c:a aac -b:a 192k -shortest full2.mp4 && mv full2.mp4 full.mp4
+          fi
           if [ "$(stat -c %s full.mp4)" -gt 48000000 ]; then
             dur=$(ffprobe -v error -show_entries format=duration -of csv=p=0 full.mp4)
             kbps=$(python3 -c "print(int(46 * 8192 / $dur))")
