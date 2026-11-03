@@ -5,3 +5,4 @@ out/
 public/blender/
 # 分镜预览帧和总览图（Actions 里发 Telegram，不进 git）
 storyboards/*/preview/
+storyboards/*/shots/preview/
