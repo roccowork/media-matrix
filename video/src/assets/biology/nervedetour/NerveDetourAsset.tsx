@@ -86,7 +86,7 @@ export const NerveDetourAsset: React.FC<NerveDetourProps> = ({
   const mats = useMemo(() => ({
     outline: mkMat(outlineColor, 0.55), faint: mkMat(outlineColor, 0.25), heart: mkMat('#ff4a5e', 0.9), aorta: mkMat('#ff6a6a', 0.75),
     brain: mkMat('#ffb3d0', 0.8), larynx: mkMat('#ffffff', 0.85), nerve: mkMat(nerveColor, 0.55, 0), direct: mkMat('#ffffff', 0.5, -1, 0.05),
-    fish: mkMat(outlineColor, 0.55), legs: mkMat(outlineColor, 0.55),
+    fish: mkMat(outlineColor, 0.55), legs: mkMat(outlineColor, 0.55), faintLegs: mkMat(outlineColor, 0.25),
   }), [outlineColor, nerveColor]);
 
   const k = growAt < 0 ? 1 : ease((t - growAt) / Math.max(growDuration, 0.01));
@@ -96,70 +96,87 @@ export const NerveDetourAsset: React.FC<NerveDetourProps> = ({
 
   const strokes = useMemo(() => {
     const S: Stroke[] = [];
-    // 身体：椭圆（胸腔在右侧），鱼时更扁长
-    const bx = 0, by = 0, brx = 0.75 + 0.15 * fishness, bry = 0.42 - 0.12 * fishness;
-    S.push({pts: ellipse(bx, by, brx, bry), r: 0.012, mat: mats.outline});
-    // 脖子：从身体右上方伸出，向前上方倾斜（长颈鹿约 25°）；鱼时没有脖子
-    const tilt = THREE.MathUtils.degToRad(25 + 40 * fishness);
-    const base = V(bx + brx * 0.78, by + bry * 0.55);
+    const lerpV = (p: THREE.Vector3, q: THREE.Vector3, k_: number) => p.clone().lerp(q, k_);
+    // ---------- 长颈鹿式四足动物（侧面，头朝右；地面 y = −2.05） ----------
+    const tilt = THREE.MathUtils.degToRad(32);                      // 脖子与竖直方向的夹角
     const dir = V(Math.sin(tilt), Math.cos(tilt));
-    const nrm = V(dir.y, -dir.x);                                // 指向脖子前侧（右下）
+    const nrm = V(dir.y, -dir.x);                                    // 脖子前侧方向（右下）
+    const nbBack = V(0.6, 0.44), nbFront = V(0.9, 0.12);             // 脖子根部：后缘（鬐甲）/ 前缘（胸口上方）
+    const base = lerpV(nbBack, nbFront, 0.5);
+    const taper = 0.55;                                              // 脖子顶端宽度 / 根部宽度
     const top = base.clone().addScaledVector(dir, L);
-    const nw = 0.11;                                                // 脖子半宽
-    S.push({pts: [base.clone().addScaledVector(nrm, -nw * 1.4), top.clone().addScaledVector(nrm, -nw)], r: 0.012, mat: mats.outline});
-    S.push({pts: [base.clone().addScaledVector(nrm, nw * 1.6), top.clone().addScaledVector(nrm, nw)], r: 0.012, mat: mats.outline});
-    // 头：椭圆，朝前；鱼时头和身体连在一起（脖子长度接近 0）
-    const hc = top.clone().addScaledVector(dir, 0.1).addScaledVector(nrm, 0.12);
-    S.push({pts: ellipse(hc.x, hc.y, 0.26, 0.12, -tilt + Math.PI / 2 - 0.35), r: 0.012, mat: mats.outline});
-    // 脑：头后上部的小椭圆
-    const brain = hc.clone().addScaledVector(dir, 0.03).addScaledVector(nrm, -0.08);
-    S.push({pts: ellipse(brain.x, brain.y, 0.06, 0.04, -tilt), r: 0.01, mat: mats.brain});
-    // 喉：头下方、脖子前侧的小环
-    const lar = top.clone().addScaledVector(dir, -0.05).addScaledVector(nrm, nw * 0.55);
-    S.push({pts: ellipse(lar.x, lar.y, 0.03, 0.03), r: 0.008, mat: mats.larynx});
-    // 心脏 + 主动脉弓（胸腔前部）
-    const hrt = V(bx + brx * 0.55, by - bry * 0.15);
-    S.push({pts: ellipse(hrt.x, hrt.y, 0.085, 0.1, 0.4), r: 0.012, mat: mats.heart});
+    const half = nbBack.distanceTo(nbFront) / 2;
+    const ntBack = top.clone().addScaledVector(nrm, -half * taper), ntFront = top.clone().addScaledVector(nrm, half * taper);
+    // 身体：从胸口沿胸、腹、臀、背画到鬐甲
+    S.push({pts: [nbFront, V(0.95, -0.05), V(0.8, -0.3), V(0.45, -0.42), V(0.0, -0.44), V(-0.45, -0.38), V(-0.72, -0.2), V(-0.8, 0.05), V(-0.72, 0.26), V(-0.3, 0.38), V(0.2, 0.46), nbBack], r: 0.013, mat: mats.legs});
+    // 脖子两条边
+    S.push({pts: [nbBack, lerpV(nbBack, ntBack, 0.5).addScaledVector(nrm, -0.01), ntBack], r: 0.013, mat: mats.legs});
+    S.push({pts: [nbFront, lerpV(nbFront, ntFront, 0.5).addScaledVector(nrm, 0.01), ntFront], r: 0.013, mat: mats.legs});
+    // 头：局部坐标（u 朝前下方的口鼻，v 朝上）
+    const hu = V(0.94, -0.34).normalize(), hv = V(0.34, 0.94);
+    const ho = top.clone().addScaledVector(dir, 0.04);
+    const H = (u: number, v: number) => ho.clone().addScaledVector(hu, u).addScaledVector(hv, v);
+    S.push({pts: [ntBack, H(-0.1, 0.06), H(0.05, 0.1), H(0.28, 0.06), H(0.38, 0.0), H(0.36, -0.06), H(0.24, -0.09), H(0.04, -0.09), ntFront], r: 0.012, mat: mats.legs});
+    S.push({pts: [H(-0.04, 0.09), H(-0.07, 0.2)], r: 0.011, mat: mats.legs});              // 角
+    S.push({pts: [H(0.01, 0.1), H(0.0, 0.2)], r: 0.011, mat: mats.legs});
+    S.push({pts: [H(-0.09, 0.07), H(-0.2, 0.12), H(-0.12, 0.05)], r: 0.009, mat: mats.legs}); // 耳朵
+    // 腿：近侧两条亮、远侧两条暗；有膝盖和蹄
+    const leg = (x: number, near: boolean, hind: boolean) => {
+      const y0 = hind ? -0.36 : -0.42, knee = hind ? -1.05 : -1.2, g = -2.05;
+      const w0 = 0.075, wk = 0.04, ws = 0.032;
+      const kx = x + (hind ? -0.06 : 0.02);
+      const pts = [V(x - w0, y0), V(kx - wk, knee), V(x - ws, g + 0.12), V(x - ws - 0.01, g), V(x + ws + 0.03, g), V(x + ws, g + 0.12), V(kx + wk, knee), V(x + w0, y0)];
+      S.push({pts, r: 0.011, mat: near ? mats.legs : mats.faintLegs});
+    };
+    leg(0.42, false, false); leg(-0.52, false, true); leg(0.6, true, false); leg(-0.36, true, true);
+    S.push({pts: [V(-0.79, 0.12), V(-0.9, -0.3), V(-0.92, -0.7)], r: 0.009, mat: mats.legs});   // 尾巴
+    S.push({pts: ellipse(-0.92, -0.76, 0.025, 0.07), r: 0.008, mat: mats.legs});
+    // ---------- 鱼（侧面，头朝右；第 11 镜开始的样子） ----------
+    if (fishness > 0.01) {
+      S.push({pts: [V(1.05, 0.0), V(0.9, 0.2), V(0.4, 0.34), V(-0.2, 0.3), V(-0.7, 0.12), V(-0.95, 0.0), V(-0.7, -0.12), V(-0.2, -0.28), V(0.4, -0.3), V(0.9, -0.17), V(1.05, 0.0)], r: 0.013, mat: mats.fish});
+      S.push({pts: [V(-0.95, 0.0), V(-1.25, 0.28), V(-1.15, 0.0), V(-1.25, -0.28), V(-0.95, 0.0)], r: 0.012, mat: mats.fish});
+      S.push({pts: [V(-0.15, 0.31), V(0.05, 0.52), V(0.3, 0.33)], r: 0.012, mat: mats.fish});
+      S.push({pts: [V(0.25, -0.29), V(0.15, -0.45), V(0.42, -0.31)], r: 0.011, mat: mats.fish});
+      for (let i = 0; i < 5; i++) {                                    // 鳃裂
+        const x = 0.62 - i * 0.055;
+        S.push({pts: [V(x, 0.1), V(x - 0.03, -0.1)], r: 0.008, mat: mats.fish});
+      }
+      S.push({pts: ellipse(0.93, 0.07, 0.025, 0.025), r: 0.008, mat: mats.fish});     // 眼
+    }
+    // ---------- 器官和神经（位置在鱼和长颈鹿之间平滑过渡） ----------
+    const m_ = landness;
+    const brain = lerpV(V(0.82, 0.12), H(-0.02, 0.03), m_);
+    const lar = lerpV(V(0.66, -0.06), top.clone().addScaledVector(dir, -0.06).addScaledVector(nrm, half * taper * 0.45), m_);
+    const hrt = lerpV(V(0.5, -0.17), V(0.66, -0.12), m_);
+    const hr = 0.075 + 0.05 * m_;
+    S.push({pts: [hrt.clone().add(V(0, hr * 0.9)), hrt.clone().add(V(hr * 0.9, hr * 0.2)), hrt.clone().add(V(0.0, -hr * 1.2)), hrt.clone().add(V(-hr * 0.9, hr * 0.2)), hrt.clone().add(V(0, hr * 0.9))], r: 0.013, mat: mats.heart});
+    const ar = hr * 1.25;
     const arch: THREE.Vector3[] = [];
     for (let i = 0; i <= 24; i++) {
-      const a = Math.PI * (i / 24);
-      arch.push(V(hrt.x + 0.11 * Math.cos(a), hrt.y + 0.1 + 0.1 * Math.sin(a)));
+      const a_ = Math.PI * (i / 24);
+      arch.push(hrt.clone().add(V(ar * Math.cos(a_), hr * 0.9 + ar * 0.85 * Math.sin(a_))));
     }
-    S.push({pts: arch, r: 0.016, mat: mats.aorta});
-    // 喉返神经：脑 → 沿脖子后侧往下 → 胸腔里从主动脉弓下方钩过 → 沿脖子前侧往上 → 喉
-    const back = (s: number) => base.clone().addScaledVector(dir, s).addScaledVector(nrm, -nw * 0.45);
-    const front = (s: number) => base.clone().addScaledVector(dir, s).addScaledVector(nrm, nw * 0.35);
-    const np: THREE.Vector3[] = [brain.clone(), back(L - 0.02)];
-    for (let s = L - 0.1; s > 0.05; s -= 0.15) np.push(back(s));
-    np.push(V(hrt.x - 0.16, hrt.y + 0.16), V(hrt.x - 0.13, hrt.y - 0.02), V(hrt.x, hrt.y - 0.03), V(hrt.x + 0.14, hrt.y + 0.06), V(hrt.x + 0.16, hrt.y + 0.22));
-    for (let s = 0.1; s < L - 0.08; s += 0.15) np.push(front(s));
+    S.push({pts: arch, r: 0.018, mat: mats.aorta});
+    S.push({pts: ellipse(brain.x, brain.y, 0.06, 0.04, -0.3), r: 0.01, mat: mats.brain});
+    S.push({pts: ellipse(lar.x, lar.y, 0.028, 0.028), r: 0.008, mat: mats.larynx});
+    // 神经：脑 → 沿脖子后侧往下 → 绕到主动脉弓后面、从弓下方钩过 → 沿脖子前侧往上 → 喉
+    const inBack = (sv: number) => base.clone().addScaledVector(dir, sv).addScaledVector(nrm, -half * (1 - (1 - taper) * sv / Math.max(L, 1e-3)) * 0.45);
+    const inFront = (sv: number) => base.clone().addScaledVector(dir, sv).addScaledVector(nrm, half * (1 - (1 - taper) * sv / Math.max(L, 1e-3)) * 0.35);
+    const archBack = hrt.clone().add(V(-ar - 0.03, hr)), under = hrt.clone().add(V(0, -hr * 0.15)), archFront = hrt.clone().add(V(ar + 0.035, hr * 1.1));
+    const np: THREE.Vector3[] = [brain.clone()];
+    if (L > 0.12) { for (let sv = L - 0.06; sv > 0.08; sv -= 0.15) np.push(inBack(sv)); }
+    np.push(archBack, hrt.clone().add(V(-ar * 0.75, -hr * 0.05)), under.clone().add(V(0, -ar * 0.55)), hrt.clone().add(V(ar * 0.75, -hr * 0.05)), archFront);
+    if (L > 0.12) { for (let sv = 0.12; sv < L - 0.08; sv += 0.15) np.push(inFront(sv)); }
     np.push(lar.clone());
-    S.push({pts: np, r: 0.011, mat: mats.nerve});
-    if (direct) S.push({pts: [brain.clone(), lar.clone()], r: 0.006, mat: mats.direct});
-    // 鱼：尾鳍、背鳍、鳃裂（随 fishness 淡出）
-    if (fishness > 0.01) {
-      const tx = bx - brx;
-      S.push({pts: [V(tx, by), V(tx - 0.3, by + 0.25), V(tx - 0.22, by), V(tx - 0.3, by - 0.25), V(tx, by)], r: 0.012, mat: mats.fish});
-      S.push({pts: [V(bx - 0.2, by + bry * 0.95), V(bx + 0.05, by + bry + 0.18), V(bx + 0.25, by + bry * 0.9)], r: 0.012, mat: mats.fish});
-      for (let i = 0; i < 5; i++) {
-        const g = base.clone().addScaledVector(nrm, 0.02).add(V(-0.05 - i * 0.05, -0.05 - i * 0.02));
-        S.push({pts: [g, g.clone().add(V(0.03, -0.12))], r: 0.008, mat: mats.fish});
-      }
-    }
-    // 陆生：四条腿（随 landness 淡入）
-    if (landness > 0.01) {
-      const legL = 1.6 * landness;
-      for (const [x, ph] of [[-0.5, 0], [-0.35, 0.3], [0.4, 0.15], [0.55, 0.45]] as [number, number][]) {
-        const y0 = by - Math.sqrt(Math.max(0, 1 - (x / brx) ** 2)) * bry * 0.92;
-        S.push({pts: [V(x, y0), V(x + 0.02 * Math.sin(ph * 6), y0 - legL * 0.5), V(x, y0 - legL)], r: 0.012, mat: mats.legs});
-      }
-    }
+    S.push({pts: np, r: 0.012, mat: mats.nerve});
+    if (direct) S.push({pts: [brain.clone(), lar.clone()], r: 0.007, mat: mats.direct});
     return S;
   }, [mats, L, fishness, landness, direct]);
 
   // 透明度 / 脉冲
   mats.fish.uniforms.uAlpha.value = 0.55 * fishness;
   mats.legs.uniforms.uAlpha.value = 0.55 * landness;
+  mats.faintLegs.uniforms.uAlpha.value = 0.22 * landness;
   mats.nerve.uniforms.uPulse.value = pulseAt < 0 ? -1 : Math.min(1.2, Math.max(0, (t - pulseAt) / Math.max(pulseTime, 0.01)));
 
   const geos = useMemo(() => strokes.map((s) => {

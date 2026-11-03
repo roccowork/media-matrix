@@ -8,14 +8,83 @@
   "camera": {
     "preset": "pull_back",
     "keys": [
-      {"t": 0, "pos": [0.35, -0.35, 4.6], "look": [0.35, -0.35, 0], "fov": 35, "roll": 0},
-      {"t": 3.6, "pos": [0.55, 0.2, 7.0], "look": [0.55, 0.2, 0], "fov": 35, "roll": 0},
-      {"t": 5, "pos": [0.6, 0.25, 7.2], "look": [0.6, 0.25, 0], "fov": 35, "roll": 0}
+      {
+        "t": 0,
+        "pos": [
+          0.1,
+          -0.55,
+          5.8
+        ],
+        "look": [
+          0.1,
+          -0.55,
+          0
+        ],
+        "fov": 35,
+        "roll": 0
+      },
+      {
+        "t": 3.6,
+        "pos": [
+          0.3,
+          0.05,
+          7.8
+        ],
+        "look": [
+          0.3,
+          0.05,
+          0
+        ],
+        "fov": 35,
+        "roll": 0
+      },
+      {
+        "t": 5,
+        "pos": [
+          0.32,
+          0.08,
+          8.0
+        ],
+        "look": [
+          0.32,
+          0.08,
+          0
+        ],
+        "fov": 35,
+        "roll": 0
+      }
     ]
   },
-  "post": {"bloom": {"intensity": 0.9, "threshold": 0.6, "radius": 0.6}, "tone": "aces", "vignette": 0.5, "grain": 0.012},
+  "post": {
+    "bloom": {
+      "intensity": 0.9,
+      "threshold": 0.6,
+      "radius": 0.6
+    },
+    "tone": "aces",
+    "vignette": 0.5,
+    "grain": 0.012
+  },
   "assets": [
-    {"id": "biology.nervedetour.v1", "params": {"position": [0, 0, 0], "scale": 1, "startNeck": 0.35, "endNeck": 1.8, "growAt": 0.4, "growDuration": 3.2, "fishStart": false, "pulseAt": 2.4, "pulseTime": 2.4, "direct": true}}
+    {
+      "id": "biology.nervedetour.v1",
+      "params": {
+        "position": [
+          0,
+          0,
+          0
+        ],
+        "scale": 1,
+        "startNeck": 0.35,
+        "endNeck": 1.8,
+        "growAt": 0.4,
+        "growDuration": 3.2,
+        "fishStart": false,
+        "pulseAt": 2.4,
+        "pulseTime": 2.4,
+        "direct": true
+      }
+    }
   ],
   "version": "1.0.0"
 }
