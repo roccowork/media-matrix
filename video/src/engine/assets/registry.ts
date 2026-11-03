@@ -386,7 +386,7 @@ export const ASSETS: AssetMeta[] = [
     params: {
       diameter: {type: 'number', default: 60, min: 8, max: 500, desc: '血管内径（µm；毛细血管 5–10，小动脉 30–100）'},
       length: {type: 'number', default: 2000, min: 200, max: 20000, desc: '血管总长（µm，镜头要走的距离以内）'},
-      hematocrit: {type: 'number', default: 0.45, min: 0, max: 0.7, desc: '血细胞比容（正常约 0.40–0.50；决定红细胞多少）'},
+      hematocrit: {type: 'number', default: 0.45, min: 0, max: 0.7, desc: '血细胞比容（正常约 0.40–0.50；决定红细胞多少）。默认真实值；视频里为了看清管壁可以调稀（如 0.12），但片中要注明「示意」（《方案补充》#14）'},
       vmax: {type: 'number', default: 4000, min: 0, max: 50000, desc: '中心最大流速（µm/s，真实值；小动脉约 2000–10000）'},
       slowmo: {type: 'number', default: 20, min: 1, max: 1000, desc: '慢放倍数（真实速度太快看不清；片中要说明慢放）'},
       window: {type: 'number', default: 320, min: 60, max: 2000, desc: '镜头前方保持有细胞的距离（µm）'},
