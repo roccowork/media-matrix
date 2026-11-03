@@ -32,7 +32,7 @@ npx remotion render src/index.ts Shot-BlackHole out/blackhole.mp4 --gl=angle    
 ```
 
 ## 加一个新镜头
-1. 需要的资产先在 `src/engine/assets/registry.ts` 登记（程序化资产写组件 + 参数范围；文件资产写路径 + 许可证 + 出处）。
+1. 需要的资产先在 `src/engine/assets/registry.ts` 登记（程序化资产写组件 + 参数范围；文件资产写路径 + 许可证 + 出处）；缩略图（方案第五节 `thumbnail` 字段）：从验收镜头截一帧，480×270 JPG 放 `public/assets/thumbs/<asset_id>.jpg`。
 2. 写 `shotconfigs/<id>.json`，跑 `validate`。
 3. 在 `src/shots/` 写镜头组件（读 JSON → `<Stage>` + `<AssetView>`），在 `src/Root.tsx` 的 Shots 文件夹注册 Composition。
 4. `keyframes` 出 3–5 张关键帧给用户验收；用户同意后才出预览 / 成片。
@@ -54,10 +54,19 @@ postprocessing 6.38.0 · @react-three/postprocessing 3.0.4 · react 19.2.0 · aj
 - 云端没有显卡：黑洞 1080p 一帧约 35–90 秒（swangle）；整段渲染放用户笔记本（`--gl=angle`）或 Actions 多机并行。
 - 随机数一律用 Remotion 的 `random(seed)`；同帧确定性已用 `determinism` 验证（黑洞第 330 帧逐字节一致）。
 
-## 资产（第一批，见 registry.ts）
-| id | 类型 | 许可 |
-|---|---|---|
-| cosmos.blackhole.v1 | 程序化（光线步进 Shader） | 自研 |
-| cosmos.stardust.v1 | 程序化（粒子） | 自研 |
-| tech.robot.expressive.v1 | 文件（GLB，14 个动作） | CC0 |
-| biology.cat.lowpoly.v1 | 文件（FBX） | CC0 |
+## 资产（见 registry.ts）
+| id | 类型 | 验收镜头 | 许可 |
+|---|---|---|---|
+| cosmos.blackhole.v1 | 程序化（光线步进 Shader） | Shot-BlackHole | 自研 |
+| cosmos.stardust.v1 | 程序化（粒子） | Shot-BlackHole | 自研 |
+| cosmos.nebula.v1 | 程序化（体积光线步进） | Asset-Nebula | 自研 |
+| cosmos.planet.v1 | 程序化（Shader） | Asset-Planet | 自研 |
+| cosmos.star.v1 | 程序化（Shader） | Asset-Star | 自研 |
+| cosmos.galaxy.v1 | 程序化（GPU 粒子 + Shader） | Asset-Galaxy | 自研 |
+| biology.neuron.v1 / axon.v1 / neural_web.v1 | 程序化 | Shot-Neural | 自研 |
+| biology.dna.v1 | 程序化（Instanced + Shader） | Asset-DNA | 自研 |
+| tech.chip.v1 | 程序化 | Shot-AIChip | 自研 |
+| tech.datastream.v1 | 程序化（GPU 粒子） | Asset-DataStream | 自研 |
+| tech.hud.v1 | 程序化（Shader，全息界面） | Asset-HUD | 自研 |
+| tech.robot.expressive.v1 | 文件（GLB，14 个动作） | — | CC0 |
+| biology.cat.lowpoly.v1 | 文件（FBX） | — | CC0 |

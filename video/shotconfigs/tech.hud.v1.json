@@ -1,0 +1,41 @@
+{
+  "id": "tech.hud.v1",
+  "renderer": "threejs",
+  "style": "cyber_tech",
+  "fps": 30,
+  "duration": 10,
+  "camera": {
+    "preset": "dolly_in",
+    "keys": [
+      {"t": 0, "pos": [-2.2, 2.6, 7.8], "look": [0, 1.8, 0], "fov": 40, "roll": -2},
+      {"t": 5, "pos": [-0.6, 2.2, 6.4], "look": [0, 1.9, -0.5], "fov": 40, "roll": 0},
+      {"t": 10, "pos": [1.4, 2.0, 5.2], "look": [0.2, 1.95, -0.8], "fov": 40, "roll": 1.5}
+    ]
+  },
+  "post": {
+    "bloom": {"intensity": 1.0, "threshold": 0.85, "radius": 0.6},
+    "tone": "aces",
+    "vignette": 0.55,
+    "grain": 0.018,
+    "chromatic": 0.001
+  },
+  "assets": [
+    {
+      "id": "tech.hud.v1",
+      "params": {
+        "position": [0, 0, 0],
+        "size": 1,
+        "panels": 7,
+        "color": "#38d9ff",
+        "accent": "#ffb347",
+        "bootAt": 0.4,
+        "flicker": 0.5,
+        "globe": true,
+        "floor": true,
+        "brightness": 1,
+        "seed": "hud-demo"
+      }
+    }
+  ],
+  "version": "1.0.0"
+}

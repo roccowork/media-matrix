@@ -15,6 +15,7 @@ import {NeuralWebAsset} from '../../assets/biology/neural_web/NeuralWebAsset';
 import {DnaAsset} from '../../assets/biology/dna/DnaAsset';
 import {ChipAsset} from '../../assets/tech/chip/ChipAsset';
 import {DataStreamAsset} from '../../assets/tech/datastream/DataStreamAsset';
+import {HudAsset} from '../../assets/tech/hud/HudAsset';
 
 const C = <P,>(c: React.FC<P>) => c as unknown as React.FC<Record<string, unknown>>;
 
@@ -64,6 +65,7 @@ export const ASSETS: AssetMeta[] = [
     effects: ['volumetric_nebula', 'dust_absorption', 'starfield', 'star_cluster_core'],
     camera_presets: ['dolly_in（由远及近）', 'fly_through（飞入内部）'],
     lighting_preset: '自发光（无需灯光）',
+    thumbnail: 'assets/thumbs/cosmos.nebula.v1.jpg',
     license: 'own（自研 Shader）',
     version: '1.0.0',
     notes: '全屏光线步进；可单独当宇宙背景，也可放在其他宇宙镜头后面（renderOrder -2，先画）',
@@ -96,6 +98,7 @@ export const ASSETS: AssetMeta[] = [
     effects: ['procedural_terrain', 'gas_bands', 'atmosphere_rim', 'clouds', 'city_lights', 'rings'],
     camera_presets: ['orbit（环绕）', 'dolly_in（推近）'],
     lighting_preset: '自带平行光（sunDir），不需要场景灯光',
+    thumbnail: 'assets/thumbs/cosmos.planet.v1.jpg',
     license: 'own（自研 Shader）',
     version: '1.0.0',
     notes: '背景建议叠 cosmos.nebula.v1',
@@ -120,6 +123,7 @@ export const ASSETS: AssetMeta[] = [
     effects: ['plasma_surface', 'granulation', 'sunspots', 'limb_darkening', 'corona', 'prominences'],
     camera_presets: ['dolly_in（推近表面）', 'orbit'],
     lighting_preset: '自发光；可作为行星资产的光源方向参考',
+    thumbnail: 'assets/thumbs/cosmos.star.v1.jpg',
     license: 'own（自研 Shader）',
     version: '1.0.0',
   },
@@ -146,6 +150,7 @@ export const ASSETS: AssetMeta[] = [
     effects: ['spiral_arms', 'differential_rotation', 'galactic_bulge', 'star_clusters', 'hii_regions', 'dust_lanes', 'core_glow'],
     camera_presets: ['dolly_in（远处斜俯看推近）', 'orbit（环绕）', 'fly_through（掠过盘面）'],
     lighting_preset: '自发光（无需灯光）',
+    thumbnail: 'assets/thumbs/cosmos.galaxy.v1.jpg',
     license: 'own（自研 Shader）',
     version: '1.0.0',
     notes: '粒子位置全在顶点着色器里按 gl_VertexID + 种子哈希计算，CPU 零开销、同帧确定；背景建议叠 cosmos.nebula.v1（gain 调低）',
@@ -190,6 +195,7 @@ export const ASSETS: AssetMeta[] = [
       seed: {type: 'seed', default: 'n0', desc: '种子：形状 / 布局 / 纹理随之变化（同一种子画面永远不变；每个视频用自己的种子，如视频编号）'},
     },
     effects: ['fresnel_membrane', 'activation_glow', 'dendrite_pulse'],
+    thumbnail: 'assets/thumbs/shot.neural_activation.jpg',  // 与神经元 / 轴突 / 神经网同框的镜头截图
     license: 'own',
     version: '1.0.0',
   },
@@ -211,6 +217,7 @@ export const ASSETS: AssetMeta[] = [
       seed: {type: 'seed', default: 'ax', desc: '种子：形状 / 布局 / 纹理随之变化（同一种子画面永远不变；每个视频用自己的种子，如视频编号）'},
     },
     effects: ['signal_pulse', 'sparks', 'synapse_burst'],
+    thumbnail: 'assets/thumbs/shot.neural_activation.jpg',  // 与神经元 / 轴突 / 神经网同框的镜头截图
     license: 'own',
     version: '1.0.0',
   },
@@ -235,6 +242,7 @@ export const ASSETS: AssetMeta[] = [
       seed: {type: 'seed', default: 'web', desc: '种子：形状 / 布局 / 纹理随之变化（同一种子画面永远不变；每个视频用自己的种子，如视频编号）'},
     },
     effects: ['gpu_particles', 'activation_wave'],
+    thumbnail: 'assets/thumbs/shot.neural_activation.jpg',  // 与神经元 / 轴突 / 神经网同框的镜头截图
     license: 'own',
     version: '1.0.0',
     notes: '粒子位置全部在顶点着色器里按时间计算（GPU 粒子），CPU 零开销',
@@ -271,6 +279,7 @@ export const ASSETS: AssetMeta[] = [
     effects: ['fresnel_membrane', 'subsurface_tint', 'instanced_atoms', 'unzip_replication', 'nucleotide_docking', 'flow_particles', 'floating_dust', 'volumetric_haze', 'bokeh', 'distance_fog'],
     camera_presets: ['tracking（沿侧面滑过 + 推近）', 'orbit（绕螺旋轴环绕）', 'macro_push（推到分叉点特写）'],
     lighting_preset: '着色器内置主光 + 菲涅尔边缘光（无需灯光）；自带体积雾 / bokeh；配深色背景 + bloom + post.dof（cInf 12–16，focus 对在主体那段螺旋）',
+    thumbnail: 'assets/thumbs/biology.dna.v1.jpg',
     license: 'own',
     version: '1.0.0',
     notes: '尺寸：半径 radius，螺距 ≈ 3.5 × radius，螺旋轴沿 x、中心在 position；全部几何在顶点着色器里计算（frustumCulled 关闭）',
@@ -292,6 +301,7 @@ export const ASSETS: AssetMeta[] = [
     },
     effects: ['pbr_metal', 'iridescence', 'circuit_pulse', 'light_beams'],
     lighting_preset: '需要 StudioEnv 环境反射 + 主光 / 轮廓光',
+    thumbnail: 'assets/thumbs/tech.chip.v1.jpg',
     license: 'own',
     version: '1.0.0',
     notes: '尺寸：封装 4×4，晶片 2.4×2.4（中心原点，晶片表面 y≈0.31）；电路版图随 seed 变化',
@@ -319,9 +329,38 @@ export const ASSETS: AssetMeta[] = [
     effects: ['gpu_particles', 'fiber_bundle', 'packet_trails', 'lightning_exchange', 'floor_grid', 'binary_glyphs'],
     camera_presets: ['fly_through（沿中心线在束内部穿行）', 'tracking（束外侧平行跟拍）'],
     lighting_preset: '自发光（无需灯光）；配 bloom + ACES',
+    thumbnail: 'assets/thumbs/tech.datastream.v1.jpg',
     license: 'own',
     version: '1.0.0',
     notes: '中心线 spine(s) = position + [curve·L·0.10·sin(4.712s), curve·L·0.035·(1−cos πs), −s·L]（导出 dataStreamSpine 可算镜头路线）；束中间留空心通道（半径约 0.3·spread）；全部位置在着色器里按时间计算（确定性）',
+  },
+  {
+    asset_id: 'tech.hud.v1',
+    asset_name: '全息界面 HUD（投影底盘、光锥、数据地球、弧形悬浮面板、连接线数据流）',
+    category: 'tech',
+    kind: 'procedural',
+    renderer: 'threejs',
+    component: C(HudAsset),
+    params: {
+      position: {type: 'vec3', default: [0, 0, 0], desc: '投影底盘中心（地面）位置'},
+      size: {type: 'number', default: 1, min: 0.1, max: 20, desc: '整体尺寸倍数（1 = 底盘半径 1.6、地球中心高 1.75、面板弧半径约 3.2）'},
+      panels: {type: 'number', default: 7, min: 1, max: 12, desc: '面板数量（取整）；控件类型轮流取：柱状图 / 波形 / 雷达 / 文字行 / 点阵 / 数码管读数'},
+      color: {type: 'color', default: '#38d9ff', desc: '主色（全息青）'},
+      accent: {type: 'color', default: '#ffb347', desc: '强调色（高亮数据、光点、指示灯）'},
+      bootAt: {type: 'number', default: 0.5, min: -1, max: 600, desc: '开机动画开始时间（秒）；-1 = 一开始就全部开着'},
+      flicker: {type: 'number', default: 0.5, min: 0, max: 1, desc: '闪烁 / 横带故障强度'},
+      globe: {type: 'boolean', default: true, desc: '显示中央数据地球（经纬线 + 点阵大陆 + 轨道环）'},
+      floor: {type: 'boolean', default: true, desc: '显示地面网格'},
+      brightness: {type: 'number', default: 1, min: 0.1, max: 5, desc: '整体亮度'},
+      seed: {type: 'seed', default: 'hud', desc: '种子：面板位置 / 尺寸 / 控件类型分配、数据曲线、点阵、大陆形状随之变化（每个视频用自己的种子）'},
+    },
+    effects: ['hologram_panels', 'boot_sequence', 'scanlines', 'glitch', 'projector_rings', 'light_cone', 'data_globe', 'data_links', 'seven_segment_digits'],
+    camera_presets: ['dolly_in（前方斜推近）', 'orbit（绕底盘环绕）', 'tracking（沿面板弧横移）'],
+    lighting_preset: '自发光（无需灯光）；配 bloom + ACES',
+    thumbnail: 'assets/thumbs/tech.hud.v1.jpg',
+    license: 'own（自研 Shader）',
+    version: '1.0.0',
+    notes: '面板沿弧排在 -z 一侧、面朝中心，镜头放在 +z 一侧看正面；开机顺序：底盘 0–0.8s、光锥 0.3–1s、地球 0.5–1.2s、面板从中间往两边 0.9–1.9s 起各 1.2s、连接线 1.4–2.2s（相对 bootAt）；面板文字只是纹理，数码管数字可读；全部是加色透明材质、不写深度，post.dof 会把整张图按无穷远一起虚化，所以 HUD 镜头不要开 dof',
   },
   {
     asset_id: 'tech.robot.expressive.v1',
