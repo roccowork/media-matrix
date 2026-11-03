@@ -15,13 +15,59 @@
     "camera": {
       "preset": "keys",
       "keys": [
-        {"t": 0, "pos": [37, 7, 64], "look": [0, 0, 0], "fov": 40, "roll": 2},
-        {"t": 2.5, "pos": [22, 6, 40], "look": [0, 0, 0], "fov": 40, "roll": 0},
-        {"t": 5, "pos": [11, 5, 22], "look": [0, 0.5, 0], "fov": 40, "roll": -1}
+        {
+          "t": 0,
+          "pos": [
+            -30,
+            6,
+            -42
+          ],
+          "look": [
+            0,
+            0,
+            0
+          ],
+          "fov": 40,
+          "roll": -2
+        },
+        {
+          "t": 2.5,
+          "pos": [
+            -19,
+            5.5,
+            -30
+          ],
+          "look": [
+            0,
+            0,
+            0
+          ],
+          "fov": 40,
+          "roll": 0
+        },
+        {
+          "t": 5,
+          "pos": [
+            -11,
+            5,
+            -22
+          ],
+          "look": [
+            0,
+            0.5,
+            0
+          ],
+          "fov": 40,
+          "roll": 1
+        }
       ]
     },
     "post": {
-      "bloom": {"intensity": 0.7, "threshold": 0.85, "radius": 0.5},
+      "bloom": {
+        "intensity": 0.7,
+        "threshold": 0.85,
+        "radius": 0.5
+      },
       "tone": "aces",
       "vignette": 0.55,
       "grain": 0.012
@@ -29,19 +75,68 @@
     "assets": [
       {
         "id": "cosmos.milkyway.v1",
-        "params": {"centerAzimuth": 0, "centerElevation": 12, "tilt": 28, "seed": "2026-11-03-ai-100-years-sky"}
+        "params": {
+          "centerAzimuth": 0,
+          "centerElevation": 12,
+          "tilt": 28,
+          "seed": "2026-11-03-ai-100-years-sky"
+        }
       },
       {
         "id": "cosmos.mooncore.v1",
-        "params": {"position": [39.2, 3.8, 52.3], "radius": 2.2, "crackAt": -1, "openAt": -1, "openSpeed": 0.14, "sunDir": [-0.54, -0.07, -0.84], "seed": "2026-11-03-ai-100-years-s7"}
+        "params": {
+          "position": [
+            -29.25,
+            3.16,
+            -31.56
+          ],
+          "radius": 2.2,
+          "crackAt": -1,
+          "openAt": -1,
+          "openSpeed": 0.14,
+          "sunDir": [
+            0.68,
+            -0.07,
+            0.73
+          ],
+          "seed": "2026-11-03-ai-100-years-s7"
+        }
       },
       {
         "id": "cosmos.star.v1",
-        "params": {"position": [0, 0, 0], "radius": 5, "color": "#ffa43a", "brightness": 1, "activity": 1.2, "corona": 4.5, "prominences": 7, "seed": "2026-11-03-ai-100-years-sun"}
+        "params": {
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "radius": 5,
+          "color": "#ffa43a",
+          "brightness": 1,
+          "activity": 1.2,
+          "corona": 8,
+          "prominences": 7,
+          "seed": "2026-11-03-ai-100-years-sun"
+        }
       },
       {
         "id": "cosmos.dysonswarm.v1",
-        "params": {"position": [0, 0, 0], "radius": 5, "shellRadius": 1.5, "count": 80000, "rings": 40, "bandWidth": 9, "deployAt": 0.3, "deployDuration": 3.0, "ringOpen": 1.2, "seed": "2026-11-03-ai-100-years-s8"}
+        "params": {
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "radius": 5,
+          "shellRadius": 1.5,
+          "count": 80000,
+          "rings": 40,
+          "bandWidth": 9,
+          "deployAt": 0.3,
+          "deployDuration": 3.0,
+          "ringOpen": 1.2,
+          "seed": "2026-11-03-ai-100-years-s8"
+        }
       }
     ],
     "version": "1.0.0"
