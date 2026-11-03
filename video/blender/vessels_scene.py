@@ -17,6 +17,7 @@ shot = Shot('biology.vessels.v1', {
     'artery': '#a3302c', 'vein': '#34488f', 'heart': '#74181b',
     'pulse': 1.0, 'bpm': 72, 'pulseSpeed': 1.2,
     'skeleton': 0.12, 'fstop': 4.0, 'seed': 'vessels',
+    'lightsOutAt': -1.0, 'lightsOutDuration': 2.5,
 })
 P = shot.P
 parts = shot.import_glb('public/assets/models/anatomy/vessels.glb')
@@ -111,15 +112,24 @@ if P['skeleton'] > 0:
         o.visible_shadow = False
 
 shot.world((0.003, 0.005, 0.01, 1))
-shot.area_light('key', (-2.5, -3.0, 3.0), 420, (1.0, 0.93, 0.85), 2.0, target=(0, 0, 1.0))
-shot.area_light('fill', (3.0, -2.5, 1.2), 70, (0.85, 0.9, 1.0), 2.5, target=(0, 0, 0.9))
-shot.area_light('rim_a', (2.0, 3.0, 2.4), 700, (0.5, 0.7, 1.0), 1.5, target=(0, 0, 1.0))
-shot.area_light('rim_b', (-2.4, 2.6, 1.0), 450, (0.6, 0.6, 1.0), 1.5, target=(0, 0, 0.8))
+LIGHTS = [
+    shot.area_light('key', (-2.5, -3.0, 3.0), 420, (1.0, 0.93, 0.85), 2.0, target=(0, 0, 1.0)),
+    shot.area_light('fill', (3.0, -2.5, 1.2), 70, (0.85, 0.9, 1.0), 2.5, target=(0, 0, 0.9)),
+    shot.area_light('rim_a', (2.0, 3.0, 2.4), 700, (0.5, 0.7, 1.0), 1.5, target=(0, 0, 1.0)),
+    shot.area_light('rim_b', (-2.4, 2.6, 1.0), 450, (0.6, 0.6, 1.0), 1.5, target=(0, 0, 0.8)),
+]
+BASE_E = [l.data.energy for l in LIGHTS]
 shot.camera(fstop=P['fstop'])
 shot.render_settings(P['seed'])
 
 
 def apply_frame(f, t):
+    # 熄灯（1.1.0 新增，默认关）：灯光渐暗到零，身体隐入黑暗，只剩血流脉冲的光
+    if P['lightsOutAt'] >= 0:
+        k = min(1.0, max(0.0, (t - P['lightsOutAt']) / max(P['lightsOutDuration'], 0.01)))
+        k = k * k * (3 - 2 * k)
+        for l, e in zip(LIGHTS, BASE_E):
+            l.data.energy = e * (1 - k)
     for n in TIME:
         n.outputs[0].default_value = t
 

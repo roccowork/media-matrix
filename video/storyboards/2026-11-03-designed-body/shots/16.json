@@ -1,0 +1,72 @@
+{
+  "n": 16,
+  "visual": "全身血管网 + 半透明骨架，镜头从胸口拉远到全身；灯光渐渐熄灭，人体隐入黑暗，只剩心跳带出的一道道血流光",
+  "onscreen": {
+    "text": "至于世界为何有规律，你怎么看？",
+    "position": "top"
+  },
+  "note": "开放式收尾，不下结论（《方案补充》#27）；血流脉冲速度为示意",
+  "config": {
+    "id": "biology.vessels.v1",
+    "renderer": "blender",
+    "style": "cinematic_science",
+    "fps": 30,
+    "duration": 5,
+    "note": "血流脉冲速度为示意（真实脉搏波 5–10 m/s），片中注明「示意」",
+    "camera": {
+      "preset": "pull_back",
+      "keys": [
+        {
+          "t": 0,
+          "pos": [
+            0.25,
+            1.32,
+            1.1
+          ],
+          "look": [
+            0,
+            1.25,
+            0
+          ],
+          "fov": 32,
+          "roll": 0
+        },
+        {
+          "t": 5,
+          "pos": [
+            0.5,
+            1.0,
+            2.9
+          ],
+          "look": [
+            0,
+            0.95,
+            0
+          ],
+          "fov": 32,
+          "roll": 0
+        }
+      ]
+    },
+    "post": {
+      "tone": "aces",
+      "vignette": 0.6,
+      "grain": 0.015
+    },
+    "assets": [
+      {
+        "id": "biology.vessels.v1",
+        "params": {
+          "pulse": 1.3,
+          "bpm": 72,
+          "skeleton": 0.12,
+          "fstop": 4,
+          "lightsOutAt": 2.0,
+          "lightsOutDuration": 2.5,
+          "seed": "designed-body-s16"
+        }
+      }
+    ],
+    "version": "1.0.0"
+  }
+}
