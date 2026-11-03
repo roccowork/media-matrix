@@ -98,7 +98,7 @@ export const GalaxyNetAsset: React.FC<GalaxyNetProps> = ({
   }), [width, color, pulseColor, brightness]);
   const nodeMat = useMemo(() => new THREE.ShaderMaterial({
     vertexShader: NODE_VERT, fragmentShader: NODE_FRAG, transparent: true, depthWrite: false, depthTest: false, blending: THREE.AdditiveBlending,
-    uniforms: {uViewH: {value: 1080}, uSize: {value: width * 9}, uCol: {value: new THREE.Color(color)}, uPulse: {value: new THREE.Color(pulseColor)}, uBright: {value: brightness}},
+    uniforms: {uViewH: {value: 1080}, uSize: {value: width * 7}, uCol: {value: new THREE.Color(color)}, uPulse: {value: new THREE.Color(pulseColor)}, uBright: {value: brightness}},
   }), [width, color, pulseColor, brightness]);
 
   // 节点（归一化盘面坐标 r, th）和边：只算一次
@@ -121,8 +121,8 @@ export const GalaxyNetAsset: React.FC<GalaxyNetProps> = ({
       } else {
         r = 0.12 + 0.8 * Math.pow(random(`${S}r${i}`), 0.85);
         const k = Math.floor(random(`${S}k${i}`) * nArms);
-        const onArm = random(`${S}oa${i}`) < 0.9;
-        th = onArm ? armAngle(k, r) + gauss(`${S}g${i}`) * Math.min(0.28, Math.max(0.08, 0.04 / r)) : random(`${S}th${i}`) * Math.PI * 2;
+        const onArm = random(`${S}oa${i}`) < 0.8;
+        th = onArm ? armAngle(k, r) + gauss(`${S}g${i}`) * Math.min(0.45, Math.max(0.15, 0.08 / r)) : random(`${S}th${i}`) * Math.PI * 2;
       }
       R.push(r); TH.push(th); XY.push([Math.cos(th) * r, Math.sin(th) * r]);
       B.push(0.55 + 0.45 * random(`${S}nb${i}`));
@@ -146,7 +146,7 @@ export const GalaxyNetAsset: React.FC<GalaxyNetProps> = ({
       for (let q = 0; q < 12; q++) {
         const b = Math.floor(random(`${S}xb${j}-${q}`) * nodes);
         const dd = Math.sqrt(d2(a, b));
-        if (dd > 0.2 && dd < 0.6 && dd > bd) { bd = dd; best = b; }
+        if (dd > 0.14 && dd < 0.38 && dd > bd) { bd = dd; best = b; }
       }
       if (best >= 0) E.push({a, b: best, axon: true});
     }
@@ -238,7 +238,7 @@ export const GalaxyNetAsset: React.FC<GalaxyNetProps> = ({
       for (let j = 0; j <= RN; j++) {
         const a = (j / RN) * Math.PI * 2;
         const p: V3 = [Math.cos(a) * rf * radius, 0, Math.sin(a) * rf * radius];
-        if (prev) { segs.push({a: prev, b: p, w: 2.2, br, t0: 0, t1: 0}); grow.push(1); }
+        if (prev) { segs.push({a: prev, b: p, w: 7, br, t0: 0, t1: 0}); grow.push(1); }
         prev = p;
       }
     }

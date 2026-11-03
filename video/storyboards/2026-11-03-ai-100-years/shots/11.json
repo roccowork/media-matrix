@@ -33,8 +33,8 @@
           "t": 5,
           "pos": [
             2,
-            52,
-            44
+            47,
+            38
           ],
           "look": [
             0,
@@ -80,7 +80,7 @@
           "count": 400000,
           "tilt": 0,
           "spin": 0,
-          "brightness": 0.6,
+          "brightness": 0.45,
           "seed": "2026-11-03-ai-100-years-s11"
         }
       },
@@ -97,13 +97,14 @@
           "arms": 2,
           "twist": 2.2,
           "galaxySeed": "2026-11-03-ai-100-years-s11",
-          "nodes": 1600,
+          "nodes": 1400,
           "links": 3,
-          "axons": 36,
+          "axons": 20,
           "wakeAt": 0.4,
           "wakeDuration": 2.4,
           "width": 0.05,
-          "seed": "2026-11-03-ai-100-years-s11"
+          "seed": "2026-11-03-ai-100-years-s11",
+          "brightness": 1.3
         }
       }
     ],
