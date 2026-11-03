@@ -79,7 +79,7 @@ void main() {
     size = 1.0;
   } else if (idx < uN2) {
     // 盘面：指数盘；约 60% 沿旋臂（角向高斯分布，越往外越松），其余均匀
-    r = clamp(-log(1.0 - rnd() * 0.985) / 3.6, 0.03, 1.15);
+    r = min(0.04 + -log(1.0 - rnd() * 0.985) / 3.6, 1.15);
     float k = floor(rnd() * uArms);
     bool onArm = rnd() < 0.68 * smoothstep(0.05, 0.2, r);
     float sig = clamp(0.1 / r, 0.14, 0.8);
@@ -285,7 +285,7 @@ export const GalaxyAsset: React.FC<GalaxyProps> = ({
     const star = new THREE.ShaderMaterial({
       vertexShader: STAR_VERT, fragmentShader: STAR_FRAG, transparent: true, depthWrite: false, depthTest: false,
       blending: THREE.AdditiveBlending,
-      uniforms: {...common, uN1: {value: Math.round(n * 0.16)}, uN2: {value: Math.round(n * 0.84)}, uN3: {value: Math.round(n * 0.98)}},
+      uniforms: {...common, uN1: {value: 0}, uN2: {value: Math.round(n * 0.84)}, uN3: {value: Math.round(n * 0.98)}},
     });
     const dustGeo = new THREE.BufferGeometry();
     dustGeo.setAttribute('position', new THREE.BufferAttribute(new Float32Array(nDust * 3), 3));
