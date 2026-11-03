@@ -285,7 +285,7 @@ export const GalaxyAsset: React.FC<GalaxyProps> = ({
     const star = new THREE.ShaderMaterial({
       vertexShader: STAR_VERT, fragmentShader: STAR_FRAG, transparent: true, depthWrite: false, depthTest: false,
       blending: THREE.AdditiveBlending,
-      uniforms: {...common, uN1: {value: 0}, uN2: {value: Math.round(n * 0.84)}, uN3: {value: Math.round(n * 0.98)}},
+      uniforms: {...common, uN1: {value: Math.round(n * 0.16)}, uN2: {value: Math.round(n * 0.84)}, uN3: {value: Math.round(n * 0.98)}},
     });
     const dustGeo = new THREE.BufferGeometry();
     dustGeo.setAttribute('position', new THREE.BufferAttribute(new Float32Array(nDust * 3), 3));
