@@ -59,22 +59,22 @@ void main() {
     float r = uRp + (uRi - uRp) * s;
     q = vec2(cos(ang), sin(ang)) * r;
     col = mix(mix(vec3(1.0, 0.95, 0.85), uInner, smoothstep(0.0, 0.18, s)), uIris, smoothstep(0.25, 0.75, s));
-    a = 0.55 + 0.6 * exp(-pow((s - 0.3) / 0.06, 2.0)) + 0.5 * exp(-s / 0.05);
+    a = 0.5 + 0.3 * exp(-pow((s - 0.3) / 0.06, 2.0)) + 0.5 * exp(-s / 0.05);
   } else if (type < 1.5) {
     // 虹膜外缘（角膜缘）亮环
     q = vec2(cos(aE.x), sin(aE.x)) * uRi * (1.0 + aE.y * 0.03);
-    col = mix(uIris, vec3(1.0), 0.3); a = 0.8;
+    col = mix(uIris, vec3(1.0), 0.3); a = 0.5;
   } else if (type < 2.5) {
     // 眼睑轮廓线
     float x = aE.x;
     float y = aE.y > 0.0 ? upperLid(x, uA) : -lowerLid(x, uA);
     q = vec2(x, y + sign(aE.y) * abs(aE.y) * 0.02);
-    col = uLid; a = 0.75 * (1.0 - 0.6 * x * x);
+    col = uLid; a = 0.45 * (1.0 - 0.6 * x * x);
   } else {
     // 眼眶内的薄雾：随眼睑开合缩放
     float x = aE.x; float v = aE.y;
     q = vec2(x, v > 0.0 ? v * upperLid(x, uA) : v * lowerLid(x, uA));
-    col = mix(uIris, uLid, 0.5); a = 0.18;
+    col = mix(uIris, uLid, 0.5); a = 0.08 * smoothstep(uRi, uRi + 0.06, length(q));
   }
   // 虹膜类粒子被眼睑挡住：压到眼睑边上并几乎隐去
   if (type < 1.5) {
@@ -93,10 +93,10 @@ void main() {
   vec3 startCol = mix(vec3(0.75, 0.85, 1.0), vec3(1.0, 0.85, 0.6), rr);
   col = mix(startCol, col, smoothstep(0.55, 1.0, k));
   float arrive = exp(-pow((k - 0.97) / 0.05, 2.0));
-  a = mix(0.45 + 0.4 * rr, a, smoothstep(0.6, 1.0, k)) * (1.0 + 0.8 * flying + 1.2 * arrive);
+  a = mix(0.22 + 0.25 * rr, a, smoothstep(0.6, 1.0, k)) * (1.0 + 0.2 * flying + 0.6 * arrive);
   a *= 0.85 + 0.15 * sin(uTime * (2.0 + 3.0 * rr) + rr * 40.0);
   vec4 mv = modelViewMatrix * vec4(p, 1.0);
-  float px = uW * 0.0045 * projectionMatrix[1][1] * 0.5 * uViewH / max(-mv.z, 1e-3) * (1.0 + 0.6 * flying);
+  float px = uW * 0.0045 * projectionMatrix[1][1] * 0.5 * uViewH / max(-mv.z, 1e-3) * (1.0 + 0.25 * flying);
   if (px < 1.6) { a *= (px * px) / (1.6 * 1.6); px = 1.6; }
   px = min(px, 10.0);
   vCol = col; vA = a * uBright;
@@ -123,14 +123,16 @@ void main() {
   // 眼睑轮廓辉光（闭眼时就是一道发光的细缝）
   float dl = min(abs(q.y - up), abs(q.y + lo));
   float edgeMask = smoothstep(1.02, 0.85, abs(q.x));
-  float rim = (exp(-dl / 0.006) * 0.9 + exp(-dl / 0.04) * 0.25) * edgeMask;
+  float rim = (exp(-dl / 0.005) * 0.55 + exp(-dl / 0.05) * 0.18 + exp(-dl / 0.25) * 0.06) * edgeMask;
   float slit = exp(-abs(q.y) / (0.01 + uA * 0.3)) * exp(-q.x * q.x * 2.0) * (1.0 - smoothstep(0.0, 0.25, uA)) * 0.8;
-  vec3 glow = uLid * (rim * (0.6 + 0.4 * (1.0 - smoothstep(0.0, 0.3, uA))) + slit);
+  float plate = (1.0 - smoothstep(1.0, 1.28, abs(q.x))) * (1.0 - smoothstep(0.55, 0.88, abs(q.y)));
+  vec3 glow = plate * uLid * (rim * (0.6 + 0.4 * (1.0 - smoothstep(0.0, 0.3, uA))) + slit);
   // 眼眶内
   float r = length(q);
   float a = atan(q.y, q.x);
-  vec3 c = vec3(0.004, 0.012, 0.03);                                  // 深色眼白
-  c += uIris * 0.05 * exp(-max(r - uRi, 0.0) / 0.12);                  // 虹膜外的冷光晕
+  vec3 c = vec3(0.002, 0.006, 0.014);                                 // 深色眼白
+  c += uIris * 0.035 * exp(-max(r - uRi, 0.0) / 0.08);
+  c += uLid * 0.03 * exp(-dl / 0.06);                                  // 眼睑内侧微光                  // 虹膜外的冷光晕
   float u = (r - uRp) / (uRi - uRp);
   if (u >= 0.0 && u <= 1.08) {
     vec3 s3 = vec3(cos(a), sin(a), 0.0);
@@ -142,7 +144,7 @@ void main() {
     float collar = exp(-pow((u - 0.3 - 0.04 * f3) / 0.05, 2.0));       // 虹膜褶环
     float pupRim = exp(-u / 0.04);
     float limbus = smoothstep(0.82, 1.0, u);                             // 角膜缘：外圈压暗
-    float e = (0.12 + fib * (0.55 + 0.35 * f3)) * (1.0 - 0.75 * limbus) + collar * 0.7 + pupRim * 1.2;
+    float e = (0.06 + fib * (0.6 + 0.5 * f3)) * (1.0 - 0.8 * limbus) + collar * (0.25 + 0.35 * f2) + pupRim * 0.9;
     e *= 1.0 - smoothstep(1.0, 1.08, u);
     // 一圈圈向外扩散的光纹
     e *= 0.85 + 0.3 * pow(0.5 + 0.5 * sin(u * 18.0 - uTime * 3.0), 4.0);
@@ -278,7 +280,7 @@ export const GalaxyEyeAsset: React.FC<GalaxyEyeProps> = ({
         </mesh>
       </group>
       <mesh material={built.eMat} position={position} quaternion={built.eyeQuat} scale={[size, size, size]} frustumCulled={false} renderOrder={6}>
-        <planeGeometry args={[2.3, 1.4, 1, 1]} />
+        <planeGeometry args={[2.6, 1.8, 1, 1]} />
       </mesh>
       <points geometry={built.geo} material={built.pMat} frustumCulled={false} renderOrder={11} />
     </group>

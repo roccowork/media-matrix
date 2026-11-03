@@ -199,7 +199,7 @@ export const GalaxyNetAsset: React.FC<GalaxyNetProps> = ({
     const t0 = lit[first];
     if (t < t0) return;
     const v = Math.min(vis[first], vis[second]);
-    if (v <= 0.001) return;
+    if (v < 0.01) return;
     const A = pos[first], Bp = pos[second];
     const L = Math.hypot(A[0] - Bp[0], A[1] - Bp[1], A[2] - Bp[2]);
     const g = Math.min(1, (t - t0) / ((e.axon ? 0.7 : 0.3) * (0.7 + 0.6 * random(`${S}eg${ei}`))));
@@ -248,8 +248,9 @@ export const GalaxyNetAsset: React.FC<GalaxyNetProps> = ({
   const nodePos = new Float32Array(N * 3);
   const nodeBr = new Float32Array(N);
   for (let i = 0; i < N; i++) {
+    // 没亮 / 已汇聚消失的节点不画（移到远处），避免挤在中心的上千个零亮度点精灵留下残点
+    if (t < lit[i] || vis[i] < 0.01) { nodePos.set([0, -1e6, 0], i * 3); nodeBr[i] = 0; continue; }
     nodePos.set(pos[i], i * 3);
-    if (t < lit[i]) { nodeBr[i] = 0; continue; }
     const since = t - lit[i];
     const flash = Math.max(0, 1 - since / 0.35) * 1.5;
     const tw = 0.75 + 0.25 * Math.sin(t * (2 + 3 * random(`${S}nt${i}`)) + i);
