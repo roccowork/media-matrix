@@ -69,20 +69,32 @@ postprocessing 6.38.0 · @react-three/postprocessing 3.0.4 · react 19.2.0 · aj
 | cosmos.star.v1 | 程序化（Shader） | Asset-Star | 自研 |
 | cosmos.galaxy.v1 | 程序化（GPU 粒子 + Shader） | Asset-Galaxy | 自研 |
 | cosmos.milkyway.v1 | 程序化（天穹 Shader，全片固定背景） | Asset-MilkyWay | 自研 |
+| cosmos.mooncore.v1 | 程序化（月面裂开露出发光核心） | 《一百年后的 AI》第 7 镜 | 自研 |
+| cosmos.dysonswarm.v1 | 程序化（几万块采光板包裹恒星） | 《一百年后的 AI》第 8–9 镜 | 自研 |
+| cosmos.seedburst.v1 | 程序化（蒲公英光种飞散） | 《一百年后的 AI》第 10 镜 | 自研 |
+| cosmos.galaxynet.v1 | 程序化（星系恒星连成神经网） | 《一百年后的 AI》第 11 镜 | 自研 |
+| cosmos.galaxyeye.v1 | 程序化（星系光点汇成睁开的眼睛） | 《一百年后的 AI》第 12 镜 | 自研 |
 | biology.neuron.v1 / axon.v1 / neural_web.v1 | 程序化 | Shot-Neural | 自研 |
 | biology.dna.v1 | 程序化（Instanced + Shader） | Asset-DNA | 自研 |
 | biology.virus.v1 | 程序化（位移包膜 + Instanced 刺突） | Asset-Virus | 自研 |
 | biology.cell.v1 | 程序化（半透明膜 + Instanced 细胞器） | Asset-Cell | 自研 |
 | biology.bloodflow.v1 | 程序化（Evans–Fung 红细胞 + 泊肃叶流速，单位 µm） | Asset-BloodFlow | 自研 |
+| biology.eye.v1 | 程序化（眼球剖面：解析剖面盖板 + 视网膜血管 + 光线折射聚焦，单位 mm） | Asset-Eye | 自研 |
+| biology.retina.v1 | 程序化（视网膜九层 + 视盘盲点 + 光点感光 / 信号，脊椎动物 ↔ 章鱼排布渐变，单位 µm） | Asset-Retina | 自研 |
 | tech.chip.v1 | 程序化 | Shot-AIChip | 自研 |
 | tech.datastream.v1 | 程序化（GPU 粒子） | Asset-DataStream | 自研 |
 | tech.hud.v1 | 程序化（Shader，全息界面） | Asset-HUD | 自研 |
+| tech.citynet.v1 | 程序化（行星夜面城市间数据光弧） | 《一百年后的 AI》第 3 镜 | 自研 |
+| tech.citychip.v1 | 程序化（城市灯光被波前改写成芯片电路） | 《一百年后的 AI》第 4 镜 | 自研 |
+| tech.thinkearth.v1 | 程序化（行星表面神经网络，波前点亮） | 《一百年后的 AI》第 5 镜 | 自研 |
+| tech.skyring.v1 | 程序化（城市光点升空汇成环形城市） | 《一百年后的 AI》第 6 镜 | 自研 |
 | physics.lightning.v1 | 程序化（发光带 + 中点位移） | Asset-Lightning | 自研 |
 | physics.fieldlines.v1 | 程序化（偶极子解析场线） | Asset-FieldLines | 自研 |
 | physics.energyfield.v1 | 程序化（Shader 护盾 + 等离子电弧） | Asset-EnergyField | 自研 |
 | biology.heart.v1 | 文件（GLB，Blender 渲染，见 blender/README.md） | Blender-Heart | CC BY-SA 4.0（Z-Anatomy） |
 | biology.skeleton.v1 | 文件（GLB，Blender 渲染） | Blender-Skeleton | CC BY-SA 4.0（Z-Anatomy） |
 | biology.vessels.v1 | 文件（GLB，Blender 渲染） | Blender-Vessels | CC BY-SA 4.0（Z-Anatomy） |
+| biology.rln.v1 | 文件（neck.glb，Blender 渲染；喉返神经按模型位置自绘） | Blender-Rln | CC BY-SA 4.0（Z-Anatomy） |
 | tech.robot.expressive.v1 | 文件（GLB，14 个动作） | — | CC0 |
 | biology.cat.lowpoly.v1 | 文件（FBX） | — | CC0 |
 
