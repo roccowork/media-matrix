@@ -1,0 +1,92 @@
+{
+  "n": 9,
+  "visual": "颈胸部（喉、气管、主动脉弓、心脏）：一道光沿迷走神经往下，拐进喉返神经，从主动脉弓下面钩过，再折回喉咙",
+  "onscreen": {
+    "text": "这条神经，绕过心脏才到喉咙",
+    "tag": "示意",
+    "position": "top"
+  },
+  "note": "喉返神经按解剖走法画、位置卡在 Z-Anatomy 模型上（#28）；血管半透明、光晕、光速为示意",
+  "config": {
+    "id": "biology.rln.v1",
+    "renderer": "blender",
+    "style": "cinematic_science",
+    "fps": 30,
+    "duration": 6,
+    "note": "喉返神经按解剖走法画、位置卡在 Z-Anatomy 模型上（《方案补充》#28）；光脉冲速度为示意（真实神经传导约 50–60 m/s），片中注明「示意」",
+    "camera": {
+      "preset": "orbit",
+      "keys": [
+        {
+          "t": 0.0,
+          "pos": [
+            0.2,
+            1.46,
+            0.3
+          ],
+          "look": [
+            0.0,
+            1.405,
+            0.0
+          ],
+          "fov": 36,
+          "roll": -1
+        },
+        {
+          "t": 2.4,
+          "pos": [
+            0.21,
+            1.395,
+            0.07
+          ],
+          "look": [
+            0.012,
+            1.385,
+            0.012
+          ],
+          "fov": 30,
+          "roll": 0
+        },
+        {
+          "t": 6.0,
+          "pos": [
+            0.34,
+            1.43,
+            -0.11
+          ],
+          "look": [
+            0.01,
+            1.41,
+            0.01
+          ],
+          "fov": 36,
+          "roll": 1
+        }
+      ]
+    },
+    "post": {
+      "tone": "aces",
+      "vignette": 0.55,
+      "grain": 0.015
+    },
+    "assets": [
+      {
+        "id": "biology.rln.v1",
+        "params": {
+          "left": true,
+          "right": true,
+          "heart": true,
+          "pulse": 1,
+          "pulseAt": 0.3,
+          "pulseSpeed": 0.085,
+          "trail": 0.5,
+          "fstop": 5.6,
+          "seed": "designed-body-s09",
+          "halo": 1,
+          "vesselAlpha": 0.45
+        }
+      }
+    ],
+    "version": "1.0.0"
+  }
+}

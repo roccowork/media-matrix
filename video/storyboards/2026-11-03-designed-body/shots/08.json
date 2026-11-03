@@ -1,0 +1,84 @@
+{
+  "n": 8,
+  "visual": "同一切片翻转：感光层和神经层互相穿过、换位，感光细胞转 180°，盲点合上；光点直接打到感光细胞",
+  "onscreen": {
+    "text": "章鱼的眼睛，就没有装反",
+    "tag": "示意",
+    "position": "top"
+  },
+  "note": "章鱼排布为示意（章鱼的神经细胞大多在视叶里）",
+  "config": {
+    "id": "biology.retina.v1",
+    "renderer": "threejs",
+    "style": "cinematic_science",
+    "fps": 30,
+    "duration": 5,
+    "camera": {
+      "preset": "dolly_in",
+      "keys": [
+        {
+          "t": 0,
+          "pos": [
+            -60,
+            10,
+            560
+          ],
+          "look": [
+            20,
+            -140,
+            -30
+          ],
+          "fov": 35,
+          "roll": 0
+        },
+        {
+          "t": 5,
+          "pos": [
+            90,
+            30,
+            580
+          ],
+          "look": [
+            30,
+            -130,
+            -30
+          ],
+          "fov": 35,
+          "roll": 1
+        }
+      ]
+    },
+    "post": {
+      "bloom": {
+        "intensity": 0.8,
+        "threshold": 0.8,
+        "radius": 0.55
+      },
+      "tone": "aces",
+      "vignette": 0.55,
+      "grain": 0.012
+    },
+    "assets": [
+      {
+        "id": "biology.retina.v1",
+        "params": {
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "scale": 1,
+          "layout": 0,
+          "flipAt": 0.3,
+          "flipDuration": 2.4,
+          "discX": 220,
+          "photons": 24,
+          "photonsAt": 0,
+          "signals": true,
+          "seed": "designed-body-s08"
+        }
+      }
+    ],
+    "version": "1.0.0"
+  }
+}

@@ -1,0 +1,83 @@
+{
+  "n": 7,
+  "visual": "视网膜切片：光点从上方穿过神经纤维、神经节细胞、双极细胞，才到最下面的感光细胞；右侧视盘处没有感光细胞，光点直接穿过（盲点）",
+  "onscreen": {
+    "text": "光要先穿过神经，还留下一个盲点",
+    "position": "top"
+  },
+  "note": "细胞尺寸按真实比例（µm）；光点速度为示意",
+  "config": {
+    "id": "biology.retina.v1",
+    "renderer": "threejs",
+    "style": "cinematic_science",
+    "fps": 30,
+    "duration": 5,
+    "camera": {
+      "preset": "dolly_in",
+      "keys": [
+        {
+          "t": 0.0,
+          "pos": [
+            -150,
+            40,
+            600
+          ],
+          "look": [
+            0,
+            -140,
+            -30
+          ],
+          "fov": 35,
+          "roll": -1
+        },
+        {
+          "t": 5.0,
+          "pos": [
+            -60,
+            10,
+            560
+          ],
+          "look": [
+            20,
+            -140,
+            -30
+          ],
+          "fov": 35,
+          "roll": 0
+        }
+      ]
+    },
+    "post": {
+      "bloom": {
+        "intensity": 0.8,
+        "threshold": 0.8,
+        "radius": 0.55
+      },
+      "tone": "aces",
+      "vignette": 0.55,
+      "grain": 0.012
+    },
+    "assets": [
+      {
+        "id": "biology.retina.v1",
+        "params": {
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "scale": 1,
+          "layout": 0,
+          "flipAt": -1,
+          "flipDuration": 3,
+          "discX": 220,
+          "photons": 24,
+          "photonsAt": 0.2,
+          "signals": true,
+          "seed": "designed-body-s07"
+        }
+      }
+    ],
+    "version": "1.0.0"
+  }
+}

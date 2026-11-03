@@ -1,0 +1,74 @@
+{
+  "n": 12,
+  "visual": "从中线剖开的头颈部：蓝白色气流从鼻子进来钻进气管，琥珀色的食物从舌背滑进食管，两条路在咽部交叉",
+  "onscreen": {
+    "text": "吃饭和呼吸走同一条路，所以会噎",
+    "position": "bottom"
+  },
+  "note": "气管与食管在咽部交叉；路线流动速度为示意",
+  "config": {
+    "id": "biology.throat.v1",
+    "renderer": "blender",
+    "style": "cinematic_science",
+    "fps": 30,
+    "duration": 5,
+    "note": "《人是被设计出来的吗？》第 12 镜：咽喉正中矢状剖面，空气和食物在口咽交叉；路线流动速度为示意",
+    "camera": {
+      "preset": "orbit",
+      "keys": [
+        {
+          "t": 0,
+          "pos": [
+            0.3,
+            1.525,
+            0.06
+          ],
+          "look": [
+            0.0,
+            1.505,
+            -0.008
+          ],
+          "fov": 30,
+          "roll": 0
+        },
+        {
+          "t": 5,
+          "pos": [
+            0.27,
+            1.515,
+            0.03
+          ],
+          "look": [
+            0.0,
+            1.5,
+            -0.008
+          ],
+          "fov": 30,
+          "roll": 0
+        }
+      ]
+    },
+    "post": {
+      "tone": "aces",
+      "vignette": 0.55,
+      "grain": 0.015
+    },
+    "assets": [
+      {
+        "id": "biology.throat.v1",
+        "params": {
+          "cut": 0,
+          "air": 1,
+          "airAt": 0.3,
+          "airSpeed": 0.12,
+          "food": 1,
+          "foodAt": 1.5,
+          "foodSpeed": 0.07,
+          "fstop": 5.6,
+          "seed": "designed-body-s12"
+        }
+      }
+    ],
+    "version": "1.0.0"
+  }
+}
