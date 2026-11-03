@@ -3,7 +3,7 @@
   "visual": "镜头从月球身边飞向太阳，成千上万块采光板沿几十条倾斜轨道一圈圈依次展开、合拢，逐渐把太阳包住；采光板反光闪烁，缝隙里漏出阳光",
   "onscreen": {
     "year": "2125",
-    "text": "太阳，被它亲手包裹",
+    "text": "AI 用亿万块采光板，包住了太阳",
     "tag": "设想"
   },
   "config": {
@@ -133,7 +133,7 @@
           "rings": 40,
           "bandWidth": 9,
           "deployAt": 0.3,
-          "deployDuration": 3.0,
+          "deployDuration": 3,
           "ringOpen": 1.2,
           "seed": "2026-11-03-ai-100-years-s8"
         }
