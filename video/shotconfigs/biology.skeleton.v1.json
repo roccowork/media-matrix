@@ -1,0 +1,20 @@
+{
+  "id": "biology.skeleton.v1",
+  "renderer": "blender",
+  "style": "cinematic_science",
+  "fps": 30,
+  "duration": 10,
+  "camera": {
+    "preset": "orbit",
+    "keys": [
+      {"t": 0, "pos": [-2.1, 1.05, 3.0], "look": [0, 0.88, 0], "fov": 32, "roll": -1},
+      {"t": 5, "pos": [0.5, 1.25, 2.5], "look": [0, 1.05, 0], "fov": 32, "roll": 0},
+      {"t": 10, "pos": [0.75, 1.6, 1.05], "look": [0, 1.48, 0], "fov": 32, "roll": 1}
+    ]
+  },
+  "post": {"tone": "aces", "vignette": 0.55, "grain": 0.015},
+  "assets": [
+    {"id": "biology.skeleton.v1", "params": {"spin": 0, "fstop": 4, "seed": "skeleton-demo"}}
+  ],
+  "version": "1.0.0"
+}

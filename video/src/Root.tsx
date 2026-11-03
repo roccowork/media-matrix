@@ -43,6 +43,7 @@ import { Lightning, LIGHTNING_SHOT } from "./shots/lightning/Lightning";
 import { FieldLines, FIELDLINES_SHOT } from "./shots/fieldlines/FieldLines";
 import { EnergyField, ENERGYFIELD_SHOT } from "./shots/energyfield/EnergyField";
 import { BlenderHeart, HEART_SHOT } from "./shots/heart/BlenderHeart";
+import { BlenderSkeleton, SKELETON_SHOT } from "./shots/skeleton/BlenderSkeleton";
 import { ScienceDemo as GrokDemo } from "./grok3d/scenes/ScienceDemo";
 import { AttentionTest as GrokAttention } from "./grok3d/scenes/AttentionTest";
 import { ATTENTION10_DURATION, Attention10s } from "./grok3d/scenes/Attention10s";
@@ -84,6 +85,7 @@ export const RemotionRoot: React.FC = () => (
       <Composition id="Asset-FieldLines" component={FieldLines} durationInFrames={FIELDLINES_SHOT.duration * FIELDLINES_SHOT.fps} fps={FIELDLINES_SHOT.fps} width={1920} height={1080} />
       <Composition id="Asset-EnergyField" component={EnergyField} durationInFrames={ENERGYFIELD_SHOT.duration * ENERGYFIELD_SHOT.fps} fps={ENERGYFIELD_SHOT.fps} width={1920} height={1080} />
       <Composition id="Blender-Heart" component={BlenderHeart} durationInFrames={HEART_SHOT.duration * HEART_SHOT.fps} fps={HEART_SHOT.fps} width={1920} height={1080} />
+      <Composition id="Blender-Skeleton" component={BlenderSkeleton} durationInFrames={SKELETON_SHOT.duration * SKELETON_SHOT.fps} fps={SKELETON_SHOT.fps} width={1920} height={1080} />
       <Composition id="Asset-DNA" component={Dna} durationInFrames={DNA_SHOT.duration * DNA_SHOT.fps} fps={DNA_SHOT.fps} width={1920} height={1080} />
       <Composition id="Asset-Planet" component={Planet} durationInFrames={PLANET_SHOT.duration * PLANET_SHOT.fps} fps={PLANET_SHOT.fps} width={1920} height={1080} />
       <Composition id="Asset-Nebula" component={Nebula} durationInFrames={NEBULA_SHOT.duration * NEBULA_SHOT.fps} fps={NEBULA_SHOT.fps} width={1920} height={1080} />

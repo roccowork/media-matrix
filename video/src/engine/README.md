@@ -74,6 +74,7 @@ postprocessing 6.38.0 · @react-three/postprocessing 3.0.4 · react 19.2.0 · aj
 | physics.fieldlines.v1 | 程序化（偶极子解析场线） | Asset-FieldLines | 自研 |
 | physics.energyfield.v1 | 程序化（Shader 护盾 + 等离子电弧） | Asset-EnergyField | 自研 |
 | biology.heart.v1 | 文件（GLB，Blender 渲染，见 blender/README.md） | Blender-Heart | CC BY-SA 4.0（Z-Anatomy） |
+| biology.skeleton.v1 | 文件（GLB，Blender 渲染） | Blender-Skeleton | CC BY-SA 4.0（Z-Anatomy） |
 | tech.robot.expressive.v1 | 文件（GLB，14 个动作） | — | CC0 |
 | biology.cat.lowpoly.v1 | 文件（FBX） | — | CC0 |
 

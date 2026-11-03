@@ -17,16 +17,18 @@ Remotion 合成 Blender-Heart（src/shots/heart/BlenderHeart.tsx）← 逐帧显
 ## 文件
 | 文件 | 作用 |
 |---|---|
+| `common.py` | 公共部分：命令行参数、读 ShotConfig、相机插值（与 rigs.ts 相同）、渲染设置、灯光、材质节点工具、逐像素确定性检查 |
 | `extract_heart.py` | 从 Z-Anatomy 的心血管 FBX 提取心脏 + 大血管 → `public/assets/models/anatomy/heart.glb`（只需跑一次） |
-| `heart_scene.py` | 场景脚本：读 ShotConfig，渲染 PNG 序列；`--determinism 帧号` 做确定性检查 |
-| `render_heart.ps1` / `render_heart.sh` | 笔记本一键渲染（Windows / Mac·Linux）：校验 → Blender 渲染 → Remotion 合成 |
+| `heart_scene.py` | 心脏场景：读 ShotConfig，渲染 PNG 序列；`--determinism 帧号` 做确定性检查 |
+| `extract_skeleton.py` / `skeleton_scene.py` | 全身骨架：提取（减面、真实尺寸、原点在脚底，写 body_frame.json）/ 场景（骨头、牙齿、肋软骨三种材质） |
+| `render.ps1` / `render.sh` | 笔记本一键渲染（Windows / Mac·Linux）：`render.sh <heart|skeleton|vessels> [preview]`，校验 → Blender 渲染 → Remotion 合成 |
 
 ## 在笔记本上渲染（需要用户同意后才出片）
 1. 装 Blender 4.2 或更新版本（https://www.blender.org/download/ ），装好 Node（video 目录 `npm ci`）
 2. 在 `video/` 目录：
-   - Windows：`.\blender\render_heart.ps1 preview`（5 秒预览）或不带参数（整段）
-   - Mac / Linux：`bash blender/render_heart.sh preview`
-3. 结果在 `out/blender-heart.mp4`
+   - Windows：`.\blender\render.ps1 heart preview`（5 秒预览）或去掉 preview（整段）；骨架把 heart 换成 skeleton
+   - Mac / Linux：`bash blender/render.sh heart preview`
+3. 结果在 `out/blender-<名字>.mp4`
 
 参考耗时（6G 显存显卡，1080p、96 采样、OptiX / CUDA）：每帧几秒，5 秒预览约 10 分钟以内。
 
@@ -46,4 +48,5 @@ python blender/heart_scene.py --config shotconfigs/biology.heart.v1.json --out /
 ## 新增一个 Blender 资产
 1. 找开源模型（记录来源和许可证），写提取脚本存成 GLB 放 `public/assets/models/<类别>/`，同目录 README 写署名
 2. `src/engine/assets/registry.ts` 登记（kind: 'file'，renderer: 'blender'，params 写清范围）
-3. 写场景脚本（可参考 heart_scene.py）、ShotConfig、Remotion 合成，Root.tsx 注册 `Blender-<名字>`
+3. 写 `<名字>_scene.py`（用 common.py 的 Shot，参考 skeleton_scene.py）、ShotConfig `biology.<名字>.v1.json`、Remotion 合成（`makeBlenderSequence`，见 src/shots/blender/），Root.tsx 注册 `Blender-<名字首字母大写>`——这样 render.sh 直接可用
+4. 真实的东西按真实比例（《方案补充》#12）：提取时实测尺寸，对照正常值
