@@ -1,0 +1,69 @@
+{
+  "n": 15,
+  "visual": "回到开头那颗心脏，在黑暗里继续跳动，镜头缓缓拉远",
+  "onscreen": {
+    "text": "精密，不一定需要设计师",
+    "position": "bottom"
+  },
+  "note": "呼应第 1 镜；心率 72 次 / 分（正常成人静息）",
+  "config": {
+    "id": "biology.heart.v1",
+    "renderer": "blender",
+    "style": "cinematic_science",
+    "fps": 30,
+    "duration": 5,
+    "camera": {
+      "preset": "pull_back",
+      "keys": [
+        {
+          "t": 0,
+          "pos": [
+            -0.75,
+            0.42,
+            3.3
+          ],
+          "look": [
+            -0.22,
+            0.2,
+            0
+          ],
+          "fov": 32,
+          "roll": -1
+        },
+        {
+          "t": 5,
+          "pos": [
+            -1.05,
+            0.5,
+            4.2
+          ],
+          "look": [
+            -0.22,
+            0.2,
+            0
+          ],
+          "fov": 32,
+          "roll": 0
+        }
+      ]
+    },
+    "post": {
+      "tone": "aces",
+      "vignette": 0.6,
+      "grain": 0.015
+    },
+    "assets": [
+      {
+        "id": "biology.heart.v1",
+        "params": {
+          "bpm": 72,
+          "beat": 1,
+          "spin": 0.06,
+          "fstop": 2.8,
+          "seed": "designed-body-s15"
+        }
+      }
+    ],
+    "version": "1.0.0"
+  }
+}
