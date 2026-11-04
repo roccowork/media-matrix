@@ -5,7 +5,229 @@
  "fps": 30,
  "audio": {
   "mode": "music",
-  "music": "用户在抖音上自己加（《方案补充》#30）"
+  "music": "用户在抖音上自己加（《方案补充》#30）",
+  "ambient": {
+   "src": "sfx/designed-body/ambient.mp3",
+   "volume": 0.6,
+   "mute": [
+    [
+     80.5,
+     82
+    ]
+   ]
+  },
+  "sfx": [
+   {
+    "src": "sfx/designed-body/heartbeat.mp3",
+    "at": 0.3,
+    "volume": 1.0,
+    "note": "第 1 镜心跳（72 次 / 分）"
+   },
+   {
+    "src": "sfx/designed-body/heartbeat.mp3",
+    "at": 1.13,
+    "volume": 1.0,
+    "note": "第 1 镜心跳（72 次 / 分）"
+   },
+   {
+    "src": "sfx/designed-body/heartbeat.mp3",
+    "at": 1.97,
+    "volume": 1.0,
+    "note": "第 1 镜心跳（72 次 / 分）"
+   },
+   {
+    "src": "sfx/designed-body/heartbeat.mp3",
+    "at": 2.8,
+    "volume": 1.0,
+    "note": "第 1 镜心跳（72 次 / 分）"
+   },
+   {
+    "src": "sfx/ai100/whoosh.mp3",
+    "at": 3.3,
+    "volume": 0.7,
+    "note": "1→2 转场"
+   },
+   {
+    "src": "sfx/designed-body/dive.mp3",
+    "at": 6.3,
+    "volume": 1.0,
+    "note": "第 2 镜冲进细胞核（镜头 2.5 秒到核表面）"
+   },
+   {
+    "src": "sfx/ai100/whoosh.mp3",
+    "at": 8.3,
+    "volume": 0.7,
+    "note": "2→3 转场"
+   },
+   {
+    "src": "sfx/ai100/whoosh.mp3",
+    "at": 13.3,
+    "volume": 0.7,
+    "note": "3→4 转场"
+   },
+   {
+    "src": "sfx/ai100/whoosh.mp3",
+    "at": 18.3,
+    "volume": 0.7,
+    "note": "4→5 转场"
+   },
+   {
+    "src": "sfx/ai100/whoosh.mp3",
+    "at": 23.3,
+    "volume": 0.7,
+    "note": "5→6 转场"
+   },
+   {
+    "src": "sfx/designed-body/slice.mp3",
+    "at": 25.0,
+    "volume": 1.0,
+    "note": "第 6 镜眼球切开（cutAt 1.0）"
+   },
+   {
+    "src": "sfx/ai100/whoosh.mp3",
+    "at": 29.3,
+    "volume": 0.7,
+    "note": "6→7 转场"
+   },
+   {
+    "src": "sfx/ai100/whoosh.mp3",
+    "at": 34.3,
+    "volume": 0.7,
+    "note": "7→8 转场"
+   },
+   {
+    "src": "sfx/designed-body/shimmer.mp3",
+    "at": 35.3,
+    "volume": 1.0,
+    "note": "第 8 镜视网膜翻转（flipAt 0.3）"
+   },
+   {
+    "src": "sfx/ai100/whoosh.mp3",
+    "at": 39.3,
+    "volume": 0.7,
+    "note": "8→9 转场"
+   },
+   {
+    "src": "sfx/designed-body/zap.mp3",
+    "at": 40.3,
+    "volume": 0.9,
+    "note": "第 9 镜神经信号出发（pulseAt 0.3）"
+   },
+   {
+    "src": "sfx/ai100/whoosh.mp3",
+    "at": 45.3,
+    "volume": 0.7,
+    "note": "9→10 转场"
+   },
+   {
+    "src": "sfx/designed-body/stretch.mp3",
+    "at": 46.4,
+    "volume": 0.9,
+    "note": "第 10 镜脖子拉长（growAt 0.4）"
+   },
+   {
+    "src": "sfx/ai100/whoosh.mp3",
+    "at": 50.3,
+    "volume": 0.7,
+    "note": "10→11 转场"
+   },
+   {
+    "src": "sfx/designed-body/stretch.mp3",
+    "at": 52.4,
+    "volume": 0.9,
+    "note": "第 11 镜脖子长出（growAt 1.4）"
+   },
+   {
+    "src": "sfx/ai100/whoosh.mp3",
+    "at": 55.3,
+    "volume": 0.7,
+    "note": "11→12 转场"
+   },
+   {
+    "src": "sfx/designed-body/gulp.mp3",
+    "at": 57.5,
+    "volume": 1.0,
+    "note": "第 12 镜食物出发（foodAt 1.5）"
+   },
+   {
+    "src": "sfx/ai100/whoosh.mp3",
+    "at": 60.3,
+    "volume": 0.7,
+    "note": "12→13 转场"
+   },
+   {
+    "src": "sfx/designed-body/strain.mp3",
+    "at": 62.0,
+    "volume": 1.0,
+    "note": "第 13 镜腰椎泛红（stressAt 1.0）"
+   },
+   {
+    "src": "sfx/ai100/whoosh.mp3",
+    "at": 65.3,
+    "volume": 0.7,
+    "note": "13→14 转场"
+   },
+   {
+    "src": "sfx/designed-body/glitch.mp3",
+    "at": 69.0,
+    "volume": 1.0,
+    "note": "第 14 镜配错碱基对接（约第 3 秒）"
+   },
+   {
+    "src": "sfx/ai100/whoosh.mp3",
+    "at": 71.3,
+    "volume": 0.7,
+    "note": "14→15 转场"
+   },
+   {
+    "src": "sfx/designed-body/heartbeat.mp3",
+    "at": 72.3,
+    "volume": 1.0,
+    "note": "第 15 镜心跳"
+   },
+   {
+    "src": "sfx/designed-body/heartbeat.mp3",
+    "at": 73.13,
+    "volume": 1.0,
+    "note": "第 15 镜心跳"
+   },
+   {
+    "src": "sfx/designed-body/heartbeat.mp3",
+    "at": 73.97,
+    "volume": 1.0,
+    "note": "第 15 镜心跳"
+   },
+   {
+    "src": "sfx/designed-body/heartbeat.mp3",
+    "at": 74.8,
+    "volume": 1.0,
+    "note": "第 15 镜心跳"
+   },
+   {
+    "src": "sfx/designed-body/heartbeat.mp3",
+    "at": 75.63,
+    "volume": 1.0,
+    "note": "第 15 镜心跳"
+   },
+   {
+    "src": "sfx/ai100/whoosh.mp3",
+    "at": 76.3,
+    "volume": 0.7,
+    "note": "15→16 转场"
+   },
+   {
+    "src": "sfx/designed-body/heartbeat.mp3",
+    "at": 76.47,
+    "volume": 1.0,
+    "note": "第 15 镜心跳"
+   },
+   {
+    "src": "sfx/designed-body/powerdown.mp3",
+    "at": 79.0,
+    "volume": 1.0,
+    "note": "第 16 镜熄灯（lightsOutAt 2.0）"
+   }
+  ]
  },
  "generator": {
   "by": "hand",
