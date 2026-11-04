@@ -10,7 +10,7 @@ import {Stage} from '../../engine/core/Stage';
 import {AssetView} from '../../engine/assets/AssetView';
 import {getAsset} from '../../engine/assets/registry';
 import type {ShotConfig} from '../../engine/shot';
-import {FONT} from '../../science/kit';
+import {FONT, Grain} from '../../science/kit';
 
 export type OnScreen = {year?: string; text?: string; tag?: string; style?: 'caption' | 'title'; position?: 'bottom' | 'center' | 'top'};
 export type Transition = {type: 'dissolve' | 'flash' | 'zoom' | 'eyelid' | 'cut'; duration?: number};
@@ -72,10 +72,25 @@ const TextCard: React.FC<{card: OnScreen; duration: number}> = ({card, duration}
   );
 };
 
-export const SBShotView: React.FC<{config: ShotConfig; n?: number; narration?: string; note?: string; onscreen?: OnScreen; annotate?: boolean; visual?: string}> = ({config, n, narration, note, onscreen, annotate, visual}) => {
+// blenderDir：笔记本上渲好的 Blender 帧目录（public 下，如 blender/<分镜 id>），每镜一个子目录 NN/frame_0000.png …；
+// 不给时 Blender 镜头显示占位图（会话 / Actions 里没有显卡渲不了）。
+export const SBShotView: React.FC<{config: ShotConfig; n?: number; narration?: string; note?: string; onscreen?: OnScreen; annotate?: boolean; visual?: string; blenderDir?: string}> = ({config, n, narration, note, onscreen, annotate, visual, blenderDir}) => {
   const bg = BG[config.style] ?? '#02040a';
+  const frame = useCurrentFrame();
   let body: React.ReactNode;
-  if (config.renderer === 'blender') {
+  if (config.renderer === 'blender' && blenderDir && n) {
+    // 转场时上一镜要多垫几帧：超出这一镜帧数的部分停在最后一帧
+    const last = Math.round(config.duration * config.fps) - 1;
+    const f = Math.min(frame, last);
+    const vig = config.post.vignette ?? 0;
+    body = (
+      <AbsoluteFill style={{backgroundColor: '#010204'}}>
+        <Img src={staticFile(`${blenderDir}/${String(n).padStart(2, '0')}/frame_${String(f).padStart(4, '0')}.png`)} style={{width: '100%', height: '100%'}} />
+        {vig > 0 && <AbsoluteFill style={{background: `radial-gradient(ellipse at 50% 50%, rgba(0,0,0,0) 45%, rgba(0,0,0,${Math.min(0.9, vig)}) 100%)`}} />}
+        {(config.post.grain ?? 0) > 0 && <Grain opacity={(config.post.grain ?? 0) * 5} />}
+      </AbsoluteFill>
+    );
+  } else if (config.renderer === 'blender') {
     const a = getAsset(config.assets[0].id);
     body = (
       <AbsoluteFill style={{backgroundColor: '#010204', justifyContent: 'center', alignItems: 'center'}}>
@@ -179,7 +194,7 @@ const StoryboardAudio: React.FC<{audio: SBAudio; total: number}> = ({audio, tota
   );
 };
 
-export const StoryboardView: React.FC<{storyboard: StoryboardData; annotate?: boolean}> = ({storyboard, annotate}) => {
+export const StoryboardView: React.FC<{storyboard: StoryboardData; annotate?: boolean; blenderDir?: string}> = ({storyboard, annotate, blenderDir}) => {
   const fps = storyboard.fps;
   let at = 0;
   const items = storyboard.shots.map((s, i) => {
@@ -196,7 +211,7 @@ export const StoryboardView: React.FC<{storyboard: StoryboardData; annotate?: bo
       {items.map(({s, len, from, inT, out}) => (
         <Sequence key={s.n} from={from} durationInFrames={len + Math.round(overlapOf(out) * fps)}>
           <ShotLayer len={len} inT={inT} outT={out}>
-            <SBShotView config={s.config} n={s.n} narration={s.narration} note={s.note} onscreen={s.onscreen} visual={s.visual} annotate={annotate} />
+            <SBShotView config={s.config} n={s.n} narration={s.narration} note={s.note} onscreen={s.onscreen} visual={s.visual} annotate={annotate} blenderDir={blenderDir} />
           </ShotLayer>
         </Sequence>
       ))}

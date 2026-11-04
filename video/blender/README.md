@@ -35,6 +35,16 @@ Remotion 合成 Blender-Heart（src/shots/heart/BlenderHeart.tsx）← 逐帧显
 
 参考耗时（6G 显存显卡，1080p、96 采样、OptiX / CUDA）：每帧几秒，5 秒预览约 10 分钟以内。
 
+## 整片一键出片（Blender + three.js 镜头，《方案补充》#31）
+在笔记本 `video/` 目录（需 Blender 4.2+、Node 且 `npm ci` 过、Python 3（`pip install pillow numpy`）、ffmpeg）：
+```
+python tools/render_film.py storyboards/<分镜 id>/storyboard.json --preview   # 先出半分辨率预览版
+python tools/render_film.py storyboards/<分镜 id>/storyboard.json             # 正式版
+```
+Blender 不在 PATH 里时加 `--blender "C:\Program Files\Blender Foundation\Blender 4.2\blender.exe"`。
+脚本先逐镜渲 Blender 镜头到 `public/blender/<分镜 id>/<镜号>/`（帧数齐全的自动跳过，可中断续跑），再渲整条 Storyboard、混音、质检、归档；
+成片在 `out/film/<分镜 id>/final.mp4`，归档在 `archives/<分镜 id>/`（提交推送）。
+
 ## 云端会话里（没有显卡）
 只出单帧检查画面：`pip install bpy==5.2.3`（Python 3.13；Blender 官网被网络策略挡了，PyPI 可以），然后
 ```
