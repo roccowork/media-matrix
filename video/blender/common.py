@@ -42,6 +42,7 @@ class Shot:
         ap.add_argument('--scale', type=float, default=1.0, help='分辨率倍数（1 = 1920×1080）')
         ap.add_argument('--samples', type=int, default=128, help='Cycles 采样数（开降噪）')
         ap.add_argument('--device', default='GPU', help='GPU 自动选 OPTIX / CUDA / HIP / METAL / ONEAPI；或 CPU')
+        ap.add_argument('--backend', default='auto', help='GPU 后端：auto（按 OPTIX → CUDA → HIP → METAL → ONEAPI 找）或指定一个，如 CUDA（OptiX 内核编译失败时用）')
         ap.add_argument('--determinism', type=int, default=-1, help='同一帧渲两次、逐像素比对（不写正式输出）')
         self.args = ap.parse_args(argv)
         self.cfg = json.load(open(self.args.config, encoding='utf-8'))
@@ -116,7 +117,8 @@ class Shot:
         if a.device.upper() == 'GPU':
             prefs = bpy.context.preferences.addons['cycles'].preferences
             picked = None
-            for kind in ('OPTIX', 'CUDA', 'HIP', 'METAL', 'ONEAPI'):
+            kinds = ('OPTIX', 'CUDA', 'HIP', 'METAL', 'ONEAPI') if a.backend == 'auto' else (a.backend.upper(),)
+            for kind in kinds:
                 try:
                     prefs.compute_device_type = kind
                     prefs.get_devices()

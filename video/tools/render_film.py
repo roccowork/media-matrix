@@ -49,7 +49,8 @@ def find_blender(given):
         return given
     import glob
     cands = glob.glob(r'C:\Program Files\Blender Foundation\*\blender.exe') + glob.glob(r'D:\Program Files\Blender Foundation\*\blender.exe') \
-        + glob.glob(str(Path.home() / 'AppData/Local/Programs/Blender Foundation/*/blender.exe')) + glob.glob('/Applications/Blender*.app/Contents/MacOS/Blender')
+        + glob.glob(str(Path.home() / 'AppData/Local/Programs/Blender Foundation/*/blender.exe')) \
+        + glob.glob(r'C:\Blender*\blender.exe') + glob.glob(r'D:\Blender*\blender.exe') + glob.glob(r'D:\Blender*\*\blender.exe') + glob.glob(r'E:\Blender*\blender.exe') + glob.glob('/Applications/Blender*.app/Contents/MacOS/Blender')
     if cands:
         print('找到 Blender：', sorted(cands)[-1])
         return sorted(cands)[-1]
@@ -64,6 +65,7 @@ def main():
     ap.add_argument('--gl', default='angle')
     ap.add_argument('--preview', action='store_true')
     ap.add_argument('--skip-blender', action='store_true')
+    ap.add_argument('--backend', default='auto', help='Blender GPU 后端：auto / OPTIX / CUDA')
     a = ap.parse_args()
 
     sb_path = (ROOT / a.storyboard).resolve()
@@ -77,6 +79,7 @@ def main():
 
     # 1. Blender 镜头
     blender = find_blender(a.blender)
+    backend = a.backend
     shots_b = [s for s in sb['shots'] if s['config']['renderer'] == 'blender']
     print(f'Blender 镜头 {len(shots_b)} 个：' + '、'.join(str(s['n']) for s in shots_b))
     for s in shots_b:
@@ -92,8 +95,17 @@ def main():
             sys.exit(f"第 {s['n']} 镜的资产 {cfg['assets'][0]['id']} 没有对应的 Blender 场景脚本")
         cfg_file = work / f"shot_{s['n']:02d}.json"
         cfg_file.write_text(json.dumps(cfg, ensure_ascii=False), encoding='utf-8')
-        run([blender, '-b', '-P', ROOT / 'blender' / scene, '--', '--config', cfg_file, '--out', out,
-             '--device', 'GPU', '--samples', samples, '--scale', scale])
+        cmd = [blender, '-b', '-P', ROOT / 'blender' / scene, '--', '--config', cfg_file, '--out', out,
+               '--device', 'GPU', '--samples', samples, '--scale', scale, '--backend', backend]
+        try:
+            run(cmd)
+        except subprocess.CalledProcessError:
+            if backend != 'auto':
+                raise
+            # OptiX 内核编译失败（显卡驱动偏旧时常见）：改用 CUDA 重试，后面的镜头也直接用 CUDA
+            print('⚠ GPU 渲染失败，改用 CUDA 重试（若仍失败，请更新 NVIDIA 显卡驱动）')
+            backend = 'CUDA'
+            run(cmd[:-1] + [backend])
 
     # 2. Remotion 渲整条
     props = work / 'props.json'
