@@ -9,6 +9,7 @@
 //   node tools/shot.mjs keyframes Shot-BlackHole 0,200,330,440 [输出目录] [--gl=angle]
 //   node tools/shot.mjs determinism Shot-BlackHole 330 [--gl=angle]   同一帧渲染两次，逐像素比对
 // 云端会话没有显卡：--gl=swangle（默认）；在有显卡的笔记本上用 --gl=angle，快很多。
+import {fileURLToPath} from 'url';
 import fs from 'node:fs';
 import path from 'node:path';
 import crypto from 'node:crypto';
@@ -17,7 +18,7 @@ import Ajv from 'ajv';
 
 const [cmd, a1, a2, a3] = process.argv.slice(2).filter((x) => !x.startsWith('--'));
 const gl = (process.argv.find((x) => x.startsWith('--gl=')) ?? '--gl=swangle').slice(5);
-const root = path.dirname(new URL(import.meta.url).pathname) + '/..';
+const root = path.join(path.dirname(fileURLToPath(import.meta.url)), '..');   // fileURLToPath：Windows 上 URL.pathname 会是 /C:/…
 
 // ---------- 资产库（从 registry.ts 解析；资产目录导出、参数 / 能力校验共用） ----------
 const loadRegistry = () => {

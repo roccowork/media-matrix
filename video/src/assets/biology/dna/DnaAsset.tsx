@@ -125,7 +125,7 @@ void main() {
   gl_Position = projectionMatrix * mv;
 }`;
 const BACKBONE_FRAG = /* glsl */ `
-uniform vec3 uCol;
+uniform vec3 uCol; uniform float uTime;
 varying vec3 vN; varying vec3 vV; varying float vI; varying float vNew;
 ${SHADE_GLSL}
 void main() {

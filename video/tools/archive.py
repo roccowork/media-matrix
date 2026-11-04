@@ -36,8 +36,10 @@ def git(*args):
 
 
 def registry():
-    out = subprocess.run(['node', 'tools/shot.mjs', 'registry'], cwd=ROOT, capture_output=True, text=True, check=True).stdout
-    return json.loads(out)
+    r = subprocess.run(['node', 'tools/shot.mjs', 'registry'], cwd=ROOT, capture_output=True, encoding='utf-8')
+    if r.returncode:
+        sys.exit('读资产登记表失败：\n' + r.stderr[-2000:])
+    return json.loads(r.stdout)
 
 
 def probe(video):

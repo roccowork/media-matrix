@@ -44,8 +44,8 @@ def main(sb_path: str, out: str) -> None:
     if not labels:
         sys.exit('分镜里没有 audio.ambient / audio.sfx')
     # normalize=0：各轨按原音量叠加（amix 默认会按轨数压低音量）
-    # 4 倍过采样后限幅再降回 48k（先限幅后重采样会让峰值冒过限幅点），限到 -2 dBFS，给 AAC 编码留余量 → 成片真峰值 ≤ -1 dBTP（qc.py 检查）
-    chains.append(f"{''.join(labels)}amix=inputs={len(labels)}:normalize=0:duration=longest,atrim=0:{total},aresample=192000,alimiter=limit=0.79:attack=2:level=false,aresample=48000[out]")
+    # 4 倍过采样后限幅再降回 48k（先限幅后重采样会让峰值冒过限幅点），限到 -3 dBFS，给 AAC 编码留余量 → 成片真峰值 ≤ -1 dBTP（qc.py 检查）
+    chains.append(f"{''.join(labels)}amix=inputs={len(labels)}:normalize=0:duration=longest,atrim=0:{total},aresample=192000,alimiter=limit=0.71:attack=2:level=false,aresample=48000[out]")
     cmd = ['ffmpeg', '-nostdin', '-v', 'error', '-y', *inputs, '-filter_complex', ';'.join(chains), '-map', '[out]', '-ar', '48000', out]
     subprocess.run(cmd, check=True)
     print(f'✓ {out}（{total:.2f} 秒，{len(labels)} 轨）')
