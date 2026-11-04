@@ -40,6 +40,22 @@ def tool(name):
     return p
 
 
+def find_blender(given):
+    """找 Blender：先看 PATH / 给定路径，再找 Windows / Mac 的常见安装位置（取版本号最大的）"""
+    p = shutil.which(given)
+    if p:
+        return p
+    if Path(given).exists():
+        return given
+    import glob
+    cands = glob.glob(r'C:\Program Files\Blender Foundation\*\blender.exe') + glob.glob(r'D:\Program Files\Blender Foundation\*\blender.exe') \
+        + glob.glob(str(Path.home() / 'AppData/Local/Programs/Blender Foundation/*/blender.exe')) + glob.glob('/Applications/Blender*.app/Contents/MacOS/Blender')
+    if cands:
+        print('找到 Blender：', sorted(cands)[-1])
+        return sorted(cands)[-1]
+    sys.exit('找不到 Blender：请用 --blender "blender.exe 的完整路径" 指定')
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument('storyboard')
@@ -60,7 +76,7 @@ def main():
     samples = str(32 if a.preview else a.samples)
 
     # 1. Blender 镜头
-    blender = shutil.which(a.blender) or a.blender
+    blender = find_blender(a.blender)
     shots_b = [s for s in sb['shots'] if s['config']['renderer'] == 'blender']
     print(f'Blender 镜头 {len(shots_b)} 个：' + '、'.join(str(s['n']) for s in shots_b))
     for s in shots_b:
