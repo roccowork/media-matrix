@@ -45,7 +45,7 @@ def find_blender(given):
     p = shutil.which(given)
     if p:
         return p
-    if Path(given).exists():
+    if Path(given).is_file():          # 注意 video/ 下有个同名的 blender 文件夹，要判断是不是文件
         return given
     import glob
     cands = glob.glob(r'C:\Program Files\Blender Foundation\*\blender.exe') + glob.glob(r'D:\Program Files\Blender Foundation\*\blender.exe') \
