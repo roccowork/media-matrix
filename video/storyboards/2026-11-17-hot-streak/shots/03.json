@@ -1,0 +1,68 @@
+{
+ "n": 3,
+ "visual": "整条线还暗着，中段四五年突然从中心烧亮，迸出火花",
+ "config": {
+  "id": "life.lifelines.v1",
+  "renderer": "threejs",
+  "style": "cinematic_science",
+  "fps": 30,
+  "duration": 4,
+  "camera": {
+   "preset": "keys",
+   "keys": [
+    {
+     "t": 0,
+     "pos": [
+      -2.2,
+      0.45,
+      1.9
+     ],
+     "look": [
+      5,
+      0.05,
+      -0.6
+     ],
+     "fov": 48,
+     "roll": -7
+    },
+    {
+     "t": 4,
+     "pos": [
+      -0.6,
+      0.7,
+      2.6
+     ],
+     "look": [
+      4.5,
+      0.2,
+      -0.4
+     ],
+     "fov": 46,
+     "roll": -3
+    }
+   ]
+  },
+  "post": {
+   "bloom": {
+    "intensity": 0.9,
+    "threshold": 0.6,
+    "radius": 0.55
+   },
+   "tone": "aces",
+   "vignette": 0.6,
+   "grain": 0.014
+  },
+  "assets": [
+   {
+    "id": "life.lifelines.v1",
+    "params": {
+     "seed": "2026-11-17-hot-streak",
+     "heroIgniteAt": 0.6,
+     "riverAt": -1,
+     "heroDim": 0.45
+    }
+   }
+  ],
+  "version": "1.0.0"
+ }
+}

@@ -35,6 +35,7 @@ import {DysonSwarmAsset} from '../../assets/cosmos/dysonswarm/DysonSwarmAsset';
 import {LightningAsset} from '../../assets/physics/lightning/LightningAsset';
 import {FieldLinesAsset} from '../../assets/physics/fieldlines/FieldLinesAsset';
 import {EnergyFieldAsset} from '../../assets/physics/energyfield/EnergyFieldAsset';
+import {LifeLinesAsset} from '../../assets/life/lifelines/LifeLinesAsset';
 
 const C = <P,>(c: React.FC<P>) => c as unknown as React.FC<Record<string, unknown>>;
 
@@ -1182,6 +1183,56 @@ export const ASSETS: AssetMeta[] = [
     license: 'CC0（Quaternius Animal Pack Vol.2）',
     source: 'https://opengameart.org/content/animated-animales-low-poly',
     version: '1.0.0',
+  },
+  {
+    asset_id: 'life.lifelines.v1',
+    asset_name: '人生光河（每条金线是一个人的一生：大部分暗，中间一段高光期会被点燃；主角线可从左往右长出、点燃并迸出火花；几千条线铺成起伏的光河，高光段随机分布、陆续点燃）',
+    category: 'common',
+    kind: 'procedural',
+    renderer: 'threejs',
+    component: C(LifeLinesAsset),
+    params: {
+      position: {type: 'vec3', default: [0, 0, 0], desc: '光河中心'},
+      length: {type: 'number', default: 60, min: 1, max: 1000, desc: '一生的长度（世界单位，沿 x：左 = 入行，右 = 最后一天）'},
+      hero: {type: 'boolean', default: true, desc: '是否画主角线（画面中心「你的一生」）'},
+      heroWidth: {type: 'number', default: 0.05, min: 0.002, max: 5, desc: '主角线粗细'},
+      heroDim: {type: 'number', default: 0.5, min: 0, max: 3, desc: '主角线暗的部分有多亮'},
+      drawAt: {type: 'number', default: -1, min: -1, max: 600, desc: '主角线从左往右长出（秒）；-1 = 一开始就完整'},
+      drawDuration: {type: 'number', default: 4, min: 0.1, max: 60, desc: '长出用时（秒）'},
+      heroStreak: {type: 'number', default: 0.55, min: 0, max: 1, desc: '主角线高光段中心（0–1）'},
+      heroStreakLen: {type: 'number', default: 0.11, min: 0.01, max: 0.6, desc: '主角线高光段长度（0–1，一生约 40 年时 0.11 ≈ 四五年）'},
+      heroIgniteAt: {type: 'number', default: -1, min: -1, max: 600, desc: '主角线点燃（秒）；-1 = 不点燃'},
+      heroIgniteDuration: {type: 'number', default: 0.7, min: 0.05, max: 10, desc: '从高光中心烧到两端用时（秒）'},
+      sparks: {type: 'number', default: 900, min: 0, max: 5000, desc: '点燃时迸出的火花数（拖尾、受重力下坠）'},
+      dust: {type: 'number', default: 1500, min: 0, max: 20000, desc: '漂浮光尘颗数（给黑场纵深，点燃时被照亮）'},
+      dustSpread: {type: 'number', default: 14, min: 0.1, max: 500, desc: '光尘分布范围'},
+      count: {type: 'number', default: 5000, min: 0, max: 30000, desc: '光河里的人生线条数'},
+      spreadZ: {type: 'number', default: 16, min: 0.1, max: 500, desc: '河宽（z）'},
+      spreadY: {type: 'number', default: 2.4, min: 0.1, max: 500, desc: '河高（y）'},
+      riverAt: {type: 'number', default: -1, min: -1, max: 600, desc: '光河开始从中心向外显现（秒）；-1 = 不显示'},
+      riverDuration: {type: 'number', default: 2.5, min: 0.1, max: 60, desc: '显现到最外圈用时（秒）'},
+      riverDim: {type: 'number', default: 0.05, min: 0, max: 3, desc: '光河暗线亮度（以 2000 条为基准，条数更多时自动按比例调暗）'},
+      streakGain: {type: 'number', default: 0.35, min: 0, max: 5, desc: '光河高光段亮度'},
+      fogDist: {type: 'number', default: 25, min: 0, max: 5000, desc: '按距离衰减的参考距离（越远越淡，抵消透视挤压造成的过曝）；0 = 不衰减'},
+      streakAt: {type: 'number', default: -1, min: -1, max: 600, desc: '光河里的高光段开始陆续点燃（秒）；-1 = 不点燃'},
+      streakSpread: {type: 'number', default: 6, min: 0.1, max: 120, desc: '多少秒内陆续点完'},
+      streakShare: {type: 'number', default: 0.9, min: 0, max: 1, desc: '有高光段的线占比'},
+      wave: {type: 'number', default: 0.35, min: 0, max: 20, desc: '河面起伏幅度'},
+      flow: {type: 'number', default: 0.12, min: 0, max: 5, desc: '河面起伏流动速度'},
+      dimColor: {type: 'color', default: '#8a5a22', desc: '暗线颜色'},
+      glowColor: {type: 'color', default: '#ffb23c', desc: '高光颜色'},
+      hotColor: {type: 'color', default: '#fff3d6', desc: '点燃瞬间 / 火花颜色'},
+      brightness: {type: 'number', default: 1, min: 0.1, max: 5, desc: '整体亮度'},
+      timeOffset: {type: 'number', default: 0, min: 0, max: 600, desc: '时间偏移（秒）：跨镜衔接，所有时刻按「本镜时间 + 偏移」算'},
+      seed: {type: 'seed', default: 'lifelines', desc: '种子：光河里每条线的位置、高光段位置和点燃时刻'},
+    },
+    effects: ['life_lines', 'line_draw_on', 'hot_streak_ignite', 'sparks', 'river_reveal', 'random_streaks'],
+    camera_presets: ['贴着主角线跟拍', '从主角线急速后拉揭示整条光河', '低角度掠过河面'],
+    lighting_preset: '自发光；配 bloom',
+    no_dof: true,
+    license: 'own（自研 Shader）',
+    version: '1.0.0',
+    notes: '《成功的科学》第 1 集主视觉；heroPoint(s) 可算主角线上的点对准镜头；光河是 1 像素线，远景靠数量和 bloom 出气势',
   },
 ];
 
