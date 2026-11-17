@@ -1,0 +1,54 @@
+# 配音：阿里云百炼 千问声音复刻（向晓的声音），逐句生成 mp3 + 时长表，提交回仓库（按句缓存，不重复扣费）。
+# 为什么在 Actions 跑：复刻音色只有 WebSocket 实时接口，会话虚拟机的代理会弄坏 WebSocket。
+# 需要仓库 Secrets：DASHSCOPE_API_KEY（百炼 Key）、BAILIAN_VOICE_ID（复刻的音色 id）。只手动触发。
+name: voice
+
+on:
+  workflow_dispatch:
+    inputs:
+      board:
+        description: "分镜目录（video/ 下），如 storyboards/2026-11-17-hot-streak"
+        required: true
+      only:
+        description: "只配这几句（试听用，如 1-3）；留空 = 全部"
+        required: false
+        default: ""
+
+concurrency:
+  group: voice
+  cancel-in-progress: false
+
+permissions:
+  contents: write
+
+jobs:
+  voice:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    defaults:
+      run:
+        working-directory: video
+    steps:
+      - uses: actions/checkout@v5
+      - name: 安装 ffmpeg 和 websockets
+        run: sudo apt-get update -q && sudo apt-get install -y -q ffmpeg && pip install -q "websockets>=15"
+      - name: 配音
+        env:
+          DASHSCOPE_API_KEY: ${{ secrets.DASHSCOPE_API_KEY }}
+          BAILIAN_VOICE_ID: ${{ secrets.BAILIAN_VOICE_ID }}
+          BOARD: ${{ inputs.board }}
+          ONLY: ${{ inputs.only }}
+        run: |
+          [[ "$BOARD" =~ ^storyboards/[0-9A-Za-z._-]+$ ]] || { echo "分镜目录不对：$BOARD"; exit 1; }
+          if [ -n "$ONLY" ]; then python3 tools/voice_bailian.py "$BOARD" --only "$ONLY"; else python3 tools/voice_bailian.py "$BOARD"; fi
+      - name: 提交配音
+        env:
+          BOARD: ${{ inputs.board }}
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add public/voice
+          if ! git diff --cached --quiet; then
+            git commit -q -m "配音：$(basename "$BOARD")"
+            git pull -q --rebase origin main && git push -q origin HEAD:main
+          fi
