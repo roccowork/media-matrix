@@ -1,0 +1,4330 @@
+{
+ "id": "2026-11-17-hot-streak",
+ "topic": "成功的科学 · 第 1 集：天才不是一种人，是一段时间",
+ "title": "天才不是一种人，是一段时间",
+ "fps": 30,
+ "generator": {
+  "by": "hand",
+  "date": "2026-11-17"
+ },
+ "limits": {
+  "maxShot": 13,
+  "minTotal": 140,
+  "maxTotal": 180,
+  "note": "用户 11-17 定：全片约 2 分 40 秒（《方案补充》#36），一镜可以念两三句"
+ },
+ "facts": [
+  {
+   "claim": "研究样本：2 万多名科学家、4 千多位导演、2 千多位画家（20,040 / 4,337 / 2,128）",
+   "basis": "Liu, Dehmamy, Chown, Giles, Wang, Nature Communications 2021",
+   "status": "待核验"
+  },
+  {
+   "claim": "研究用 AI（深度学习）分析画作、电影、论文的风格和主题",
+   "basis": "Liu et al. 2021 及西北大学新闻稿",
+   "status": "待核验"
+  },
+  {
+   "claim": "大多数人一生至少有一次高光期，平均约四五年，最好的作品集中在里面",
+   "basis": "Liu et al., Nature 2018",
+   "status": "待核验"
+  },
+  {
+   "claim": "高光期在职业生涯里出现的时间近似随机",
+   "basis": "Liu et al., Nature 2018",
+   "status": "待核验"
+  },
+  {
+   "claim": "高光期之前先探索、之后深挖；只探索或只深挖都和高光期无关",
+   "basis": "Liu et al. 2021",
+   "status": "待核验"
+  },
+  {
+   "claim": "试多久才算够，研究者自己说还没有答案",
+   "basis": "Dashun Wang 接受采访（Kellogg Insight 等报道）",
+   "status": "待核验"
+  }
+ ],
+ "shots": [
+  {
+   "n": 1,
+   "lines": [
+    1
+   ],
+   "narration": "假如把你的一生摊开，从第一份工作，到最后一天。",
+   "visual": "黑暗中一条金线像彗星一样从左往右长出，镜头贴着线头追，最后拉到侧面",
+   "config": {
+    "id": "life.lifelines.v1",
+    "renderer": "threejs",
+    "style": "cinematic_science",
+    "fps": 30,
+    "duration": 5.75,
+    "camera": {
+     "preset": "keys",
+     "keys": [
+      {
+       "t": 0.0,
+       "pos": [
+        -32.2,
+        0.35,
+        1.3
+       ],
+       "look": [
+        -28.5,
+        0,
+        0
+       ],
+       "fov": 44,
+       "roll": -8.0
+      },
+      {
+       "t": 0.575,
+       "pos": [
+        -30.875,
+        0.364,
+        1.39
+       ],
+       "look": [
+        -27.215,
+        0,
+        0
+       ],
+       "fov": 44,
+       "roll": -7.4
+      },
+      {
+       "t": 1.15,
+       "pos": [
+        -26.2,
+        0.406,
+        1.66
+       ],
+       "look": [
+        -22.46,
+        0,
+        0
+       ],
+       "fov": 44,
+       "roll": -6.8
+      },
+      {
+       "t": 1.725,
+       "pos": [
+        -19.054,
+        0.476,
+        2.11
+       ],
+       "look": [
+        -15.114,
+        0,
+        0
+       ],
+       "fov": 44,
+       "roll": -6.2
+      },
+      {
+       "t": 2.3,
+       "pos": [
+        -10.382,
+        0.574,
+        2.74
+       ],
+       "look": [
+        -6.122,
+        0,
+        0
+       ],
+       "fov": 44,
+       "roll": -5.6
+      },
+      {
+       "t": 2.875,
+       "pos": [
+        -1.131,
+        0.7,
+        3.55
+       ],
+       "look": [
+        3.569,
+        0,
+        0
+       ],
+       "fov": 44,
+       "roll": -5.0
+      },
+      {
+       "t": 3.45,
+       "pos": [
+        7.753,
+        0.854,
+        4.54
+       ],
+       "look": [
+        13.013,
+        0,
+        0
+       ],
+       "fov": 44,
+       "roll": -4.4
+      },
+      {
+       "t": 4.025,
+       "pos": [
+        15.324,
+        1.036,
+        5.71
+       ],
+       "look": [
+        21.264,
+        0,
+        0
+       ],
+       "fov": 44,
+       "roll": -3.8
+      },
+      {
+       "t": 4.6,
+       "pos": [
+        20.636,
+        1.246,
+        7.06
+       ],
+       "look": [
+        27.376,
+        0,
+        0
+       ],
+       "fov": 44,
+       "roll": -3.2
+      },
+      {
+       "t": 5.175,
+       "pos": [
+        22.744,
+        1.484,
+        8.59
+       ],
+       "look": [
+        30.404,
+        0,
+        0
+       ],
+       "fov": 44,
+       "roll": -2.6
+      },
+      {
+       "t": 5.75,
+       "pos": [
+        21.8,
+        1.75,
+        10.3
+       ],
+       "look": [
+        30.5,
+        0,
+        0
+       ],
+       "fov": 44,
+       "roll": -2.0
+      }
+     ]
+    },
+    "post": {
+     "bloom": {
+      "intensity": 0.9,
+      "threshold": 0.6,
+      "radius": 0.55
+     },
+     "tone": "aces",
+     "grain": 0.014
+    },
+    "assets": [
+     {
+      "id": "life.lifelines.v1",
+      "params": {
+       "seed": "2026-11-17-hot-streak",
+       "heroWidth": 0.022,
+       "heroDim": 0.5,
+       "count": 0,
+       "drawAt": 0.1,
+       "drawDuration": 5.25
+      }
+     },
+     {
+      "id": "life.lifelines.v1",
+      "params": {
+       "seed": "2026-11-17-hot-streak-bg",
+       "hero": false,
+       "dust": 0,
+       "count": 5000,
+       "position": [
+        0,
+        -8.0,
+        -24.0
+       ],
+       "spreadZ": 26,
+       "spreadY": 4,
+       "riverAt": 0,
+       "riverDuration": 0.1,
+       "riverDim": 0.035,
+       "streakAt": 0,
+       "streakSpread": 60,
+       "streakGain": 0.5,
+       "fogDist": 16,
+       "timeOffset": 20
+      }
+     }
+    ],
+    "version": "1.0.0"
+   }
+  },
+  {
+   "n": 2,
+   "lines": [
+    2
+   ],
+   "narration": "你会看到，大部分日子是暗的。",
+   "visual": "镜头贴着整条暗着的线缓慢平移，线像冷掉的余烬",
+   "config": {
+    "id": "life.lifelines.v1",
+    "renderer": "threejs",
+    "style": "cinematic_science",
+    "fps": 30,
+    "duration": 3.4,
+    "camera": {
+     "preset": "keys",
+     "keys": [
+      {
+       "t": 0,
+       "pos": [
+        -21.0,
+        0.5,
+        3.2
+       ],
+       "look": [
+        -15.0,
+        0,
+        0
+       ],
+       "fov": 42,
+       "roll": -4
+      },
+      {
+       "t": 3.2,
+       "pos": [
+        -9.0,
+        0.4,
+        2.6
+       ],
+       "look": [
+        -1.8,
+        0,
+        0
+       ],
+       "fov": 42,
+       "roll": -2
+      },
+      {
+       "t": 3.4,
+       "pos": [
+        -9.0,
+        0.4,
+        2.6
+       ],
+       "look": [
+        -1.8,
+        0,
+        0
+       ],
+       "fov": 42,
+       "roll": -2
+      }
+     ]
+    },
+    "post": {
+     "bloom": {
+      "intensity": 0.9,
+      "threshold": 0.6,
+      "radius": 0.55
+     },
+     "tone": "aces",
+     "grain": 0.014
+    },
+    "assets": [
+     {
+      "id": "life.lifelines.v1",
+      "params": {
+       "seed": "2026-11-17-hot-streak",
+       "heroWidth": 0.03,
+       "heroDim": 0.45,
+       "count": 0,
+       "dust": 2000
+      }
+     },
+     {
+      "id": "life.lifelines.v1",
+      "params": {
+       "seed": "2026-11-17-hot-streak-bg",
+       "hero": false,
+       "dust": 0,
+       "count": 5000,
+       "position": [
+        0,
+        -8.0,
+        -24.0
+       ],
+       "spreadZ": 26,
+       "spreadY": 4,
+       "riverAt": 0,
+       "riverDuration": 0.1,
+       "riverDim": 0.035,
+       "streakAt": 0,
+       "streakSpread": 60,
+       "streakGain": 0.5,
+       "fogDist": 16,
+       "timeOffset": 20
+      }
+     }
+    ],
+    "version": "1.0.0"
+   }
+  },
+  {
+   "n": 3,
+   "lines": [
+    3
+   ],
+   "narration": "但中间有那么四五年，突然亮了。",
+   "visual": "整条线还暗着，中段四五年突然从中心烧亮，火花迸射",
+   "config": {
+    "id": "life.lifelines.v1",
+    "renderer": "threejs",
+    "style": "cinematic_science",
+    "fps": 30,
+    "duration": 4.24,
+    "camera": {
+     "preset": "keys",
+     "keys": [
+      {
+       "t": 0,
+       "pos": [
+        -2.2,
+        0.45,
+        1.9
+       ],
+       "look": [
+        5,
+        0.05,
+        -0.6
+       ],
+       "fov": 48,
+       "roll": -7
+      },
+      {
+       "t": 3.8,
+       "pos": [
+        -0.6,
+        0.7,
+        2.6
+       ],
+       "look": [
+        4.5,
+        0.2,
+        -0.4
+       ],
+       "fov": 46,
+       "roll": -3
+      },
+      {
+       "t": 4.24,
+       "pos": [
+        -0.6,
+        0.7,
+        2.6
+       ],
+       "look": [
+        4.5,
+        0.2,
+        -0.4
+       ],
+       "fov": 46,
+       "roll": -3
+      }
+     ]
+    },
+    "post": {
+     "bloom": {
+      "intensity": 0.9,
+      "threshold": 0.6,
+      "radius": 0.55
+     },
+     "tone": "aces",
+     "grain": 0.014
+    },
+    "assets": [
+     {
+      "id": "life.lifelines.v1",
+      "params": {
+       "seed": "2026-11-17-hot-streak",
+       "heroWidth": 0.03,
+       "heroDim": 0.45,
+       "count": 0,
+       "heroIgniteAt": 0.5
+      }
+     },
+     {
+      "id": "life.lifelines.v1",
+      "params": {
+       "seed": "2026-11-17-hot-streak-bg",
+       "hero": false,
+       "dust": 0,
+       "count": 5000,
+       "position": [
+        0,
+        -8.0,
+        -24.0
+       ],
+       "spreadZ": 26,
+       "spreadY": 4,
+       "riverAt": 0,
+       "riverDuration": 0.1,
+       "riverDim": 0.035,
+       "streakAt": 0,
+       "streakSpread": 60,
+       "streakGain": 0.5,
+       "fogDist": 16,
+       "timeOffset": 20
+      }
+     }
+    ],
+    "version": "1.0.0"
+   }
+  },
+  {
+   "n": 4,
+   "lines": [
+    4
+   ],
+   "narration": "那几年，你拿出来的东西，一件比一件好。",
+   "visual": "镜头沿高光段滑过，年份刻度一格格亮起，高光段里的刻度被烧亮",
+   "config": {
+    "id": "life.lifelines.v1",
+    "renderer": "threejs",
+    "style": "cinematic_science",
+    "fps": 30,
+    "duration": 3.95,
+    "camera": {
+     "preset": "keys",
+     "keys": [
+      {
+       "t": 0,
+       "pos": [
+        -1.8,
+        0.8,
+        2.4
+       ],
+       "look": [
+        1.8,
+        0,
+        0
+       ],
+       "fov": 40,
+       "roll": -3
+      },
+      {
+       "t": 3.6,
+       "pos": [
+        6.0,
+        0.9,
+        2.6
+       ],
+       "look": [
+        7.2,
+        0,
+        0
+       ],
+       "fov": 40,
+       "roll": 2
+      },
+      {
+       "t": 3.95,
+       "pos": [
+        6.0,
+        0.9,
+        2.6
+       ],
+       "look": [
+        7.2,
+        0,
+        0
+       ],
+       "fov": 40,
+       "roll": 2
+      }
+     ]
+    },
+    "post": {
+     "bloom": {
+      "intensity": 0.9,
+      "threshold": 0.6,
+      "radius": 0.55
+     },
+     "tone": "aces",
+     "grain": 0.014
+    },
+    "assets": [
+     {
+      "id": "life.lifelines.v1",
+      "params": {
+       "seed": "2026-11-17-hot-streak",
+       "heroWidth": 0.03,
+       "heroDim": 0.45,
+       "count": 0,
+       "heroIgniteAt": 0.5,
+       "timeOffset": 4.24,
+       "ticksAt": 3.04,
+       "sparks": 0
+      }
+     },
+     {
+      "id": "life.lifelines.v1",
+      "params": {
+       "seed": "2026-11-17-hot-streak-bg",
+       "hero": false,
+       "dust": 0,
+       "count": 5000,
+       "position": [
+        0,
+        -8.0,
+        -24.0
+       ],
+       "spreadZ": 26,
+       "spreadY": 4,
+       "riverAt": 0,
+       "riverDuration": 0.1,
+       "riverDim": 0.035,
+       "streakAt": 0,
+       "streakSpread": 60,
+       "streakGain": 0.5,
+       "fogDist": 16,
+       "timeOffset": 20
+      }
+     }
+    ],
+    "version": "1.0.0"
+   }
+  },
+  {
+   "n": 5,
+   "lines": [
+    5,
+    6
+   ],
+   "narration": "我们管这样的人，叫天才。可科学家发现：天才不是一种人，是一段时间。",
+   "visual": "镜头后拉，看到亮着的只是整条线上的一段；年份刻度铺满一生",
+   "config": {
+    "id": "life.lifelines.v1",
+    "renderer": "threejs",
+    "style": "cinematic_science",
+    "fps": 30,
+    "duration": 8.63,
+    "camera": {
+     "preset": "keys",
+     "keys": [
+      {
+       "t": 0,
+       "pos": [
+        3.0,
+        0.8,
+        3
+       ],
+       "look": [
+        3.0,
+        0,
+        0
+       ],
+       "fov": 40,
+       "roll": 0
+      },
+      {
+       "t": 3.0,
+       "pos": [
+        3.0,
+        2.0,
+        12
+       ],
+       "look": [
+        0.0,
+        0,
+        0
+       ],
+       "fov": 44,
+       "roll": 0
+      },
+      {
+       "t": 7.6,
+       "pos": [
+        0.0,
+        3.0,
+        30
+       ],
+       "look": [
+        0.0,
+        0,
+        0
+       ],
+       "fov": 46,
+       "roll": 0
+      },
+      {
+       "t": 8.63,
+       "pos": [
+        0.0,
+        3.0,
+        30
+       ],
+       "look": [
+        0.0,
+        0,
+        0
+       ],
+       "fov": 46,
+       "roll": 0
+      }
+     ]
+    },
+    "post": {
+     "bloom": {
+      "intensity": 0.9,
+      "threshold": 0.6,
+      "radius": 0.55
+     },
+     "tone": "aces",
+     "grain": 0.014
+    },
+    "assets": [
+     {
+      "id": "life.lifelines.v1",
+      "params": {
+       "seed": "2026-11-17-hot-streak",
+       "heroWidth": 0.04,
+       "heroDim": 0.45,
+       "count": 0,
+       "heroIgniteAt": 0.1,
+       "timeOffset": 8,
+       "ticksAt": 0,
+       "sparks": 0
+      }
+     },
+     {
+      "id": "life.lifelines.v1",
+      "params": {
+       "seed": "2026-11-17-hot-streak-bg",
+       "hero": false,
+       "dust": 0,
+       "count": 5000,
+       "position": [
+        0,
+        -8.0,
+        -24.0
+       ],
+       "spreadZ": 26,
+       "spreadY": 4,
+       "riverAt": 0,
+       "riverDuration": 0.1,
+       "riverDim": 0.035,
+       "streakAt": 0,
+       "streakSpread": 60,
+       "streakGain": 0.5,
+       "fogDist": 16,
+       "timeOffset": 20
+      }
+     }
+    ],
+    "version": "1.0.0"
+   },
+   "onscreen": {
+    "text": "天才不是一种人，是一段时间",
+    "style": "title",
+    "position": "top"
+   }
+  },
+  {
+   "n": 6,
+   "lines": [
+    7
+   ],
+   "narration": "他们翻遍了两万多名科学家、四千多位导演、两千多位画家的一生。",
+   "visual": "镜头从主角线急速后拉升高：两万条人生线铺成一条光河，从中心一圈圈亮起",
+   "config": {
+    "id": "life.lifelines.v1",
+    "renderer": "threejs",
+    "style": "cinematic_science",
+    "fps": 30,
+    "duration": 5.87,
+    "camera": {
+     "preset": "keys",
+     "keys": [
+      {
+       "t": 0,
+       "pos": [
+        1,
+        0.5,
+        4
+       ],
+       "look": [
+        3,
+        0,
+        0
+       ],
+       "fov": 40,
+       "roll": 0
+      },
+      {
+       "t": 1.4,
+       "pos": [
+        2,
+        4,
+        15
+       ],
+       "look": [
+        2,
+        0,
+        0
+       ],
+       "fov": 44,
+       "roll": -2
+      },
+      {
+       "t": 5.4,
+       "pos": [
+        -12,
+        24,
+        34
+       ],
+       "look": [
+        2,
+        -2,
+        0
+       ],
+       "fov": 48,
+       "roll": -5
+      },
+      {
+       "t": 5.87,
+       "pos": [
+        -12,
+        24,
+        34
+       ],
+       "look": [
+        2,
+        -2,
+        0
+       ],
+       "fov": 48,
+       "roll": -5
+      }
+     ]
+    },
+    "post": {
+     "tone": "aces",
+     "grain": 0.014
+    },
+    "assets": [
+     {
+      "id": "life.lifelines.v1",
+      "params": {
+       "seed": "2026-11-17-hot-streak",
+       "heroWidth": 0.05,
+       "heroDim": 0.5,
+       "count": 20000,
+       "heroIgniteAt": 0,
+       "timeOffset": 4,
+       "riverAt": 4.3,
+       "riverDuration": 2.2,
+       "spreadZ": 26,
+       "spreadY": 3.5,
+       "riverDim": 0.06,
+       "streakGain": 0.6
+      }
+     }
+    ],
+    "version": "1.0.0"
+   }
+  },
+  {
+   "n": 7,
+   "lines": [
+    8
+   ],
+   "narration": "不只是名人，更多是没人听说过的普通人。",
+   "visual": "俯看光河：几十条整条发亮的「名人线」，周围是两万条暗着的普通人的一生",
+   "config": {
+    "id": "life.lifelines.v1",
+    "renderer": "threejs",
+    "style": "cinematic_science",
+    "fps": 30,
+    "duration": 4.36,
+    "camera": {
+     "preset": "keys",
+     "keys": [
+      {
+       "t": 0,
+       "pos": [
+        -12,
+        24,
+        34
+       ],
+       "look": [
+        2,
+        -2,
+        0
+       ],
+       "fov": 48,
+       "roll": -5
+      },
+      {
+       "t": 4,
+       "pos": [
+        -4,
+        30,
+        26
+       ],
+       "look": [
+        0,
+        -2,
+        -2
+       ],
+       "fov": 50,
+       "roll": -3
+      },
+      {
+       "t": 4.36,
+       "pos": [
+        -4,
+        30,
+        26
+       ],
+       "look": [
+        0,
+        -2,
+        -2
+       ],
+       "fov": 50,
+       "roll": -3
+      }
+     ]
+    },
+    "post": {
+     "tone": "aces",
+     "grain": 0.014
+    },
+    "assets": [
+     {
+      "id": "life.lifelines.v1",
+      "params": {
+       "seed": "2026-11-17-hot-streak",
+       "heroWidth": 0.03,
+       "heroDim": 0.5,
+       "count": 20000,
+       "hero": false,
+       "riverAt": 0,
+       "riverDuration": 0.1,
+       "spreadZ": 26,
+       "spreadY": 3.5,
+       "riverDim": 0.04,
+       "famous": 60,
+       "famousGain": 450,
+       "timeOffset": 20
+      }
+     }
+    ],
+    "version": "1.0.0"
+   }
+  },
+  {
+   "n": 8,
+   "lines": [
+    9
+   ],
+   "narration": "让 AI 读完他们的每一篇论文、每一部电影、每一幅画。",
+   "visual": "镜头低飞掠过河面，一道白色扫描光带从左扫到右，扫过的人生线留下余辉",
+   "config": {
+    "id": "life.lifelines.v1",
+    "renderer": "threejs",
+    "style": "cinematic_science",
+    "fps": 30,
+    "duration": 5.01,
+    "camera": {
+     "preset": "keys",
+     "keys": [
+      {
+       "t": 0,
+       "pos": [
+        -27.0,
+        3,
+        18
+       ],
+       "look": [
+        -12.0,
+        0,
+        0
+       ],
+       "fov": 46,
+       "roll": -6
+      },
+      {
+       "t": 4.6,
+       "pos": [
+        6.0,
+        3.5,
+        18
+       ],
+       "look": [
+        21.0,
+        0,
+        0
+       ],
+       "fov": 46,
+       "roll": -2
+      },
+      {
+       "t": 5.01,
+       "pos": [
+        6.0,
+        3.5,
+        18
+       ],
+       "look": [
+        21.0,
+        0,
+        0
+       ],
+       "fov": 46,
+       "roll": -2
+      }
+     ]
+    },
+    "post": {
+     "tone": "aces",
+     "grain": 0.014
+    },
+    "assets": [
+     {
+      "id": "life.lifelines.v1",
+      "params": {
+       "seed": "2026-11-17-hot-streak",
+       "heroWidth": 0.03,
+       "heroDim": 0.5,
+       "count": 20000,
+       "hero": false,
+       "riverAt": 0,
+       "riverDuration": 0.1,
+       "spreadZ": 26,
+       "spreadY": 3.5,
+       "riverDim": 0.05,
+       "scanAt": 0.3,
+       "scanDuration": 3.8,
+       "timeOffset": 20
+      }
+     }
+    ],
+    "version": "1.0.0"
+   }
+  },
+  {
+   "n": 9,
+   "lines": [
+    10
+   ],
+   "narration": "结果，大多数人的一生里，都藏着这样一段高光期。",
+   "visual": "高处俯看：河面上一段段高光期接连点燃，像夜里一片片亮起的灯",
+   "config": {
+    "id": "life.lifelines.v1",
+    "renderer": "threejs",
+    "style": "cinematic_science",
+    "fps": 30,
+    "duration": 6.35,
+    "camera": {
+     "preset": "keys",
+     "keys": [
+      {
+       "t": 0,
+       "pos": [
+        -2,
+        34,
+        30
+       ],
+       "look": [
+        0,
+        -2,
+        -3
+       ],
+       "fov": 50,
+       "roll": -4
+      },
+      {
+       "t": 5.9,
+       "pos": [
+        6,
+        30,
+        24
+       ],
+       "look": [
+        0,
+        -2,
+        -3
+       ],
+       "fov": 48,
+       "roll": -2
+      },
+      {
+       "t": 6.35,
+       "pos": [
+        6,
+        30,
+        24
+       ],
+       "look": [
+        0,
+        -2,
+        -3
+       ],
+       "fov": 48,
+       "roll": -2
+      }
+     ]
+    },
+    "post": {
+     "tone": "aces",
+     "grain": 0.014
+    },
+    "assets": [
+     {
+      "id": "life.lifelines.v1",
+      "params": {
+       "seed": "2026-11-17-hot-streak",
+       "heroWidth": 0.03,
+       "heroDim": 0.5,
+       "count": 20000,
+       "hero": false,
+       "riverAt": 0,
+       "riverDuration": 0.1,
+       "spreadZ": 26,
+       "spreadY": 3.5,
+       "riverDim": 0.04,
+       "streakAt": 0.4,
+       "streakSpread": 4.5,
+       "streakGain": 0.7,
+       "timeOffset": 20
+      }
+     }
+    ],
+    "version": "1.0.0"
+   }
+  },
+  {
+   "n": 10,
+   "lines": [
+    11
+   ],
+   "narration": "平均四五年，一辈子最好的作品，几乎都挤在里面。",
+   "visual": "贴近一条人生线：高光段正好罩住四五个年份刻度，火花从这几年里迸出",
+   "config": {
+    "id": "life.lifelines.v1",
+    "renderer": "threejs",
+    "style": "cinematic_science",
+    "fps": 30,
+    "duration": 4.84,
+    "camera": {
+     "preset": "keys",
+     "keys": [
+      {
+       "t": 0,
+       "pos": [
+        -1.2,
+        0.6,
+        2.2
+       ],
+       "look": [
+        3.0,
+        0,
+        0
+       ],
+       "fov": 40,
+       "roll": -3
+      },
+      {
+       "t": 4.4,
+       "pos": [
+        1.8,
+        0.7,
+        2.0
+       ],
+       "look": [
+        4.8,
+        0,
+        0
+       ],
+       "fov": 40,
+       "roll": 1
+      },
+      {
+       "t": 4.84,
+       "pos": [
+        1.8,
+        0.7,
+        2.0
+       ],
+       "look": [
+        4.8,
+        0,
+        0
+       ],
+       "fov": 40,
+       "roll": 1
+      }
+     ]
+    },
+    "post": {
+     "bloom": {
+      "intensity": 0.9,
+      "threshold": 0.6,
+      "radius": 0.55
+     },
+     "tone": "aces",
+     "grain": 0.014
+    },
+    "assets": [
+     {
+      "id": "life.lifelines.v1",
+      "params": {
+       "seed": "2026-11-17-hot-streak",
+       "heroWidth": 0.03,
+       "heroDim": 0.45,
+       "count": 0,
+       "heroIgniteAt": 0.4,
+       "ticksAt": 0,
+       "timeOffset": 0,
+       "sparks": 500
+      }
+     },
+     {
+      "id": "life.lifelines.v1",
+      "params": {
+       "seed": "2026-11-17-hot-streak-bg",
+       "hero": false,
+       "dust": 0,
+       "count": 5000,
+       "position": [
+        0,
+        -8.0,
+        -24.0
+       ],
+       "spreadZ": 26,
+       "spreadY": 4,
+       "riverAt": 0,
+       "riverDuration": 0.1,
+       "riverDim": 0.035,
+       "streakAt": 0,
+       "streakSpread": 60,
+       "streakGain": 0.5,
+       "fogDist": 16,
+       "timeOffset": 20
+      }
+     }
+    ],
+    "version": "1.0.0"
+   }
+  },
+  {
+   "n": 11,
+   "lines": [
+    12
+   ],
+   "narration": "更反直觉的是：它什么时候来，几乎是随机的。",
+   "visual": "侧看光河：亮着的高光段东一个西一个，位置毫无规律",
+   "config": {
+    "id": "life.lifelines.v1",
+    "renderer": "threejs",
+    "style": "cinematic_science",
+    "fps": 30,
+    "duration": 4.91,
+    "camera": {
+     "preset": "keys",
+     "keys": [
+      {
+       "t": 0,
+       "pos": [
+        -30.0,
+        6,
+        30
+       ],
+       "look": [
+        -6.0,
+        0,
+        0
+       ],
+       "fov": 44,
+       "roll": -3
+      },
+      {
+       "t": 4.5,
+       "pos": [
+        -15.0,
+        6,
+        28
+       ],
+       "look": [
+        6.0,
+        0,
+        0
+       ],
+       "fov": 44,
+       "roll": -1
+      },
+      {
+       "t": 4.91,
+       "pos": [
+        -15.0,
+        6,
+        28
+       ],
+       "look": [
+        6.0,
+        0,
+        0
+       ],
+       "fov": 44,
+       "roll": -1
+      }
+     ]
+    },
+    "post": {
+     "tone": "aces",
+     "grain": 0.014
+    },
+    "assets": [
+     {
+      "id": "life.lifelines.v1",
+      "params": {
+       "seed": "2026-11-17-hot-streak",
+       "heroWidth": 0.03,
+       "heroDim": 0.5,
+       "count": 8000,
+       "hero": false,
+       "riverAt": 0,
+       "riverDuration": 0.1,
+       "spreadZ": 14,
+       "spreadY": 6,
+       "riverDim": 0.05,
+       "streakAt": 2,
+       "streakSpread": 4.0,
+       "streakGain": 0.9,
+       "timeOffset": 2
+      }
+     }
+    ],
+    "version": "1.0.0"
+   }
+  },
+  {
+   "n": 12,
+   "lines": [
+    13
+   ],
+   "narration": "有人刚入行就来了，有人干了很多年才等到。",
+   "visual": "上下两条人生线：上面那条刚开头就亮了，下面那条快到尽头才亮",
+   "config": {
+    "id": "life.lifelines.v1",
+    "renderer": "threejs",
+    "style": "cinematic_science",
+    "fps": 30,
+    "duration": 4.36,
+    "camera": {
+     "preset": "keys",
+     "keys": [
+      {
+       "t": 0,
+       "pos": [
+        0,
+        0.6,
+        38
+       ],
+       "look": [
+        0,
+        0,
+        0
+       ],
+       "fov": 48,
+       "roll": -2
+      },
+      {
+       "t": 4.0,
+       "pos": [
+        0,
+        0.6,
+        33
+       ],
+       "look": [
+        0,
+        0,
+        0
+       ],
+       "fov": 48,
+       "roll": 0
+      },
+      {
+       "t": 4.36,
+       "pos": [
+        0,
+        0.6,
+        33
+       ],
+       "look": [
+        0,
+        0,
+        0
+       ],
+       "fov": 48,
+       "roll": 0
+      }
+     ]
+    },
+    "post": {
+     "bloom": {
+      "intensity": 0.9,
+      "threshold": 0.6,
+      "radius": 0.55
+     },
+     "tone": "aces",
+     "grain": 0.014
+    },
+    "assets": [
+     {
+      "id": "life.lifelines.v1",
+      "params": {
+       "seed": "2026-11-17-hot-streak",
+       "heroWidth": 0.09,
+       "heroDim": 0.7,
+       "count": 0,
+       "position": [
+        0,
+        2.0,
+        0
+       ],
+       "heroStreak": 0.14,
+       "heroIgniteAt": 0.5,
+       "sparks": 500,
+       "dust": 800
+      }
+     },
+     {
+      "id": "life.lifelines.v1",
+      "params": {
+       "seed": "2026-11-17-hot-streak-b",
+       "heroWidth": 0.09,
+       "heroDim": 0.7,
+       "count": 0,
+       "position": [
+        0,
+        -2.0,
+        0
+       ],
+       "heroStreak": 0.84,
+       "heroIgniteAt": 2.2,
+       "sparks": 500,
+       "dust": 0
+      }
+     },
+     {
+      "id": "life.lifelines.v1",
+      "params": {
+       "seed": "2026-11-17-hot-streak-bg",
+       "hero": false,
+       "dust": 0,
+       "count": 5000,
+       "position": [
+        0,
+        -8.0,
+        -24.0
+       ],
+       "spreadZ": 26,
+       "spreadY": 4,
+       "riverAt": 0,
+       "riverDuration": 0.1,
+       "riverDim": 0.035,
+       "streakAt": 0,
+       "streakSpread": 60,
+       "streakGain": 0.5,
+       "fogDist": 16,
+       "timeOffset": 20
+      }
+     }
+    ],
+    "version": "1.0.0"
+   }
+  },
+  {
+   "n": 13,
+   "lines": [
+    14,
+    15
+   ],
+   "narration": "所以真正的问题，不是\"我是不是天才\"。而是：那四五年来的时候，你接不接得住？",
+   "visual": "回到你那条线：「现在」的位置一个光点在闪，前方不远处有一段在隐隐发热，还没点燃",
+   "config": {
+    "id": "life.lifelines.v1",
+    "renderer": "threejs",
+    "style": "cinematic_science",
+    "fps": 30,
+    "duration": 8.63,
+    "camera": {
+     "preset": "keys",
+     "keys": [
+      {
+       "t": 0,
+       "pos": [
+        -14.4,
+        1.8,
+        10
+       ],
+       "look": [
+        -2.4,
+        0,
+        0
+       ],
+       "fov": 42,
+       "roll": -3
+      },
+      {
+       "t": 7.6,
+       "pos": [
+        -12.0,
+        1.3,
+        7.5
+       ],
+       "look": [
+        0.0,
+        0,
+        0
+       ],
+       "fov": 42,
+       "roll": -1
+      },
+      {
+       "t": 8.63,
+       "pos": [
+        -12.0,
+        1.3,
+        7.5
+       ],
+       "look": [
+        0.0,
+        0,
+        0
+       ],
+       "fov": 42,
+       "roll": -1
+      }
+     ]
+    },
+    "post": {
+     "bloom": {
+      "intensity": 0.9,
+      "threshold": 0.6,
+      "radius": 0.55
+     },
+     "tone": "aces",
+     "grain": 0.014
+    },
+    "assets": [
+     {
+      "id": "life.lifelines.v1",
+      "params": {
+       "seed": "2026-11-17-hot-streak",
+       "heroWidth": 0.03,
+       "heroDim": 0.45,
+       "count": 0,
+       "nowAt": 0.4,
+       "pending": 0.9,
+       "heroStreak": 0.58
+      }
+     },
+     {
+      "id": "life.lifelines.v1",
+      "params": {
+       "seed": "2026-11-17-hot-streak-bg",
+       "hero": false,
+       "dust": 0,
+       "count": 5000,
+       "position": [
+        0,
+        -8.0,
+        -24.0
+       ],
+       "spreadZ": 26,
+       "spreadY": 4,
+       "riverAt": 0,
+       "riverDuration": 0.1,
+       "riverDim": 0.035,
+       "streakAt": 0,
+       "streakSpread": 60,
+       "streakGain": 0.5,
+       "fogDist": 16,
+       "timeOffset": 20
+      }
+     }
+    ],
+    "version": "1.0.0"
+   },
+   "onscreen": {
+    "text": "你接不接得住？",
+    "style": "title",
+    "position": "top"
+   }
+  },
+  {
+   "n": 14,
+   "lines": [
+    16
+   ],
+   "narration": "科学家在高光期的前面，找到了同一个前兆。",
+   "visual": "镜头沿线往回倒，停在高光段起点之前，那里的线开始冒出细细的分叉",
+   "config": {
+    "id": "life.lifelines.v1",
+    "renderer": "threejs",
+    "style": "cinematic_science",
+    "fps": 30,
+    "duration": 4.77,
+    "camera": {
+     "preset": "keys",
+     "keys": [
+      {
+       "t": 0,
+       "pos": [
+        3.6,
+        0.8,
+        3
+       ],
+       "look": [
+        0.0,
+        0,
+        0
+       ],
+       "fov": 42,
+       "roll": 2
+      },
+      {
+       "t": 4.3,
+       "pos": [
+        -10.8,
+        1.2,
+        4.2
+       ],
+       "look": [
+        -6.0,
+        0,
+        0
+       ],
+       "fov": 44,
+       "roll": -2
+      },
+      {
+       "t": 4.77,
+       "pos": [
+        -10.8,
+        1.2,
+        4.2
+       ],
+       "look": [
+        -6.0,
+        0,
+        0
+       ],
+       "fov": 44,
+       "roll": -2
+      }
+     ]
+    },
+    "post": {
+     "bloom": {
+      "intensity": 0.9,
+      "threshold": 0.6,
+      "radius": 0.55
+     },
+     "tone": "aces",
+     "grain": 0.014
+    },
+    "assets": [
+     {
+      "id": "life.lifelines.v1",
+      "params": {
+       "seed": "2026-11-17-hot-streak",
+       "heroWidth": 0.03,
+       "heroDim": 0.5,
+       "count": 0,
+       "pending": 0.6,
+       "heroStreak": 0.58,
+       "branches": 6,
+       "branchStart": 0.3,
+       "exploreAt": 2.2,
+       "exploreDuration": 4,
+       "branchSpread": 1.2
+      }
+     },
+     {
+      "id": "life.lifelines.v1",
+      "params": {
+       "seed": "2026-11-17-hot-streak-bg",
+       "hero": false,
+       "dust": 0,
+       "count": 5000,
+       "position": [
+        0,
+        -8.0,
+        -24.0
+       ],
+       "spreadZ": 26,
+       "spreadY": 4,
+       "riverAt": 0,
+       "riverDuration": 0.1,
+       "riverDim": 0.035,
+       "streakAt": 0,
+       "streakSpread": 60,
+       "streakGain": 0.5,
+       "fogDist": 16,
+       "timeOffset": 20
+      }
+     }
+    ],
+    "version": "1.0.0"
+   }
+  },
+  {
+   "n": 15,
+   "lines": [
+    17
+   ],
+   "narration": "第一个动作：乱试。",
+   "visual": "线的前端像树根一样分叉，四处乱钻",
+   "config": {
+    "id": "life.lifelines.v1",
+    "renderer": "threejs",
+    "style": "cinematic_science",
+    "fps": 30,
+    "duration": 3.25,
+    "camera": {
+     "preset": "keys",
+     "keys": [
+      {
+       "t": 0,
+       "pos": [
+        -10.2,
+        1.6,
+        6.5
+       ],
+       "look": [
+        -6.0,
+        0,
+        0
+       ],
+       "fov": 46,
+       "roll": -4
+      },
+      {
+       "t": 3.0,
+       "pos": [
+        -8.4,
+        2.2,
+        8
+       ],
+       "look": [
+        -4.8,
+        0,
+        0
+       ],
+       "fov": 46,
+       "roll": -2
+      },
+      {
+       "t": 3.25,
+       "pos": [
+        -8.4,
+        2.2,
+        8
+       ],
+       "look": [
+        -4.8,
+        0,
+        0
+       ],
+       "fov": 46,
+       "roll": -2
+      }
+     ]
+    },
+    "post": {
+     "bloom": {
+      "intensity": 0.9,
+      "threshold": 0.6,
+      "radius": 0.55
+     },
+     "tone": "aces",
+     "grain": 0.014
+    },
+    "assets": [
+     {
+      "id": "life.lifelines.v1",
+      "params": {
+       "seed": "2026-11-17-hot-streak",
+       "heroWidth": 0.03,
+       "heroDim": 0.5,
+       "count": 0,
+       "heroStreak": 0.6,
+       "branchStart": 0.28,
+       "branches": 36,
+       "branchSpread": 2.6,
+       "exploreAt": 0.0,
+       "exploreDuration": 5.5
+      }
+     },
+     {
+      "id": "life.lifelines.v1",
+      "params": {
+       "seed": "2026-11-17-hot-streak-bg",
+       "hero": false,
+       "dust": 0,
+       "count": 5000,
+       "position": [
+        0,
+        -8.0,
+        -24.0
+       ],
+       "spreadZ": 26,
+       "spreadY": 4,
+       "riverAt": 0,
+       "riverDuration": 0.1,
+       "riverDim": 0.035,
+       "streakAt": 0,
+       "streakSpread": 60,
+       "streakGain": 0.5,
+       "fogDist": 16,
+       "timeOffset": 20
+      }
+     }
+    ],
+    "version": "1.0.0"
+   }
+  },
+  {
+   "n": 16,
+   "lines": [
+    18
+   ],
+   "narration": "爆发前那几年，他们的作品东一榔头西一棒子，风格换来换去，题目跳来跳去。",
+   "visual": "分叉越来越多、越钻越远，每个分叉尖都闪着光，方向各不相同",
+   "config": {
+    "id": "life.lifelines.v1",
+    "renderer": "threejs",
+    "style": "cinematic_science",
+    "fps": 30,
+    "duration": 7.72,
+    "camera": {
+     "preset": "keys",
+     "keys": [
+      {
+       "t": 0,
+       "pos": [
+        -8.4,
+        2.2,
+        8
+       ],
+       "look": [
+        -4.8,
+        0,
+        0
+       ],
+       "fov": 46,
+       "roll": -2
+      },
+      {
+       "t": 7.3,
+       "pos": [
+        -2.4,
+        3.5,
+        11
+       ],
+       "look": [
+        -3.6,
+        0,
+        0
+       ],
+       "fov": 48,
+       "roll": 2
+      },
+      {
+       "t": 7.72,
+       "pos": [
+        -2.4,
+        3.5,
+        11
+       ],
+       "look": [
+        -3.6,
+        0,
+        0
+       ],
+       "fov": 48,
+       "roll": 2
+      }
+     ]
+    },
+    "post": {
+     "bloom": {
+      "intensity": 0.9,
+      "threshold": 0.6,
+      "radius": 0.55
+     },
+     "tone": "aces",
+     "grain": 0.014
+    },
+    "assets": [
+     {
+      "id": "life.lifelines.v1",
+      "params": {
+       "seed": "2026-11-17-hot-streak",
+       "heroWidth": 0.03,
+       "heroDim": 0.5,
+       "count": 0,
+       "heroStreak": 0.6,
+       "branchStart": 0.28,
+       "branches": 36,
+       "branchSpread": 2.6,
+       "exploreAt": 0.0,
+       "exploreDuration": 5.5,
+       "timeOffset": 3.25
+      }
+     },
+     {
+      "id": "life.lifelines.v1",
+      "params": {
+       "seed": "2026-11-17-hot-streak-bg",
+       "hero": false,
+       "dust": 0,
+       "count": 5000,
+       "position": [
+        0,
+        -8.0,
+        -24.0
+       ],
+       "spreadZ": 26,
+       "spreadY": 4,
+       "riverAt": 0,
+       "riverDuration": 0.1,
+       "riverDim": 0.035,
+       "streakAt": 0,
+       "streakSpread": 60,
+       "streakGain": 0.5,
+       "fogDist": 16,
+       "timeOffset": 20
+      }
+     }
+    ],
+    "version": "1.0.0"
+   }
+  },
+  {
+   "n": 17,
+   "lines": [
+    19
+   ],
+   "narration": "在外人看来，这叫不专一、瞎折腾。",
+   "visual": "一团乱麻似的分叉在原地打转，看不出往哪走",
+   "config": {
+    "id": "life.lifelines.v1",
+    "renderer": "threejs",
+    "style": "cinematic_science",
+    "fps": 30,
+    "duration": 3.81,
+    "camera": {
+     "preset": "keys",
+     "keys": [
+      {
+       "t": 0,
+       "pos": [
+        0.0,
+        1.2,
+        6
+       ],
+       "look": [
+        -4.8,
+        0,
+        0
+       ],
+       "fov": 44,
+       "roll": 3
+      },
+      {
+       "t": 3.4,
+       "pos": [
+        -1.2,
+        1.0,
+        5.2
+       ],
+       "look": [
+        -4.8,
+        0,
+        0
+       ],
+       "fov": 44,
+       "roll": 1
+      },
+      {
+       "t": 3.81,
+       "pos": [
+        -1.2,
+        1.0,
+        5.2
+       ],
+       "look": [
+        -4.8,
+        0,
+        0
+       ],
+       "fov": 44,
+       "roll": 1
+      }
+     ]
+    },
+    "post": {
+     "bloom": {
+      "intensity": 0.9,
+      "threshold": 0.6,
+      "radius": 0.55
+     },
+     "tone": "aces",
+     "grain": 0.014
+    },
+    "assets": [
+     {
+      "id": "life.lifelines.v1",
+      "params": {
+       "seed": "2026-11-17-hot-streak",
+       "heroWidth": 0.03,
+       "heroDim": 0.5,
+       "count": 0,
+       "heroStreak": 0.6,
+       "branchStart": 0.28,
+       "branches": 36,
+       "branchSpread": 2.6,
+       "exploreAt": 0.0,
+       "exploreDuration": 5.5,
+       "timeOffset": 10.969999999999999
+      }
+     },
+     {
+      "id": "life.lifelines.v1",
+      "params": {
+       "seed": "2026-11-17-hot-streak-bg",
+       "hero": false,
+       "dust": 0,
+       "count": 5000,
+       "position": [
+        0,
+        -8.0,
+        -24.0
+       ],
+       "spreadZ": 26,
+       "spreadY": 4,
+       "riverAt": 0,
+       "riverDuration": 0.1,
+       "riverDim": 0.035,
+       "streakAt": 0,
+       "streakSpread": 60,
+       "streakGain": 0.5,
+       "fogDist": 16,
+       "timeOffset": 20
+      }
+     }
+    ],
+    "version": "1.0.0"
+   }
+  },
+  {
+   "n": 18,
+   "lines": [
+    20,
+    21
+   ],
+   "narration": "第二个动作：收。某一天，他们不再四处乱跑，把所有力气砸向同一个方向。",
+   "visual": "所有分叉突然停住，从汇合点一端开始收紧，拧成一股光束",
+   "config": {
+    "id": "life.lifelines.v1",
+    "renderer": "threejs",
+    "style": "cinematic_science",
+    "fps": 30,
+    "duration": 7.67,
+    "camera": {
+     "preset": "keys",
+     "keys": [
+      {
+       "t": 0,
+       "pos": [
+        -4.8,
+        2.6,
+        9
+       ],
+       "look": [
+        -3.6,
+        0,
+        0
+       ],
+       "fov": 46,
+       "roll": 0
+      },
+      {
+       "t": 6.7,
+       "pos": [
+        0.0,
+        1.2,
+        5
+       ],
+       "look": [
+        4.8,
+        0,
+        0
+       ],
+       "fov": 42,
+       "roll": -2
+      },
+      {
+       "t": 7.67,
+       "pos": [
+        0.0,
+        1.2,
+        5
+       ],
+       "look": [
+        4.8,
+        0,
+        0
+       ],
+       "fov": 42,
+       "roll": -2
+      }
+     ]
+    },
+    "post": {
+     "bloom": {
+      "intensity": 0.9,
+      "threshold": 0.6,
+      "radius": 0.55
+     },
+     "tone": "aces",
+     "grain": 0.014
+    },
+    "assets": [
+     {
+      "id": "life.lifelines.v1",
+      "params": {
+       "seed": "2026-11-17-hot-streak",
+       "heroWidth": 0.03,
+       "heroDim": 0.5,
+       "count": 0,
+       "heroStreak": 0.6,
+       "branchStart": 0.28,
+       "branches": 36,
+       "branchSpread": 2.6,
+       "exploreAt": 0.0,
+       "exploreDuration": 5.5,
+       "timeOffset": 14.78,
+       "convergeAt": 16.98,
+       "convergeDuration": 3.2
+      }
+     },
+     {
+      "id": "life.lifelines.v1",
+      "params": {
+       "seed": "2026-11-17-hot-streak-bg",
+       "hero": false,
+       "dust": 0,
+       "count": 5000,
+       "position": [
+        0,
+        -8.0,
+        -24.0
+       ],
+       "spreadZ": 26,
+       "spreadY": 4,
+       "riverAt": 0,
+       "riverDuration": 0.1,
+       "riverDim": 0.035,
+       "streakAt": 0,
+       "streakSpread": 60,
+       "streakGain": 0.5,
+       "fogDist": 16,
+       "timeOffset": 20
+      }
+     }
+    ],
+    "version": "1.0.0"
+   }
+  },
+  {
+   "n": 19,
+   "lines": [
+    22
+   ],
+   "narration": "紧接着，高光期就来了。",
+   "visual": "光束射到尽头，高光段轰然点燃，火花冲天",
+   "config": {
+    "id": "life.lifelines.v1",
+    "renderer": "threejs",
+    "style": "cinematic_science",
+    "fps": 30,
+    "duration": 4.56,
+    "camera": {
+     "preset": "keys",
+     "keys": [
+      {
+       "t": 0,
+       "pos": [
+        1.8,
+        0.5,
+        2.6
+       ],
+       "look": [
+        7.2,
+        0.1,
+        -0.3
+       ],
+       "fov": 46,
+       "roll": -6
+      },
+      {
+       "t": 4.2,
+       "pos": [
+        3.6,
+        0.9,
+        3.6
+       ],
+       "look": [
+        7.2,
+        0.2,
+        0
+       ],
+       "fov": 46,
+       "roll": -2
+      },
+      {
+       "t": 4.56,
+       "pos": [
+        3.6,
+        0.9,
+        3.6
+       ],
+       "look": [
+        7.2,
+        0.2,
+        0
+       ],
+       "fov": 46,
+       "roll": -2
+      }
+     ]
+    },
+    "post": {
+     "bloom": {
+      "intensity": 0.9,
+      "threshold": 0.6,
+      "radius": 0.55
+     },
+     "tone": "aces",
+     "grain": 0.014
+    },
+    "assets": [
+     {
+      "id": "life.lifelines.v1",
+      "params": {
+       "seed": "2026-11-17-hot-streak",
+       "heroWidth": 0.03,
+       "heroDim": 0.5,
+       "count": 0,
+       "heroStreak": 0.6,
+       "branchStart": 0.28,
+       "branches": 36,
+       "branchSpread": 2.6,
+       "exploreAt": 0.0,
+       "exploreDuration": 5.5,
+       "timeOffset": 22.45,
+       "convergeAt": 16.98,
+       "convergeDuration": 3.2,
+       "heroIgniteAt": 22.95,
+       "sparks": 1400
+      }
+     },
+     {
+      "id": "life.lifelines.v1",
+      "params": {
+       "seed": "2026-11-17-hot-streak-bg",
+       "hero": false,
+       "dust": 0,
+       "count": 5000,
+       "position": [
+        0,
+        -8.0,
+        -24.0
+       ],
+       "spreadZ": 26,
+       "spreadY": 4,
+       "riverAt": 0,
+       "riverDuration": 0.1,
+       "riverDim": 0.035,
+       "streakAt": 0,
+       "streakSpread": 60,
+       "streakGain": 0.5,
+       "fogDist": 16,
+       "timeOffset": 20
+      }
+     }
+    ],
+    "version": "1.0.0"
+   }
+  },
+  {
+   "n": 20,
+   "lines": [
+    23
+   ],
+   "narration": "而且，两个动作缺一不可。",
+   "visual": "镜头升高，并排出现三条人生线",
+   "config": {
+    "id": "life.lifelines.v1",
+    "renderer": "threejs",
+    "style": "cinematic_science",
+    "fps": 30,
+    "duration": 3.47,
+    "camera": {
+     "preset": "keys",
+     "keys": [
+      {
+       "t": 0,
+       "pos": [
+        0,
+        1,
+        14
+       ],
+       "look": [
+        0,
+        0,
+        0
+       ],
+       "fov": 44,
+       "roll": 0
+      },
+      {
+       "t": 3.1,
+       "pos": [
+        0,
+        2,
+        26
+       ],
+       "look": [
+        0,
+        0,
+        0
+       ],
+       "fov": 46,
+       "roll": 0
+      },
+      {
+       "t": 3.47,
+       "pos": [
+        0,
+        2,
+        26
+       ],
+       "look": [
+        0,
+        0,
+        0
+       ],
+       "fov": 46,
+       "roll": 0
+      }
+     ]
+    },
+    "post": {
+     "bloom": {
+      "intensity": 0.9,
+      "threshold": 0.6,
+      "radius": 0.55
+     },
+     "tone": "aces",
+     "grain": 0.014
+    },
+    "assets": [
+     {
+      "id": "life.lifelines.v1",
+      "params": {
+       "seed": "2026-11-17-hot-streak-w",
+       "heroWidth": 0.03,
+       "heroDim": 0.4,
+       "count": 0,
+       "position": [
+        0,
+        3.2,
+        0
+       ],
+       "heroStreak": 0.6,
+       "dust": 0
+      }
+     },
+     {
+      "id": "life.lifelines.v1",
+      "params": {
+       "seed": "2026-11-17-hot-streak-c",
+       "heroWidth": 0.03,
+       "heroDim": 0.4,
+       "count": 0,
+       "position": [
+        0,
+        0,
+        0
+       ],
+       "heroStreak": 0.6,
+       "dust": 0
+      }
+     },
+     {
+      "id": "life.lifelines.v1",
+      "params": {
+       "seed": "2026-11-17-hot-streak-s",
+       "heroWidth": 0.03,
+       "heroDim": 0.4,
+       "count": 0,
+       "position": [
+        0,
+        -3.2,
+        0
+       ],
+       "heroStreak": 0.6,
+       "dust": 0
+      }
+     },
+     {
+      "id": "life.lifelines.v1",
+      "params": {
+       "seed": "2026-11-17-hot-streak-bg",
+       "hero": false,
+       "dust": 0,
+       "count": 5000,
+       "position": [
+        0,
+        -8.0,
+        -24.0
+       ],
+       "spreadZ": 26,
+       "spreadY": 4,
+       "riverAt": 0,
+       "riverDuration": 0.1,
+       "riverDim": 0.035,
+       "streakAt": 0,
+       "streakSpread": 60,
+       "streakGain": 0.5,
+       "fogDist": 16,
+       "timeOffset": 20
+      }
+     }
+    ],
+    "version": "1.0.0"
+   }
+  },
+  {
+   "n": 21,
+   "lines": [
+    24
+   ],
+   "narration": "只乱试、不收的人，一辈子都在起跑线上热身。",
+   "visual": "上面那条一直乱长、从不收拢，高光段始终没亮，分叉慢慢熄灭",
+   "config": {
+    "id": "life.lifelines.v1",
+    "renderer": "threejs",
+    "style": "cinematic_science",
+    "fps": 30,
+    "duration": 4.77,
+    "camera": {
+     "preset": "keys",
+     "keys": [
+      {
+       "t": 0,
+       "pos": [
+        0,
+        4.2,
+        14
+       ],
+       "look": [
+        0,
+        3.2,
+        0
+       ],
+       "fov": 44,
+       "roll": 0
+      },
+      {
+       "t": 4.4,
+       "pos": [
+        -2,
+        4.5,
+        12
+       ],
+       "look": [
+        0,
+        3.2,
+        0
+       ],
+       "fov": 44,
+       "roll": 0
+      },
+      {
+       "t": 4.77,
+       "pos": [
+        -2,
+        4.5,
+        12
+       ],
+       "look": [
+        0,
+        3.2,
+        0
+       ],
+       "fov": 44,
+       "roll": 0
+      }
+     ]
+    },
+    "post": {
+     "bloom": {
+      "intensity": 0.9,
+      "threshold": 0.6,
+      "radius": 0.55
+     },
+     "tone": "aces",
+     "grain": 0.014
+    },
+    "assets": [
+     {
+      "id": "life.lifelines.v1",
+      "params": {
+       "seed": "2026-11-17-hot-streak-w",
+       "heroWidth": 0.03,
+       "heroDim": 0.4,
+       "count": 0,
+       "position": [
+        0,
+        3.2,
+        0
+       ],
+       "heroStreak": 0.6,
+       "dust": 0,
+       "branches": 30,
+       "branchStart": 0.2,
+       "branchSpread": 1.3,
+       "exploreAt": 0,
+       "exploreDuration": 2.5,
+       "branchFadeAt": 2.6
+      }
+     },
+     {
+      "id": "life.lifelines.v1",
+      "params": {
+       "seed": "2026-11-17-hot-streak-c",
+       "heroWidth": 0.03,
+       "heroDim": 0.4,
+       "count": 0,
+       "position": [
+        0,
+        0,
+        0
+       ],
+       "heroStreak": 0.6,
+       "dust": 0
+      }
+     },
+     {
+      "id": "life.lifelines.v1",
+      "params": {
+       "seed": "2026-11-17-hot-streak-s",
+       "heroWidth": 0.03,
+       "heroDim": 0.4,
+       "count": 0,
+       "position": [
+        0,
+        -3.2,
+        0
+       ],
+       "heroStreak": 0.6,
+       "dust": 0
+      }
+     },
+     {
+      "id": "life.lifelines.v1",
+      "params": {
+       "seed": "2026-11-17-hot-streak-bg",
+       "hero": false,
+       "dust": 0,
+       "count": 5000,
+       "position": [
+        0,
+        -8.0,
+        -24.0
+       ],
+       "spreadZ": 26,
+       "spreadY": 4,
+       "riverAt": 0,
+       "riverDuration": 0.1,
+       "riverDim": 0.035,
+       "streakAt": 0,
+       "streakSpread": 60,
+       "streakGain": 0.5,
+       "fogDist": 16,
+       "timeOffset": 20
+      }
+     }
+    ],
+    "version": "1.0.0"
+   }
+  },
+  {
+   "n": 22,
+   "lines": [
+    25
+   ],
+   "narration": "只死磕、不试的人，可能一开始就挖错了地方。",
+   "visual": "下面那条从头到尾一根直线，一直平着走，没有亮起",
+   "config": {
+    "id": "life.lifelines.v1",
+    "renderer": "threejs",
+    "style": "cinematic_science",
+    "fps": 30,
+    "duration": 4.53,
+    "camera": {
+     "preset": "keys",
+     "keys": [
+      {
+       "t": 0,
+       "pos": [
+        -12,
+        -2.2,
+        12
+       ],
+       "look": [
+        0,
+        -3.2,
+        0
+       ],
+       "fov": 44,
+       "roll": 0
+      },
+      {
+       "t": 4.1,
+       "pos": [
+        8,
+        -2.4,
+        12
+       ],
+       "look": [
+        10,
+        -3.2,
+        0
+       ],
+       "fov": 44,
+       "roll": 0
+      },
+      {
+       "t": 4.53,
+       "pos": [
+        8,
+        -2.4,
+        12
+       ],
+       "look": [
+        10,
+        -3.2,
+        0
+       ],
+       "fov": 44,
+       "roll": 0
+      }
+     ]
+    },
+    "post": {
+     "bloom": {
+      "intensity": 0.9,
+      "threshold": 0.6,
+      "radius": 0.55
+     },
+     "tone": "aces",
+     "grain": 0.014
+    },
+    "assets": [
+     {
+      "id": "life.lifelines.v1",
+      "params": {
+       "seed": "2026-11-17-hot-streak-w",
+       "heroWidth": 0.03,
+       "heroDim": 0.4,
+       "count": 0,
+       "position": [
+        0,
+        3.2,
+        0
+       ],
+       "heroStreak": 0.6,
+       "dust": 0
+      }
+     },
+     {
+      "id": "life.lifelines.v1",
+      "params": {
+       "seed": "2026-11-17-hot-streak-c",
+       "heroWidth": 0.03,
+       "heroDim": 0.4,
+       "count": 0,
+       "position": [
+        0,
+        0,
+        0
+       ],
+       "heroStreak": 0.6,
+       "dust": 0
+      }
+     },
+     {
+      "id": "life.lifelines.v1",
+      "params": {
+       "seed": "2026-11-17-hot-streak-s",
+       "heroWidth": 0.03,
+       "heroDim": 0.4,
+       "count": 0,
+       "position": [
+        0,
+        -3.2,
+        0
+       ],
+       "heroStreak": 0.6,
+       "dust": 0,
+       "drawAt": 0,
+       "drawDuration": 3.6
+      }
+     },
+     {
+      "id": "life.lifelines.v1",
+      "params": {
+       "seed": "2026-11-17-hot-streak-bg",
+       "hero": false,
+       "dust": 0,
+       "count": 5000,
+       "position": [
+        0,
+        -8.0,
+        -24.0
+       ],
+       "spreadZ": 26,
+       "spreadY": 4,
+       "riverAt": 0,
+       "riverDuration": 0.1,
+       "riverDim": 0.035,
+       "streakAt": 0,
+       "streakSpread": 60,
+       "streakGain": 0.5,
+       "fogDist": 16,
+       "timeOffset": 20
+      }
+     }
+    ],
+    "version": "1.0.0"
+   }
+  },
+  {
+   "n": 23,
+   "lines": [
+    26
+   ],
+   "narration": "只有先试、再收，才最可能接住那四五年。",
+   "visual": "中间那条先四处乱试，再拧成一束，紧接着高光段点燃",
+   "config": {
+    "id": "life.lifelines.v1",
+    "renderer": "threejs",
+    "style": "cinematic_science",
+    "fps": 30,
+    "duration": 4.84,
+    "camera": {
+     "preset": "keys",
+     "keys": [
+      {
+       "t": 0,
+       "pos": [
+        0,
+        1,
+        16
+       ],
+       "look": [
+        0,
+        0,
+        0
+       ],
+       "fov": 46,
+       "roll": 0
+      },
+      {
+       "t": 4.4,
+       "pos": [
+        2,
+        0.8,
+        12
+       ],
+       "look": [
+        4,
+        0,
+        0
+       ],
+       "fov": 44,
+       "roll": 0
+      },
+      {
+       "t": 4.84,
+       "pos": [
+        2,
+        0.8,
+        12
+       ],
+       "look": [
+        4,
+        0,
+        0
+       ],
+       "fov": 44,
+       "roll": 0
+      }
+     ]
+    },
+    "post": {
+     "bloom": {
+      "intensity": 0.9,
+      "threshold": 0.6,
+      "radius": 0.55
+     },
+     "tone": "aces",
+     "grain": 0.014
+    },
+    "assets": [
+     {
+      "id": "life.lifelines.v1",
+      "params": {
+       "seed": "2026-11-17-hot-streak-w",
+       "heroWidth": 0.03,
+       "heroDim": 0.4,
+       "count": 0,
+       "position": [
+        0,
+        3.2,
+        0
+       ],
+       "heroStreak": 0.6,
+       "dust": 0
+      }
+     },
+     {
+      "id": "life.lifelines.v1",
+      "params": {
+       "seed": "2026-11-17-hot-streak-c",
+       "heroWidth": 0.03,
+       "heroDim": 0.4,
+       "count": 0,
+       "position": [
+        0,
+        0,
+        0
+       ],
+       "heroStreak": 0.6,
+       "dust": 0,
+       "branches": 30,
+       "branchStart": 0.2,
+       "branchSpread": 1.3,
+       "exploreAt": 0,
+       "exploreDuration": 1.6,
+       "convergeAt": 1.5,
+       "convergeDuration": 1.4,
+       "heroIgniteAt": 3.0,
+       "sparks": 700
+      }
+     },
+     {
+      "id": "life.lifelines.v1",
+      "params": {
+       "seed": "2026-11-17-hot-streak-s",
+       "heroWidth": 0.03,
+       "heroDim": 0.4,
+       "count": 0,
+       "position": [
+        0,
+        -3.2,
+        0
+       ],
+       "heroStreak": 0.6,
+       "dust": 0
+      }
+     },
+     {
+      "id": "life.lifelines.v1",
+      "params": {
+       "seed": "2026-11-17-hot-streak-bg",
+       "hero": false,
+       "dust": 0,
+       "count": 5000,
+       "position": [
+        0,
+        -8.0,
+        -24.0
+       ],
+       "spreadZ": 26,
+       "spreadY": 4,
+       "riverAt": 0,
+       "riverDuration": 0.1,
+       "riverDim": 0.035,
+       "streakAt": 0,
+       "streakSpread": 60,
+       "streakGain": 0.5,
+       "fogDist": 16,
+       "timeOffset": 20
+      }
+     }
+    ],
+    "version": "1.0.0"
+   }
+  },
+  {
+   "n": 24,
+   "lines": [
+    27
+   ],
+   "narration": "你可以对照一下，你现在在哪一格。",
+   "visual": "四条线排成 2×2 四格：左下一条短暗线、右下乱成一团、左上一根直线、右上分叉已收拢、前方发热",
+   "config": {
+    "id": "life.lifelines.v1",
+    "renderer": "threejs",
+    "style": "cinematic_science",
+    "fps": 30,
+    "duration": 3.81,
+    "camera": {
+     "preset": "keys",
+     "keys": [
+      {
+       "t": 0,
+       "pos": [
+        0,
+        0,
+        52
+       ],
+       "look": [
+        0,
+        0,
+        0
+       ],
+       "fov": 44,
+       "roll": 0
+      },
+      {
+       "t": 3.4,
+       "pos": [
+        0,
+        0,
+        44
+       ],
+       "look": [
+        0,
+        0,
+        0
+       ],
+       "fov": 44,
+       "roll": 0
+      },
+      {
+       "t": 3.81,
+       "pos": [
+        0,
+        0,
+        44
+       ],
+       "look": [
+        0,
+        0,
+        0
+       ],
+       "fov": 44,
+       "roll": 0
+      }
+     ]
+    },
+    "post": {
+     "bloom": {
+      "intensity": 0.9,
+      "threshold": 0.6,
+      "radius": 0.55
+     },
+     "tone": "aces",
+     "grain": 0.014
+    },
+    "assets": [
+     {
+      "id": "life.lifelines.v1",
+      "params": {
+       "seed": "2026-11-17-hot-streak-q1",
+       "heroWidth": 0.08,
+       "heroDim": 0.7,
+       "count": 0,
+       "position": [
+        -13,
+        -6,
+        0
+       ],
+       "length": 22,
+       "dust": 0,
+       "heroStreak": 0.7,
+       "heroStreakLen": 0.14
+      }
+     },
+     {
+      "id": "life.lifelines.v1",
+      "params": {
+       "seed": "2026-11-17-hot-streak-q2",
+       "heroWidth": 0.08,
+       "heroDim": 0.7,
+       "count": 0,
+       "position": [
+        13,
+        -6,
+        0
+       ],
+       "length": 22,
+       "dust": 0,
+       "heroStreak": 0.7,
+       "heroStreakLen": 0.14,
+       "branches": 24,
+       "branchStart": 0.15,
+       "branchEnd": 0.6,
+       "branchSpread": 1.6,
+       "exploreAt": 1,
+       "exploreDuration": 3,
+       "timeOffset": 10
+      }
+     },
+     {
+      "id": "life.lifelines.v1",
+      "params": {
+       "seed": "2026-11-17-hot-streak-q3",
+       "heroWidth": 0.08,
+       "heroDim": 0.7,
+       "count": 0,
+       "position": [
+        -13,
+        6,
+        0
+       ],
+       "length": 22,
+       "dust": 0,
+       "heroStreak": 0.7,
+       "heroStreakLen": 0.14
+      }
+     },
+     {
+      "id": "life.lifelines.v1",
+      "params": {
+       "seed": "2026-11-17-hot-streak-q4",
+       "heroWidth": 0.08,
+       "heroDim": 0.7,
+       "count": 0,
+       "position": [
+        13,
+        6,
+        0
+       ],
+       "length": 22,
+       "dust": 0,
+       "heroStreak": 0.7,
+       "heroStreakLen": 0.14,
+       "branches": 24,
+       "branchStart": 0.15,
+       "branchEnd": 0.6,
+       "branchSpread": 1.6,
+       "exploreAt": 1,
+       "exploreDuration": 3,
+       "convergeAt": 5,
+       "convergeDuration": 2,
+       "timeOffset": 10,
+       "pending": 1.0
+      }
+     }
+    ],
+    "version": "1.0.0"
+   },
+   "onscreen": {
+    "text": "你现在在哪一格？",
+    "style": "title",
+    "position": "center"
+   }
+  },
+  {
+   "n": 25,
+   "lines": [
+    28
+   ],
+   "narration": "试得少，也没收：你还在原地。",
+   "visual": "镜头推向左下格：一条短暗线，没有分叉",
+   "config": {
+    "id": "life.lifelines.v1",
+    "renderer": "threejs",
+    "style": "cinematic_science",
+    "fps": 30,
+    "duration": 3.71,
+    "camera": {
+     "preset": "keys",
+     "keys": [
+      {
+       "t": 0,
+       "pos": [
+        -6.5,
+        -3.0,
+        50
+       ],
+       "look": [
+        -7.8,
+        -3.6,
+        0
+       ],
+       "fov": 40,
+       "roll": 0
+      },
+      {
+       "t": 2.2,
+       "pos": [
+        -13,
+        -5,
+        15
+       ],
+       "look": [
+        -13,
+        -6,
+        0
+       ],
+       "fov": 44,
+       "roll": -2
+      },
+      {
+       "t": 3.71,
+       "pos": [
+        -13,
+        -5,
+        15
+       ],
+       "look": [
+        -13,
+        -6,
+        0
+       ],
+       "fov": 44,
+       "roll": -2
+      }
+     ]
+    },
+    "post": {
+     "bloom": {
+      "intensity": 0.9,
+      "threshold": 0.6,
+      "radius": 0.55
+     },
+     "tone": "aces",
+     "grain": 0.014
+    },
+    "assets": [
+     {
+      "id": "life.lifelines.v1",
+      "params": {
+       "seed": "2026-11-17-hot-streak-q1",
+       "heroWidth": 0.08,
+       "heroDim": 0.7,
+       "count": 0,
+       "position": [
+        -13,
+        -6,
+        0
+       ],
+       "length": 22,
+       "dust": 0,
+       "heroStreak": 0.7,
+       "heroStreakLen": 0.14
+      }
+     },
+     {
+      "id": "life.lifelines.v1",
+      "params": {
+       "seed": "2026-11-17-hot-streak-q2",
+       "heroWidth": 0.08,
+       "heroDim": 0.7,
+       "count": 0,
+       "position": [
+        13,
+        -6,
+        0
+       ],
+       "length": 22,
+       "dust": 0,
+       "heroStreak": 0.7,
+       "heroStreakLen": 0.14,
+       "branches": 24,
+       "branchStart": 0.15,
+       "branchEnd": 0.6,
+       "branchSpread": 1.6,
+       "exploreAt": 1,
+       "exploreDuration": 3,
+       "timeOffset": 10
+      }
+     },
+     {
+      "id": "life.lifelines.v1",
+      "params": {
+       "seed": "2026-11-17-hot-streak-q3",
+       "heroWidth": 0.08,
+       "heroDim": 0.7,
+       "count": 0,
+       "position": [
+        -13,
+        6,
+        0
+       ],
+       "length": 22,
+       "dust": 0,
+       "heroStreak": 0.7,
+       "heroStreakLen": 0.14
+      }
+     },
+     {
+      "id": "life.lifelines.v1",
+      "params": {
+       "seed": "2026-11-17-hot-streak-q4",
+       "heroWidth": 0.08,
+       "heroDim": 0.7,
+       "count": 0,
+       "position": [
+        13,
+        6,
+        0
+       ],
+       "length": 22,
+       "dust": 0,
+       "heroStreak": 0.7,
+       "heroStreakLen": 0.14,
+       "branches": 24,
+       "branchStart": 0.15,
+       "branchEnd": 0.6,
+       "branchSpread": 1.6,
+       "exploreAt": 1,
+       "exploreDuration": 3,
+       "convergeAt": 5,
+       "convergeDuration": 2,
+       "timeOffset": 10,
+       "pending": 1.0
+      }
+     }
+    ],
+    "version": "1.0.0"
+   },
+   "onscreen": {
+    "text": "试得少，也没收",
+    "style": "caption",
+    "position": "top"
+   }
+  },
+  {
+   "n": 26,
+   "lines": [
+    29
+   ],
+   "narration": "一直在试，从来没收：该挑一个方向了。",
+   "visual": "镜头推向右下格：分叉乱成一团，一直在打转",
+   "config": {
+    "id": "life.lifelines.v1",
+    "renderer": "threejs",
+    "style": "cinematic_science",
+    "fps": 30,
+    "duration": 4.19,
+    "camera": {
+     "preset": "keys",
+     "keys": [
+      {
+       "t": 0,
+       "pos": [
+        6.5,
+        -3.0,
+        50
+       ],
+       "look": [
+        7.8,
+        -3.6,
+        0
+       ],
+       "fov": 40,
+       "roll": 0
+      },
+      {
+       "t": 2.2,
+       "pos": [
+        13,
+        -5,
+        15
+       ],
+       "look": [
+        13,
+        -6,
+        0
+       ],
+       "fov": 44,
+       "roll": -2
+      },
+      {
+       "t": 4.19,
+       "pos": [
+        13,
+        -5,
+        15
+       ],
+       "look": [
+        13,
+        -6,
+        0
+       ],
+       "fov": 44,
+       "roll": -2
+      }
+     ]
+    },
+    "post": {
+     "bloom": {
+      "intensity": 0.9,
+      "threshold": 0.6,
+      "radius": 0.55
+     },
+     "tone": "aces",
+     "grain": 0.014
+    },
+    "assets": [
+     {
+      "id": "life.lifelines.v1",
+      "params": {
+       "seed": "2026-11-17-hot-streak-q1",
+       "heroWidth": 0.08,
+       "heroDim": 0.7,
+       "count": 0,
+       "position": [
+        -13,
+        -6,
+        0
+       ],
+       "length": 22,
+       "dust": 0,
+       "heroStreak": 0.7,
+       "heroStreakLen": 0.14
+      }
+     },
+     {
+      "id": "life.lifelines.v1",
+      "params": {
+       "seed": "2026-11-17-hot-streak-q2",
+       "heroWidth": 0.08,
+       "heroDim": 0.7,
+       "count": 0,
+       "position": [
+        13,
+        -6,
+        0
+       ],
+       "length": 22,
+       "dust": 0,
+       "heroStreak": 0.7,
+       "heroStreakLen": 0.14,
+       "branches": 24,
+       "branchStart": 0.15,
+       "branchEnd": 0.6,
+       "branchSpread": 1.6,
+       "exploreAt": 1,
+       "exploreDuration": 3,
+       "timeOffset": 10
+      }
+     },
+     {
+      "id": "life.lifelines.v1",
+      "params": {
+       "seed": "2026-11-17-hot-streak-q3",
+       "heroWidth": 0.08,
+       "heroDim": 0.7,
+       "count": 0,
+       "position": [
+        -13,
+        6,
+        0
+       ],
+       "length": 22,
+       "dust": 0,
+       "heroStreak": 0.7,
+       "heroStreakLen": 0.14
+      }
+     },
+     {
+      "id": "life.lifelines.v1",
+      "params": {
+       "seed": "2026-11-17-hot-streak-q4",
+       "heroWidth": 0.08,
+       "heroDim": 0.7,
+       "count": 0,
+       "position": [
+        13,
+        6,
+        0
+       ],
+       "length": 22,
+       "dust": 0,
+       "heroStreak": 0.7,
+       "heroStreakLen": 0.14,
+       "branches": 24,
+       "branchStart": 0.15,
+       "branchEnd": 0.6,
+       "branchSpread": 1.6,
+       "exploreAt": 1,
+       "exploreDuration": 3,
+       "convergeAt": 5,
+       "convergeDuration": 2,
+       "timeOffset": 10,
+       "pending": 1.0
+      }
+     }
+    ],
+    "version": "1.0.0"
+   },
+   "onscreen": {
+    "text": "一直在试，从来没收",
+    "style": "caption",
+    "position": "top"
+   }
+  },
+  {
+   "n": 27,
+   "lines": [
+    30
+   ],
+   "narration": "早早就收，没怎么试过：小心挖错了坑。",
+   "visual": "镜头推向左上格：一根直线，周围一片漆黑",
+   "config": {
+    "id": "life.lifelines.v1",
+    "renderer": "threejs",
+    "style": "cinematic_science",
+    "fps": 30,
+    "duration": 4.29,
+    "camera": {
+     "preset": "keys",
+     "keys": [
+      {
+       "t": 0,
+       "pos": [
+        -6.5,
+        3.0,
+        50
+       ],
+       "look": [
+        -7.8,
+        3.6,
+        0
+       ],
+       "fov": 40,
+       "roll": 0
+      },
+      {
+       "t": 2.2,
+       "pos": [
+        -13,
+        7,
+        15
+       ],
+       "look": [
+        -13,
+        6,
+        0
+       ],
+       "fov": 44,
+       "roll": -2
+      },
+      {
+       "t": 4.29,
+       "pos": [
+        -13,
+        7,
+        15
+       ],
+       "look": [
+        -13,
+        6,
+        0
+       ],
+       "fov": 44,
+       "roll": -2
+      }
+     ]
+    },
+    "post": {
+     "bloom": {
+      "intensity": 0.9,
+      "threshold": 0.6,
+      "radius": 0.55
+     },
+     "tone": "aces",
+     "grain": 0.014
+    },
+    "assets": [
+     {
+      "id": "life.lifelines.v1",
+      "params": {
+       "seed": "2026-11-17-hot-streak-q1",
+       "heroWidth": 0.08,
+       "heroDim": 0.7,
+       "count": 0,
+       "position": [
+        -13,
+        -6,
+        0
+       ],
+       "length": 22,
+       "dust": 0,
+       "heroStreak": 0.7,
+       "heroStreakLen": 0.14
+      }
+     },
+     {
+      "id": "life.lifelines.v1",
+      "params": {
+       "seed": "2026-11-17-hot-streak-q2",
+       "heroWidth": 0.08,
+       "heroDim": 0.7,
+       "count": 0,
+       "position": [
+        13,
+        -6,
+        0
+       ],
+       "length": 22,
+       "dust": 0,
+       "heroStreak": 0.7,
+       "heroStreakLen": 0.14,
+       "branches": 24,
+       "branchStart": 0.15,
+       "branchEnd": 0.6,
+       "branchSpread": 1.6,
+       "exploreAt": 1,
+       "exploreDuration": 3,
+       "timeOffset": 10
+      }
+     },
+     {
+      "id": "life.lifelines.v1",
+      "params": {
+       "seed": "2026-11-17-hot-streak-q3",
+       "heroWidth": 0.08,
+       "heroDim": 0.7,
+       "count": 0,
+       "position": [
+        -13,
+        6,
+        0
+       ],
+       "length": 22,
+       "dust": 0,
+       "heroStreak": 0.7,
+       "heroStreakLen": 0.14
+      }
+     },
+     {
+      "id": "life.lifelines.v1",
+      "params": {
+       "seed": "2026-11-17-hot-streak-q4",
+       "heroWidth": 0.08,
+       "heroDim": 0.7,
+       "count": 0,
+       "position": [
+        13,
+        6,
+        0
+       ],
+       "length": 22,
+       "dust": 0,
+       "heroStreak": 0.7,
+       "heroStreakLen": 0.14,
+       "branches": 24,
+       "branchStart": 0.15,
+       "branchEnd": 0.6,
+       "branchSpread": 1.6,
+       "exploreAt": 1,
+       "exploreDuration": 3,
+       "convergeAt": 5,
+       "convergeDuration": 2,
+       "timeOffset": 10,
+       "pending": 1.0
+      }
+     }
+    ],
+    "version": "1.0.0"
+   },
+   "onscreen": {
+    "text": "早早就收，没怎么试过",
+    "style": "caption",
+    "position": "top"
+   }
+  },
+  {
+   "n": 28,
+   "lines": [
+    31
+   ],
+   "narration": "试过了，也收了：别慌，你的那四五年，可能就在前面。",
+   "visual": "镜头推向右上格：分叉已拧成一束，前方那段在发热",
+   "config": {
+    "id": "life.lifelines.v1",
+    "renderer": "threejs",
+    "style": "cinematic_science",
+    "fps": 30,
+    "duration": 5.63,
+    "camera": {
+     "preset": "keys",
+     "keys": [
+      {
+       "t": 0,
+       "pos": [
+        6.5,
+        3.0,
+        50
+       ],
+       "look": [
+        7.8,
+        3.6,
+        0
+       ],
+       "fov": 40,
+       "roll": 0
+      },
+      {
+       "t": 2.2,
+       "pos": [
+        13,
+        7,
+        15
+       ],
+       "look": [
+        13,
+        6,
+        0
+       ],
+       "fov": 44,
+       "roll": -2
+      },
+      {
+       "t": 5.63,
+       "pos": [
+        13,
+        7,
+        15
+       ],
+       "look": [
+        13,
+        6,
+        0
+       ],
+       "fov": 44,
+       "roll": -2
+      }
+     ]
+    },
+    "post": {
+     "bloom": {
+      "intensity": 0.9,
+      "threshold": 0.6,
+      "radius": 0.55
+     },
+     "tone": "aces",
+     "grain": 0.014
+    },
+    "assets": [
+     {
+      "id": "life.lifelines.v1",
+      "params": {
+       "seed": "2026-11-17-hot-streak-q1",
+       "heroWidth": 0.08,
+       "heroDim": 0.7,
+       "count": 0,
+       "position": [
+        -13,
+        -6,
+        0
+       ],
+       "length": 22,
+       "dust": 0,
+       "heroStreak": 0.7,
+       "heroStreakLen": 0.14
+      }
+     },
+     {
+      "id": "life.lifelines.v1",
+      "params": {
+       "seed": "2026-11-17-hot-streak-q2",
+       "heroWidth": 0.08,
+       "heroDim": 0.7,
+       "count": 0,
+       "position": [
+        13,
+        -6,
+        0
+       ],
+       "length": 22,
+       "dust": 0,
+       "heroStreak": 0.7,
+       "heroStreakLen": 0.14,
+       "branches": 24,
+       "branchStart": 0.15,
+       "branchEnd": 0.6,
+       "branchSpread": 1.6,
+       "exploreAt": 1,
+       "exploreDuration": 3,
+       "timeOffset": 10
+      }
+     },
+     {
+      "id": "life.lifelines.v1",
+      "params": {
+       "seed": "2026-11-17-hot-streak-q3",
+       "heroWidth": 0.08,
+       "heroDim": 0.7,
+       "count": 0,
+       "position": [
+        -13,
+        6,
+        0
+       ],
+       "length": 22,
+       "dust": 0,
+       "heroStreak": 0.7,
+       "heroStreakLen": 0.14
+      }
+     },
+     {
+      "id": "life.lifelines.v1",
+      "params": {
+       "seed": "2026-11-17-hot-streak-q4",
+       "heroWidth": 0.08,
+       "heroDim": 0.7,
+       "count": 0,
+       "position": [
+        13,
+        6,
+        0
+       ],
+       "length": 22,
+       "dust": 0,
+       "heroStreak": 0.7,
+       "heroStreakLen": 0.14,
+       "branches": 24,
+       "branchStart": 0.15,
+       "branchEnd": 0.6,
+       "branchSpread": 1.6,
+       "exploreAt": 1,
+       "exploreDuration": 3,
+       "convergeAt": 5,
+       "convergeDuration": 2,
+       "timeOffset": 10,
+       "pending": 1.0
+      }
+     }
+    ],
+    "version": "1.0.0"
+   },
+   "onscreen": {
+    "text": "试过了，也收了",
+    "style": "caption",
+    "position": "top"
+   }
+  },
+  {
+   "n": 29,
+   "lines": [
+    32
+   ],
+   "narration": "科学家也承认：试多久才算够，还没有答案。",
+   "visual": "一条线的分叉还在慢慢长、慢慢试，没有尽头",
+   "config": {
+    "id": "life.lifelines.v1",
+    "renderer": "threejs",
+    "style": "cinematic_science",
+    "fps": 30,
+    "duration": 5.01,
+    "camera": {
+     "preset": "keys",
+     "keys": [
+      {
+       "t": 0,
+       "pos": [
+        -12.0,
+        2,
+        7
+       ],
+       "look": [
+        -9.0,
+        0,
+        0
+       ],
+       "fov": 46,
+       "roll": -2
+      },
+      {
+       "t": 4.6,
+       "pos": [
+        -8.4,
+        2.4,
+        8
+       ],
+       "look": [
+        -6.0,
+        0,
+        0
+       ],
+       "fov": 46,
+       "roll": 0
+      },
+      {
+       "t": 5.01,
+       "pos": [
+        -8.4,
+        2.4,
+        8
+       ],
+       "look": [
+        -6.0,
+        0,
+        0
+       ],
+       "fov": 46,
+       "roll": 0
+      }
+     ]
+    },
+    "post": {
+     "bloom": {
+      "intensity": 0.9,
+      "threshold": 0.6,
+      "radius": 0.55
+     },
+     "tone": "aces",
+     "grain": 0.014
+    },
+    "assets": [
+     {
+      "id": "life.lifelines.v1",
+      "params": {
+       "seed": "2026-11-17-hot-streak",
+       "heroWidth": 0.03,
+       "heroDim": 0.5,
+       "count": 0,
+       "heroStreak": 0.6,
+       "branchStart": 0.25,
+       "branches": 20,
+       "branchSpread": 2.0,
+       "exploreAt": 0,
+       "exploreDuration": 9
+      }
+     },
+     {
+      "id": "life.lifelines.v1",
+      "params": {
+       "seed": "2026-11-17-hot-streak-bg",
+       "hero": false,
+       "dust": 0,
+       "count": 5000,
+       "position": [
+        0,
+        -8.0,
+        -24.0
+       ],
+       "spreadZ": 26,
+       "spreadY": 4,
+       "riverAt": 0,
+       "riverDuration": 0.1,
+       "riverDim": 0.035,
+       "streakAt": 0,
+       "streakSpread": 60,
+       "streakGain": 0.5,
+       "fogDist": 16,
+       "timeOffset": 20
+      }
+     }
+    ],
+    "version": "1.0.0"
+   }
+  },
+  {
+   "n": 30,
+   "lines": [
+    33,
+    34
+   ],
+   "narration": "但至少我们知道了——天才不是一种人。",
+   "visual": "回到开头那条一生的线，镜头缓缓推近",
+   "config": {
+    "id": "life.lifelines.v1",
+    "renderer": "threejs",
+    "style": "cinematic_science",
+    "fps": 30,
+    "duration": 4.89,
+    "camera": {
+     "preset": "keys",
+     "keys": [
+      {
+       "t": 0,
+       "pos": [
+        0,
+        1.6,
+        30
+       ],
+       "look": [
+        0,
+        0,
+        0
+       ],
+       "fov": 42,
+       "roll": 0
+      },
+      {
+       "t": 4.6,
+       "pos": [
+        -4.8,
+        0.9,
+        6
+       ],
+       "look": [
+        -1.2,
+        0,
+        0
+       ],
+       "fov": 42,
+       "roll": -2
+      },
+      {
+       "t": 4.89,
+       "pos": [
+        -4.8,
+        0.9,
+        6
+       ],
+       "look": [
+        -1.2,
+        0,
+        0
+       ],
+       "fov": 42,
+       "roll": -2
+      }
+     ]
+    },
+    "post": {
+     "bloom": {
+      "intensity": 0.9,
+      "threshold": 0.6,
+      "radius": 0.55
+     },
+     "tone": "aces",
+     "grain": 0.014
+    },
+    "assets": [
+     {
+      "id": "life.lifelines.v1",
+      "params": {
+       "seed": "2026-11-17-hot-streak",
+       "heroWidth": 0.03,
+       "heroDim": 0.5,
+       "count": 0,
+       "nowAt": 0.42,
+       "heroStreak": 0.6
+      }
+     },
+     {
+      "id": "life.lifelines.v1",
+      "params": {
+       "seed": "2026-11-17-hot-streak-bg",
+       "hero": false,
+       "dust": 0,
+       "count": 5000,
+       "position": [
+        0,
+        -8.0,
+        -24.0
+       ],
+       "spreadZ": 26,
+       "spreadY": 4,
+       "riverAt": 0,
+       "riverDuration": 0.1,
+       "riverDim": 0.035,
+       "streakAt": 0,
+       "streakSpread": 60,
+       "streakGain": 0.5,
+       "fogDist": 16,
+       "timeOffset": 20
+      }
+     }
+    ],
+    "version": "1.0.0"
+   },
+   "onscreen": {
+    "text": "天才不是一种人",
+    "style": "title",
+    "position": "top"
+   }
+  },
+  {
+   "n": 31,
+   "lines": [
+    35
+   ],
+   "narration": "是你一生中，被你自己接住的那四五年。",
+   "visual": "「现在」前方的那一段缓缓点燃；镜头拉远，你的线回到两万条人生汇成的光河里",
+   "config": {
+    "id": "life.lifelines.v1",
+    "renderer": "threejs",
+    "style": "cinematic_science",
+    "fps": 30,
+    "duration": 7.12,
+    "camera": {
+     "preset": "keys",
+     "keys": [
+      {
+       "t": 0,
+       "pos": [
+        -1.2,
+        0.9,
+        6
+       ],
+       "look": [
+        3.0,
+        0,
+        0
+       ],
+       "fov": 42,
+       "roll": -2
+      },
+      {
+       "t": 2.6,
+       "pos": [
+        3.0,
+        3,
+        16
+       ],
+       "look": [
+        3.0,
+        0,
+        0
+       ],
+       "fov": 44,
+       "roll": -2
+      },
+      {
+       "t": 6.6,
+       "pos": [
+        -6,
+        22,
+        40
+       ],
+       "look": [
+        2,
+        -2,
+        0
+       ],
+       "fov": 48,
+       "roll": -4
+      },
+      {
+       "t": 7.12,
+       "pos": [
+        -6,
+        22,
+        40
+       ],
+       "look": [
+        2,
+        -2,
+        0
+       ],
+       "fov": 48,
+       "roll": -4
+      }
+     ]
+    },
+    "post": {
+     "tone": "aces",
+     "grain": 0.014
+    },
+    "assets": [
+     {
+      "id": "life.lifelines.v1",
+      "params": {
+       "seed": "2026-11-17-hot-streak",
+       "heroWidth": 0.05,
+       "heroDim": 0.5,
+       "count": 20000,
+       "nowAt": 0.42,
+       "heroStreak": 0.6,
+       "heroIgniteAt": 0.8,
+       "heroIgniteDuration": 1.6,
+       "sparks": 900,
+       "riverAt": 2.4,
+       "riverDuration": 2.5,
+       "spreadZ": 26,
+       "spreadY": 3.5,
+       "riverDim": 0.05,
+       "streakAt": 3.2,
+       "streakSpread": 3,
+       "streakGain": 0.6
+      }
+     }
+    ],
+    "version": "1.0.0"
+   },
+   "onscreen": {
+    "text": "是你接住的那四五年",
+    "style": "title",
+    "position": "top"
+   }
+  }
+ ],
+ "version": "1.0.0",
+ "audio": {
+  "mode": "voice",
+  "voice": [
+   {
+    "src": "voice/2026-11-17-hot-streak/01-dd34266218.mp3",
+    "at": 0.4,
+    "dur": 4.152,
+    "text": "假如把你的一生摊开，从第一份工作，到最后一天。"
+   },
+   {
+    "src": "voice/2026-11-17-hot-streak/02-ec38353e83.mp3",
+    "at": 6.15,
+    "dur": 2.4,
+    "text": "你会看到，大部分日子是暗的。"
+   },
+   {
+    "src": "voice/2026-11-17-hot-streak/03-5b1c062ae3.mp3",
+    "at": 9.55,
+    "dur": 2.64,
+    "text": "但中间有那么四五年，突然亮了。"
+   },
+   {
+    "src": "voice/2026-11-17-hot-streak/04-a0a79f9e4e.mp3",
+    "at": 13.79,
+    "dur": 2.952,
+    "text": "那几年，你拿出来的东西，一件比一件好。"
+   },
+   {
+    "src": "voice/2026-11-17-hot-streak/05-12a2439a3b.mp3",
+    "at": 17.74,
+    "dur": 2.232,
+    "text": "我们管这样的人，叫天才。"
+   },
+   {
+    "src": "voice/2026-11-17-hot-streak/06-d724d7beab.mp3",
+    "at": 20.572,
+    "dur": 4.8,
+    "text": "可科学家发现：天才不是一种人，是一段时间。"
+   },
+   {
+    "src": "voice/2026-11-17-hot-streak/07-a7f30e5eab.mp3",
+    "at": 26.37,
+    "dur": 4.872,
+    "text": "他们翻遍了两万多名科学家、四千多位导演、两千多位画家的一生。"
+   },
+   {
+    "src": "voice/2026-11-17-hot-streak/08-a562fa48e5.mp3",
+    "at": 32.24,
+    "dur": 3.36,
+    "text": "不只是名人，更多是没人听说过的普通人。"
+   },
+   {
+    "src": "voice/2026-11-17-hot-streak/09-a06b43b315.mp3",
+    "at": 36.6,
+    "dur": 4.008,
+    "text": "让 AI 读完他们的每一篇论文、每一部电影、每一幅画。"
+   },
+   {
+    "src": "voice/2026-11-17-hot-streak/10-974e1f6fc0.mp3",
+    "at": 41.61,
+    "dur": 5.352,
+    "text": "结果，大多数人的一生里，都藏着这样一段高光期。"
+   },
+   {
+    "src": "voice/2026-11-17-hot-streak/11-02b414e0db.mp3",
+    "at": 47.96,
+    "dur": 3.84,
+    "text": "平均四五年，一辈子最好的作品，几乎都挤在里面。"
+   },
+   {
+    "src": "voice/2026-11-17-hot-streak/12-3b6ed25fb5.mp3",
+    "at": 52.8,
+    "dur": 3.912,
+    "text": "更反直觉的是：它什么时候来，几乎是随机的。"
+   },
+   {
+    "src": "voice/2026-11-17-hot-streak/13-75f427408d.mp3",
+    "at": 57.71,
+    "dur": 3.36,
+    "text": "有人刚入行就来了，有人干了很多年才等到。"
+   },
+   {
+    "src": "voice/2026-11-17-hot-streak/14-8b9e47bcee.mp3",
+    "at": 62.07,
+    "dur": 3.6,
+    "text": "所以真正的问题，不是\"我是不是天才\"。"
+   },
+   {
+    "src": "voice/2026-11-17-hot-streak/15-f8bddee442.mp3",
+    "at": 66.27,
+    "dur": 3.432,
+    "text": "而是：那四五年来的时候，你接不接得住？"
+   },
+   {
+    "src": "voice/2026-11-17-hot-streak/16-c968249e49.mp3",
+    "at": 70.7,
+    "dur": 3.768,
+    "text": "科学家在高光期的前面，找到了同一个前兆。"
+   },
+   {
+    "src": "voice/2026-11-17-hot-streak/17-13866b5bdc.mp3",
+    "at": 75.47,
+    "dur": 1.848,
+    "text": "第一个动作：乱试。"
+   },
+   {
+    "src": "voice/2026-11-17-hot-streak/18-5b21fa31f1.mp3",
+    "at": 78.72,
+    "dur": 6.72,
+    "text": "爆发前那几年，他们的作品东一榔头西一棒子，风格换来换去，题目跳来跳去。"
+   },
+   {
+    "src": "voice/2026-11-17-hot-streak/19-7fb3b9cf4a.mp3",
+    "at": 86.44,
+    "dur": 2.808,
+    "text": "在外人看来，这叫不专一、瞎折腾。"
+   },
+   {
+    "src": "voice/2026-11-17-hot-streak/20-b88bc03484.mp3",
+    "at": 90.25,
+    "dur": 1.68,
+    "text": "第二个动作：收。"
+   },
+   {
+    "src": "voice/2026-11-17-hot-streak/21-e984d8b451.mp3",
+    "at": 92.53,
+    "dur": 4.392,
+    "text": "某一天，他们不再四处乱跑，把所有力气砸向同一个方向。"
+   },
+   {
+    "src": "voice/2026-11-17-hot-streak/22-dc45fe0b77.mp3",
+    "at": 97.92,
+    "dur": 2.16,
+    "text": "紧接着，高光期就来了。"
+   },
+   {
+    "src": "voice/2026-11-17-hot-streak/23-d3e1bb6860.mp3",
+    "at": 102.48,
+    "dur": 2.472,
+    "text": "而且，两个动作缺一不可。"
+   },
+   {
+    "src": "voice/2026-11-17-hot-streak/24-90eebcc30f.mp3",
+    "at": 105.95,
+    "dur": 3.768,
+    "text": "只乱试、不收的人，一辈子都在起跑线上热身。"
+   },
+   {
+    "src": "voice/2026-11-17-hot-streak/25-064f090873.mp3",
+    "at": 110.72,
+    "dur": 3.528,
+    "text": "只死磕、不试的人，可能一开始就挖错了地方。"
+   },
+   {
+    "src": "voice/2026-11-17-hot-streak/26-994c2c32ee.mp3",
+    "at": 115.25,
+    "dur": 3.84,
+    "text": "只有先试、再收，才最可能接住那四五年。"
+   },
+   {
+    "src": "voice/2026-11-17-hot-streak/27-304d28d7c5.mp3",
+    "at": 120.09,
+    "dur": 2.808,
+    "text": "你可以对照一下，你现在在哪一格。"
+   },
+   {
+    "src": "voice/2026-11-17-hot-streak/28-fe69bd34e7.mp3",
+    "at": 123.9,
+    "dur": 2.712,
+    "text": "试得少，也没收：你还在原地。"
+   },
+   {
+    "src": "voice/2026-11-17-hot-streak/29-a44ad879df.mp3",
+    "at": 127.61,
+    "dur": 3.192,
+    "text": "一直在试，从来没收：该挑一个方向了。"
+   },
+   {
+    "src": "voice/2026-11-17-hot-streak/30-f265c2e4a6.mp3",
+    "at": 131.8,
+    "dur": 3.288,
+    "text": "早早就收，没怎么试过：小心挖错了坑。"
+   },
+   {
+    "src": "voice/2026-11-17-hot-streak/31-c7fecb2e15.mp3",
+    "at": 136.09,
+    "dur": 4.632,
+    "text": "试过了，也收了：别慌，你的那四五年，可能就在前面。"
+   },
+   {
+    "src": "voice/2026-11-17-hot-streak/32-5806612838.mp3",
+    "at": 141.72,
+    "dur": 4.008,
+    "text": "科学家也承认：试多久才算够，还没有答案。"
+   },
+   {
+    "src": "voice/2026-11-17-hot-streak/33-31cee70f32.mp3",
+    "at": 146.73,
+    "dur": 1.44,
+    "text": "但至少我们知道了——"
+   },
+   {
+    "src": "voice/2026-11-17-hot-streak/34-f956d5904a.mp3",
+    "at": 148.77,
+    "dur": 1.848,
+    "text": "天才不是一种人。"
+   },
+   {
+    "src": "voice/2026-11-17-hot-streak/35-142891d75c.mp3",
+    "at": 151.62,
+    "dur": 3.12,
+    "text": "是你一生中，被你自己接住的那四五年。"
+   }
+  ],
+  "subtitles": true
+ }
+}

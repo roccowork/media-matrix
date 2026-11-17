@@ -1,0 +1,91 @@
+{
+ "n": 9,
+ "lines": [
+  10
+ ],
+ "narration": "结果，大多数人的一生里，都藏着这样一段高光期。",
+ "visual": "高处俯看：河面上一段段高光期接连点燃，像夜里一片片亮起的灯",
+ "config": {
+  "id": "life.lifelines.v1",
+  "renderer": "threejs",
+  "style": "cinematic_science",
+  "fps": 30,
+  "duration": 6.35,
+  "camera": {
+   "preset": "keys",
+   "keys": [
+    {
+     "t": 0,
+     "pos": [
+      -2,
+      34,
+      30
+     ],
+     "look": [
+      0,
+      -2,
+      -3
+     ],
+     "fov": 50,
+     "roll": -4
+    },
+    {
+     "t": 5.9,
+     "pos": [
+      6,
+      30,
+      24
+     ],
+     "look": [
+      0,
+      -2,
+      -3
+     ],
+     "fov": 48,
+     "roll": -2
+    },
+    {
+     "t": 6.35,
+     "pos": [
+      6,
+      30,
+      24
+     ],
+     "look": [
+      0,
+      -2,
+      -3
+     ],
+     "fov": 48,
+     "roll": -2
+    }
+   ]
+  },
+  "post": {
+   "tone": "aces",
+   "grain": 0.014
+  },
+  "assets": [
+   {
+    "id": "life.lifelines.v1",
+    "params": {
+     "seed": "2026-11-17-hot-streak",
+     "heroWidth": 0.03,
+     "heroDim": 0.5,
+     "count": 20000,
+     "hero": false,
+     "riverAt": 0,
+     "riverDuration": 0.1,
+     "spreadZ": 26,
+     "spreadY": 3.5,
+     "riverDim": 0.04,
+     "streakAt": 0.4,
+     "streakSpread": 4.5,
+     "streakGain": 0.7,
+     "timeOffset": 20
+    }
+   }
+  ],
+  "version": "1.0.0"
+ }
+}

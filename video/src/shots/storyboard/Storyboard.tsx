@@ -17,7 +17,9 @@ export type Transition = {type: 'dissolve' | 'flash' | 'zoom' | 'eyelid' | 'cut'
 export type SBShot = {n: number; narration?: string; visual: string; note?: string; onscreen?: OnScreen; transition?: Transition; config: ShotConfig};
 export type SBAudio = {mode: 'voice' | 'music'; music?: string; bpm?: number;
   ambient?: {src: string; volume?: number; mute?: [number, number][]};
-  sfx?: {src: string; at: number; volume?: number; note?: string}[]};
+  sfx?: {src: string; at: number; volume?: number; note?: string}[];
+  // 配音（逐句文件，按全片秒数放）；subtitles = true 时把 text 烧成底部字幕
+  voice?: {src: string; at: number; dur?: number; text?: string; volume?: number}[]; subtitles?: boolean};
 export type StoryboardData = {id: string; topic: string; title: string; fps: number; shots: SBShot[]; audio?: SBAudio};
 
 // 背景色按风格（与各资产验收镜头一致）
@@ -171,6 +173,43 @@ const FlashLight: React.FC<{color: string}> = ({color}) => {
   return <AbsoluteFill style={{background: `radial-gradient(circle at 50% 50%, #fff 0%, ${color} 55%, ${color} 100%)`, opacity: o}} />;
 };
 
+// 配音字幕：每句念的时候显示在底部；按标点切成不超过 18 字的小段，按字数分配时长（念到哪段显示哪段）
+const SUB_MAX = 18;
+const splitSub = (text: string): string[] => {
+  const parts = text.split(/(?<=[，。：？！；——])/).map((x) => x.trim()).filter(Boolean);
+  const out: string[] = [];
+  for (const p of parts) {
+    const last = out[out.length - 1];
+    if (last && (last + p).length <= SUB_MAX && !/[。？！]$/.test(last)) out[out.length - 1] = last + p;
+    else out.push(p);
+  }
+  return out.map((x) => x.replace(/[，。；]$/, ''));
+};
+const Subtitles: React.FC<{voice: NonNullable<SBAudio['voice']>}> = ({voice}) => {
+  const frame = useCurrentFrame();
+  const {fps} = useVideoConfig();
+  const t = frame / fps;
+  let cur = '';
+  for (const v of voice) {
+    if (!v.text || v.dur === undefined || t < v.at || t > v.at + v.dur + 0.15) continue;
+    const parts = splitSub(v.text);
+    const total = parts.reduce((a, p) => a + p.length, 0) || 1;
+    let acc = v.at;
+    for (const p of parts) {
+      const d = (v.dur * p.length) / total;
+      if (t >= acc && t < acc + d + 0.15) cur = p;
+      acc += d;
+    }
+  }
+  if (!cur) return null;
+  return (
+    <AbsoluteFill style={{justifyContent: 'flex-end', alignItems: 'center', paddingBottom: 70, pointerEvents: 'none'}}>
+      <div style={{fontFamily: FONT, color: '#fff', fontSize: 50, fontWeight: 500, letterSpacing: '0.04em', whiteSpace: 'nowrap',
+        textShadow: '0 0 4px rgba(0,0,0,0.95), 0 2px 10px rgba(0,0,0,0.9), 0 0 24px rgba(0,0,0,0.7)'}}>{cur}</div>
+    </AbsoluteFill>
+  );
+};
+
 const StoryboardAudio: React.FC<{audio: SBAudio; total: number}> = ({audio, total}) => {
   const {fps} = useVideoConfig();
   const amb = audio.ambient;
@@ -185,6 +224,11 @@ const StoryboardAudio: React.FC<{audio: SBAudio; total: number}> = ({audio, tota
           return Math.max(0, v);
         }} />
       )}
+      {(audio.voice ?? []).map((x, i) => (
+        <Sequence key={`v${i}`} from={Math.round(x.at * fps)} layout="none">
+          <Audio src={staticFile(x.src)} volume={x.volume ?? 1} />
+        </Sequence>
+      ))}
       {(audio.sfx ?? []).map((x, i) => (
         <Sequence key={i} from={Math.round(x.at * fps)} layout="none">
           <Audio src={staticFile(x.src)} volume={x.volume ?? 0.7} />
@@ -221,6 +265,7 @@ export const StoryboardView: React.FC<{storyboard: StoryboardData; annotate?: bo
         </Sequence>
       ))}
       {storyboard.audio && <StoryboardAudio audio={storyboard.audio} total={at} />}
+      {storyboard.audio?.subtitles && storyboard.audio.voice && <Subtitles voice={storyboard.audio.voice} />}
     </AbsoluteFill>
   );
 };

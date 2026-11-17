@@ -1,0 +1,135 @@
+{
+ "n": 5,
+ "lines": [
+  5,
+  6
+ ],
+ "narration": "我们管这样的人，叫天才。可科学家发现：天才不是一种人，是一段时间。",
+ "visual": "镜头后拉，看到亮着的只是整条线上的一段；年份刻度铺满一生",
+ "config": {
+  "id": "life.lifelines.v1",
+  "renderer": "threejs",
+  "style": "cinematic_science",
+  "fps": 30,
+  "duration": 8.63,
+  "camera": {
+   "preset": "keys",
+   "keys": [
+    {
+     "t": 0,
+     "pos": [
+      3.0,
+      0.8,
+      3
+     ],
+     "look": [
+      3.0,
+      0,
+      0
+     ],
+     "fov": 40,
+     "roll": 0
+    },
+    {
+     "t": 3.0,
+     "pos": [
+      3.0,
+      2.0,
+      12
+     ],
+     "look": [
+      0.0,
+      0,
+      0
+     ],
+     "fov": 44,
+     "roll": 0
+    },
+    {
+     "t": 7.6,
+     "pos": [
+      0.0,
+      3.0,
+      30
+     ],
+     "look": [
+      0.0,
+      0,
+      0
+     ],
+     "fov": 46,
+     "roll": 0
+    },
+    {
+     "t": 8.63,
+     "pos": [
+      0.0,
+      3.0,
+      30
+     ],
+     "look": [
+      0.0,
+      0,
+      0
+     ],
+     "fov": 46,
+     "roll": 0
+    }
+   ]
+  },
+  "post": {
+   "bloom": {
+    "intensity": 0.9,
+    "threshold": 0.6,
+    "radius": 0.55
+   },
+   "tone": "aces",
+   "grain": 0.014
+  },
+  "assets": [
+   {
+    "id": "life.lifelines.v1",
+    "params": {
+     "seed": "2026-11-17-hot-streak",
+     "heroWidth": 0.04,
+     "heroDim": 0.45,
+     "count": 0,
+     "heroIgniteAt": 0.1,
+     "timeOffset": 8,
+     "ticksAt": 0,
+     "sparks": 0
+    }
+   },
+   {
+    "id": "life.lifelines.v1",
+    "params": {
+     "seed": "2026-11-17-hot-streak-bg",
+     "hero": false,
+     "dust": 0,
+     "count": 5000,
+     "position": [
+      0,
+      -8.0,
+      -24.0
+     ],
+     "spreadZ": 26,
+     "spreadY": 4,
+     "riverAt": 0,
+     "riverDuration": 0.1,
+     "riverDim": 0.035,
+     "streakAt": 0,
+     "streakSpread": 60,
+     "streakGain": 0.5,
+     "fogDist": 16,
+     "timeOffset": 20
+    }
+   }
+  ],
+  "version": "1.0.0"
+ },
+ "onscreen": {
+  "text": "天才不是一种人，是一段时间",
+  "style": "title",
+  "position": "top"
+ }
+}

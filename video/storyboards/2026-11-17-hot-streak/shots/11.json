@@ -1,0 +1,91 @@
+{
+ "n": 11,
+ "lines": [
+  12
+ ],
+ "narration": "更反直觉的是：它什么时候来，几乎是随机的。",
+ "visual": "侧看光河：亮着的高光段东一个西一个，位置毫无规律",
+ "config": {
+  "id": "life.lifelines.v1",
+  "renderer": "threejs",
+  "style": "cinematic_science",
+  "fps": 30,
+  "duration": 4.91,
+  "camera": {
+   "preset": "keys",
+   "keys": [
+    {
+     "t": 0,
+     "pos": [
+      -30.0,
+      6,
+      30
+     ],
+     "look": [
+      -6.0,
+      0,
+      0
+     ],
+     "fov": 44,
+     "roll": -3
+    },
+    {
+     "t": 4.5,
+     "pos": [
+      -15.0,
+      6,
+      28
+     ],
+     "look": [
+      6.0,
+      0,
+      0
+     ],
+     "fov": 44,
+     "roll": -1
+    },
+    {
+     "t": 4.91,
+     "pos": [
+      -15.0,
+      6,
+      28
+     ],
+     "look": [
+      6.0,
+      0,
+      0
+     ],
+     "fov": 44,
+     "roll": -1
+    }
+   ]
+  },
+  "post": {
+   "tone": "aces",
+   "grain": 0.014
+  },
+  "assets": [
+   {
+    "id": "life.lifelines.v1",
+    "params": {
+     "seed": "2026-11-17-hot-streak",
+     "heroWidth": 0.03,
+     "heroDim": 0.5,
+     "count": 8000,
+     "hero": false,
+     "riverAt": 0,
+     "riverDuration": 0.1,
+     "spreadZ": 14,
+     "spreadY": 6,
+     "riverDim": 0.05,
+     "streakAt": 2,
+     "streakSpread": 4.0,
+     "streakGain": 0.9,
+     "timeOffset": 2
+    }
+   }
+  ],
+  "version": "1.0.0"
+ }
+}

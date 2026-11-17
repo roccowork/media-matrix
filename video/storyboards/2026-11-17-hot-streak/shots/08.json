@@ -1,0 +1,90 @@
+{
+ "n": 8,
+ "lines": [
+  9
+ ],
+ "narration": "让 AI 读完他们的每一篇论文、每一部电影、每一幅画。",
+ "visual": "镜头低飞掠过河面，一道白色扫描光带从左扫到右，扫过的人生线留下余辉",
+ "config": {
+  "id": "life.lifelines.v1",
+  "renderer": "threejs",
+  "style": "cinematic_science",
+  "fps": 30,
+  "duration": 5.01,
+  "camera": {
+   "preset": "keys",
+   "keys": [
+    {
+     "t": 0,
+     "pos": [
+      -27.0,
+      3,
+      18
+     ],
+     "look": [
+      -12.0,
+      0,
+      0
+     ],
+     "fov": 46,
+     "roll": -6
+    },
+    {
+     "t": 4.6,
+     "pos": [
+      6.0,
+      3.5,
+      18
+     ],
+     "look": [
+      21.0,
+      0,
+      0
+     ],
+     "fov": 46,
+     "roll": -2
+    },
+    {
+     "t": 5.01,
+     "pos": [
+      6.0,
+      3.5,
+      18
+     ],
+     "look": [
+      21.0,
+      0,
+      0
+     ],
+     "fov": 46,
+     "roll": -2
+    }
+   ]
+  },
+  "post": {
+   "tone": "aces",
+   "grain": 0.014
+  },
+  "assets": [
+   {
+    "id": "life.lifelines.v1",
+    "params": {
+     "seed": "2026-11-17-hot-streak",
+     "heroWidth": 0.03,
+     "heroDim": 0.5,
+     "count": 20000,
+     "hero": false,
+     "riverAt": 0,
+     "riverDuration": 0.1,
+     "spreadZ": 26,
+     "spreadY": 3.5,
+     "riverDim": 0.05,
+     "scanAt": 0.3,
+     "scanDuration": 3.8,
+     "timeOffset": 20
+    }
+   }
+  ],
+  "version": "1.0.0"
+ }
+}

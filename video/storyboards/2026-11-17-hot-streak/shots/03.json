@@ -1,12 +1,16 @@
 {
  "n": 3,
- "visual": "整条线还暗着，中段四五年突然从中心烧亮，迸出火花",
+ "lines": [
+  3
+ ],
+ "narration": "但中间有那么四五年，突然亮了。",
+ "visual": "整条线还暗着，中段四五年突然从中心烧亮，火花迸射",
  "config": {
   "id": "life.lifelines.v1",
   "renderer": "threejs",
   "style": "cinematic_science",
   "fps": 30,
-  "duration": 4,
+  "duration": 4.24,
   "camera": {
    "preset": "keys",
    "keys": [
@@ -26,7 +30,22 @@
      "roll": -7
     },
     {
-     "t": 4,
+     "t": 3.8,
+     "pos": [
+      -0.6,
+      0.7,
+      2.6
+     ],
+     "look": [
+      4.5,
+      0.2,
+      -0.4
+     ],
+     "fov": 46,
+     "roll": -3
+    },
+    {
+     "t": 4.24,
      "pos": [
       -0.6,
       0.7,
@@ -49,7 +68,6 @@
     "radius": 0.55
    },
    "tone": "aces",
-   "vignette": 0.6,
    "grain": 0.014
   },
   "assets": [
@@ -57,9 +75,34 @@
     "id": "life.lifelines.v1",
     "params": {
      "seed": "2026-11-17-hot-streak",
-     "heroIgniteAt": 0.6,
-     "riverAt": -1,
-     "heroDim": 0.45
+     "heroWidth": 0.03,
+     "heroDim": 0.45,
+     "count": 0,
+     "heroIgniteAt": 0.5
+    }
+   },
+   {
+    "id": "life.lifelines.v1",
+    "params": {
+     "seed": "2026-11-17-hot-streak-bg",
+     "hero": false,
+     "dust": 0,
+     "count": 5000,
+     "position": [
+      0,
+      -8.0,
+      -24.0
+     ],
+     "spreadZ": 26,
+     "spreadY": 4,
+     "riverAt": 0,
+     "riverDuration": 0.1,
+     "riverDim": 0.035,
+     "streakAt": 0,
+     "streakSpread": 60,
+     "streakGain": 0.5,
+     "fogDist": 16,
+     "timeOffset": 20
     }
    }
   ],

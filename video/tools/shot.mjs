@@ -113,12 +113,14 @@ const validateStoryboard = (file, quiet = false) => {
     const reg = loadRegistry();
     let total = 0;
     const music = sb.audio?.mode === 'music';
+    const lim = {...SB, ...(sb.limits ?? {})}; // 单条片子可覆盖时长限制（要有用户决定，写在 limits.note）
+    const realVoice = (sb.audio?.voice ?? []).length > 0; // 已有真实配音文件：时长按实测，不再按字数估算语速
     sb.shots.forEach((s, i) => {
       const at = `/shots/${i}`;
       const d = s.config.duration;
       total += d;
       if (s.n !== i + 1) errs.push(`${at}/n 镜号应为 ${i + 1}（按顺序编号）`);
-      if (d < SB.minShot || d > SB.maxShot) errs.push(`${at}/config/duration ${d}s，每镜应在 ${SB.minShot}–${SB.maxShot} 秒`);
+      if (d < lim.minShot || d > lim.maxShot) errs.push(`${at}/config/duration ${d}s，每镜应在 ${lim.minShot}–${lim.maxShot} 秒`);
       if (s.config.fps !== sb.fps) errs.push(`${at}/config/fps ${s.config.fps} 与分镜 fps ${sb.fps} 不一致`);
       if (music) {
         // 配乐模式（《方案补充》#17）：没有旁白；画面文字短、读得完
@@ -126,13 +128,13 @@ const validateStoryboard = (file, quiet = false) => {
         const tc = narrationChars(s.onscreen?.text);
         if (tc > SB.maxCardChars) errs.push(`${at}/onscreen/text ${tc} 字，每张字卡最多 ${SB.maxCardChars} 字`);
         if (tc / d > SB.maxReadPerSec) errs.push(`${at}/onscreen/text ${tc} 字 / ${d} 秒，超过阅读速度 ${SB.maxReadPerSec} 字每秒`);
-      } else {
+      } else if (!realVoice) {
         const rate = narrationChars(s.narration) / d;
         if (rate > SB.maxCharsPerSec) errs.push(`${at}/narration ${narrationChars(s.narration)} 字 / ${d} 秒 = ${rate.toFixed(1)} 字每秒，超过 ${SB.maxCharsPerSec}（念不完）`);
       }
       errs.push(...validateShot(s.config, reg, `${at}/config`, s.note ?? ''));
     });
-    if (total < SB.minTotal || total > SB.maxTotal) errs.push(`/shots 总时长 ${total} 秒，应在 ${SB.minTotal}–${SB.maxTotal} 秒`);
+    if (total < lim.minTotal || total > lim.maxTotal) errs.push(`/shots 总时长 ${total} 秒，应在 ${lim.minTotal}–${lim.maxTotal} 秒`);
   }
   if (!quiet) console.log(errs.length ? `✗ ${file}（${errs.length} 处问题）\n  ` + errs.join('\n  ') : `✓ ${file} 分镜校验通过（${sb.shots.length} 镜，${sb.shots.reduce((a, s) => a + s.config.duration, 0)} 秒）`);
   process.exitCode = errs.length ? 1 : 0;

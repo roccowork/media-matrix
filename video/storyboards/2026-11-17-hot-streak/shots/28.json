@@ -1,0 +1,171 @@
+{
+ "n": 28,
+ "lines": [
+  31
+ ],
+ "narration": "试过了，也收了：别慌，你的那四五年，可能就在前面。",
+ "visual": "镜头推向右上格：分叉已拧成一束，前方那段在发热",
+ "config": {
+  "id": "life.lifelines.v1",
+  "renderer": "threejs",
+  "style": "cinematic_science",
+  "fps": 30,
+  "duration": 5.63,
+  "camera": {
+   "preset": "keys",
+   "keys": [
+    {
+     "t": 0,
+     "pos": [
+      6.5,
+      3.0,
+      50
+     ],
+     "look": [
+      7.8,
+      3.6,
+      0
+     ],
+     "fov": 40,
+     "roll": 0
+    },
+    {
+     "t": 2.2,
+     "pos": [
+      13,
+      7,
+      15
+     ],
+     "look": [
+      13,
+      6,
+      0
+     ],
+     "fov": 44,
+     "roll": -2
+    },
+    {
+     "t": 5.63,
+     "pos": [
+      13,
+      7,
+      15
+     ],
+     "look": [
+      13,
+      6,
+      0
+     ],
+     "fov": 44,
+     "roll": -2
+    }
+   ]
+  },
+  "post": {
+   "bloom": {
+    "intensity": 0.9,
+    "threshold": 0.6,
+    "radius": 0.55
+   },
+   "tone": "aces",
+   "grain": 0.014
+  },
+  "assets": [
+   {
+    "id": "life.lifelines.v1",
+    "params": {
+     "seed": "2026-11-17-hot-streak-q1",
+     "heroWidth": 0.08,
+     "heroDim": 0.7,
+     "count": 0,
+     "position": [
+      -13,
+      -6,
+      0
+     ],
+     "length": 22,
+     "dust": 0,
+     "heroStreak": 0.7,
+     "heroStreakLen": 0.14
+    }
+   },
+   {
+    "id": "life.lifelines.v1",
+    "params": {
+     "seed": "2026-11-17-hot-streak-q2",
+     "heroWidth": 0.08,
+     "heroDim": 0.7,
+     "count": 0,
+     "position": [
+      13,
+      -6,
+      0
+     ],
+     "length": 22,
+     "dust": 0,
+     "heroStreak": 0.7,
+     "heroStreakLen": 0.14,
+     "branches": 24,
+     "branchStart": 0.15,
+     "branchEnd": 0.6,
+     "branchSpread": 1.6,
+     "exploreAt": 1,
+     "exploreDuration": 3,
+     "timeOffset": 10
+    }
+   },
+   {
+    "id": "life.lifelines.v1",
+    "params": {
+     "seed": "2026-11-17-hot-streak-q3",
+     "heroWidth": 0.08,
+     "heroDim": 0.7,
+     "count": 0,
+     "position": [
+      -13,
+      6,
+      0
+     ],
+     "length": 22,
+     "dust": 0,
+     "heroStreak": 0.7,
+     "heroStreakLen": 0.14
+    }
+   },
+   {
+    "id": "life.lifelines.v1",
+    "params": {
+     "seed": "2026-11-17-hot-streak-q4",
+     "heroWidth": 0.08,
+     "heroDim": 0.7,
+     "count": 0,
+     "position": [
+      13,
+      6,
+      0
+     ],
+     "length": 22,
+     "dust": 0,
+     "heroStreak": 0.7,
+     "heroStreakLen": 0.14,
+     "branches": 24,
+     "branchStart": 0.15,
+     "branchEnd": 0.6,
+     "branchSpread": 1.6,
+     "exploreAt": 1,
+     "exploreDuration": 3,
+     "convergeAt": 5,
+     "convergeDuration": 2,
+     "timeOffset": 10,
+     "pending": 1.0
+    }
+   }
+  ],
+  "version": "1.0.0"
+ },
+ "onscreen": {
+  "text": "试过了，也收了",
+  "style": "caption",
+  "position": "top"
+ }
+}

@@ -31,7 +31,25 @@ export type LifeLinesProps = {
   sparks?: number; // 点燃时迸出的火花数
   dust?: number; // 漂浮光尘颗数（给黑场纵深）
   dustSpread?: number; // 光尘分布范围
+  // —— 主角线上的附加画面 ——
+  years?: number; // 一生按多少年画刻度
+  ticksAt?: number; // 年份刻度从左到右亮起（秒）；-1 = 不画
+  nowAt?: number; // 「现在」标记在主角线上的位置（0–1）；-1 = 不画
+  pending?: number; // 高光段还没点燃时，先透出一点脉动的暖光（0–1）：「它可能就在前面」
+  branches?: number; // 「乱试」分叉条数（0 = 不画）
+  branchStart?: number; // 分叉从主角线哪里长出（0–1）
+  branchEnd?: number; // 分叉在哪里汇回主角线（0–1）；-1 = 高光段起点
+  branchSpread?: number; // 分叉偏离主角线的幅度（世界单位）
+  exploreAt?: number; // 分叉开始长出（秒）；-1 = 不画
+  exploreDuration?: number; // 长满用时
+  convergeAt?: number; // 「收」：分叉拧成一束（秒）；-1 = 不收
+  convergeDuration?: number;
+  branchFadeAt?: number; // 分叉渐渐熄灭（秒）；-1 = 不熄灭（「一直乱试、不收，等不来」）
   // —— 光河 ——
+  scanAt?: number; // 扫描光带从左扫到右（秒）；-1 = 不扫
+  scanDuration?: number;
+  famous?: number; // 光河里整条都亮的「名人」线条数
+  famousGain?: number; // 名人线亮度倍数
   count?: number; // 光河里的人生线条数
   spreadZ?: number; // 河宽（z）
   spreadY?: number; // 河高（y）
@@ -82,7 +100,7 @@ void main() {
   gl_Position = projectionMatrix * mv;
 }`;
 const RIVER_FRAG = /* glsl */ `
-uniform float uT; uniform vec3 uDim; uniform vec3 uGlow; uniform vec3 uHot; uniform float uRiverDim; uniform float uBright; uniform float uStreakGain; uniform float uFog;
+uniform float uT; uniform vec3 uDim; uniform vec3 uGlow; uniform vec3 uHot; uniform float uRiverDim; uniform float uBright; uniform float uStreakGain; uniform float uFog; uniform float uScan;
 varying float vS; varying vec4 vR; varying float vReveal; varying float vDepth;
 void main() {
   if (vReveal <= 0.0) discard;
@@ -96,7 +114,9 @@ void main() {
   float burn = ign < 0.0 ? 0.0 : step(d, clamp(since / 0.5, 0.0, 1.0));
   // 两端（入行 / 最后一天）渐隐
   float ends = smoothstep(0.0, 0.06, vS) * (1.0 - smoothstep(0.94, 1.0, vS));
-  vec3 col = uDim * uRiverDim * vR.w + mix(uGlow, uHot, flash) * inside * on * burn * uStreakGain * (1.0 + 2.5 * flash);
+  // 扫描光带：一道亮前沿从左扫到右（「AI 读完每个人的一生」），扫过的地方留下淡淡余辉
+  float scan = uScan < -0.5 ? 0.0 : exp(-pow((vS - uScan) * 22.0, 2.0)) * 3.0 + step(vS, uScan) * 0.6;
+  vec3 col = uDim * uRiverDim * vR.w * (1.0 + scan * 6.0) + uHot * uRiverDim * scan * 0.6 * vR.w + mix(uGlow, uHot, flash) * inside * on * burn * uStreakGain * (1.0 + 2.5 * flash);
   // 远处的线在屏幕上挤得更密（1 像素线叠加更亮），按距离衰减抵消，同时像雾一样淡出
   float fog = uFog <= 0.0 ? 1.0 : min(1.3, pow(uFog / max(vDepth, 1e-3), 1.6));
   gl_FragColor = vec4(col * vReveal * ends * fog * uBright, 1.0);
@@ -144,6 +164,8 @@ export const LifeLinesAsset: React.FC<LifeLinesProps> = ({
   position = [0, 0, 0], length = 60,
   hero = true, heroWidth = 0.05, heroDim = 0.5, drawAt = -1, drawDuration = 4, heroStreak = 0.55, heroStreakLen = 0.11,
   heroIgniteAt = -1, heroIgniteDuration = 0.7, sparks = 900, dust = 1500, dustSpread = 14,
+  years = 40, ticksAt = -1, nowAt = -1, pending = 0, branches = 0, branchStart = 0.18, branchEnd = -1, branchSpread = 2.2,
+  exploreAt = -1, exploreDuration = 3, convergeAt = -1, convergeDuration = 1.6, branchFadeAt = -1, famous = 0, famousGain = 40, scanAt = -1, scanDuration = 3,
   count = 5000, spreadZ = 16, spreadY = 2.4, riverAt = -1, riverDuration = 2.5, riverDim = 0.05, streakGain = 0.35, fogDist = 25,
   streakAt = -1, streakSpread = 6, streakShare = 0.9, wave = 0.35, flow = 0.12,
   dimColor = '#8a5a22', glowColor = '#ffb23c', hotColor = '#fff3d6', brightness = 1, timeOffset = 0, seed = 'lifelines',
@@ -175,8 +197,8 @@ export const LifeLinesAsset: React.FC<LifeLinesProps> = ({
       const has = random(`${S}has${i}`) < streakShare;
       const c = 0.12 + 0.76 * random(`${S}c${i}`); // 高光期出现在一生的任何时候
       const len = 0.07 + 0.08 * random(`${S}l${i}`);
-      const ign = has && streakAt >= 0 ? streakAt + Math.pow(random(`${S}ig${i}`), 0.8) * streakSpread : -1;
-      const b = 0.35 + 0.65 * random(`${S}b${i}`);
+      const ign = has && streakAt >= 0 && i >= famous ? streakAt + Math.pow(random(`${S}ig${i}`), 0.8) * streakSpread : -1;
+      const b = i < famous ? famousGain : 0.35 + 0.65 * random(`${S}b${i}`);
       const delay = Math.min(1, Math.hypot(z0 / (spreadZ * 0.5), y0 / (spreadY * 0.5)) * 0.8 + random(`${S}dl${i}`) * 0.2);
       for (let j = 0; j < SEG; j++) {
         for (const s of [j / SEG, (j + 1) / SEG]) {
@@ -196,11 +218,14 @@ export const LifeLinesAsset: React.FC<LifeLinesProps> = ({
     const m = new THREE.ShaderMaterial({
       vertexShader: RIVER_VERT, fragmentShader: RIVER_FRAG, transparent: true, depthWrite: false, depthTest: false, blending: THREE.AdditiveBlending,
       uniforms: {uT: {value: 0}, uL: {value: L}, uWave: {value: wave}, uFlow: {value: flow}, uRiverAt: {value: riverAt}, uRiverDur: {value: riverDuration},
-        uDim: {value: cDim}, uGlow: {value: cGlow}, uHot: {value: cHot}, uRiverDim: {value: riverDim * Math.min(1, 2000 / Math.max(count, 1))}, uBright: {value: brightness}, uStreakGain: {value: streakGain * Math.min(1, Math.sqrt(2000 / Math.max(count, 1)))}, uFog: {value: fogDist}},
+        uDim: {value: cDim}, uGlow: {value: cGlow}, uHot: {value: cHot}, uRiverDim: {value: riverDim * Math.min(1, 2000 / Math.max(count, 1))}, uBright: {value: brightness}, uStreakGain: {value: streakGain * Math.min(1, Math.sqrt(2000 / Math.max(count, 1)))}, uFog: {value: fogDist}, uScan: {value: -1}},
     });
     return {g, m};
-  }, [count, spreadZ, spreadY, streakAt, streakSpread, streakShare, S, L, wave, flow, riverAt, riverDuration, cDim, cGlow, cHot, riverDim, streakGain, fogDist, brightness]);
-  if (river) river.m.uniforms.uT.value = t;
+  }, [famous, famousGain, count, spreadZ, spreadY, streakAt, streakSpread, streakShare, S, L, wave, flow, riverAt, riverDuration, cDim, cGlow, cHot, riverDim, streakGain, fogDist, brightness]);
+  if (river) {
+    river.m.uniforms.uT.value = t;
+    river.m.uniforms.uScan.value = scanAt < 0 || t < scanAt ? -1 : -0.05 + 1.1 * smooth((t - scanAt) / scanDuration);
+  }
 
   // —— 主角线 ——
   const heroGeo = useMemo(() => {
@@ -306,12 +331,100 @@ void main() { vec2 c = gl_PointCoord - 0.5; float g = exp(-dot(c, c) * 18.0); gl
   dustMat.uniforms.uViewH.value = viewH;
   dustMat.uniforms.uLight.value = 0.5 + (since > 0 ? 2.5 * Math.exp(-since * 1.2) + 0.6 : 0); // 点燃时照亮光尘
 
+
+  // —— 附加画面（每帧在 CPU 上算发光带）：年份刻度、「现在」标记、待点燃的暖光、「乱试」分叉 ——
+  const hp = (u: number): V3 => flowPoint(u, 0, 0, 0, L, wave * 0.4, 0, 0);
+  const xSegs: Seg[] = [];
+  const xHeat: number[] = [];
+  const push = (a: V3, b: V3, w: number, br: number, heat: number, t0 = 0, t1 = 0) => { xSegs.push({a, b, w, br, t0, t1}); xHeat.push(heat); };
+  const lit = (u: number) => { // 主角线这一点此刻是否已被点燃（0–1）
+    if (since < 0) return 0;
+    const d = Math.abs(u - heroStreak) / (heroStreakLen * 0.5);
+    return d <= heroMat.uniforms.uBurn.value && d < 1 ? 1 : 0;
+  };
+  if (ticksAt >= 0 && hero) {
+    for (let y = 0; y <= years; y++) {
+      const u = y / years;
+      const on = smooth((t - ticksAt - u * 1.2) / 0.25);
+      if (on <= 0) continue;
+      const p = hp(u);
+      const big = y % 10 === 0;
+      const h = (big ? 0.5 : 0.22) * on;
+      const hot = lit(u);
+      push([p[0], p[1] - h * 0.3, p[2]], [p[0], p[1] + h, p[2]], big ? 0.9 : 0.6, (0.35 + 1.4 * hot) * on, hot);
+    }
+  }
+  if (nowAt >= 0 && hero) {
+    const p = hp(nowAt);
+    const pulse = 0.75 + 0.25 * Math.sin(t * 4.2);
+    push([p[0], p[1] - 0.5, p[2]], [p[0], p[1] + 1.6, p[2]], 2.2, 2.4 * pulse, 1);
+    const r = 0.25 + 0.35 * ((t * 0.9) % 1);
+    for (let k = 0; k < 24; k++) { // 一圈向外扩散的小光环
+      const a0 = (k / 24) * Math.PI * 2, a1 = ((k + 1) / 24) * Math.PI * 2;
+      push([p[0], p[1] + Math.sin(a0) * r, p[2] + Math.cos(a0) * r], [p[0], p[1] + Math.sin(a1) * r, p[2] + Math.cos(a1) * r], 1.4, 1.6 * (1 - ((t * 0.9) % 1)), 1);
+    }
+  }
+  if (pending > 0 && hero && since < 0) {
+    const N = 40;
+    for (let j = 0; j < N; j++) {
+      const u0 = heroStreak - heroStreakLen / 2 + (heroStreakLen * j) / N, u1 = u0 + heroStreakLen / N;
+      const e = Math.sin(((j + 0.5) / N) * Math.PI);
+      push(hp(u0), hp(u1), 2.2, pending * e * (0.55 + 0.45 * Math.sin(t * 2.6 - j * 0.25)), 0);
+    }
+  }
+  if (branches > 0 && exploreAt >= 0 && hero && t >= exploreAt) {
+    const sB = branchEnd >= 0 ? branchEnd : heroStreak - heroStreakLen / 2;
+    const c = convergeAt < 0 ? 0 : smooth((t - convergeAt) / convergeDuration);
+    const fade = branchFadeAt < 0 ? 1 : 1 - smooth((t - branchFadeAt) / 1.5);
+    const N = 70;
+    for (let k = 0; k < branches; k++) {
+      const delay = random(`${S}bd${k}`) * exploreDuration * 0.35;
+      const prog = smooth((t - exploreAt - delay) / (exploreDuration * (0.6 + 0.4 * random(`${S}bv${k}`))));
+      if (prog <= 0) continue;
+      const f1 = 3 + 5 * random(`${S}bf${k}`), f2 = 7 + 9 * random(`${S}bg${k}`);
+      const p1 = random(`${S}bp${k}`) * 6.28, p2 = random(`${S}bq${k}`) * 6.28;
+      const ang = random(`${S}ba${k}`) * 6.28;
+      const amp = branchSpread * (0.45 + 0.55 * random(`${S}bm${k}`));
+      const heat = 0.15 + 0.2 * random(`${S}bh${k}`);
+      let prev: V3 | null = null;
+      for (let j = 0; j <= N; j++) {
+        const u = j / N;
+        if (u > prog) break;
+        const env = Math.pow(Math.sin(u * Math.PI), 0.8);
+        // 收：从靠近汇合点的一端先收紧，像被拉直
+        const cc = smooth(c * 1.6 - (1 - u) * 0.6);
+        const w = amp * env * (1 - cc);
+        const a = ang + 1.4 * Math.sin(u * f1 + p1 + t * 0.35) + 0.6 * Math.sin(u * f2 + p2 - t * 0.5);
+        const base = hp(branchStart + (sB - branchStart) * u);
+        const q: V3 = [base[0] + 0.35 * w * Math.sin(u * f2 + p1), base[1] + Math.sin(a) * w * 0.8, base[2] + Math.cos(a) * w];
+        if (prev) {
+          const tipGlow = prog < 1 ? Math.exp(-Math.pow((u - prog) * 30, 2)) * 2.2 : 0;
+          push(prev, q, 0.55 + 0.6 * c, (0.35 + 0.55 * c + tipGlow) * fade, heat + 0.6 * c);
+        }
+        prev = q;
+      }
+    }
+  }
+  const xGeo = xSegs.length ? buildRibbonGeometry(xSegs, (i) => xHeat[i]) : null;
+  const xMat = useMemo(() => new THREE.ShaderMaterial({
+    vertexShader: RIBBON_VERT, fragmentShader: `
+uniform vec3 uDim; uniform vec3 uGlow; uniform vec3 uHot; uniform float uBright;
+varying float vSide; varying float vBr; varying float vT; varying float vLine; varying float vPxA;
+${RIBBON_GLOW_GLSL}
+void main() { vec3 col = mix(mix(uDim * 1.6, uGlow, clamp(vLine * 2.0, 0.0, 1.0)), uHot, clamp(vLine * 2.0 - 1.0, 0.0, 1.0));
+  gl_FragColor = vec4(ribbonGlow(vSide, col, 0.28) * vBr * uBright * vPxA, 1.0); }`,
+    transparent: true, depthWrite: false, depthTest: false, blending: THREE.AdditiveBlending, side: THREE.DoubleSide,
+    uniforms: {uCap: {value: 0}, uWidth: {value: heroWidth * 0.6}, uViewH: {value: 1080}, uDim: {value: cDim}, uGlow: {value: cGlow}, uHot: {value: cHot}, uBright: {value: brightness}},
+  }), [heroWidth, cDim, cGlow, cHot, brightness]);
+  xMat.uniforms.uViewH.value = viewH;
+
   return (
     <group position={position}>
       {river && (riverAt >= 0 && t >= riverAt) ? <lineSegments geometry={river.g} material={river.m} frustumCulled={false} renderOrder={5} /> : null}
       {heroGeo ? <mesh geometry={heroGeo} material={heroMat} frustumCulled={false} renderOrder={9} /> : null}
       {heroGeo && (since > 0 || draw < 0.999) ? <mesh geometry={heroGeo} material={haloMat} frustumCulled={false} renderOrder={8} /> : null}
       {sparkGeo ? <mesh geometry={sparkGeo} material={sparkMat} frustumCulled={false} renderOrder={10} /> : null}
+      {xGeo ? <mesh geometry={xGeo} material={xMat} frustumCulled={false} renderOrder={11} /> : null}
       {dustGeo ? <points geometry={dustGeo} material={dustMat} frustumCulled={false} renderOrder={4} /> : null}
     </group>
   );

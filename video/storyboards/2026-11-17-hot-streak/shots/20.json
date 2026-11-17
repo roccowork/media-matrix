@@ -1,0 +1,149 @@
+{
+ "n": 20,
+ "lines": [
+  23
+ ],
+ "narration": "而且，两个动作缺一不可。",
+ "visual": "镜头升高，并排出现三条人生线",
+ "config": {
+  "id": "life.lifelines.v1",
+  "renderer": "threejs",
+  "style": "cinematic_science",
+  "fps": 30,
+  "duration": 3.47,
+  "camera": {
+   "preset": "keys",
+   "keys": [
+    {
+     "t": 0,
+     "pos": [
+      0,
+      1,
+      14
+     ],
+     "look": [
+      0,
+      0,
+      0
+     ],
+     "fov": 44,
+     "roll": 0
+    },
+    {
+     "t": 3.1,
+     "pos": [
+      0,
+      2,
+      26
+     ],
+     "look": [
+      0,
+      0,
+      0
+     ],
+     "fov": 46,
+     "roll": 0
+    },
+    {
+     "t": 3.47,
+     "pos": [
+      0,
+      2,
+      26
+     ],
+     "look": [
+      0,
+      0,
+      0
+     ],
+     "fov": 46,
+     "roll": 0
+    }
+   ]
+  },
+  "post": {
+   "bloom": {
+    "intensity": 0.9,
+    "threshold": 0.6,
+    "radius": 0.55
+   },
+   "tone": "aces",
+   "grain": 0.014
+  },
+  "assets": [
+   {
+    "id": "life.lifelines.v1",
+    "params": {
+     "seed": "2026-11-17-hot-streak-w",
+     "heroWidth": 0.03,
+     "heroDim": 0.4,
+     "count": 0,
+     "position": [
+      0,
+      3.2,
+      0
+     ],
+     "heroStreak": 0.6,
+     "dust": 0
+    }
+   },
+   {
+    "id": "life.lifelines.v1",
+    "params": {
+     "seed": "2026-11-17-hot-streak-c",
+     "heroWidth": 0.03,
+     "heroDim": 0.4,
+     "count": 0,
+     "position": [
+      0,
+      0,
+      0
+     ],
+     "heroStreak": 0.6,
+     "dust": 0
+    }
+   },
+   {
+    "id": "life.lifelines.v1",
+    "params": {
+     "seed": "2026-11-17-hot-streak-s",
+     "heroWidth": 0.03,
+     "heroDim": 0.4,
+     "count": 0,
+     "position": [
+      0,
+      -3.2,
+      0
+     ],
+     "heroStreak": 0.6,
+     "dust": 0
+    }
+   },
+   {
+    "id": "life.lifelines.v1",
+    "params": {
+     "seed": "2026-11-17-hot-streak-bg",
+     "hero": false,
+     "dust": 0,
+     "count": 5000,
+     "position": [
+      0,
+      -8.0,
+      -24.0
+     ],
+     "spreadZ": 26,
+     "spreadY": 4,
+     "riverAt": 0,
+     "riverDuration": 0.1,
+     "riverDim": 0.035,
+     "streakAt": 0,
+     "streakSpread": 60,
+     "streakGain": 0.5,
+     "fogDist": 16,
+     "timeOffset": 20
+    }
+   }
+  ],
+  "version": "1.0.0"
+ }
+}

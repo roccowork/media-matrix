@@ -1,0 +1,114 @@
+{
+ "n": 10,
+ "lines": [
+  11
+ ],
+ "narration": "平均四五年，一辈子最好的作品，几乎都挤在里面。",
+ "visual": "贴近一条人生线：高光段正好罩住四五个年份刻度，火花从这几年里迸出",
+ "config": {
+  "id": "life.lifelines.v1",
+  "renderer": "threejs",
+  "style": "cinematic_science",
+  "fps": 30,
+  "duration": 4.84,
+  "camera": {
+   "preset": "keys",
+   "keys": [
+    {
+     "t": 0,
+     "pos": [
+      -1.2,
+      0.6,
+      2.2
+     ],
+     "look": [
+      3.0,
+      0,
+      0
+     ],
+     "fov": 40,
+     "roll": -3
+    },
+    {
+     "t": 4.4,
+     "pos": [
+      1.8,
+      0.7,
+      2.0
+     ],
+     "look": [
+      4.8,
+      0,
+      0
+     ],
+     "fov": 40,
+     "roll": 1
+    },
+    {
+     "t": 4.84,
+     "pos": [
+      1.8,
+      0.7,
+      2.0
+     ],
+     "look": [
+      4.8,
+      0,
+      0
+     ],
+     "fov": 40,
+     "roll": 1
+    }
+   ]
+  },
+  "post": {
+   "bloom": {
+    "intensity": 0.9,
+    "threshold": 0.6,
+    "radius": 0.55
+   },
+   "tone": "aces",
+   "grain": 0.014
+  },
+  "assets": [
+   {
+    "id": "life.lifelines.v1",
+    "params": {
+     "seed": "2026-11-17-hot-streak",
+     "heroWidth": 0.03,
+     "heroDim": 0.45,
+     "count": 0,
+     "heroIgniteAt": 0.4,
+     "ticksAt": 0,
+     "timeOffset": 0,
+     "sparks": 500
+    }
+   },
+   {
+    "id": "life.lifelines.v1",
+    "params": {
+     "seed": "2026-11-17-hot-streak-bg",
+     "hero": false,
+     "dust": 0,
+     "count": 5000,
+     "position": [
+      0,
+      -8.0,
+      -24.0
+     ],
+     "spreadZ": 26,
+     "spreadY": 4,
+     "riverAt": 0,
+     "riverDuration": 0.1,
+     "riverDim": 0.035,
+     "streakAt": 0,
+     "streakSpread": 60,
+     "streakGain": 0.5,
+     "fogDist": 16,
+     "timeOffset": 20
+    }
+   }
+  ],
+  "version": "1.0.0"
+ }
+}

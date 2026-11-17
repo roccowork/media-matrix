@@ -1,0 +1,137 @@
+{
+ "n": 12,
+ "lines": [
+  13
+ ],
+ "narration": "有人刚入行就来了，有人干了很多年才等到。",
+ "visual": "上下两条人生线：上面那条刚开头就亮了，下面那条快到尽头才亮",
+ "config": {
+  "id": "life.lifelines.v1",
+  "renderer": "threejs",
+  "style": "cinematic_science",
+  "fps": 30,
+  "duration": 4.36,
+  "camera": {
+   "preset": "keys",
+   "keys": [
+    {
+     "t": 0,
+     "pos": [
+      0,
+      0.6,
+      38
+     ],
+     "look": [
+      0,
+      0,
+      0
+     ],
+     "fov": 48,
+     "roll": -2
+    },
+    {
+     "t": 4.0,
+     "pos": [
+      0,
+      0.6,
+      33
+     ],
+     "look": [
+      0,
+      0,
+      0
+     ],
+     "fov": 48,
+     "roll": 0
+    },
+    {
+     "t": 4.36,
+     "pos": [
+      0,
+      0.6,
+      33
+     ],
+     "look": [
+      0,
+      0,
+      0
+     ],
+     "fov": 48,
+     "roll": 0
+    }
+   ]
+  },
+  "post": {
+   "bloom": {
+    "intensity": 0.9,
+    "threshold": 0.6,
+    "radius": 0.55
+   },
+   "tone": "aces",
+   "grain": 0.014
+  },
+  "assets": [
+   {
+    "id": "life.lifelines.v1",
+    "params": {
+     "seed": "2026-11-17-hot-streak",
+     "heroWidth": 0.09,
+     "heroDim": 0.7,
+     "count": 0,
+     "position": [
+      0,
+      2.0,
+      0
+     ],
+     "heroStreak": 0.14,
+     "heroIgniteAt": 0.5,
+     "sparks": 500,
+     "dust": 800
+    }
+   },
+   {
+    "id": "life.lifelines.v1",
+    "params": {
+     "seed": "2026-11-17-hot-streak-b",
+     "heroWidth": 0.09,
+     "heroDim": 0.7,
+     "count": 0,
+     "position": [
+      0,
+      -2.0,
+      0
+     ],
+     "heroStreak": 0.84,
+     "heroIgniteAt": 2.2,
+     "sparks": 500,
+     "dust": 0
+    }
+   },
+   {
+    "id": "life.lifelines.v1",
+    "params": {
+     "seed": "2026-11-17-hot-streak-bg",
+     "hero": false,
+     "dust": 0,
+     "count": 5000,
+     "position": [
+      0,
+      -8.0,
+      -24.0
+     ],
+     "spreadZ": 26,
+     "spreadY": 4,
+     "riverAt": 0,
+     "riverDuration": 0.1,
+     "riverDim": 0.035,
+     "streakAt": 0,
+     "streakSpread": 60,
+     "streakGain": 0.5,
+     "fogDist": 16,
+     "timeOffset": 20
+    }
+   }
+  ],
+  "version": "1.0.0"
+ }
+}

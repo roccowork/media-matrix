@@ -1,0 +1,114 @@
+{
+ "n": 31,
+ "lines": [
+  35
+ ],
+ "narration": "是你一生中，被你自己接住的那四五年。",
+ "visual": "「现在」前方的那一段缓缓点燃；镜头拉远，你的线回到两万条人生汇成的光河里",
+ "config": {
+  "id": "life.lifelines.v1",
+  "renderer": "threejs",
+  "style": "cinematic_science",
+  "fps": 30,
+  "duration": 7.12,
+  "camera": {
+   "preset": "keys",
+   "keys": [
+    {
+     "t": 0,
+     "pos": [
+      -1.2,
+      0.9,
+      6
+     ],
+     "look": [
+      3.0,
+      0,
+      0
+     ],
+     "fov": 42,
+     "roll": -2
+    },
+    {
+     "t": 2.6,
+     "pos": [
+      3.0,
+      3,
+      16
+     ],
+     "look": [
+      3.0,
+      0,
+      0
+     ],
+     "fov": 44,
+     "roll": -2
+    },
+    {
+     "t": 6.6,
+     "pos": [
+      -6,
+      22,
+      40
+     ],
+     "look": [
+      2,
+      -2,
+      0
+     ],
+     "fov": 48,
+     "roll": -4
+    },
+    {
+     "t": 7.12,
+     "pos": [
+      -6,
+      22,
+      40
+     ],
+     "look": [
+      2,
+      -2,
+      0
+     ],
+     "fov": 48,
+     "roll": -4
+    }
+   ]
+  },
+  "post": {
+   "tone": "aces",
+   "grain": 0.014
+  },
+  "assets": [
+   {
+    "id": "life.lifelines.v1",
+    "params": {
+     "seed": "2026-11-17-hot-streak",
+     "heroWidth": 0.05,
+     "heroDim": 0.5,
+     "count": 20000,
+     "nowAt": 0.42,
+     "heroStreak": 0.6,
+     "heroIgniteAt": 0.8,
+     "heroIgniteDuration": 1.6,
+     "sparks": 900,
+     "riverAt": 2.4,
+     "riverDuration": 2.5,
+     "spreadZ": 26,
+     "spreadY": 3.5,
+     "riverDim": 0.05,
+     "streakAt": 3.2,
+     "streakSpread": 3,
+     "streakGain": 0.6
+    }
+   }
+  ],
+  "version": "1.0.0"
+ },
+ "onscreen": {
+  "text": "是你接住的那四五年",
+  "style": "title",
+  "position": "top"
+ }
+}

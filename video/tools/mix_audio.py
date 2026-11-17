@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""按分镜 storyboard.json 的 audio 字段，用 ffmpeg 把底噪 + 音效混成整段音频（与 Storyboard.tsx 的 StoryboardAudio 逻辑一致）。
+"""按分镜 storyboard.json 的 audio 字段，用 ffmpeg 把底噪 + 音效 + 配音混成整段音频（与 Storyboard.tsx 的 StoryboardAudio 逻辑一致）。
 
 为什么不用 Remotion 渲音频：分多台机器渲染时各段音频拼接会断音；而 Remotion 只渲音频也要逐帧跑 three.js，
 既慢又要 WebGL。音频只取决于 storyboard.json，直接按同一套规则混。
@@ -41,8 +41,15 @@ def main(sb_path: str, out: str) -> None:
         chains.append(f"[{idx}:a]aformat=sample_rates=44100:channel_layouts=stereo,volume={x.get('volume', 0.7)},adelay={ms}|{ms}[s{k}]")
         labels.append(f'[s{k}]')
 
+    for k, x in enumerate(audio.get('voice', [])):
+        idx = inputs.count('-i')
+        inputs += ['-i', str(ROOT / 'public' / x['src'])]
+        ms = int(round(x['at'] * 1000))
+        chains.append(f"[{idx}:a]aformat=sample_rates=44100:channel_layouts=stereo,volume={x.get('volume', 1.0)},adelay={ms}|{ms}[v{k}]")
+        labels.append(f'[v{k}]')
+
     if not labels:
-        sys.exit('分镜里没有 audio.ambient / audio.sfx')
+        sys.exit('分镜里没有 audio.ambient / audio.sfx / audio.voice')
     # normalize=0：各轨按原音量叠加（amix 默认会按轨数压低音量）
     # 4 倍过采样后限幅再降回 48k（先限幅后重采样会让峰值冒过限幅点），限到 -3 dBFS，给 AAC 编码留余量 → 成片真峰值 ≤ -1 dBTP（qc.py 检查）
     chains.append(f"{''.join(labels)}amix=inputs={len(labels)}:normalize=0:duration=longest,atrim=0:{total},aresample=192000,alimiter=limit=0.71:attack=2:level=false,aresample=48000[out]")

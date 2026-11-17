@@ -1,0 +1,104 @@
+{
+ "n": 6,
+ "lines": [
+  7
+ ],
+ "narration": "他们翻遍了两万多名科学家、四千多位导演、两千多位画家的一生。",
+ "visual": "镜头从主角线急速后拉升高：两万条人生线铺成一条光河，从中心一圈圈亮起",
+ "config": {
+  "id": "life.lifelines.v1",
+  "renderer": "threejs",
+  "style": "cinematic_science",
+  "fps": 30,
+  "duration": 5.87,
+  "camera": {
+   "preset": "keys",
+   "keys": [
+    {
+     "t": 0,
+     "pos": [
+      1,
+      0.5,
+      4
+     ],
+     "look": [
+      3,
+      0,
+      0
+     ],
+     "fov": 40,
+     "roll": 0
+    },
+    {
+     "t": 1.4,
+     "pos": [
+      2,
+      4,
+      15
+     ],
+     "look": [
+      2,
+      0,
+      0
+     ],
+     "fov": 44,
+     "roll": -2
+    },
+    {
+     "t": 5.4,
+     "pos": [
+      -12,
+      24,
+      34
+     ],
+     "look": [
+      2,
+      -2,
+      0
+     ],
+     "fov": 48,
+     "roll": -5
+    },
+    {
+     "t": 5.87,
+     "pos": [
+      -12,
+      24,
+      34
+     ],
+     "look": [
+      2,
+      -2,
+      0
+     ],
+     "fov": 48,
+     "roll": -5
+    }
+   ]
+  },
+  "post": {
+   "tone": "aces",
+   "grain": 0.014
+  },
+  "assets": [
+   {
+    "id": "life.lifelines.v1",
+    "params": {
+     "seed": "2026-11-17-hot-streak",
+     "heroWidth": 0.05,
+     "heroDim": 0.5,
+     "count": 20000,
+     "heroIgniteAt": 0,
+     "timeOffset": 4,
+     "riverAt": 4.3,
+     "riverDuration": 2.2,
+     "spreadZ": 26,
+     "spreadY": 3.5,
+     "riverDim": 0.06,
+     "streakGain": 0.6
+    }
+   }
+  ],
+  "version": "1.0.0"
+ }
+}

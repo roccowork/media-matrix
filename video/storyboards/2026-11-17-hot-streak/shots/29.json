@@ -1,0 +1,116 @@
+{
+ "n": 29,
+ "lines": [
+  32
+ ],
+ "narration": "科学家也承认：试多久才算够，还没有答案。",
+ "visual": "一条线的分叉还在慢慢长、慢慢试，没有尽头",
+ "config": {
+  "id": "life.lifelines.v1",
+  "renderer": "threejs",
+  "style": "cinematic_science",
+  "fps": 30,
+  "duration": 5.01,
+  "camera": {
+   "preset": "keys",
+   "keys": [
+    {
+     "t": 0,
+     "pos": [
+      -12.0,
+      2,
+      7
+     ],
+     "look": [
+      -9.0,
+      0,
+      0
+     ],
+     "fov": 46,
+     "roll": -2
+    },
+    {
+     "t": 4.6,
+     "pos": [
+      -8.4,
+      2.4,
+      8
+     ],
+     "look": [
+      -6.0,
+      0,
+      0
+     ],
+     "fov": 46,
+     "roll": 0
+    },
+    {
+     "t": 5.01,
+     "pos": [
+      -8.4,
+      2.4,
+      8
+     ],
+     "look": [
+      -6.0,
+      0,
+      0
+     ],
+     "fov": 46,
+     "roll": 0
+    }
+   ]
+  },
+  "post": {
+   "bloom": {
+    "intensity": 0.9,
+    "threshold": 0.6,
+    "radius": 0.55
+   },
+   "tone": "aces",
+   "grain": 0.014
+  },
+  "assets": [
+   {
+    "id": "life.lifelines.v1",
+    "params": {
+     "seed": "2026-11-17-hot-streak",
+     "heroWidth": 0.03,
+     "heroDim": 0.5,
+     "count": 0,
+     "heroStreak": 0.6,
+     "branchStart": 0.25,
+     "branches": 20,
+     "branchSpread": 2.0,
+     "exploreAt": 0,
+     "exploreDuration": 9
+    }
+   },
+   {
+    "id": "life.lifelines.v1",
+    "params": {
+     "seed": "2026-11-17-hot-streak-bg",
+     "hero": false,
+     "dust": 0,
+     "count": 5000,
+     "position": [
+      0,
+      -8.0,
+      -24.0
+     ],
+     "spreadZ": 26,
+     "spreadY": 4,
+     "riverAt": 0,
+     "riverDuration": 0.1,
+     "riverDim": 0.035,
+     "streakAt": 0,
+     "streakSpread": 60,
+     "streakGain": 0.5,
+     "fogDist": 16,
+     "timeOffset": 20
+    }
+   }
+  ],
+  "version": "1.0.0"
+ }
+}
