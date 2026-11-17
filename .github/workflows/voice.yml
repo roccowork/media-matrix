@@ -1,5 +1,5 @@
-# 配音：阿里云百炼 千问声音复刻（向晓的声音），逐句生成 mp3 + 时长表，提交回仓库（按句缓存，不重复扣费）。
-# 为什么在 Actions 跑：复刻音色只有 WebSocket 实时接口，会话虚拟机的代理会弄坏 WebSocket。
+# 配音：阿里云百炼 qwen-audio-3.1-tts-plus + 复刻音色（向晓），逐句生成 mp3 + 时长表，提交回仓库（按句缓存，不重复扣费）。
+# 全走 HTTP，会话里也能直接跑（tools/voice_bailian.py）；这个工作流是备用的。
 # 需要仓库 Secrets：DASHSCOPE_API_KEY（百炼 Key）、BAILIAN_VOICE_ID（复刻的音色 id）。只手动触发。
 name: voice
 
@@ -30,8 +30,8 @@ jobs:
         working-directory: video
     steps:
       - uses: actions/checkout@v5
-      - name: 安装 ffmpeg 和 websockets
-        run: sudo apt-get update -q && sudo apt-get install -y -q ffmpeg && pip install -q "websockets>=15"
+      - name: 安装 ffmpeg
+        run: sudo apt-get update -q && sudo apt-get install -y -q ffmpeg
       - name: 配音
         env:
           DASHSCOPE_API_KEY: ${{ secrets.DASHSCOPE_API_KEY }}
